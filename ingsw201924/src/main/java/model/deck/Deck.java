@@ -22,7 +22,7 @@ public abstract class Deck {
     /**
      * Constructor for model.deck.Deck. Doesn't initialize the attributes.
      */
-    private Deck() {
+    protected Deck() {
         cards = new ArrayList<Card>();
         drawnCards = new ArrayList<Card>();
     }
@@ -89,7 +89,7 @@ public abstract class Deck {
 
     public void reloadDeck() {
         for (Card currentCard : this.getDrawnCards ()) {
-            this.getCardList().add(currentCard);
+            this.getCards().add(currentCard);
         }
         this.drawnCards.clear();
         this.deckShuffle();
