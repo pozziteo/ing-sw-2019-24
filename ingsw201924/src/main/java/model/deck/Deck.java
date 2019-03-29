@@ -38,7 +38,7 @@ public abstract class Deck {
 
     /**
      * Getter method that returns the list of cards a player has already drawn.
-     * @return drawnCards
+     * @return drawnCards.
      */
 
     public List<Card> getDrawnCards() {
