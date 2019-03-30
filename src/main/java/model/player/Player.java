@@ -1,0 +1,76 @@
+package model.player;
+
+import java.util.ArrayList;
+
+/**
+ * Player is the class that represents every client taking part in the game.
+ */
+
+public class Player {
+    private String playerID;
+    private boolean firstPlayerCard;
+    private Board playerBoard;
+    private int pointTokens;
+    private Square position;
+    private ArrayList<Weapon> ownedWeapons;
+    private ArrayList<PowerUp> ownedPowerUps;
+
+    /**
+     * Getter method to obtain player's color
+     * @return color which is used to univocally distinguish players
+     */
+
+    public String getPlayerColor() {
+        return this.playerID;
+    }
+
+    /**
+     * Setter method to set player's color
+     * @param color
+     */
+
+    public void setPlayerColor(String color) {
+        this.playerID = color;
+    }
+
+    /**
+     * Method to know if the current player is the one that begins the game
+     * @return true (if firstPlayerCard is true), false (otherwise)
+     */
+
+    public boolean isFirstPlayer() {
+        return this.firstPlayerCard;
+    }
+
+    /**
+     * Setter method to decide whether or not Player is the first player
+     * @param value
+     */
+
+    public void setFirstPlayer(boolean value) {
+        this.firstPlayerCard = value;
+    }
+
+    public ArrayList<Weapon> getWeapons() {
+        return this.ownedWeapons;
+    }
+
+    public void grabWeapon(Weapon w) {
+        //remove Weapon w from spawn point
+        this.getWeapons().add(w);
+    }
+
+    public void grabTile(Tile t) {
+        //remove Tile t from Square
+        this.playerBoard.addAmmo(t);
+    }
+
+    public void useWeapon(Weapon w, Player p) {
+        //write when we have weapon class done
+    }
+
+    public void usePowerUp(PowerUp pup) {
+        //write when we have powerup class done
+    }
+
+}
