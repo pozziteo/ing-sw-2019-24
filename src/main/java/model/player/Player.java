@@ -14,6 +14,7 @@ public class Player {
     private Square position;
     private ArrayList<Weapon> ownedWeapons;
     private ArrayList<PowerUp> ownedPowerUps;
+    private int givenMarks;
 
     /**
      * Getter method to obtain player's color
@@ -49,6 +50,43 @@ public class Player {
 
     public void setFirstPlayer(boolean value) {
         this.firstPlayerCard = value;
+    }
+
+    /**
+     * Getter method to know how many marks a player has given; the amount should be less than 3
+     * @return amount of given marks
+     */
+
+    public int getGivenMarks() {
+        return this.givenMarks;
+    }
+
+    /**
+     * giveMark() adds a certain amount of marks to a model.player.Player
+     * @param amount of marks
+     * @param toPlayer player whom the mark is given to
+     */
+
+    public void giveMark(int amount, Player toPlayer) {
+            this.givenMarks =+ amount;
+            toPlayer.gotMarked(amount, this);
+    }
+
+    /**
+     * Getter method to know the player's current position
+     * @return player's position
+     */
+
+    public Square getPosition() {
+        return this.position;
+    }
+
+    /**
+     * Method to change a player's position if the action chosen requires to do so
+     */
+
+    public void changePosition() {
+
     }
 
     public ArrayList<Weapon> getWeapons() {

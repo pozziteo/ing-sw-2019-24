@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Board is the class where every player has their
+ * Board is the class where every player has their info
  */
 
 public class Board {
@@ -21,13 +21,9 @@ public class Board {
         }
     }
 
-    public void gotMarked(int amount, String markedByPlayer) {
-        try {
-            for (int i = 0; i < amount; i++)
-                this.receivedMarks.push(markedByPlayer);
-        } catch (Exception exception) {
-            System.out.println("Max amount of marks exceeded");
-        }
+    public void gotMarked(int amount, Player markedByPlayer) {
+        for (int i = 0; i < amount; i++)
+            this.receivedMarks.push(markedByPlayer.playerID);
     }
 
 
