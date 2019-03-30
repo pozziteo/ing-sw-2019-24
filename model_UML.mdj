@@ -380,7 +380,7 @@
 											"top": 430,
 											"width": 1679,
 											"height": 13,
-											"text": "decks"
+											"text": "deck"
 										},
 										{
 											"_type": "LabelView",
@@ -2137,8 +2137,8 @@
 											},
 											"font": "Arial;13;0",
 											"left": 2229,
-											"top": 493,
-											"width": 167,
+											"top": 477,
+											"width": 177.37890625,
 											"height": 13,
 											"text": "«Abstract»"
 										},
@@ -2150,8 +2150,8 @@
 											},
 											"font": "Arial;13;1",
 											"left": 2229,
-											"top": 508,
-											"width": 167,
+											"top": 492,
+											"width": 177.37890625,
 											"height": 13,
 											"text": "Deck"
 										},
@@ -2164,7 +2164,7 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"left": 208,
-											"top": -272,
+											"top": -304,
 											"width": 73.67724609375,
 											"height": 13,
 											"text": "(from Model)"
@@ -2178,15 +2178,15 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"left": 208,
-											"top": -272,
+											"top": -304,
 											"height": 13,
 											"horizontalAlignment": 1
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 2224,
-									"top": 488,
-									"width": 177,
+									"top": 472,
+									"width": 187.37890625,
 									"height": 38,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAFpweV2AF9pA/Q="
@@ -2222,18 +2222,35 @@
 											},
 											"font": "Arial;13;0",
 											"left": 2229,
-											"top": 531,
-											"width": 167,
+											"top": 515,
+											"width": 177.37890625,
 											"height": 13,
-											"text": "-cardList: List<Card>",
+											"text": "-cards: List<Card>",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLAttributeView",
+											"_id": "AAAAAAFpzve9sWLnAAU=",
+											"_parent": {
+												"$ref": "AAAAAAFpweV2AF9ts8E="
+											},
+											"model": {
+												"$ref": "AAAAAAFpzve9WmLhmhU="
+											},
+											"font": "Arial;13;0",
+											"left": 2229,
+											"top": 530,
+											"width": 177.37890625,
+											"height": 13,
+											"text": "-drawnCards: List<Card>",
 											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 2224,
-									"top": 526,
-									"width": 177,
-									"height": 23
+									"top": 510,
+									"width": 187.37890625,
+									"height": 38
 								},
 								{
 									"_type": "UMLOperationCompartmentView",
@@ -2247,6 +2264,57 @@
 									"subViews": [
 										{
 											"_type": "UMLOperationView",
+											"_id": "AAAAAAFpzvibcmbmQKQ=",
+											"_parent": {
+												"$ref": "AAAAAAFpweV2AV9uBe0="
+											},
+											"model": {
+												"$ref": "AAAAAAFpzvibMmbgfH8="
+											},
+											"font": "Arial;13;0",
+											"left": 2229,
+											"top": 553,
+											"width": 177.37890625,
+											"height": 13,
+											"text": "+getCards(): List<Card>",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAFpzwIg2XWssDM=",
+											"_parent": {
+												"$ref": "AAAAAAFpweV2AV9uBe0="
+											},
+											"model": {
+												"$ref": "AAAAAAFpzwIgmXWmhBI="
+											},
+											"font": "Arial;13;0",
+											"left": 2229,
+											"top": 568,
+											"width": 177.37890625,
+											"height": 13,
+											"text": "+getDrawnCards(): List<Card>",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAFpzwInvnZ1mfs=",
+											"_parent": {
+												"$ref": "AAAAAAFpweV2AV9uBe0="
+											},
+											"model": {
+												"$ref": "AAAAAAFpzwIngHZvUYg="
+											},
+											"font": "Arial;13;0",
+											"left": 2229,
+											"top": 583,
+											"width": 177.37890625,
+											"height": 13,
+											"text": "+addCard(Card card): void",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
 											"_id": "AAAAAAFpwelDmWNdZvA=",
 											"_parent": {
 												"$ref": "AAAAAAFpweV2AV9uBe0="
@@ -2256,27 +2324,44 @@
 											},
 											"font": "Arial;13;0",
 											"left": 2229,
-											"top": 554,
-											"width": 167,
+											"top": 598,
+											"width": 177.37890625,
 											"height": 13,
 											"text": "+drawCard(): Card",
 											"horizontalAlignment": 0
 										},
 										{
 											"_type": "UMLOperationView",
-											"_id": "AAAAAAFpw+CFK+RhbBs=",
+											"_id": "AAAAAAFpzwIy5Hc+vAA=",
 											"_parent": {
 												"$ref": "AAAAAAFpweV2AV9uBe0="
 											},
 											"model": {
-												"$ref": "AAAAAAFpw+CE5eRS/us="
+												"$ref": "AAAAAAFpzwIyqHc4kqU="
 											},
 											"font": "Arial;13;0",
 											"left": 2229,
-											"top": 569,
-											"width": 167,
+											"top": 613,
+											"width": 177.37890625,
 											"height": 13,
-											"text": "+discardCard(): void",
+											"text": "+discardCard(Card card): void",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAFpzwI3AHgHda4=",
+											"_parent": {
+												"$ref": "AAAAAAFpweV2AV9uBe0="
+											},
+											"model": {
+												"$ref": "AAAAAAFpzwI2wXgBELc="
+											},
+											"font": "Arial;13;0",
+											"left": 2229,
+											"top": 628,
+											"width": 177.37890625,
+											"height": 13,
+											"text": "+deckShuffle(): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2290,8 +2375,8 @@
 											},
 											"font": "Arial;13;0",
 											"left": 2229,
-											"top": 584,
-											"width": 167,
+											"top": 643,
+											"width": 177.37890625,
 											"height": 13,
 											"text": "+reloadDeck(): void",
 											"horizontalAlignment": 0
@@ -2299,9 +2384,9 @@
 									],
 									"font": "Arial;13;0",
 									"left": 2224,
-									"top": 549,
-									"width": 177,
-									"height": 53
+									"top": 548,
+									"width": 187.37890625,
+									"height": 113
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -2315,7 +2400,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 16,
-									"top": -248,
+									"top": -264,
 									"width": 10,
 									"height": 10
 								},
@@ -2331,7 +2416,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 2181.3310546875,
-									"top": 376,
+									"top": 360,
 									"width": 130.6689453125,
 									"height": 10
 								}
@@ -2339,9 +2424,9 @@
 							"font": "Arial;13;0",
 							"containerChangeable": true,
 							"left": 2224,
-							"top": 488,
-							"width": 177,
-							"height": 114,
+							"top": 472,
+							"width": 187.37890625,
+							"height": 193,
 							"nameCompartment": {
 								"$ref": "AAAAAAFpweV2AF9omvE="
 							},
@@ -2839,7 +2924,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 2353,
-									"top": 649,
+									"top": 681,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -2860,7 +2945,7 @@
 									"visible": null,
 									"font": "Arial;13;0",
 									"left": 2338,
-									"top": 649,
+									"top": 681,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -2881,7 +2966,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 2382,
-									"top": 650,
+									"top": 682,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -2898,7 +2983,7 @@
 							"tail": {
 								"$ref": "AAAAAAFpwesfE3C59Fw="
 							},
-							"points": "2368:712;2368:601",
+							"points": "2368:712;2368:664",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAFpwe7p8H2/buY="
@@ -5555,7 +5640,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 2297,
-									"top": 456,
+									"top": 440,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 30,
@@ -5576,7 +5661,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 2283,
-									"top": 453,
+									"top": 437,
 									"height": 13,
 									"alpha": 0.7853981633974483,
 									"distance": 40,
@@ -5597,7 +5682,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 2324,
-									"top": 460,
+									"top": 444,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 25,
@@ -5706,7 +5791,7 @@
 							"tail": {
 								"$ref": "AAAAAAFpweV1/19nFyM="
 							},
-							"points": "2312:488;2312:300;1400:300",
+							"points": "2312:472;2312:300;1400:300",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAFpw1ek82iTf+I="
@@ -5995,7 +6080,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 2297,
-									"top": 821,
+									"top": 853,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -6016,7 +6101,7 @@
 									"visible": null,
 									"font": "Arial;13;0",
 									"left": 2282,
-									"top": 821,
+									"top": 853,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -6037,7 +6122,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 2327,
-									"top": 822,
+									"top": 854,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -6054,7 +6139,7 @@
 							"tail": {
 								"$ref": "AAAAAAFpw2vDeB1T+Vg="
 							},
-							"points": "2312:1056;2312:601",
+							"points": "2312:1056;2312:664",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAFpw2+lOXZuH3M="
@@ -11917,7 +12002,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 2241,
-									"top": 649,
+									"top": 681,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -11938,7 +12023,7 @@
 									"visible": null,
 									"font": "Arial;13;0",
 									"left": 2226,
-									"top": 649,
+									"top": 681,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -11959,7 +12044,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 2270,
-									"top": 650,
+									"top": 682,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -11976,7 +12061,7 @@
 							"tail": {
 								"$ref": "AAAAAAFpwesUDHAnCT8="
 							},
-							"points": "2256:712;2256:601",
+							"points": "2256:712;2256:664",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAFpyltvylydMxI="
@@ -12138,7 +12223,7 @@
 											"top": 280,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from decks)"
+											"text": "(from deck)"
 										},
 										{
 											"_type": "LabelView",
@@ -12283,8 +12368,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": -264,
-									"top": 304,
+									"left": 376,
+									"top": -40,
 									"width": 10,
 									"height": 10
 								},
@@ -12299,8 +12384,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": -264,
-									"top": 304,
+									"left": 376,
+									"top": -40,
 									"width": 10,
 									"height": 10
 								}
@@ -12387,7 +12472,7 @@
 											"top": 405,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from decks)"
+											"text": "(from deck)"
 										},
 										{
 											"_type": "LabelView",
@@ -12532,8 +12617,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": -400,
-									"top": 280,
+									"left": 240,
+									"top": -64,
 									"width": 10,
 									"height": 10
 								},
@@ -12548,8 +12633,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": -400,
-									"top": 280,
+									"left": 240,
+									"top": -64,
 									"width": 10,
 									"height": 10
 								}
@@ -12822,7 +12907,7 @@
 											"top": -104,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from decks)"
+											"text": "(from deck)"
 										},
 										{
 											"_type": "LabelView",
@@ -12967,7 +13052,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"top": -128,
+									"left": 640,
+									"top": -472,
 									"width": 10,
 									"height": 10
 								},
@@ -12982,7 +13068,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"top": -128,
+									"left": 640,
+									"top": -472,
 									"width": 10,
 									"height": 10
 								}
@@ -13851,7 +13938,7 @@
 							"top": 80,
 							"width": 139,
 							"height": 66,
-							"text": "A Singleton class to easily access the whole model\n(Facade pattern)"
+							"text": "Singleton class to easily access the whole model\n(Facade pattern)"
 						},
 						{
 							"_type": "UMLNoteLinkView",
@@ -13880,7 +13967,7 @@
 							"top": 496,
 							"width": 100,
 							"height": 90,
-							"text": "A Factory Method class to create the three different types of deck"
+							"text": "Factory Method class to create the three different types of deck"
 						},
 						{
 							"_type": "UMLNoteLinkView",
@@ -13908,8 +13995,8 @@
 							"left": 1992,
 							"top": 1168,
 							"width": 151.67919921875,
-							"height": 64,
-							"text": "A Decorator pattern to add additional effect to weapons which have any"
+							"height": 77,
+							"text": "Decorator pattern to give a weapon additional effects/modes if it has any"
 						},
 						{
 							"_type": "UMLNoteLinkView",
@@ -13925,7 +14012,7 @@
 								"$ref": "AAAAAAFpwgSth9aBs0I="
 							},
 							"lineStyle": 1,
-							"points": "1940:1152;1991:1171"
+							"points": "1940:1154;1991:1175"
 						},
 						{
 							"_type": "UMLNoteView",
@@ -14728,12 +14815,87 @@
 							"_parent": {
 								"$ref": "AAAAAAFpweV1/l9lXR4="
 							},
-							"name": "cardList",
+							"name": "cards",
+							"visibility": "private",
+							"type": "List<Card>"
+						},
+						{
+							"_type": "UMLAttribute",
+							"_id": "AAAAAAFpzve9WmLhmhU=",
+							"_parent": {
+								"$ref": "AAAAAAFpweV1/l9lXR4="
+							},
+							"name": "drawnCards",
 							"visibility": "private",
 							"type": "List<Card>"
 						}
 					],
 					"operations": [
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAFpzvibMmbgfH8=",
+							"_parent": {
+								"$ref": "AAAAAAFpweV1/l9lXR4="
+							},
+							"name": "getCards",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAFpzwcaL4Sh4k0=",
+									"_parent": {
+										"$ref": "AAAAAAFpzvibMmbgfH8="
+									},
+									"type": "List<Card>",
+									"direction": "return"
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAFpzwIgmXWmhBI=",
+							"_parent": {
+								"$ref": "AAAAAAFpweV1/l9lXR4="
+							},
+							"name": "getDrawnCards",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAFpzwdKN4YDWfg=",
+									"_parent": {
+										"$ref": "AAAAAAFpzwIgmXWmhBI="
+									},
+									"type": "List<Card>",
+									"direction": "return"
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAFpzwIngHZvUYg=",
+							"_parent": {
+								"$ref": "AAAAAAFpweV1/l9lXR4="
+							},
+							"name": "addCard",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAFpzwSVon3e7pY=",
+									"_parent": {
+										"$ref": "AAAAAAFpzwIngHZvUYg="
+									},
+									"name": "Card card"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAFpzwdshIdl0lQ=",
+									"_parent": {
+										"$ref": "AAAAAAFpzwIngHZvUYg="
+									},
+									"type": "void",
+									"direction": "return"
+								}
+							]
+						},
 						{
 							"_type": "UMLOperation",
 							"_id": "AAAAAAFpwelC3GNI15Q=",
@@ -14755,7 +14917,7 @@
 						},
 						{
 							"_type": "UMLOperation",
-							"_id": "AAAAAAFpw+CE5eRS/us=",
+							"_id": "AAAAAAFpzwIyqHc4kqU=",
 							"_parent": {
 								"$ref": "AAAAAAFpweV1/l9lXR4="
 							},
@@ -14763,9 +14925,36 @@
 							"parameters": [
 								{
 									"_type": "UMLParameter",
-									"_id": "AAAAAAFpw+DA8eUr3wQ=",
+									"_id": "AAAAAAFpzwZU+YG1Tuk=",
 									"_parent": {
-										"$ref": "AAAAAAFpw+CE5eRS/us="
+										"$ref": "AAAAAAFpzwIyqHc4kqU="
+									},
+									"name": "Card card"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAFpzwbFloLKuoM=",
+									"_parent": {
+										"$ref": "AAAAAAFpzwIyqHc4kqU="
+									},
+									"type": "void",
+									"direction": "return"
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAFpzwI2wXgBELc=",
+							"_parent": {
+								"$ref": "AAAAAAFpweV1/l9lXR4="
+							},
+							"name": "deckShuffle",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAFpzwoG5Y2umoI=",
+									"_parent": {
+										"$ref": "AAAAAAFpzwI2wXgBELc="
 									},
 									"type": "void",
 									"direction": "return"
@@ -16779,7 +16968,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "decks",
+					"name": "deck",
 					"ownedElements": [
 						{
 							"_type": "UMLClass",
