@@ -14,7 +14,7 @@ public class Square {
     private ArrayList<Player> playersOnSquare;
     private ArrayList<Door> doorsInSquare;
 
-    Square(int x, int y, String color, boolean sp) {
+    public Square(int x, int y, String color, boolean sp) {
         this.coordinateX = x;
         this.coordinateY = y;
         this.color = color;

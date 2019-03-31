@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Map {
     private Square[][] arena;
 
-    Map() {
+    public Map() {
         this.arena = new Square[4][3];
     }
 
