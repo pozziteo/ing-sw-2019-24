@@ -1,4 +1,4 @@
-package main.java.model.deck;
+package model.deck;
 
 public abstract class DeckCreator {
 

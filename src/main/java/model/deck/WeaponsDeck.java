@@ -1,4 +1,4 @@
-package main.java.model.deck;
+package model.deck;
 
 /**
  * WeaponsDeck is the subclass that represents a model.deck.Deck of Weapon cards

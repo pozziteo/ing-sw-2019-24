@@ -1,6 +1,6 @@
-package main.java.model.map;
+package model.map;
 
-import main.java.model.deck.Weapon;
+import model.deck.*;
 
 public class SpawnPoint extends Square {
     private Weapon[] weapons;

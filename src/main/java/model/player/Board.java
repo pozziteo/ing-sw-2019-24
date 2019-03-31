@@ -1,9 +1,6 @@
-package main.java.model.player;
+package model.player;
 
-import main.java.model.deck.Ammo;
-import main.java.model.deck.Weapon;
-import main.java.model.deck.Tile;
-
+import model.deck.*;
 import java.util.*;
 
 /**

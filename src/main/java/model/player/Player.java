@@ -1,8 +1,7 @@
-package main.java.model.player;
+package model.player;
 
-import main.java.model.map.Square;
-import main.java.model.deck.Tile;
-
+import model.map.*;
+import model.deck.*;
 import java.util.ArrayList;
 
 /**
