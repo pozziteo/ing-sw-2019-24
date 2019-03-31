@@ -1,4 +1,4 @@
-package model.deck;
+package main.java.model.deck;
 
 /**
  * Card is the supertype for model.deck.Weapon, model.deck.Tile and model.deck.PowerUp.

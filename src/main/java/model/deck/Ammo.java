@@ -1,4 +1,4 @@
-package model.deck;
+package main.java.model.deck;
 
 /**
  * Ammo is the enumeration class which defines the three different kinds of ammo.
