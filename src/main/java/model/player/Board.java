@@ -15,7 +15,7 @@ public class Board {
     //private Action actionCard; ?
     private int[] pointsForKill;
 
-    Board() {
+    public Board() {
         this.damageTaken = new ArrayList<>();
         this.receivedMarks = new ArrayList<>();
         this.unloadedWeapons = new ArrayList<Weapon>;

@@ -18,7 +18,7 @@ public class Player {
     private ArrayList<PowerUp> ownedPowerUps;
     private int givenMarks;
 
-    Player(String color, Square spawnPoint) {
+    public Player(String color, Square spawnPoint) {
         this.playerID = color;
         this.playerBoard = new Board();
         this.position = spawnPoint;
