@@ -19,6 +19,14 @@ public class Player {
     private ArrayList<PowerUp> ownedPowerUps;
     private int givenMarks;
 
+    Player(String color, Square spawnPoint) {
+        this. playerID = color;
+        this.playerBoard = new Board();
+        this.position = spawnPoint;
+        this.ownedWeapons = new ArrayList<Weapon>();
+        this.ownedPowerUps = new ArrayList<PowerUp>();
+    }
+
     /**
      * Getter method to obtain player's color
      * @return color which is used to univocally distinguish players

@@ -1,6 +1,10 @@
 package model.player;
 
 import model.player.Player;
+import model.deck.Ammo;
+import model.deck.Weapon;
+import model.deck.Tile;
+
 import java.util.*;
 
 /**
@@ -8,22 +12,30 @@ import java.util.*;
  */
 
 public class Board {
-    private String[] damageTaken;
-    private String[] receivedMarks;
+    private ArrayList<String> damageTaken;
+    private ArrayList<String> receivedMarks;
     private ArrayList<Weapon> unloadedWeapons;
     private ArrayList<Ammo> ownedAmmo;
     //private Action actionCard; ?
     private int[] pointsForKill;
 
+    Board() {
+        this.damageTaken = new ArrayList<>();
+        this.receivedMarks = new ArrayList<>();
+        this.unloadedWeapons = new ArrayList<Weapon>;
+        this.ownedAmmo = new ArrayList<>();
+        this.pointsForKill = new int[5];
+    }
+
     public void gotHit(int damageAmount, Player inflictedByPlayer) { //add condition to check if damageTaken array is full
         for (int i = 0; i < damageAmount; i++) {
-            this.damageTaken.push(inflictedByPlayer.getPlayerColor ());
+            this.damageTaken.add(inflictedByPlayer.getPlayerColor ());
         }
     }
 
     public void gotMarked(int amount, Player markedByPlayer) {
         for (int i = 0; i < amount; i++)
-            this.receivedMarks.push(markedByPlayer.getPlayerColor ());
+            this.receivedMarks.add(markedByPlayer.getPlayerColor ());
     }
 
 
