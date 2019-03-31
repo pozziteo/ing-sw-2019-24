@@ -1,5 +1,7 @@
 package model.deck;
 
+import model.deck.Card;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
