@@ -1,5 +1,8 @@
 package model.player;
 
+import model.deck.Deck;
+import model.player.Board;
+
 import java.util.ArrayList;
 
 /**
@@ -69,7 +72,7 @@ public class Player {
 
     public void giveMark(int amount, Player toPlayer) {
             this.givenMarks =+ amount;
-            toPlayer.gotMarked(amount, this);
+            toPlayer.playerBoard.gotMarked(amount, this);
     }
 
     /**

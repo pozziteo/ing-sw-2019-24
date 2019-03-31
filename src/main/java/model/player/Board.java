@@ -1,6 +1,6 @@
 package model.player;
 
-import java.io.*;
+import model.player.Player;
 import java.util.*;
 
 /**
@@ -17,13 +17,13 @@ public class Board {
 
     public void gotHit(int damageAmount, Player inflictedByPlayer) { //add condition to check if damageTaken array is full
         for (int i = 0; i < damageAmount; i++) {
-            this.damageTaken.push(inflictedByPlayer.playerID);
+            this.damageTaken.push(inflictedByPlayer.getPlayerColor ());
         }
     }
 
     public void gotMarked(int amount, Player markedByPlayer) {
         for (int i = 0; i < amount; i++)
-            this.receivedMarks.push(markedByPlayer.playerID);
+            this.receivedMarks.push(markedByPlayer.getPlayerColor ());
     }
 
 
