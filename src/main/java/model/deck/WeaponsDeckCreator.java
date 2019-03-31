@@ -17,8 +17,8 @@ public class WeaponsDeckCreator extends DeckCreator {
     public WeaponsDeck createDeck() {
         WeaponsDeck weaponsDeck = new WeaponsDeck();
 
-        for (int i = 0; i < 21; i++) {
-            Weapon weapon = new Weapon();
+        for (WeaponType type : WeaponType.values()) {
+            Weapon weapon = new Weapon(type);
             weaponsDeck.addCard(weapon);
         }
 
