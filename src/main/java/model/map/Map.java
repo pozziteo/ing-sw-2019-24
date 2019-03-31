@@ -17,7 +17,7 @@ public class Map {
      * @return list of players in the same room
      */
 
-    public ArrayList<Player> getPlayersInRoom(String color){
+   /* public ArrayList<Player> getPlayersInRoom(String color){
 
-    }
+    } */
 }

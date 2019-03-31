@@ -110,7 +110,7 @@ public class Player {
 
     public void grabTile(Tile t) {
         //remove Tile t from Square
-        this.playerBoard.addAmmo(t);
+        //this.playerBoard.addAmmo(t);
     }
 
     public void useWeapon(Weapon w, Player p) {

@@ -18,7 +18,7 @@ public class Board {
     public Board() {
         this.damageTaken = new ArrayList<>();
         this.receivedMarks = new ArrayList<>();
-        this.unloadedWeapons = new ArrayList<Weapon>;
+        this.unloadedWeapons = new ArrayList<Weapon>();
         this.ownedAmmo = new ArrayList<>();
         this.pointsForKill = new int[5];
     }
@@ -32,11 +32,6 @@ public class Board {
     public void gotMarked(int amount, Player markedByPlayer) {
         for (int i = 0; i < amount; i++)
             this.receivedMarks.add(markedByPlayer.getPlayerColor ());
-    }
-
-
-    public void addAmmo(Tile t) {
-        this.ownedAmmo.add(t);
     }
 
 }
