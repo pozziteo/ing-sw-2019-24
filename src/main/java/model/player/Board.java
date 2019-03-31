@@ -8,12 +8,12 @@ import java.util.*;
  */
 
 public class Board {
-    private String[12] damageTaken;
-    private String[3] receivedMarks;
+    private String[] damageTaken;
+    private String[] receivedMarks;
     private ArrayList<Weapon> unloadedWeapons;
     private ArrayList<Ammo> ownedAmmo;
     //private Action actionCard; ?
-    private int[5] pointsForKill;
+    private int[] pointsForKill;
 
     public void gotHit(int damageAmount, Player inflictedByPlayer) { //add condition to check if damageTaken array is full
         for (int i = 0; i < damageAmount; i++) {
