@@ -1,7 +1,7 @@
-package model.player;
+package main.java.model.player;
 
-import model.deck.Deck;
-import model.player.Board;
+import main.java.model.map.Square;
+import main.java.model.deck.Tile;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ public class Player {
     private int givenMarks;
 
     Player(String color, Square spawnPoint) {
-        this. playerID = color;
+        this.playerID = color;
         this.playerBoard = new Board();
         this.position = spawnPoint;
         this.ownedWeapons = new ArrayList<Weapon>();
