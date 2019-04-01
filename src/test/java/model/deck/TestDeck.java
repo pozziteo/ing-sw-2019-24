@@ -22,12 +22,13 @@ public class TestDeck {
 
         System.out.println("List of weapons: " + weapons);
 
+        ArrayList<String> names = new ArrayList<>();
+
         for (int i = 0; i < d.getCards().size(); i++) {
             Weapon weapon = (Weapon) d.getCards().get(i);
-            String name = weapon.getWeaponsName ();
-            assertTrue(weapons.contains (name));
+            names.add(weapon.getWeaponsName ());
         }
-
+        assertTrue(weapons.containsAll(names));
         assertEquals(d.getCards().size(), 21);
     }
 
