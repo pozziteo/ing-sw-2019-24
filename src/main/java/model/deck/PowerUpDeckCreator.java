@@ -17,7 +17,6 @@ public class PowerUpDeckCreator extends DeckCreator {
 
         PowerUpDeck powerUpDeck = new PowerUpDeck();
 
-
         for (PowerUpType type : PowerUpType.values()){
             PowerUp powerUp = new PowerUp(type);
             powerUpDeck.addCard(powerUp);
