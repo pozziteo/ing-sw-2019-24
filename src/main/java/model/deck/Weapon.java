@@ -6,4 +6,8 @@ public class Weapon extends Card {
     public Weapon(WeaponType type) {
         this.type = type;
     }
+
+    public String getWeaponsName() {
+        return this.type.getDescription ();
+    }
 }
