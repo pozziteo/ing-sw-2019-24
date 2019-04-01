@@ -32,4 +32,30 @@ public class TestDeck {
         assertEquals(d.getCards().size(), 21);
     }
 
+    @Test
+    public void testPowerUpsDeckSize() {
+        PowerUpDeckCreator deckCreator = new PowerUpDeckCreator();
+        PowerUpDeck d = deckCreator.createDeck();
+
+        ArrayList<String> powerups = new ArrayList<>();
+        String powerUpsName;
+
+        for (PowerUpType p : PowerUpType.values ()) {
+            powerUpsName = p.getDescription ();
+            powerups.add(powerUpsName);
+        }
+
+       // System.out.println("List of powerups: " + powerups);
+
+        ArrayList<String> names = new ArrayList<>();
+
+        for (int i = 0; i < d.getCards().size(); i++) {
+            PowerUp powerup = (PowerUp) d.getCards().get(i);
+            names.add(powerup.getPowerUpsName ());
+            System.out.println(powerup.getPowerUpsName () + " " + powerup.getAmmo ().getColor () + ", ");
+        }
+        assertTrue(powerups.containsAll(names));
+        assertEquals(d.getCards().size(), 12);
+    }
+
 }

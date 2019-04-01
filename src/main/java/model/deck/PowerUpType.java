@@ -27,7 +27,7 @@ public enum PowerUpType {
     /**
      *  bonusAmmo is the ammo's color the powerup gives to the player (only 1 block)
      */
-    private List<Ammo> bonusAmmo;
+    private Ammo bonusAmmo;
 
     /**
      * description is the name of the PowerUp
@@ -35,7 +35,7 @@ public enum PowerUpType {
     private String description;
 
 
-    PowerUpType(String desc, Ammo... ammo) {
+    PowerUpType(String desc, Ammo ammo) {
         setDescription(desc);
         setBonusAmmo(ammo);
     }
@@ -54,8 +54,8 @@ public enum PowerUpType {
      *
      * @param ammo is the color of the bonusAmmo
      */
-    private void setBonusAmmo(Ammo... ammo) {
-        bonusAmmo = new ArrayList<Ammo>();
+    private void setBonusAmmo(Ammo ammo) {
+        this.bonusAmmo = ammo;
         //ammo's color
     }
 
@@ -74,7 +74,7 @@ public enum PowerUpType {
      *
      * @return the cost to reload the weapon
      */
-    public List<Ammo> getBonusAmmo() {
+    public Ammo getBonusAmmo() {
         return bonusAmmo;
     }
 
