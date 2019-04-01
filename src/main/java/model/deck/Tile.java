@@ -1,5 +1,5 @@
 package model.deck;
 
-public class Tile {
+public class Tile extends Card {
 
 }
