@@ -78,7 +78,7 @@ public class Player {
      */
 
     public void giveMark(int amount, Player toPlayer) {
-            this.givenMarks =+ amount;
+            this.givenMarks += amount;
             toPlayer.playerBoard.gotMarked(amount, this);
     }
 
