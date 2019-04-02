@@ -22,12 +22,38 @@ public class Square {
     }
 
     /**
+     * Getter method to know a square's x coordinate
+     * @return x
+     */
+
+    public int getX() {
+        return this.coordinateX;
+    }
+
+    /**
+     * Getter method to know a square's y coordinate
+     * @return y
+     */
+
+    public int getY() {
+        return this.coordinateY;
+    }
+
+    /**
      * Getter method to know which room this square belongs to
      * @return square's color
      */
 
     public String getSquareColor() {
         return this.color;
+    }
+
+    public void setX(int x){
+        this.coordinateX = x;
+    }
+
+    public void setY(int y){
+        this.coordinateY = y;
     }
 
 }
