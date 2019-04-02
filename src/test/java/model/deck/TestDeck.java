@@ -57,5 +57,4 @@ public class TestDeck {
         assertTrue(powerups.containsAll(names));
         assertEquals(d.getCards().size(), 12);
     }
-
 }

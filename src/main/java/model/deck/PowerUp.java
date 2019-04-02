@@ -7,4 +7,12 @@ public class PowerUp extends Card {
     public PowerUp(PowerUpType type) {
         this.type = type;
     }
+
+    public String getPowerUpsName() {
+        return this.type.getDescription ();
+    }
+
+    public Ammo getAmmo() {
+        return this.type.getBonusAmmo ();
+    }
 }

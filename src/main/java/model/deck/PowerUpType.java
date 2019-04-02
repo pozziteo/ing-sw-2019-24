@@ -55,7 +55,7 @@ public enum PowerUpType {
      * @param bonusAmmo is the color of the bonusAmmo
      */
     private void setBonusAmmo(Ammo bonusAmmo) {
-        Ammo bonusAmmo = new Ammo();
+        this.bonusAmmo = bonusAmmo;
         //ammo's color
     }
 
