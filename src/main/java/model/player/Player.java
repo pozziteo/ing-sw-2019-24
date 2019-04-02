@@ -99,6 +99,18 @@ public class Player {
 
     }
 
+    /**
+     * Getter to obtain a player's board
+     * @return Board
+     */
+
+    public Board getBoard(){return this.playerBoard;}
+
+    /**
+     * Getter to obtain a player's weapons
+     * @return ArrayList of Weapons
+     */
+
     public ArrayList<Weapon> getWeapons() {
         return this.ownedWeapons;
     }
