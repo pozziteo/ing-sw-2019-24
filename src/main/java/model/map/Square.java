@@ -4,8 +4,9 @@ import model.deck.*;
 import model.player.*;
 
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Square {
+public class Square implements Serializable {
     private int coordinateX;
     private int coordinateY;
     private String color;
