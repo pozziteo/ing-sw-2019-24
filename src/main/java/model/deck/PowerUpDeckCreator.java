@@ -3,15 +3,15 @@ package model.deck;
 public class PowerUpDeckCreator extends DeckCreator {
 
     /**
-     * this class calls the superclass constructor
+     * This method calls the superclass constructor
      */
     protected PowerUpDeckCreator(){
         super();
     }
 
     /**
-     * This method create a new shuffled PowerUpDeck
-     * return a PowerUpDeck
+     * This method creates a PowerUpDeck
+     * @return a PowerUpDeck
      */
     public PowerUpDeck createDeck(){
 
