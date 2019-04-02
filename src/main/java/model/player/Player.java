@@ -78,7 +78,7 @@ public class Player {
      */
 
     public void giveMark(int amount, Player toPlayer) {
-            this.givenMarks =+ amount;
+            this.givenMarks += amount;
             toPlayer.playerBoard.gotMarked(amount, this);
     }
 
@@ -98,6 +98,18 @@ public class Player {
     public void changePosition() {
 
     }
+
+    /**
+     * Getter to obtain a player's board
+     * @return Board
+     */
+
+    public Board getBoard(){return this.playerBoard;}
+
+    /**
+     * Getter to obtain a player's weapons
+     * @return ArrayList of Weapons
+     */
 
     public ArrayList<Weapon> getWeapons() {
         return this.ownedWeapons;
