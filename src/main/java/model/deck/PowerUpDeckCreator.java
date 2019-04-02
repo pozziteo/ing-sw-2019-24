@@ -25,7 +25,6 @@ public class PowerUpDeckCreator extends DeckCreator {
         powerUpDeck.deckShuffle();
 
         return powerUpDeck;
-
     }
 
 }
