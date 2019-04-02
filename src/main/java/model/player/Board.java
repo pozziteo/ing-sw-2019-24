@@ -34,4 +34,8 @@ public class Board {
             this.receivedMarks.add(markedByPlayer.getPlayerColor ());
     }
 
+    public ArrayList<String> getDamage() {
+        return this.damageTaken;
+    }
+
 }
