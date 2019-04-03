@@ -1,5 +1,6 @@
 package model.player;
 
+import model.deck.*;
 import model.map.*;
 
 import org.junit.jupiter.api.Test;
@@ -18,5 +19,29 @@ public class TestPlayer {
         p2 = new Player("blue", m.getSquare(1, 0));
         p1.giveMark (3, p2);
         assertEquals(p2.getBoard().getAmountGivenByPlayer (p1), 3);
+    }
+
+    @Test
+    public void testGrabWeapon() {
+        Square sp = new SpawnPoint(0, 0, "red");
+        Player p = new Player("red", sp);
+        WeaponsDeckCreator deckCreator = new WeaponsDeckCreator();
+        WeaponsDeck d = deckCreator.createDeck();
+        Weapon w = (Weapon) d.drawCard ();
+        ((SpawnPoint) sp).setWeapons ((Weapon) d.drawCard ());
+        ((SpawnPoint) sp).setWeapons (w);
+        ((SpawnPoint) sp).setWeapons ((Weapon) d.drawCard ());
+        for (int i = 0; i < 3; i++) {
+            System.out.println (i+1 + ": " + ((SpawnPoint) sp).getWeapons ()[i].getWeaponsName ());
+        }
+        p.grabWeapon (w);
+        System.out.println(p.getOwnedWeapons ().get(0).getWeaponsName ());
+        for (int i = 0; i < 3; i++) {
+            if (((SpawnPoint) sp).getWeapons()[i] == null) {
+                System.out.println (i + 1 + ": " + "element has been removed");
+            } else {
+                System.out.println (i + 1 + ": " + ((SpawnPoint) sp).getWeapons ( )[i].getWeaponsName ( ));
+            }
+        }
     }
 }

@@ -22,8 +22,8 @@ public class Player {
         this.playerID = color;
         this.playerBoard = new Board();
         this.position = spawnPoint;
-        this.ownedWeapons = new ArrayList<Weapon>();
-        this.ownedPowerUps = new ArrayList<PowerUp>();
+        this.ownedWeapons = new ArrayList<>();
+        this.ownedPowerUps = new ArrayList<>();
     }
 
     /**
@@ -72,14 +72,12 @@ public class Player {
     }
 
     /**
-     * giveMark() adds a certain amount of marks to a model.player.Player
-     * @param amount of marks
-     * @param toPlayer player whom the mark is given to
+     * Setter method to set the amount of marks a player has given
+     * @param amount
      */
 
-    public void giveMark(int amount, Player toPlayer) {
-            this.givenMarks += amount;
-            toPlayer.playerBoard.gotMarked(amount, this);
+    public void setGivenMarks(int amount) {
+        this.givenMarks = amount;
     }
 
     /**
@@ -92,32 +90,107 @@ public class Player {
     }
 
     /**
-     * Method to change a player's position if the action chosen requires to do so
+     * Method to get a player's position
      */
 
-    public void changePosition() {
-
+    public void setPosition(Square square) {
+        this.position = square;
     }
 
     /**
-     * Getter to obtain a player's board
+     * Getter method to obtain a player's board
      * @return Board
      */
 
     public Board getBoard(){return this.playerBoard;}
 
     /**
-     * Getter to obtain a player's weapons
+     * Setter method to set a player's board
+     * @param board
+     */
+
+    public void setBoard(Board board) {
+        this.playerBoard = board;
+    }
+
+    /**
+     * Getter method to obtain a player's points
+     * @return amount of points
+     */
+
+    public int getPointTokens() {
+        return this.pointTokens;
+    }
+
+    /**Setter method to set a player's points
+     * @param amount of points to be given
+     */
+
+    public void setPointTokens(int amount) {
+        this.pointTokens = amount;
+    }
+
+    /**
+     * Getter method to obtain a player's weapons
      * @return ArrayList of Weapons
      */
 
-    public ArrayList<Weapon> getWeapons() {
+    public ArrayList<Weapon> getOwnedWeapons() {
         return this.ownedWeapons;
     }
 
+    /**
+     * Setter method to set a player's list of owned weapons
+     * @param weaponsList
+     */
+
+    public void setOwnedWeapons(ArrayList<Weapon> weaponsList) {
+        this.ownedWeapons = weaponsList;
+    }
+
+    /**
+     * Getter method to obtain a player's power ups
+     * @return
+     */
+
+    public ArrayList<PowerUp> getOwnedPowerUps() {
+        return this.ownedPowerUps;
+    }
+
+    /**
+     * Setter method to set a player's list of owned power ups
+     * @param powerUpsList
+     */
+
+    public void setOwnedPowerUps(ArrayList<PowerUp> powerUpsList) {
+        this.ownedPowerUps = powerUpsList;
+    }
+
+    /**
+     * giveMark() adds a certain amount of marks to a model.player.Player
+     * @param amount of marks
+     * @param toPlayer player whom the mark is given to
+     */
+
+    public void giveMark(int amount, Player toPlayer) {
+        this.givenMarks += amount;
+        toPlayer.playerBoard.gotMarked(amount, this);
+    }
+
+    /**
+     * Method to add points to a player after a kill
+     * @param amount
+     */
+
+    public void addPointTokens(int amount) {
+        int points = this.getPointTokens ();
+        points += amount;
+        setPointTokens (points);
+    }
+
     public void grabWeapon(Weapon w) {
-        //remove Weapon w from spawn point
-        this.getWeapons().add(w);
+        ((SpawnPoint) getPosition ()).removeWeapon(w);
+        this.getOwnedWeapons().add(w);
     }
 
     public void grabTile(Tile t) {
@@ -132,5 +205,4 @@ public class Player {
     public void usePowerUp(PowerUp pup) {
         //write when we have powerup class done
     }
-
 }
