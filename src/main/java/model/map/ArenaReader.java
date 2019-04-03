@@ -2,7 +2,7 @@ package model.map;
 
 import java.io.*;
 
-public class ReadArena {
+public class ArenaReader {
     private Map map;
 
     public Map getMap() {
@@ -18,9 +18,13 @@ public class ReadArena {
         Square s = null;
         FileInputStream file = new FileInputStream(new File("firstarena.ser"));
         try (ObjectInputStream stream = new ObjectInputStream (file)) {
-            while (true) {
+            boolean value = true;
+            while (value) {
                 s = (Square) stream.readObject ( );
                 m.setArena (s);
+                if (s == null) {
+                    value = false;
+                }
             }
         } catch (EOFException e) {
             setMap(m);
