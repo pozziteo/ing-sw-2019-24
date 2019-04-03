@@ -38,4 +38,19 @@ public class Board {
         return this.damageTaken;
     }
 
+    public ArrayList<String> getReceivedMarks() {
+        return this.receivedMarks;
+    }
+
+    public int getAmountGivenByPlayer(Player player) {
+        String playerColor = player.getPlayerColor ();
+        int amount = 0;
+
+        for (int i = 0; i < this.getReceivedMarks ().size(); i++) {
+            if (playerColor.equals(this.getReceivedMarks ().get(i))) {
+                amount++;
+            }
+        }
+        return amount;
+    }
 }
