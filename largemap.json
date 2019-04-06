@@ -1,0 +1,66 @@
+{
+  "dimension": 12,
+  "arena": [
+    {
+      "squareId": 0,
+      "room": "red",
+      "spawn": false,
+      "links": [1, 4]
+    },{
+      "squareId": 1,
+      "room": "blue",
+      "spawn": false,
+      "links": [0, 2, 5]
+    },{
+      "squareId": 2,
+      "room": "blue",
+      "spawn": true,
+      "links": [1, 3, 6]
+    },{
+      "squareId": 3,
+      "room": "green",
+      "spawn": false,
+      "links": [2, 7]
+    },{
+      "squareId": 4,
+      "room": "red",
+      "spawn": true,
+      "links": [0, 8]
+    },{
+      "squareId": 5,
+      "room": "purple",
+      "spawn": false,
+      "links": [1, 9]
+    },{
+      "squareId": 6,
+      "room": "yellow",
+      "spawn": false,
+      "links": [2, 7, 10]
+    },{
+      "squareId": 7,
+      "room": "yellow",
+      "spawn": false,
+      "links": [3, 6, 11]
+    },{
+      "squareId": 8,
+      "room": "white",
+      "spawn": false,
+      "links": [4, 9]
+    },{
+      "squareId": 9,
+      "room": "white",
+      "spawn": false,
+      "links": [5, 8, 10]
+    },{
+      "squareId": 10,
+      "room": "yellow",
+      "spawn": false,
+      "links": [6, 9, 11]
+    },{
+      "squareId": 11,
+      "room": "yellow",
+      "spawn": true,
+      "links": [7, 10]
+    }
+  ]
+}
