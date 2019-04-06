@@ -21,9 +21,10 @@ public class Movement {
      * @param victim is the player who receive the movement
      * @param move is the number of square the victim passes through (0 to 2)
      */
-    public void moveToMe (Player attacker, Player victim, int move){
+    public void moveToMe(Player attacker, Player victim, int move){
 
-        if(attacker.getPosition().getY()==victim.getPosition().getY()) {
+//        TODO need to adapt to new features
+        /*if(attacker.getPosition().getY()==victim.getPosition().getY()) {
             if (attacker.getPosition().getX() > victim.getPosition().getX()) {
                 int x = victim.getPosition().getX();
                 victim.getPosition().setX(x + move);
@@ -47,8 +48,9 @@ public class Movement {
                 victim.getPosition().setY(y - move);
 
             }
-        }
+        } */
     }
+
 
     /**
      * This method changes the position of the victim.
@@ -56,9 +58,10 @@ public class Movement {
      * @param victim is the player who receives the movement
      * @param move is the number of square the victim passes through (0 to 2)
      */
-    public void moveFromMe (Player attacker, Player victim, int move){
+    public void moveFromMe(Player attacker, Player victim, int move){
 
-        if(attacker.getPosition().getY()==victim.getPosition().getY()) {
+//        TODO need to adapt to new features
+        /*if(attacker.getPosition().getY()==victim.getPosition().getY()) {
             if (attacker.getPosition().getX() > victim.getPosition().getX()) {
                 int x = victim.getPosition().getX();
                 victim.getPosition().setX(x - move);
@@ -88,20 +91,20 @@ public class Movement {
 
             //the attacker chooses the direction where to move away the victim (maybe controller?)
 
-            /*int x = victim.getPosition().getX();
+            int x = victim.getPosition().getX();
             victim.getPosition().setX(x - move);
             victim.getPosition().setX(x + move);
 
             int y = victim.getPosition().getY();
             victim.getPosition().setY(y - move);
             victim.getPosition().setY(y + move);
-            */
-        }
 
+        }
+        */
     }
 
     public void moveToSquare (Player victim, int move, Square toSquare){
-
+//        TODO need to adapt to new features
         //the attacker chooses the square where to move the victim (maybe controller?)
         //only few weapon can do it
     }

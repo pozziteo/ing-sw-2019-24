@@ -5,8 +5,8 @@ import model.deck.*;
 public class SpawnPoint extends Square {
     private Weapon[] weapons;
 
-    public SpawnPoint(int x, int y, String color) {
-        super(x, y, color, true);
+    public SpawnPoint(int id, String color) {
+        super(id, color, true, null);
         this.weapons = new Weapon[3];
     }
 
