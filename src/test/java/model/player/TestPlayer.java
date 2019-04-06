@@ -6,24 +6,21 @@ import model.map.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestPlayer {
-    Player p1;
-    Player p2;
-    Map m;
+class TestPlayer {
 
     @Test
-    public void testGiveMarks() throws Exception {
-        ArenaReader reader = new ArenaReader();
-        m = reader.createArena ();
-        p1 = new Player("red", m.getSquare(2, 0));
-        p2 = new Player("blue", m.getSquare(1, 0));
+    void testGiveMarks() throws Exception {
+        ArenaBuilder builder = new ArenaBuilder();
+        Map m = builder.createMap("largemap.json");
+        Player p1 = new Player("red", m.getSquare(2));
+        Player p2 = new Player("blue", m.getSquare(1));
         p1.giveMark (3, p2);
         assertEquals(p2.getBoard().getAmountGivenByPlayer (p1), 3);
     }
 
     @Test
-    public void testGrabWeapon() {
-        Square sp = new SpawnPoint(0, 0, "red");
+    void testGrabWeapon() {
+        Square sp = new SpawnPoint(0, "red");
         Player p = new Player("red", sp);
         WeaponsDeckCreator deckCreator = new WeaponsDeckCreator();
         WeaponsDeck d = deckCreator.createDeck();

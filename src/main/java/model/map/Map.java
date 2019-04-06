@@ -9,16 +9,6 @@ public class Map {
     private int dimension;
     private Square[] arena;
 
-    public Map(String mapName) {
-        ArenaBuilder builder = new ArenaBuilder();
-        try {
-            builder.createMap(mapName);
-        } catch (FileNotFoundException exc) {
-            System.err.println("Error: Invalid map name selected");
-            exc.printStackTrace();
-        }
-    }
-
     public int getDimension() {
         return this.dimension;
     }

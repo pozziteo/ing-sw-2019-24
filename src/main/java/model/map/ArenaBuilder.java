@@ -13,7 +13,7 @@ public class ArenaBuilder {
 
     private static final String SMALL_MAP = "smallmap.json";
 
-    protected Map createMap(String fileMap) throws FileNotFoundException {
+    public Map createMap(String fileMap) throws FileNotFoundException {
             Gson gson = new Gson();
             JsonReader reader = new JsonReader(new FileReader(fileMap));
             return gson.fromJson(reader, Map.class);
