@@ -2,23 +2,29 @@ package model.map;
 
 import model.player.*;
 
-import java.util.ArrayList;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 public class Map {
-    private Square[][] arena;
+    private int dimension;
+    private Square[] arena;
 
-    public Map() {
-        this.arena = new Square[4][3];
+    public Map(String mapName) {
+        ArenaBuilder builder = new ArenaBuilder();
+        try {
+            builder.createMap(mapName);
+        } catch (FileNotFoundException exc) {
+            System.err.println("Error: Invalid map name selected");
+            exc.printStackTrace();
+        }
     }
 
-    public void setArena(Square square) {
-        int x = square.getX ( );
-        int y = square.getY ( );
-        this.arena[x][y] = square;
+    public int getDimension() {
+        return this.dimension;
     }
 
-    public Square getSquare(int x, int y) {
-        return this.arena[x][y];
+    public Square getSquare(int id) {
+        return this.arena[id];
     }
 
     /**

@@ -5,30 +5,39 @@ import model.player.*;
 
 import java.util.ArrayList;
 import java.io.Serializable;
+import java.util.List;
 
 public class Square implements Serializable {
-    private int coordinateX;
-    private int coordinateY;
-    private String color;
-    private boolean spawnPoint;
+    private int squareId;
+    private String room;
+    private boolean spawn;
+    private ArrayList<Integer> links;
     private Tile placedTile;
     private ArrayList<Player> playersOnSquare;
-    private ArrayList<Door> doorsInSquare;
 
-    public Square(int x, int y, String color, boolean sp) {
-        this.coordinateX = x;
-        this.coordinateY = y;
-        this.color = color;
-        this.spawnPoint = sp;
+    public Square(int id, String color, boolean sp, List<Integer> links) {
+        this.squareId = id;
+        this.room = color;
+        this.spawn = sp;
+        this.links = new ArrayList<>();
+        this.links.addAll(links);
     }
 
+    /**
+     * Getter method to know a square's Id
+     * @return Id
+     */
+
+    public int getId() {
+        return this.squareId;
+    }
     /**
      * Getter method to know a square's x coordinate
      * @return x
      */
 
     public int getX() {
-        return this.coordinateX;
+        return this.squareId/4;
     }
 
     /**
@@ -37,7 +46,7 @@ public class Square implements Serializable {
      */
 
     public int getY() {
-        return this.coordinateY;
+        return this.squareId%4;
     }
 
     /**
@@ -46,15 +55,14 @@ public class Square implements Serializable {
      */
 
     public String getSquareColor() {
-        return this.color;
+        return this.room;
     }
 
-    public void setX(int x){
-        this.coordinateX = x;
+    public Tile getPlacedTile() {
+        return placedTile;
     }
 
-    public void setY(int y){
-        this.coordinateY = y;
+    public List<Player> getPlayersOnSquare() {
+        return playersOnSquare;
     }
-
 }
