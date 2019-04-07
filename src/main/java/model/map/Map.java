@@ -6,8 +6,18 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Map {
+    private static Map map;
     private int dimension;
     private Square[] arena;
+
+    private Map() {
+    }
+
+    public static Map getInstance(String fileName) throws FileNotFoundException {
+        if (map == null)
+            map = (new ArenaBuilder()).createMap(fileName);
+        return map;
+    }
 
     public int getDimension() {
         return this.dimension;
