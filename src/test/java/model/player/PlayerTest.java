@@ -4,14 +4,16 @@ import model.deck.*;
 import model.map.*;
 
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class TestPlayer {
+class PlayerTest {
 
     @Test
     void testGiveMarks() throws Exception {
-        ArenaBuilder builder = new ArenaBuilder();
-        Map m = builder.createMap("largemap.json");
+        Map m = Map.getInstance("largemap.json");
         Player p1 = new Player("red", m.getSquare(2));
         Player p2 = new Player("blue", m.getSquare(1));
         p1.giveMark (3, p2);
@@ -20,7 +22,7 @@ class TestPlayer {
 
     @Test
     void testGrabWeapon() {
-        Square sp = new SpawnPoint(0, "red");
+        Square sp = new SpawnPoint(0, "red", new ArrayList<>());
         Player p = new Player("red", sp);
         WeaponsDeckCreator deckCreator = new WeaponsDeckCreator();
         WeaponsDeck d = deckCreator.createDeck();

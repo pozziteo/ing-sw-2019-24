@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestDeck {
+class DeckTest {
 
     @Test
-    public void testWeaponsDeckSize() {
+    void weaponsDeckSizeTest() {
         WeaponsDeckCreator deckCreator = new WeaponsDeckCreator();
         WeaponsDeck d = deckCreator.createDeck();
 
@@ -33,7 +33,7 @@ public class TestDeck {
     }
 
     @Test
-    public void testPowerUpsDeckSize() {
+    void powerUpsDeckSizeTest() {
         PowerUpDeckCreator deckCreator = new PowerUpDeckCreator();
         PowerUpDeck d = deckCreator.createDeck();
 
@@ -45,7 +45,6 @@ public class TestDeck {
             powerups.add(powerUpsName);
         }
 
-       // System.out.println("List of powerups: " + powerups);
 
         ArrayList<String> names = new ArrayList<>();
 
@@ -56,5 +55,30 @@ public class TestDeck {
         }
         assertTrue(powerups.containsAll(names));
         assertEquals(d.getCards().size(), 12);
+    }
+
+    @Test
+    void tilesDeckSizeTest() {
+        TilesDeckCreator deckCreator = new TilesDeckCreator();
+        TilesDeck d = deckCreator.createDeck();
+
+        ArrayList<String> tiles = new ArrayList<>();
+        String tilesName;
+
+        for (TileFormat t : TileFormat.values ()) {
+            tilesName = t.getDescription ();
+            tiles.add(tilesName);
+        }
+
+
+        ArrayList<String> names = new ArrayList<>();
+
+        for (int i = 0; i < d.getCards().size(); i++) {
+            Tile tile = (Tile) d.getCards().get(i);
+            names.add(tile.getTileContent ());
+        }
+
+        assertTrue(tiles.containsAll(names));
+        assertEquals(d.getCards().size(), 36);
     }
 }

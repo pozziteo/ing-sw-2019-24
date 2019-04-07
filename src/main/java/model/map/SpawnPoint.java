@@ -2,11 +2,13 @@ package model.map;
 
 import model.deck.*;
 
+import java.util.*;
+
 public class SpawnPoint extends Square {
     private Weapon[] weapons;
 
-    public SpawnPoint(int id, String color) {
-        super(id, color, true, null);
+    public SpawnPoint(int id, String color, List<Integer> links) {
+        super(id, color, true, links);
         this.weapons = new Weapon[3];
     }
 
