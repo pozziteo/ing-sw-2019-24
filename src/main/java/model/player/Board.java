@@ -7,6 +7,11 @@ import java.util.*;
  * Board is the class where every player has their info
  */
 
+/**
+ * Board is an object which contains information about the current state
+ * of a player in the game, like his health bar, his marks received by other players
+ * and his weapon currently unloaded
+ */
 public class Board {
     private ArrayList<String> damageTaken;
     private ArrayList<String> receivedMarks;

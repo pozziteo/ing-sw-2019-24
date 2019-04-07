@@ -1,28 +1,26 @@
 package model.deck;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+/** Enum which lists all the power-up cards available in the game.
+ * Description is the name of the PowerUp, while
+ * Ammo.COLOR_AMMO is the ammo bonus you get with a PowerUp.
+ * A single type of PowerUp has 3 different cards, one for each color
+ */
 
 public enum PowerUpType {
 
-    TAGBACK_GRANADE_B("tagback granade", Ammo.BLUE_AMMO),
-    TAGBACK_GRANADE_R("tagback granade", Ammo.RED_AMMO),
-    TAGBACK_GRANADE_Y("tagback granade", Ammo.YELLOW_AMMO),
-    TARGETING_SCOPE_B("targeting scope", Ammo.BLUE_AMMO),
-    TARGETING_SCOPE_R("targeting scope", Ammo.RED_AMMO),
-    TARGETING_SCOPE_Y("targeting scope", Ammo.YELLOW_AMMO),
-    NEWTON_B("newton", Ammo.BLUE_AMMO),
-    NEWTON_R("newton", Ammo.RED_AMMO),
-    NEWTON_Y("newton", Ammo.YELLOW_AMMO),
-    TELEPORTER_B("teleporter", Ammo.BLUE_AMMO),
-    TELEPORTER_R("teleporter", Ammo.RED_AMMO),
-    TELEPORTER_Y("teleporter", Ammo.YELLOW_AMMO);
-
-    /** Ammo.COLOR_AMMO is the ammo bonus you get with a PowerUp
-     * a single type of PowerUp has 3 different cards, one for color
-     */
+    TAGBACK_GRENADE_B("Tagback Grenade", Ammo.BLUE_AMMO),
+    TAGBACK_GRENADE_R("Tagback Grenade", Ammo.RED_AMMO),
+    TAGBACK_GRENADE_Y("Tagback Grenade", Ammo.YELLOW_AMMO),
+    TARGETING_SCOPE_B("Targeting Scope", Ammo.BLUE_AMMO),
+    TARGETING_SCOPE_R("Targeting Scope", Ammo.RED_AMMO),
+    TARGETING_SCOPE_Y("Targeting Scope", Ammo.YELLOW_AMMO),
+    NEWTON_B("Newton", Ammo.BLUE_AMMO),
+    NEWTON_R("Newton", Ammo.RED_AMMO),
+    NEWTON_Y("Newton", Ammo.YELLOW_AMMO),
+    TELEPORTER_B("Teleporter", Ammo.BLUE_AMMO),
+    TELEPORTER_R("Teleporter", Ammo.RED_AMMO),
+    TELEPORTER_Y("Teleporter", Ammo.YELLOW_AMMO);
 
     /**
      *  bonusAmmo is the ammo's color the powerup gives to the player (only 1 block)
@@ -34,7 +32,11 @@ public enum PowerUpType {
      */
     private String description;
 
-
+    /**
+     * Constructor which initialize the enum attributes
+     * @param desc is the name of the PowerUp
+     * @param ammo is the color of the bonus ammo provided by the PowerUp
+     */
     PowerUpType(String desc, Ammo ammo) {
         setDescription(desc);
         setBonusAmmo(ammo);

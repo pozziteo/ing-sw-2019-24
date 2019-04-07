@@ -11,8 +11,13 @@ import java.io.*;
  */
 public class ArenaBuilder {
 
-    private static final String SMALL_MAP = "smallmap.json";
-
+    /**
+     * Method to create an instance of Map by reading its description from a
+     * JSON file.
+     * @param fileMap is the file's name where the map is described
+     * @return an instance of Map class
+     * @throws FileNotFoundException if the file's name is invalid
+     */
     public Map createMap(String fileMap) throws FileNotFoundException {
             Gson gson = new Gson();
             JsonReader reader = new JsonReader(new FileReader(fileMap));
