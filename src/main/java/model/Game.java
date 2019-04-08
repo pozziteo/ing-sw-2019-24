@@ -29,7 +29,7 @@ public class Game {
         this.weaponsDeck = setWeaponsDeck ();
         this.powerUpsDeck = setPowerUpDeck ();
         this.tilesDeck = setTilesDeck ();
-        this.winnersList = null;
+        this.winnersList = new ArrayList<> ();
     }
 
     /**
@@ -134,6 +134,10 @@ public class Game {
      */
 
     public int getSkullsRemaining() {
+        if (this.skullsRemaining == 0) {
+            Player w = getWinner ();
+            this.endGame (w);
+        }
         return this.skullsRemaining;
     }
 
@@ -180,10 +184,10 @@ public class Game {
     public Player getWinner() {
         Player winner = new Player();
         int maxPoints = 0;
-        for (int i=0; i < players.size (); i++) {
-            if (players.get(i).getPointTokens () > maxPoints) {
-                maxPoints = players.get(i).getPointTokens ();
-                winner = players.get (i);
+        for (Player p : players) {
+            if (p.getPointTokens () > maxPoints) {
+                maxPoints = p.getPointTokens ();
+                winner = p;
             }
         }
         return winner;

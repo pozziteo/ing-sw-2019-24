@@ -24,7 +24,7 @@ public class GameTest {
         players.add (p3);
         game.setPlayers (players);
         game.setSkullsRemaining (0);
-        game.endGame (game.getWinner ());
+        game.getSkullsRemaining ();
         System.out.println (game.getWinnersList ().get(0).getPlayerColor ());
     }
 }
