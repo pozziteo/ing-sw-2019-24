@@ -34,8 +34,8 @@ class DeckTest {
 
     @Test
     void powerUpsDeckSizeTest() {
-        PowerUpDeckCreator deckCreator = new PowerUpDeckCreator();
-        PowerUpDeck d = deckCreator.createDeck();
+        PowerUpsDeckCreator deckCreator = new PowerUpsDeckCreator ();
+        PowerUpsDeck d = deckCreator.createDeck();
 
         ArrayList<String> powerups = new ArrayList<>();
         String powerUpsName;

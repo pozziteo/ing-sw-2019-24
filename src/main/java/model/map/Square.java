@@ -4,7 +4,6 @@ import model.deck.*;
 import model.player.*;
 
 import java.util.ArrayList;
-import java.io.Serializable;
 import java.util.List;
 
 /**

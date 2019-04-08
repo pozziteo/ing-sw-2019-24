@@ -26,9 +26,9 @@ public class Game {
     public Game() {
         this.gameID = 1;
         this.currentTurn = 1;
-        this.weaponsDeck = setWeaponsDeck ();
-        this.powerUpsDeck = setPowerUpDeck ();
-        this.tilesDeck = setTilesDeck ();
+        setWeaponsDeck ();
+        setPowerUpDeck ();
+        setTilesDeck ();
         this.winnersList = new ArrayList<> ();
     }
 
@@ -150,36 +150,73 @@ public class Game {
         this.skullsRemaining = skulls;
     }
 
+    /**
+     * Getter method to obtain the deck of weapons in a game
+     * @return weaponsDeck
+     */
+
     public WeaponsDeck getWeaponsDeck() {
         return this.weaponsDeck;
     }
 
-    public WeaponsDeck setWeaponsDeck() {
+    /**
+     * Setter method to create the deck of weapons for a game
+     */
+
+    public void setWeaponsDeck() {
         WeaponsDeckCreator deckCreator = new WeaponsDeckCreator();
-        return this.weaponsDeck = deckCreator.createDeck();
+        this.weaponsDeck = deckCreator.createDeck();
     }
+
+    /**
+     * Getter method to obtain the deck of power ups in a game
+     * @return powerUpsDeck
+     */
 
     public PowerUpsDeck getPowerUpsDeck() {
         return this.powerUpsDeck;
     }
 
-    public PowerUpsDeck setPowerUpDeck() {
+    /**
+     * Setter method to create the deck of power ups for a game
+     */
+
+    public void setPowerUpDeck() {
         PowerUpsDeckCreator deckCreator = new PowerUpsDeckCreator ();
-        return this.powerUpsDeck = deckCreator.createDeck();
+        this.powerUpsDeck = deckCreator.createDeck();
     }
+
+    /**
+     * Getter method to obtain the deck of tiles in a game
+     * @return tilesDeck
+     */
 
     public TilesDeck getTilesDeck() {
         return this.tilesDeck;
     }
 
-    public TilesDeck setTilesDeck() {
+    /**
+     * Setter method to create the deck of tiles for a game
+     */
+
+    public void setTilesDeck() {
         TilesDeckCreator deckCreator = new TilesDeckCreator();
-        return this.tilesDeck = deckCreator.createDeck();
+        this.tilesDeck = deckCreator.createDeck();
     }
+
+    /**
+     * Getter method to obtain the list of players who won a round in the same session
+     * @return winnersList
+     */
 
     public ArrayList<Player> getWinnersList() {
         return this.winnersList;
     }
+
+    /**
+     * Method to determine who made the most points and won the game
+     * @return winner
+     */
 
     public Player getWinner() {
         Player winner = new Player();
@@ -193,9 +230,19 @@ public class Game {
         return winner;
     }
 
+    /**
+     * Setter method to add a player to the winners list
+     * @param winner
+     */
+
     public void setWinnersList(Player winner) {
         this.winnersList.add(winner);
     }
+
+    /**
+     * Method to end a round within the same session
+     * @param winner
+     */
 
     public void endGame(Player winner) {
         this.gameID++;
