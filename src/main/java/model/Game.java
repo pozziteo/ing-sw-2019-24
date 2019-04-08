@@ -6,8 +6,6 @@ import model.player.*;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * Singleton class used to access the entire model package
@@ -136,10 +134,6 @@ public class Game {
      */
 
     public int getSkullsRemaining() {
-        if (this.skullsRemaining == 0) {
-            Player winner = getWinner();
-            this.endGame(winner);
-        }
         return this.skullsRemaining;
     }
 
@@ -184,8 +178,15 @@ public class Game {
     }
 
     public Player getWinner() {
-        //sort players by pointTokens
-        return players.get(0);
+        Player winner = new Player();
+        int maxPoints = 0;
+        for (int i=0; i < players.size (); i++) {
+            if (players.get(i).getPointTokens () > maxPoints) {
+                maxPoints = players.get(i).getPointTokens ();
+                winner = players.get (i);
+            }
+        }
+        return winner;
     }
 
     public void setWinnersList(Player winner) {
