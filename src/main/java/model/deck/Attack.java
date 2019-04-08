@@ -52,7 +52,7 @@ public class Attack {
      */
     public void giveDamage(Player attacker, Player victim, int damage) {
         for (int i = 0; i < damage; i++) {
-            victim.getBoard().getDamage().add(attacker.getPlayerColor());
+            victim.getBoard().getDamageTaken ().add(attacker.getPlayerColor());
 
         }
 
