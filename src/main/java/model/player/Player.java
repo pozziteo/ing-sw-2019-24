@@ -2,7 +2,7 @@ package model.player;
 
 import model.map.*;
 import model.deck.*;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Player is the class that represents every client taking part in the game.
@@ -139,7 +139,7 @@ public class Player {
      * @return ArrayList of Weapons
      */
 
-    public ArrayList<Weapon> getOwnedWeapons() {
+    public List<Weapon> getOwnedWeapons() {
         return this.ownedWeapons;
     }
 
@@ -157,7 +157,7 @@ public class Player {
      * @return
      */
 
-    public ArrayList<PowerUp> getOwnedPowerUps() {
+    public List<PowerUp> getOwnedPowerUps() {
         return this.ownedPowerUps;
     }
 

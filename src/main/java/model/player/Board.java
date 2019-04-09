@@ -19,7 +19,7 @@ public class Board {
     public Board() {
         this.damageTaken = new ArrayList<>();
         this.receivedMarks = new ArrayList<>();
-        this.unloadedWeapons = new ArrayList<Weapon>();
+        this.unloadedWeapons = new ArrayList<>();
         this.ownedAmmo = new ArrayList<>();
         this.pointsForKill = new int[5];
     }
@@ -29,7 +29,7 @@ public class Board {
      * @return damageTaken
      */
 
-    public ArrayList<String> getDamageTaken() {
+    public List<String> getDamageTaken() {
         return this.damageTaken;
     }
 
@@ -47,7 +47,7 @@ public class Board {
      * @return receivedMarks
      */
 
-    public ArrayList<String> getReceivedMarks() {
+    public List<String> getReceivedMarks() {
         return this.receivedMarks;
     }
 
@@ -65,7 +65,7 @@ public class Board {
      * @return
      */
 
-    public ArrayList<Weapon> getUnloadedWeapons() {
+    public List<Weapon> getUnloadedWeapons() {
         return this.unloadedWeapons;
     }
 
@@ -83,7 +83,7 @@ public class Board {
      * @return ownedAmmo
      */
 
-    public ArrayList<Ammo> getOwnedAmmo() {
+    public List<Ammo> getOwnedAmmo() {
         return this.ownedAmmo;
     }
 
