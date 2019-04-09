@@ -140,4 +140,8 @@ public class Square {
         }
         return false;
     }
+
+    public List<Integer> getLinks() {
+        return this.links;
+    }
 }

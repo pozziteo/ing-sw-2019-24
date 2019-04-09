@@ -20,7 +20,7 @@ public class Game {
     private WeaponsDeck weaponsDeck;
     private PowerUpsDeck powerUpsDeck;
     private TilesDeck tilesDeck;
-    private ArrayList<Player> winnersList;
+    private ArrayList<Player> ranking;
     private static Game gameInstance;
 
     public Game() {
@@ -29,7 +29,7 @@ public class Game {
         setWeaponsDeck ();
         setPowerUpDeck ();
         setTilesDeck ();
-        this.winnersList = new ArrayList<> ();
+        this.ranking = new ArrayList<>(players);
     }
 
     /**
@@ -209,8 +209,8 @@ public class Game {
      * @return winnersList
      */
 
-    public ArrayList<Player> getWinnersList() {
-        return this.winnersList;
+    public ArrayList<Player> getRanking() {
+        return this.ranking;
     }
 
     /**
@@ -235,8 +235,8 @@ public class Game {
      * @param winner
      */
 
-    public void setWinnersList(Player winner) {
-        this.winnersList.add(winner);
+    public void setRanking(Player winner) {
+        this.ranking.add(winner);
     }
 
     /**
@@ -245,13 +245,13 @@ public class Game {
      */
 
     public void endGame(Player winner) {
-        this.setGameID(getGameID () + 1);
-        this.setCurrentTurn (1);
+        this.gameID++;
+        this.currentTurn = 0;
         this.arena = null;
-        this.getWeaponsDeck ().reloadDeck ();
-        this.getPowerUpsDeck ().reloadDeck ();
-        this.getTilesDeck ().reloadDeck ();
-        this.setWinnersList(winner);
+        this.weaponsDeck.reloadDeck ();
+        this.powerUpsDeck.reloadDeck ();
+        this.tilesDeck.reloadDeck ();
+        this.setRanking(winner);
     }
 
 }
