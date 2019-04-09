@@ -96,12 +96,25 @@ public class Square {
     }
 
     /**
+     * Getter method to obtain the list of squares this square is linked to
+     * @return
+     */
+
+    public ArrayList<Integer> getLinks() {
+        return this.links;
+    }
+
+    /**
      * Getter to obtain the current Tile placed on the square
      * @return the tile on the square
      */
     public Tile getPlacedTile() {
         return this.placedTile;
     }
+
+    /**
+     * Setter method to draw a Tile from the deck and place it on this square
+     */
 
     public void setTile() {
         this.placedTile = (Tile) Game.getGameInstance ( ).getTilesDeck ().drawCard ();

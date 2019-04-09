@@ -193,10 +193,21 @@ public class Player {
         setPointTokens (points);
     }
 
+    /**
+     * Method to let a player grab a weapon from the spawn point he's on
+     * @param w
+     */
+
     public void grabWeapon(Weapon w) {
         ((SpawnPoint) getPosition ()).removeWeapon(w);
         this.getOwnedWeapons().add(w);
     }
+
+    /**
+     * Method to know if two players are in the same room
+     * @param p
+     * @return
+     */
 
     public boolean isInTheSameRoom(Player p) {
         if (this.getPosition ().isInTheSameRoom (p.getPosition ())) {
@@ -204,6 +215,31 @@ public class Player {
         }
         return false;
     }
+
+    /**
+     * Method to know if this player can see another player
+     * @param p
+     * @return true (if this player can see p), false (otherwise)
+     */
+
+    public boolean canSee(Player p) {
+        if (this.isInTheSameRoom (p)) {
+            return true;
+        } else {
+            for (int i = 0; i < this.getPosition ().getLinks().size(); i++) {
+                Square s = Game.getGameInstance ().getArena ().getSquare(this.getPosition ().getLinks ().get(i));
+                if (s.getSquareColor ().equals (p.getPosition ().getSquareColor ())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Method to let this player grab the tile placed on his square
+     * @param t
+     */
 
     public void grabTile(Tile t) {
         Ammo a;
@@ -218,9 +254,20 @@ public class Player {
         }
     }
 
+    /**
+     * Method to let this player use one of his owned weapons as long as it's loaded
+     * @param w
+     * @param p
+     */
+
     public void useWeapon(Weapon w, Player p) {
         //write when we have weapon class done
     }
+
+    /**
+     * Method to let this player use one of his owned power ups
+     * @param pup
+     */
 
     public void usePowerUp(PowerUp pup) {
         //write when we have powerup class done

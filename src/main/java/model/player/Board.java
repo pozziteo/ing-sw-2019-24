@@ -133,7 +133,7 @@ public class Board {
     }
 
     /**
-     *
+     * Method to get the amount of damage given by a specific player
      * @param player
      * @return amount of damage given by player
      */
