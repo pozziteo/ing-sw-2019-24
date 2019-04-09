@@ -10,6 +10,7 @@ import java.util.*;
  */
 
 public class Player {
+    private Game game;
     private String playerID;
     private boolean firstPlayerCard;
     private Board playerBoard;
@@ -23,12 +24,22 @@ public class Player {
 
     }
 
-    public Player(String color, Square spawnPoint) {
+    public Player(Game game, String color, Square spawnPoint) {
+        this.game = game;
         this.playerID = color;
         this.playerBoard = new Board();
         this.position = spawnPoint;
         this.ownedWeapons = new ArrayList<>();
         this.ownedPowerUps = new ArrayList<>();
+    }
+
+    /**
+     * Method to get the game this player is taking part of
+     * @return game
+     */
+
+    public Game getGame() {
+        return this.game;
     }
 
     /**
@@ -227,7 +238,7 @@ public class Player {
             return true;
         } else {
             for (int i = 0; i < this.getPosition ().getLinks().size(); i++) {
-                Square s = Game.getGameInstance ().getArena ().getSquare(this.getPosition ().getLinks ().get(i));
+                Square s = this.getGame().getArena ().getSquare(this.getPosition ().getLinks ().get(i));
                 if (s.getSquareColor ().equals (p.getPosition ().getSquareColor ())) {
                     return true;
                 }
@@ -244,7 +255,7 @@ public class Player {
     public void grabTile(Tile t) {
         Ammo a;
         if (t.getFormat ().isPowerUpIsPresent ()) {
-            this.getOwnedPowerUps ().add((PowerUp) Game.getGameInstance ().getPowerUpsDeck ().drawCard ());
+            this.getOwnedPowerUps ().add((PowerUp) this.getGame().getPowerUpsDeck ().drawCard ());
         }
         for (int i = 0; i < t.getTileContent ().size(); i++) {
             a = t.getTileContent ( ).get (i);
@@ -252,7 +263,7 @@ public class Player {
                 this.getBoard ( ).getOwnedAmmo ( ).add (a);
             }
         }
-        t.discardTile();
+        this.game.getTilesDeck ().discardCard(t);
     }
 
     /**

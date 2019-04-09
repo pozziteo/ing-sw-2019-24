@@ -12,16 +12,16 @@ public class GameTest {
 
     @Test
     public void testWinner() throws FileNotFoundException {
-        Game game = Game.getGameInstance ();
+        Game game = new Game();
         ArrayList<Player> players = new ArrayList<>();
         game.setArena ("maps\\smallmap.json");
-        Player p1 = new Player("red", game.getArena ().getSquare (2));
+        Player p1 = new Player(game, "red", game.getArena ().getSquare (2));
         p1.setPointTokens (16);
         players.add (p1);
-        Player p2 = new Player("yellow", game.getArena ().getSquare (4));
+        Player p2 = new Player(game, "yellow", game.getArena ().getSquare (4));
         p2.setPointTokens (8);
         players.add (p2);
-        Player p3 = new Player("blue", game.getArena ().getSquare (11));
+        Player p3 = new Player(game, "blue", game.getArena ().getSquare (11));
         p3.setPointTokens (2);
         players.add (p3);
         game.setPlayers (players);

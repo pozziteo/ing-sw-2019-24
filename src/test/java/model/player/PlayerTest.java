@@ -12,12 +12,13 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
+    Game g = new Game();
 
     @Test
     void testGiveMarks() throws Exception {
         Map m = Map.getInstance();
-        Player p1 = new Player("red", m.getSquare(2));
-        Player p2 = new Player("blue", m.getSquare(1));
+        Player p1 = new Player(g,"red", m.getSquare(2));
+        Player p2 = new Player(g, "blue", m.getSquare(1));
         p1.giveMark (3, p2);
         assertEquals(3, p2.getBoard().getMarksAmountGivenByPlayer (p1));
     }
@@ -25,7 +26,7 @@ class PlayerTest {
     @Test
     void testGrabWeapon() {
         Square sp = new SpawnPoint(0, "red", new ArrayList<>());
-        Player p = new Player("red", sp);
+        Player p = new Player(g,"red", sp);
         WeaponsDeckCreator deckCreator = new WeaponsDeckCreator();
         WeaponsDeck d = deckCreator.createDeck();
         Weapon w = (Weapon) d.drawCard ();
@@ -48,28 +49,28 @@ class PlayerTest {
 
     @Test
     public void testPlayersInSameRoom() throws FileNotFoundException {
-        Game game = Game.getGameInstance ( );
+        Game game = new Game( );
         game.setArena ("maps\\smallmap.json");
-        Player p1 = new Player("red", game.getArena ().getSquare (0));
-        Player p2 = new Player("blue", game.getArena ().getSquare (1));
+        Player p1 = new Player(game, "red", game.getArena ().getSquare (0));
+        Player p2 = new Player(game, "blue", game.getArena ().getSquare (1));
         assertTrue(p1.isInTheSameRoom (p2));
     }
 
     @Test
     public void testPlayerCanSee() throws FileNotFoundException {
-        Game game = Game.getGameInstance ( );
+        Game game = new Game( );
         game.setArena ("maps\\smallmap.json");
-        Player p1 = new Player("red", game.getArena ().getSquare (0));
-        Player p2 = new Player("blue", game.getArena ().getSquare (6));
+        Player p1 = new Player(game, "red", game.getArena ().getSquare (0));
+        Player p2 = new Player(game, "blue", game.getArena ().getSquare (6));
         assertTrue(p1.canSee (p2));
     }
 
     @Test
     public void testPlayerGrabsTile() throws FileNotFoundException {
-        Game game = Game.getGameInstance ( );
+        Game game = new Game( );
         game.setArena ("maps\\smallmap.json");
-        Player p = new Player("red", game.getArena ().getSquare (0));
-        p.getPosition ().setTile ();
+        Player p = new Player(game, "red", game.getArena ().getSquare (0));
+        game.setTile (p.getPosition ());
         Tile t = p.getPosition ().getPlacedTile ();
         System.out.println(t.getFormat ().getDescription ());
         p.grabTile (t);

@@ -104,11 +104,12 @@ public class Square {
     }
 
     /**
-     * Setter method to draw a Tile from the deck and place it on this square
+     * Setter method to place a tile on this square
+     * @param t
      */
 
-    public void setTile() {
-        this.placedTile = (Tile) Game.getGameInstance ( ).getTilesDeck ().drawCard ();
+    public void setPlacedTile(Tile t) {
+        this.placedTile = t;
     }
 
     /**

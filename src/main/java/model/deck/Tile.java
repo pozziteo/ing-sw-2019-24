@@ -51,11 +51,4 @@ public class Tile extends Card {
         return this.getFormat ().getAmmo ();
     }
 
-    /**
-     * Method to discard a tile after it has been used
-     */
-
-    public void discardTile() {
-        Game.getGameInstance ().getTilesDeck ().discardCard (this);
-    }
 }

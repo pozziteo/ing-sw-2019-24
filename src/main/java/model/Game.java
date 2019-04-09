@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
- * Singleton class used to access the entire model package
+ * Class used to access the entire model package
  */
 
 public class Game {
@@ -21,7 +21,6 @@ public class Game {
     private PowerUpsDeck powerUpsDeck;
     private TilesDeck tilesDeck;
     private ArrayList<Player> ranking;
-    private static Game gameInstance;
 
     public Game() {
         this.gameID = 1;
@@ -29,19 +28,7 @@ public class Game {
         setWeaponsDeck ();
         setPowerUpDeck ();
         setTilesDeck ();
-        this.ranking = new ArrayList<>(players);
-    }
-
-    /**
-     * Getter method implemented with Singleton design pattern
-     * @return instance of Game
-     */
-
-    public static Game getGameInstance() {
-        if (gameInstance == null) {
-            gameInstance = new Game();
-        }
-        return gameInstance;
+        this.ranking = new ArrayList<>();
     }
 
     /**
@@ -202,6 +189,16 @@ public class Game {
     public void setTilesDeck() {
         TilesDeckCreator deckCreator = new TilesDeckCreator();
         this.tilesDeck = deckCreator.createDeck();
+    }
+
+    /**
+     * Setter method to draw a Tile from the deck and place it on this square
+     */
+
+    public void setTile(Square s) {
+        Tile t = (Tile) this.getTilesDeck ().drawCard ();
+        s.setPlacedTile(t);
+        this.getTilesDeck ().discardCard (t);
     }
 
     /**

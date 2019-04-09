@@ -71,7 +71,7 @@ public abstract class Deck {
      * @param card
      */
 
-    protected void discardCard(Card card) {
+    public void discardCard(Card card) {
         this.getDrawnCards ().add(card);
     }
 
