@@ -24,11 +24,20 @@ public class PowerUp extends Card {
     }
 
     /**
+     * Getter method to obtain the type of power up
+     * @return type is the kind of PowerUp
+     */
+
+    public PowerUpType getType() {
+        return this.type;
+    }
+
+    /**
      * Getter to obtain the name of the PowerUp, to define its effect
      * @return the name of a PowerUp
      */
     public String getPowerUpsName() {
-        return this.type.getDescription ();
+        return this.getType ().getDescription ();
     }
 
     /**
@@ -36,6 +45,6 @@ public class PowerUp extends Card {
      * @return the ammo's color in the PowerUp card
      */
     public Ammo getAmmo() {
-        return this.type.getBonusAmmo ();
+        return this.getType().getBonusAmmo ();
     }
 }

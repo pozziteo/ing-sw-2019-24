@@ -1,7 +1,5 @@
 package model.deck;
 
-import model.deck.Card;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -53,7 +51,7 @@ public abstract class Deck {
      */
 
     protected void addCard(Card card) {
-        this.cards.add(card);
+        this.getCards ().add(card);
     }
 
     /**
@@ -62,10 +60,10 @@ public abstract class Deck {
      */
 
     public Card drawCard() {
-        if (this.cards.isEmpty()) {
+        if (this.getCards ().isEmpty()) {
             return null;
         }
-        return this.cards.remove(this.cards.size() - 1);
+        return this.getCards ().remove(this.getCards ().size() - 1);
     }
 
     /**
@@ -74,7 +72,7 @@ public abstract class Deck {
      */
 
     protected void discardCard(Card card) {
-        this.drawnCards.add(card);
+        this.getDrawnCards ().add(card);
     }
 
     /**
@@ -82,7 +80,7 @@ public abstract class Deck {
      */
 
     public void deckShuffle() {
-        Collections.shuffle(this.cards);
+        Collections.shuffle(this.getCards ());
     }
 
     /**
@@ -93,7 +91,7 @@ public abstract class Deck {
         for (Card currentCard : this.getDrawnCards ()) {
             this.getCards().add(currentCard);
         }
-        this.drawnCards.clear();
+        this.getDrawnCards ().clear();
         this.deckShuffle();
     }
 
