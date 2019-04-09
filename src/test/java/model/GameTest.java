@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.io.FileNotFoundException;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class GameTest {
 
     @Test
@@ -25,6 +27,6 @@ public class GameTest {
         game.setPlayers (players);
         game.setSkullsRemaining (0);
         game.getSkullsRemaining ();
-        System.out.println (game.getWinnersList ().get(0).getPlayerColor ());
+        assertEquals("red", game.getWinnersList ().get(0).getPlayerColor ());
     }
 }
