@@ -21,8 +21,8 @@ public class AttackTest {
         a.giveMarks ();
         a = new Attack(1, 0, p1, p2);
         a.giveDamage ();
-        assertEquals(p2.getBoard ().getDamageAmountGivenByPlayer (p1), 3);
-        assertEquals(p2.getBoard ().getMarksAmountGivenByPlayer (p1), 1);
+        assertEquals(3, p2.getBoard ().getDamageAmountGivenByPlayer (p1));
+        assertEquals(1, p2.getBoard ().getMarksAmountGivenByPlayer (p1));
 
     }
 }

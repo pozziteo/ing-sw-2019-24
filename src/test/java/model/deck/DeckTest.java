@@ -29,7 +29,7 @@ class DeckTest {
             names.add(weapon.getWeaponsName ());
         }
         assertTrue(weapons.containsAll(names));
-        assertEquals(d.getCards().size(), 21);
+        assertEquals(21, d.getCards().size());
     }
 
     @Test
@@ -54,7 +54,7 @@ class DeckTest {
             System.out.println(powerup.getPowerUpsName () + " " + powerup.getAmmo ().getColor () + ", ");
         }
         assertTrue(powerups.containsAll(names));
-        assertEquals(d.getCards().size(), 12);
+        assertEquals(12, d.getCards().size());
     }
 
     @Test
@@ -79,6 +79,6 @@ class DeckTest {
         }
 
         assertTrue(tiles.containsAll(names));
-        assertEquals(d.getCards().size(), 36);
+        assertEquals(36, d.getCards().size());
     }
 }
