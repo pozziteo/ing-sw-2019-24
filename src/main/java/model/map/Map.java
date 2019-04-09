@@ -13,15 +13,17 @@ import java.io.*;
  */
 public class Map {
 
-    private static final String SMALL = "maps\\smallmap.json";
-    private static final String MEDIUM_1 = "maps\\mediummap_1.json";
-    private static final String MEDIUM_2 = "maps\\mediummap_2.json";
-    private static final String LARGE = "maps\\largemap.json";
+    private static final String SMALL = "src\\Resources\\maps\\smallmap.json";
+    private static final String MEDIUM_1 = "src\\Resources\\maps\\mediummap_1.json";
+    private static final String MEDIUM_2 = "src\\Resources\\maps\\mediummap_2.json";
+    private static final String LARGE = "src\\Resources\\maps\\largemap.json";
 
     /**
      * map is the instance of Map currently used in the game
      */
     private static Map map;
+
+    private static String actualMap;
 
     /**
      * dimension is the number of squares which compose the map
@@ -37,13 +39,7 @@ public class Map {
      * Constructor is private to avoid the creation of other Map instances,
      * and never used
      */
-    private Map(String fileName) {
-        try {
-            map = (new ArenaBuilder()).createMap(fileName);
-        } catch (FileNotFoundException exc) {
-            System.err.println("Error: Invalid file name selected");
-            exc.printStackTrace();
-        }
+    private Map() {
     }
 
     /**
@@ -52,11 +48,21 @@ public class Map {
      * @return an instance of Map
      */
     public static Map getInstance() {
-        if (map == null) {
-            String fileName = chooseMap();
-            map = new Map(fileName);
+        try {
+            if (map == null) {
+                String fileName = chooseMap();
+                actualMap = fileName;
+                map = (new ArenaBuilder()).createMap(fileName);
+            }
+        } catch (FileNotFoundException exc) {
+            System.err.println("Error: Invalid map file selected");
+            exc.printStackTrace();
         }
         return map;
+    }
+
+    public static String getActualMapName() {
+        return actualMap;
     }
 
     /**
@@ -78,25 +84,25 @@ public class Map {
 
     private static String chooseMap() {
         System.out.println("Choose map:");
-        System.out.println("1 - Small Map");
-        System.out.println("2 - Medium Map 1");
-        System.out.println("3 - Medium Map 2");
-        System.out.println("4 - Large Map");
-        Scanner reader = new Scanner(System.in);
-        int selection = reader.nextInt();
-        String filename;
-        switch (selection) {
-            case 1: filename = SMALL;
+        System.out.println("0 - Small Map");
+        System.out.println("1 - Medium Map 1");
+        System.out.println("2 - Medium Map 2");
+        System.out.println("3 - Large Map");
+        //TODO for now map is selected statically, in future may be selected by user
+        String filename = SMALL;
+        /*switch (selection) {
+            case 0: filename = SMALL;
                     break;
-            case 2: filename = MEDIUM_1;
+            case 1: filename = MEDIUM_1;
                     break;
-            case 3: filename = MEDIUM_2;
+            case 2: filename = MEDIUM_2;
                     break;
-            case 4: filename = LARGE;
+            case 3: filename = LARGE;
                     break;
             default: filename = null;
                     break;
-        }
+        } */
+        System.out.println("Selected map: " + filename);
         return filename;
 
     }

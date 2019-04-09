@@ -106,7 +106,7 @@ public class Game {
      */
 
     public void setArena(String fileName) throws FileNotFoundException {
-        this.arena = Map.getInstance (fileName);
+        this.arena = Map.getInstance();
     }
 
     /**

@@ -96,15 +96,6 @@ public class Square {
     }
 
     /**
-     * Getter method to obtain the list of squares this square is linked to
-     * @return
-     */
-
-    public ArrayList<Integer> getLinks() {
-        return this.links;
-    }
-
-    /**
      * Getter to obtain the current Tile placed on the square
      * @return the tile on the square
      */
