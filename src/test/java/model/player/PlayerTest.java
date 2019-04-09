@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
-    Game g = new Game();
+    Game g = new Game(3);
 
     @Test
     void testGiveMarks() throws Exception {
@@ -49,7 +49,7 @@ class PlayerTest {
 
     @Test
     public void testPlayersInSameRoom() throws FileNotFoundException {
-        Game game = new Game( );
+        Game game = new Game(3);
         game.setArena ("maps\\smallmap.json");
         Player p1 = new Player(game, "red", game.getArena ().getSquare (0));
         Player p2 = new Player(game, "blue", game.getArena ().getSquare (1));
@@ -58,7 +58,7 @@ class PlayerTest {
 
     @Test
     public void testPlayerCanSee() throws FileNotFoundException {
-        Game game = new Game( );
+        Game game = new Game(3);
         game.setArena ("maps\\smallmap.json");
         Player p1 = new Player(game, "red", game.getArena ().getSquare (0));
         Player p2 = new Player(game, "blue", game.getArena ().getSquare (6));
@@ -67,7 +67,7 @@ class PlayerTest {
 
     @Test
     public void testPlayerGrabsTile() throws FileNotFoundException {
-        Game game = new Game( );
+        Game game = new Game(3);
         game.setArena ("maps\\smallmap.json");
         Player p = new Player(game, "red", game.getArena ().getSquare (0));
         game.setTile (p.getPosition ());

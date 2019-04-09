@@ -21,14 +21,34 @@ public class Game {
     private PowerUpsDeck powerUpsDeck;
     private TilesDeck tilesDeck;
     private ArrayList<Player> ranking;
+    private boolean endGame;
 
-    public Game() {
+    public Game(int numberOfPlayers) {
         this.gameID = 1;
         this.currentTurn = 1;
-        setWeaponsDeck ();
-        setPowerUpDeck ();
-        setTilesDeck ();
-        this.ranking = new ArrayList<>();
+        this.players = new ArrayList<> ();
+
+        Player p1 = new Player(this, "red", null);
+        this.players.add(p1);
+        Player p2 = new Player(this, "yellow", null);
+        this.players.add(p2);
+        Player p3 = new Player(this, "blue", null);
+        this.players.add(p3);
+
+        if(numberOfPlayers >= 4) {
+            Player p4 = new Player(this, "green", null);
+            this.players.add(p4);
+        }
+        if (numberOfPlayers == 5) {
+            Player p5 = new Player(this, "grey", null);
+            this.players.add(p5);
+        }
+
+        this.setWeaponsDeck ();
+        this.setPowerUpDeck ();
+        this.setTilesDeck ();
+        this.ranking = players;
+        this.endGame = false;
     }
 
     /**
@@ -72,8 +92,7 @@ public class Game {
      */
 
     public void incrementTurn() {
-        int turn = this.getCurrentTurn () + 1;
-        this.setCurrentTurn (turn);
+        this.currentTurn++;
     }
 
     /**
@@ -123,7 +142,7 @@ public class Game {
     public int getSkullsRemaining() {
         if (this.skullsRemaining == 0) {
             Player w = getWinner ();
-            this.endGame (w);
+            this.endGame ();
         }
         return this.skullsRemaining;
     }
@@ -192,7 +211,7 @@ public class Game {
     }
 
     /**
-     * Setter method to draw a Tile from the deck and place it on this square
+     * Setter method to draw a Tile from the deck and place it on Square s
      */
 
     public void setTile(Square s) {
@@ -211,44 +230,59 @@ public class Game {
     }
 
     /**
+     * Method to update the ranking every time a player has been killed
+     */
+
+    public void updateRanking(ArrayList<Player> ranking) {
+        int maxPoints = 0;
+        if (this.ranking.isEmpty ( )) {
+            this.ranking = ranking;
+        } else {
+            ArrayList<Player> currentRanking = (ArrayList<Player>) this.ranking.clone ();
+            for (Player p : currentRanking) {
+                if (p.getPointTokens ( ) > maxPoints) {
+                    maxPoints = p.getPointTokens ( );
+                }
+            }
+            for (Player p : currentRanking) {
+                if (p.getPointTokens ( ) == maxPoints) {
+                    ranking.add (p);
+                    this.ranking.remove (p);
+                }
+            }
+            updateRanking (ranking);
+        }
+    }
+
+    /**
      * Method to determine who made the most points and won the game
      * @return winner
      */
 
     public Player getWinner() {
-        Player winner = new Player();
-        int maxPoints = 0;
-        for (Player p : players) {
-            if (p.getPointTokens () > maxPoints) {
-                maxPoints = p.getPointTokens ();
-                winner = p;
-            }
-        }
-        return winner;
+       return this.ranking.get(0);
     }
 
     /**
      * Setter method to add a player to the winners list
-     * @param winner
+     * @param ranking
      */
 
-    public void setRanking(Player winner) {
-        this.ranking.add(winner);
+    public void setRanking(ArrayList<Player> ranking) {
+        this.ranking = ranking;
     }
 
     /**
      * Method to end a round within the same session
-     * @param winner
      */
 
-    public void endGame(Player winner) {
-        this.gameID++;
+    public void endGame() {
+        this.gameID = 1;
         this.currentTurn = 0;
         this.arena = null;
         this.weaponsDeck.reloadDeck ();
         this.powerUpsDeck.reloadDeck ();
         this.tilesDeck.reloadDeck ();
-        this.setRanking(winner);
     }
 
 }

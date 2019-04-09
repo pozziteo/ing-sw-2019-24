@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class AttackTest {
     @Test
     public void testAttack() throws FileNotFoundException {
-        Game game = new Game();
+        Game game = new Game(3);
         game.setArena ("maps\\smallmap.json");
         Player p1 = new Player(game, "red", game.getArena ().getSquare (2));
         Player p2 = new Player(game, "blue", game.getArena ().getSquare (4));
