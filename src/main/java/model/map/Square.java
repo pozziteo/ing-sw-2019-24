@@ -112,6 +112,10 @@ public class Square {
         return this.placedTile;
     }
 
+    /**
+     * Setter method to draw a Tile from the deck and place it on this square
+     */
+
     public void setTile() {
         this.placedTile = (Tile) Game.getGameInstance ( ).getTilesDeck ().drawCard ();
     }
