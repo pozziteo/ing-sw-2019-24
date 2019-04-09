@@ -206,12 +206,15 @@ public class Player {
     }
 
     public void grabTile(Tile t) {
-        ArrayList<Ammo> ammo;
+        Ammo a;
         if (t.getFormat ().isPowerUpIsPresent ()) {
             this.getOwnedPowerUps ().add((PowerUp) Game.getGameInstance ().getPowerUpsDeck ().drawCard ());
         }
         for (int i = 0; i < t.getTileContent ().size(); i++) {
-            this.getBoard ( ).getOwnedAmmo ( ).add (t.getTileContent ( ).get (i));
+            a = t.getTileContent ( ).get (i);
+            if (this.getBoard ().getAmountOfAmmo (a) < 3) {
+                this.getBoard ( ).getOwnedAmmo ( ).add (a);
+            }
         }
     }
 

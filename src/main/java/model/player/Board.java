@@ -21,6 +21,9 @@ public class Board {
         this.receivedMarks = new ArrayList<>();
         this.unloadedWeapons = new ArrayList<Weapon>();
         this.ownedAmmo = new ArrayList<>();
+        this.ownedAmmo.add(Ammo.RED_AMMO);
+        this.ownedAmmo.add(Ammo.BLUE_AMMO);
+        this.ownedAmmo.add(Ammo.YELLOW_AMMO);
         this.pointsForKill = new int[5];
     }
 
@@ -94,6 +97,16 @@ public class Board {
 
     public void setOwnedAmmo(Ammo a) {
         this.getOwnedAmmo ().add(a);
+    }
+
+    public int getAmountOfAmmo(Ammo a) {
+        int amount = 0;
+        for (int i = 0; i < this.getOwnedAmmo ().size(); i++) {
+            if (a.getColor ().equals(this.getOwnedAmmo ().get(i).getColor ())) {
+                amount++;
+            }
+        }
+        return amount;
     }
 
     /**

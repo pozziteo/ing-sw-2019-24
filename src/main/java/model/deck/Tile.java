@@ -40,6 +40,7 @@ public class Tile extends Card {
     }
 
     public ArrayList<Ammo> getTileContent() {
+
         return this.getFormat ().getAmmo ();
     }
 }

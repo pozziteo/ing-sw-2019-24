@@ -1,5 +1,6 @@
 package model.map;
 
+import model.Game;
 import model.deck.*;
 import model.player.*;
 
@@ -100,6 +101,10 @@ public class Square {
      */
     public Tile getPlacedTile() {
         return this.placedTile;
+    }
+
+    public void setTile() {
+        this.placedTile = (Tile) Game.getGameInstance ( ).getTilesDeck ().drawCard ();
     }
 
     /**
