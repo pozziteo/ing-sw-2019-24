@@ -56,6 +56,15 @@ class PlayerTest {
     }
 
     @Test
+    public void testPlayerCanSee() throws FileNotFoundException {
+        Game game = Game.getGameInstance ( );
+        game.setArena ("maps\\smallmap.json");
+        Player p1 = new Player("red", game.getArena ().getSquare (0));
+        Player p2 = new Player("blue", game.getArena ().getSquare (6));
+        assertTrue(p1.canSee (p2));
+    }
+
+    @Test
     public void testPlayerGrabsTile() throws FileNotFoundException {
         Game game = Game.getGameInstance ( );
         game.setArena ("maps\\smallmap.json");
