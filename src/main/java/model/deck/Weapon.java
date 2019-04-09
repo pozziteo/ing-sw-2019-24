@@ -11,6 +11,10 @@ public class Weapon extends Card {
      */
     private WeaponType type;
 
+    protected Weapon() {
+        super();
+    }
+
     /**
      * Constructor which initialize the type of weapon
      * @param type is the type of a weapon

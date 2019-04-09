@@ -19,14 +19,14 @@ public class Attack {
      * Getter for the weapon's damage
      * @return damage
      */
-    public int getDamageWeapon(){return this.damage;}
+    public int getDamage(){return this.damage;}
 
 
     /**
      * Getter for the marks given by the weapon
      * @return marks
      */
-    public int getMarksWeapon() {return this.marks;}
+    public int getMarks() {return this.marks;}
 
 
     /**
@@ -42,25 +42,18 @@ public class Attack {
      */
     public Player getVictim() {return this.victim;}
 
-
+    /**
+     * Method to add damage to the victim
+     */
+    public void giveDamage() {
+        victim.getBoard().gotHit (damage, attacker);
+    }
 
     /**
-     * This method adds damages to the victim
-     * @param attacker is the ID of the player who gives the damage
-     * @param victim is the ID of the player who receives the damage
-     * @param damage is the number of damage
+     * Method to add marks to the victim
      */
-    public void giveDamage(Player attacker, Player victim, int damage) {
-        for (int i = 0; i < damage; i++) {
-            victim.getBoard().getDamageTaken ().add(attacker.getPlayerColor());
-
-        }
-
-    }
 
     public void giveMarks() {
         attacker.giveMark(marks, victim);
     }
-
-
 }

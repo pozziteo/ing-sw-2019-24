@@ -13,6 +13,10 @@ public class Tile extends Card {
      */
     private TileFormat format;
 
+    protected Tile() {
+        super();
+    }
+
     /**
      * Constructor which initialize the format of a Tile
      * @param format describes the content of a Tile

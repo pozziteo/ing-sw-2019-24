@@ -11,6 +11,10 @@ public class PowerUp extends Card {
      */
     private PowerUpType type;
 
+    protected PowerUp() {
+        super();
+    }
+
     /**
      * Constructor which initialize the kinds of a PowerUp
      * @param type is the kind of PowerUp

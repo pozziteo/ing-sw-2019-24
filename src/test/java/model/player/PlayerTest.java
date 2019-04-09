@@ -17,7 +17,7 @@ class PlayerTest {
         Player p1 = new Player("red", m.getSquare(2));
         Player p2 = new Player("blue", m.getSquare(1));
         p1.giveMark (3, p2);
-        assertEquals(p2.getBoard().getAmountGivenByPlayer (p1), 3);
+        assertEquals(p2.getBoard().getMarksAmountGivenByPlayer (p1), 3);
     }
 
     @Test

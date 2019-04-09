@@ -120,13 +120,31 @@ public class Board {
     }
 
     /**
+     *
+     * @param player
+     * @return amount of damage given by player
+     */
+
+    public int getDamageAmountGivenByPlayer(Player player) {
+        String playerColor = player.getPlayerColor ();
+        int amount = 0;
+
+        for (int i = 0; i < this.getDamageTaken ().size(); i++) {
+            if (playerColor.equals(this.getDamageTaken ().get(i))) {
+                amount++;
+            }
+        }
+        return amount;
+    }
+
+    /**
      * Method to obtain the amount of marks this player has received from a specific player
      * @param player
      * @return amount of marks given by player
      */
 
 
-    public int getAmountGivenByPlayer(Player player) {
+    public int getMarksAmountGivenByPlayer(Player player) {
         String playerColor = player.getPlayerColor ();
         int amount = 0;
 
