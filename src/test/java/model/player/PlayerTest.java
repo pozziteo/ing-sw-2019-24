@@ -13,7 +13,7 @@ class PlayerTest {
 
     @Test
     void testGiveMarks() throws Exception {
-        Map m = Map.getInstance("largemap.json");
+        Map m = Map.getInstance("maps\\smallmap.json");
         Player p1 = new Player("red", m.getSquare(2));
         Player p2 = new Player("blue", m.getSquare(1));
         p1.giveMark (3, p2);

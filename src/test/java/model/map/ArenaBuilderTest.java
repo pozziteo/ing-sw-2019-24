@@ -13,7 +13,7 @@ class ArenaBuilderTest {
         try {
 //            ArenaBuilder builder = new ArenaBuilder();
 //            Map map = builder.createMap("smallmap.json");
-            Map map = Map.getInstance("smallmap.json");
+            Map map = Map.getInstance("maps\\smallmap.json");
             assertEquals(map.getSquare(6).getSquareColor(), "red");
         } catch (FileNotFoundException exc) {
             System.err.println("Error: Invalid Map name selected");
