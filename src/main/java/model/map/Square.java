@@ -64,7 +64,7 @@ public class Square {
      * @return Id
      */
 
-    public int getId() {
+    public int getSquareId() {
         return this.squareId;
     }
     /**
@@ -99,7 +99,7 @@ public class Square {
      * @return the tile on the square
      */
     public Tile getPlacedTile() {
-        return placedTile;
+        return this.placedTile;
     }
 
     /**
@@ -107,6 +107,19 @@ public class Square {
      * @return a list of players on the square
      */
     public List<Player> getPlayersOnSquare() {
-        return playersOnSquare;
+        return this.playersOnSquare;
+    }
+
+    /**
+     * Method to know if two squares are in the same room
+     * @param s
+     * @return true (if color of this square equals color of s), false (otherwise)
+     */
+
+    public boolean isInTheSameRoom(Square s) {
+        if (this.getSquareColor ().equals(s.getSquareColor ())) {
+            return true;
+        }
+        return false;
     }
 }

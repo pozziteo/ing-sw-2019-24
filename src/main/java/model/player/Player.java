@@ -197,6 +197,13 @@ public class Player {
         this.getOwnedWeapons().add(w);
     }
 
+    public boolean isInTheSameRoom(Player p) {
+        if (this.getPosition ().isInTheSameRoom (p.getPosition ())) {
+            return true;
+        }
+        return false;
+    }
+
     public void grabTile(Tile t) {
         //remove Tile t from Square
         //this.playerBoard.addAmmo(t);

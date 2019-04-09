@@ -1,10 +1,12 @@
 package model.player;
 
+import model.Game;
 import model.deck.*;
 import model.map.*;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,5 +44,14 @@ class PlayerTest {
                 System.out.println (i + 1 + ": " + ((SpawnPoint) sp).getWeapons ( )[i].getWeaponsName ( ));
             }
         }
+    }
+
+    @Test
+    public void testPlayersInSameRoom() throws FileNotFoundException {
+        Game game = Game.getGameInstance ( );
+        game.setArena ("maps\\smallmap.json");
+        Player p1 = new Player("red", game.getArena ().getSquare (0));
+        Player p2 = new Player("blue", game.getArena ().getSquare (1));
+        assertTrue(p1.isInTheSameRoom (p2));
     }
 }
