@@ -3,11 +3,13 @@
   "description" : "Vortex Cannon: description",
 
   "damage" : 2,
+  "victimBasicMovements": 1,
   "requiredAmmo": 2,
   "colorAmmo1": "red",
   "colorAmmo2": "blue",
 
   "extraDamage": 1,
+  "victimBonusMovements1": 1,
   "requiredBonusAmmo": 1,
   "colorBonusAmmo1": "red"
 

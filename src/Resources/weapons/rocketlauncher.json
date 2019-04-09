@@ -1,0 +1,18 @@
+{
+
+  "description" : "Rocket Launcher: description",
+
+  "damage" : 2,
+  "victimBasicMovements": 1,
+  "requiredAmmo": 2,
+  "colorAmmo1": "red",
+  "colorAmmo2": "red",
+
+  "extraDamage": 1,
+  "attackerBonusMovements1": 2,
+  "requiredBonusAmmo": 1,
+  "requiredSecondBonusAmmo": 1,
+  "colorBonusAmmo1": "blue",
+  "colorBonusAmmo2": "yellow"
+
+}

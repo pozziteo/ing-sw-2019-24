@@ -1,0 +1,14 @@
+{
+
+  "description" : "Grenade Launcher: description",
+
+  "damage" : 1,
+  "victimBasicMovements": 1,
+  "requiredAmmo": 1,
+  "colorAmmo1": "red",
+
+  "extraDamage": 1,
+  "requiredBonusAmmo": 1,
+  "colorBonusAmmo1": "red"
+
+}

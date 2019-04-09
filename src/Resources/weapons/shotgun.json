@@ -1,0 +1,14 @@
+{
+
+  "description" : "Shotgun: description",
+
+  "damage" : 3,
+  "victimBasicMovements": 1,
+  "requiredAmmo": 2,
+  "colorAmmo1": "yellow",
+  "colorAmmo2": "yellow",
+
+  "extraDamage": 2,
+  "requiredBonusAmmo": 0
+
+}

@@ -1,0 +1,11 @@
+{
+
+  "description" : "HeatSeeker: description",
+
+  "damage" : 3,
+  "requiredAmmo": 3,
+  "colorAmmo1": "red",
+  "colorAmmo2": "red",
+  "colorAmmo3": "yellow"
+
+}

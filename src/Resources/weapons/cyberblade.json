@@ -1,0 +1,15 @@
+{
+
+  "description" : "CyberBlade: description",
+
+  "damage" : 2,
+  "attackerBasicMovements": 1,
+  "requiredAmmo": 2,
+  "colorAmmo1": "yellow",
+  "colorAmmo2": "red",
+
+  "extraDamage": 2,
+  "requiredBonusAmmo": 1,
+  "colorBonusAMmo": "yellow"
+
+}

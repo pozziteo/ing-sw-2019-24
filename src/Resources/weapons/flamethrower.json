@@ -1,0 +1,14 @@
+{
+
+  "description" : "Flamethrower: description",
+
+  "damage" : 1,
+  "requiredAmmo": 1,
+  "colorAmmo1": "red",
+
+  "extraDamage": 2,
+  "extraDamage2": 1,
+  "requiredBonusAmmo": 2,
+  "colorBonusAmmo1": "yellow",
+  "colorBonusAmmo2": "yellow"
+}

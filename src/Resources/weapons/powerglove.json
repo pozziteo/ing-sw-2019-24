@@ -1,0 +1,18 @@
+{
+
+  "description" : "Power Glove: description",
+
+  "damage" : 1,
+  "mark": 2,
+  "attackerBasicMovements": 1,
+  "requiredAmmo": 2,
+  "colorAmmo1": "yellow",
+  "colorAmmo2": "blue",
+
+  "extraDamage": 2,
+  "attackerBonusMovements1": 1,
+  "attackerBonusMovements2": 1,
+  "requiredBonusAmmo": 1,
+  "colorBonusAmmo1": "blue"
+
+}

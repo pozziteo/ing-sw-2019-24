@@ -1,0 +1,14 @@
+{
+
+  "description" : "Furnace: description",
+
+  "damage" : 1,
+  "requiredAmmo": 2,
+  "colorAmmo1": "red",
+  "colorAmmo2": "blue",
+
+  "extraDamage": 1,
+  "extraMark": 1,
+  "requiredBonusAmmo": 0
+
+}

@@ -1,0 +1,16 @@
+{
+
+  "description" : "Hellion: description",
+
+  "damage" : 1,
+  "mark": 1,
+  "requiredAmmo": 2,
+  "colorAmmo1": "red",
+  "colorAmmo2": "yellow",
+
+  "extraDamage": 1,
+  "extraMark": 2,
+  "requiredBonusAmmo": 1,
+  "colorBonusAmmo1": "red"
+
+}
