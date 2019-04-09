@@ -248,9 +248,9 @@ public class Game {
         this.gameID++;
         this.currentTurn = 0;
         this.arena = null;
-        this.weaponsDeck = null;
-        this.powerUpsDeck = null;
-        this.tilesDeck = null;
+        this.weaponsDeck.reloadDeck ();
+        this.powerUpsDeck.reloadDeck ();
+        this.tilesDeck.reloadDeck ();
         this.setWinnersList(winner);
     }
 

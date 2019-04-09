@@ -46,7 +46,7 @@ public class Attack {
      * Method to add damage to the victim
      */
     public void giveDamage() {
-        victim.getBoard().gotHit (damage, attacker);
+        this.getVictim ().getBoard().gotHit (this.getDamage (), this.getAttacker ());
     }
 
     /**
@@ -54,6 +54,6 @@ public class Attack {
      */
 
     public void giveMarks() {
-        attacker.giveMark(marks, victim);
+        this.getAttacker().giveMark(this.getMarks (), this.getVictim ());
     }
 }
