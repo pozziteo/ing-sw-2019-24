@@ -27,6 +27,6 @@ public class GameTest {
         game.setPlayers (players);
         game.setSkullsRemaining (0);
         game.getSkullsRemaining ();
-        assertEquals("red", game.getWinnersList ().get(0).getPlayerColor ());
+        assertEquals("red", game.getRanking ().get(0).getPlayerColor ());
     }
 }
