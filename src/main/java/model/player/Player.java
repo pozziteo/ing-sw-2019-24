@@ -252,6 +252,7 @@ public class Player {
                 this.getBoard ( ).getOwnedAmmo ( ).add (a);
             }
         }
+        t.discardTile();
     }
 
     /**

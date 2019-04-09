@@ -1,5 +1,7 @@
 package model.deck;
 
+import model.Game;
+
 import java.util.ArrayList;
 
 /**
@@ -39,8 +41,21 @@ public class Tile extends Card {
         return this.getFormat ().getDescription();
     }
 
+    /**
+     * Getter method to obtain the list of ammo in a tile
+     * @return
+     */
+
     public ArrayList<Ammo> getTileContent() {
 
         return this.getFormat ().getAmmo ();
+    }
+
+    /**
+     * Method to discard a tile after it has been used
+     */
+
+    public void discardTile() {
+        Game.getGameInstance ().getTilesDeck ().discardCard (this);
     }
 }
