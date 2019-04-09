@@ -1,0 +1,14 @@
+{
+
+  "description" : "ElectroScythe: description",
+
+  "damage" : 1,
+  "requiredAmmo": 1,
+  "colorAmmo1": "blue",
+
+  "extraDamage": 2,
+  "requiredBonusAmmo": 2,
+  "colorBonusAmmo1": "blue",
+  "colorBonusAmmo2": "red"
+
+}

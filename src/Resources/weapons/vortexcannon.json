@@ -1,0 +1,14 @@
+{
+
+  "description" : "Vortex Cannon: description",
+
+  "damage" : 2,
+  "requiredAmmo": 2,
+  "colorAmmo1": "red",
+  "colorAmmo2": "blue",
+
+  "extraDamage": 1,
+  "requiredBonusAmmo": 1,
+  "colorBonusAmmo1": "red"
+
+}

@@ -1,0 +1,14 @@
+{
+
+  "description" : "Lock Rifle: description",
+
+  "damage" : 2,
+  "mark" : 1,
+  "requiredAmmo": 2,
+  "colorAmmo1": "blue",
+
+  "extraMark": 1,
+  "requiredBonusAmmo": 1,
+  "colorBonusAmmo1": "red"
+
+}

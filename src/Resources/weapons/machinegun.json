@@ -1,0 +1,16 @@
+{
+
+  "description" : "Machine Gun: description",
+
+  "damage" : 1,
+  "requiredAmmo": 2,
+  "colorAmmo1": "blue",
+  "colorAmmo2": "red",
+
+  "extraDamage": 2,
+  "requiredBonusAmmo": 1,
+  "requireSecondBonusAmmo": 1,
+  "colorBonusAmmo1": "yellow",
+  "colorBonusAmmo2": "blue"
+
+}

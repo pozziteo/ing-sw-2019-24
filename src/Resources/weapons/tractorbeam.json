@@ -1,0 +1,14 @@
+{
+
+  "description" : "Tractor Beam: description",
+
+  "damage" : 1,
+  "requiredAmmo": 1,
+  "colorAmmo1": "blue",
+
+  "extraDamage": 3,
+  "requiredBonusAmmo": 2,
+  "colorBonusAmmo1": "red",
+  "colorBonusAmmo2": "yellow"
+
+}

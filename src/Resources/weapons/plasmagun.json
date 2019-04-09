@@ -1,0 +1,14 @@
+{
+
+  "description" : "Plasma Gun: description",
+
+  "damage" : 2,
+  "requiredAmmo": 2,
+  "colorAmmo1": "blue",
+  "colorAmmo2": "yellow",
+
+  "extraDamage": 1,
+  "requiredBonusAmmo": 1,
+  "colorBonusAmmo1": "blue"
+
+}
