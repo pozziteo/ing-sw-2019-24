@@ -1,5 +1,6 @@
 package model.player;
 
+import model.Game;
 import model.map.*;
 import model.deck.*;
 import java.util.ArrayList;
@@ -205,8 +206,13 @@ public class Player {
     }
 
     public void grabTile(Tile t) {
-        //remove Tile t from Square
-        //this.playerBoard.addAmmo(t);
+        ArrayList<Ammo> ammo;
+        if (t.getFormat ().isPowerUpIsPresent ()) {
+            this.getOwnedPowerUps ().add((PowerUp) Game.getGameInstance ().getPowerUpsDeck ().drawCard ());
+        }
+        for (int i = 0; i < t.getTileContent ().size(); i++) {
+            this.getBoard ( ).getOwnedAmmo ( ).add (t.getTileContent ( ).get (i));
+        }
     }
 
     public void useWeapon(Weapon w, Player p) {
