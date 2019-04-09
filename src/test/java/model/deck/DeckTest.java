@@ -75,7 +75,7 @@ class DeckTest {
 
         for (int i = 0; i < d.getCards().size(); i++) {
             Tile tile = (Tile) d.getCards().get(i);
-            names.add(tile.getTileContent ());
+            names.add(tile.getTileDescription ());
         }
 
         assertTrue(tiles.containsAll(names));

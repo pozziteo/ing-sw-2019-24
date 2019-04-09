@@ -245,12 +245,12 @@ public class Game {
      */
 
     public void endGame(Player winner) {
-        this.gameID++;
-        this.currentTurn = 0;
+        this.setGameID(getGameID () + 1);
+        this.setCurrentTurn (1);
         this.arena = null;
-        this.weaponsDeck.reloadDeck ();
-        this.powerUpsDeck.reloadDeck ();
-        this.tilesDeck.reloadDeck ();
+        this.getWeaponsDeck ().reloadDeck ();
+        this.getPowerUpsDeck ().reloadDeck ();
+        this.getTilesDeck ().reloadDeck ();
         this.setWinnersList(winner);
     }
 

@@ -1,5 +1,6 @@
 package model.player;
 
+import model.Game;
 import model.map.*;
 import model.deck.*;
 import java.util.*;
@@ -197,9 +198,24 @@ public class Player {
         this.getOwnedWeapons().add(w);
     }
 
+    public boolean isInTheSameRoom(Player p) {
+        if (this.getPosition ().isInTheSameRoom (p.getPosition ())) {
+            return true;
+        }
+        return false;
+    }
+
     public void grabTile(Tile t) {
-        //remove Tile t from Square
-        //this.playerBoard.addAmmo(t);
+        Ammo a;
+        if (t.getFormat ().isPowerUpIsPresent ()) {
+            this.getOwnedPowerUps ().add((PowerUp) Game.getGameInstance ().getPowerUpsDeck ().drawCard ());
+        }
+        for (int i = 0; i < t.getTileContent ().size(); i++) {
+            a = t.getTileContent ( ).get (i);
+            if (this.getBoard ().getAmountOfAmmo (a) < 3) {
+                this.getBoard ( ).getOwnedAmmo ( ).add (a);
+            }
+        }
     }
 
     public void useWeapon(Weapon w, Player p) {
