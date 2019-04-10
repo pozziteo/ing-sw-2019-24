@@ -17,8 +17,8 @@ class PlayerTest {
     @Test
     void testGiveMarks() throws Exception {
         Map m = Map.getInstance();
-        Player p1 = new Player(g,"red", m.getSquare(2));
-        Player p2 = new Player(g, "blue", m.getSquare(1));
+        Player p1 = new Player(g,"red");
+        Player p2 = new Player(g, "blue");
         p1.giveMark (3, p2);
         assertEquals(3, p2.getBoard().getMarksAmountGivenByPlayer (p1));
     }
@@ -26,7 +26,7 @@ class PlayerTest {
     @Test
     void testGrabWeapon() {
         Square sp = new SpawnPoint(0, "red", new ArrayList<>());
-        Player p = new Player(g,"red", sp);
+        Player p = new Player(g,"red");
         WeaponsDeckCreator deckCreator = new WeaponsDeckCreator();
         WeaponsDeck d = deckCreator.createDeck();
         Weapon w = (Weapon) d.drawCard ();
@@ -51,8 +51,8 @@ class PlayerTest {
     public void testPlayersInSameRoom() throws FileNotFoundException {
         Game game = new Game(3);
         game.setArena ("maps\\smallmap.json");
-        Player p1 = new Player(game, "red", game.getArena ().getSquare (0));
-        Player p2 = new Player(game, "blue", game.getArena ().getSquare (1));
+        Player p1 = new Player(game, "red");
+        Player p2 = new Player(game, "blue");
         assertTrue(p1.isInTheSameRoom (p2));
     }
 
@@ -60,8 +60,8 @@ class PlayerTest {
     public void testPlayerCanSee() throws FileNotFoundException {
         Game game = new Game(3);
         game.setArena ("maps\\smallmap.json");
-        Player p1 = new Player(game, "red", game.getArena ().getSquare (0));
-        Player p2 = new Player(game, "blue", game.getArena ().getSquare (6));
+        Player p1 = new Player(game, "red");
+        Player p2 = new Player(game, "blue");
         assertTrue(p1.canSee (p2));
     }
 
@@ -69,7 +69,7 @@ class PlayerTest {
     public void testPlayerGrabsTile() throws FileNotFoundException {
         Game game = new Game(3);
         game.setArena ("maps\\smallmap.json");
-        Player p = new Player(game, "red", game.getArena ().getSquare (0));
+        Player p = new Player(game, "red");
         game.setTile (p.getPosition ());
         Tile t = p.getPosition ().getPlacedTile ();
         System.out.println(t.getFormat ().getDescription ());

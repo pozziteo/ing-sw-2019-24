@@ -6,6 +6,9 @@ import model.player.*;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Class used to access the entire model package
@@ -15,12 +18,12 @@ public class Game {
     private int gameID;
     private int currentTurn;
     private Map arena;
-    private ArrayList<Player> players;
+    private List<Player> players;
     private int skullsRemaining;
     private WeaponsDeck weaponsDeck;
     private PowerUpsDeck powerUpsDeck;
     private TilesDeck tilesDeck;
-    private ArrayList<Player> ranking;
+    private List<Player> ranking;
     private boolean endGame;
 
     public Game(int numberOfPlayers) {
@@ -28,19 +31,19 @@ public class Game {
         this.currentTurn = 1;
         this.players = new ArrayList<> ();
 
-        Player p1 = new Player(this, "red", null);
+        Player p1 = new Player(this, "red");
         this.players.add(p1);
-        Player p2 = new Player(this, "yellow", null);
+        Player p2 = new Player(this, "yellow");
         this.players.add(p2);
-        Player p3 = new Player(this, "blue", null);
+        Player p3 = new Player(this, "blue");
         this.players.add(p3);
 
         if(numberOfPlayers >= 4) {
-            Player p4 = new Player(this, "green", null);
+            Player p4 = new Player(this, "green");
             this.players.add(p4);
         }
         if (numberOfPlayers == 5) {
-            Player p5 = new Player(this, "grey", null);
+            Player p5 = new Player(this, "grey");
             this.players.add(p5);
         }
 
@@ -120,7 +123,7 @@ public class Game {
      * @return players
      */
 
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return this.players;
     }
 
@@ -225,7 +228,7 @@ public class Game {
      * @return winnersList
      */
 
-    public ArrayList<Player> getRanking() {
+    public List<Player> getRanking() {
         return this.ranking;
     }
 
@@ -233,25 +236,13 @@ public class Game {
      * Method to update the ranking every time a player has been killed
      */
 
-    public void updateRanking(ArrayList<Player> ranking) {
-        int maxPoints = 0;
-        if (this.ranking.isEmpty ( )) {
-            this.ranking = ranking;
-        } else {
-            ArrayList<Player> currentRanking = (ArrayList<Player>) this.ranking.clone ();
-            for (Player p : currentRanking) {
-                if (p.getPointTokens ( ) > maxPoints) {
-                    maxPoints = p.getPointTokens ( );
-                }
+    public void updateRanking() {
+        ranking.sort( (Player o1, Player o2) -> {
+                Integer points1 = o1.getPointTokens();
+                Integer points2 = o2.getPointTokens();
+                return points2.compareTo(points1);
             }
-            for (Player p : currentRanking) {
-                if (p.getPointTokens ( ) == maxPoints) {
-                    ranking.add (p);
-                    this.ranking.remove (p);
-                }
-            }
-            updateRanking (ranking);
-        }
+        );
     }
 
     /**
@@ -268,7 +259,7 @@ public class Game {
      * @param ranking
      */
 
-    public void setRanking(ArrayList<Player> ranking) {
+    public void setRanking(List<Player> ranking) {
         this.ranking = ranking;
     }
 

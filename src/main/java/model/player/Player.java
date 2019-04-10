@@ -24,11 +24,10 @@ public class Player {
 
     }
 
-    public Player(Game game, String color, Square spawnPoint) {
+    public Player(Game game, String color) {
         this.game = game;
         this.playerID = color;
         this.playerBoard = new Board();
-        this.position = spawnPoint;
         this.ownedWeapons = new ArrayList<>();
         this.ownedPowerUps = new ArrayList<>();
     }

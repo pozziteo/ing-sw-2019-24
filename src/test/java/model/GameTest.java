@@ -15,22 +15,22 @@ public class GameTest {
         Game game = new Game (3);
         ArrayList<Player> players = new ArrayList<> ( );
         game.setArena ("maps\\smallmap.json");
-        Player p1 = new Player (game, "red", game.getArena ( ).getSquare (2));
+        Player p1 = new Player (game, "red");
         players.add (p1);
-        Player p2 = new Player (game, "yellow", game.getArena ( ).getSquare (4));
+        Player p2 = new Player (game, "yellow");
         players.add (p2);
-        Player p3 = new Player (game, "blue", game.getArena ( ).getSquare (11));
+        Player p3 = new Player (game, "blue");
         players.add (p3);
         game.setRanking (players);
         p1.setPointTokens (1);
         p2.setPointTokens (6);
         p3.setPointTokens (2);
-        game.updateRanking (new ArrayList<> ());
+        game.updateRanking ();
         assertEquals ("yellow", game.getWinner ( ).getPlayerColor ( ));
         p1.addPointTokens (10);
         p2.addPointTokens (8);
         p3.addPointTokens (16);
-        game.updateRanking (new ArrayList<> ());
+        game.updateRanking();
         assertEquals ("blue", game.getWinner ( ).getPlayerColor ( ));
     }
 }
