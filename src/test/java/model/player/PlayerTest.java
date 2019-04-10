@@ -83,7 +83,7 @@ class PlayerTest {
         Player p = new Player(game, "red");
         p.setPosition(game.getArena().getSquare(0));
 
-        game.setTile (p.getPosition ());
+        game.setTileOnSquare (p.getPosition ());
         Tile t = p.getPosition ().getPlacedTile ();
         System.out.println(t.getFormat ().getDescription ());
         p.grabTile (t);

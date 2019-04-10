@@ -33,9 +33,15 @@ public class Game {
         this.players = new ArrayList<> ();
         this.ranking = new ArrayList<> ();
         this.setArena();
-        this.setWeaponsDeck ();
-        this.setPowerUpDeck ();
-        this.setTilesDeck ();
+
+        WeaponsDeckCreator deckCreator1 = new WeaponsDeckCreator();
+        this.weaponsDeck = deckCreator1.createDeck();
+
+        PowerUpsDeckCreator deckCreator2 = new PowerUpsDeckCreator ();
+        this.powerUpsDeck = deckCreator2.createDeck();
+
+        TilesDeckCreator deckCreator = new TilesDeckCreator();
+        this.tilesDeck = deckCreator.createDeck();
 
         Player p1 = new Player(this, "red");
         this.players.add(p1);
@@ -53,9 +59,7 @@ public class Game {
             this.players.add(p5);
         }
 
-        for (Player p : this.players) {
-            this.ranking.add(p);
-        }
+        this.ranking.addAll(players);
     }
 
     /**
@@ -68,38 +72,12 @@ public class Game {
     }
 
     /**
-     * Setter method to set the current game's Id
-     * @param id
-     */
-
-    public void setGameID(int id) {
-        this.gameID = id;
-    }
-
-    /**
      * Getter method to obtain the turn number in a game
      * @return turn number
      */
 
     public int getCurrentTurn() {
         return this.currentTurn;
-    }
-
-    /**
-     * Setter method to set the turn number in a game
-     * @param turn
-     */
-
-    public void setCurrentTurn(int turn) {
-        this.currentTurn = turn;
-    }
-
-    /**
-     * incrementTurn() increments the turn number by one after a turn is completed
-     */
-
-    public void incrementTurn() {
-        this.currentTurn++;
     }
 
     /**
@@ -135,15 +113,6 @@ public class Game {
     }
 
     /**
-     * Setter method to set the list of players in a game
-     * @param players
-     */
-
-    public void setPlayers(ArrayList<Player> players) {
-        this.players = players;
-    }
-
-    /**
      * Getter method to know how many kills can still be made before the game is ended
      * If skullsRemaining == 0 the game is ended
      * @return number of remaining skulls
@@ -157,30 +126,12 @@ public class Game {
     }
 
     /**
-     * Setter method to set the amount of kills in a game
-     * @param skulls
-     */
-
-    public void setSkullsRemaining(int skulls) {
-        this.skullsRemaining = skulls;
-    }
-
-    /**
      * Getter method to obtain the deck of weapons in a game
      * @return weaponsDeck
      */
 
     public WeaponsDeck getWeaponsDeck() {
         return this.weaponsDeck;
-    }
-
-    /**
-     * Setter method to create the deck of weapons for a game
-     */
-
-    public void setWeaponsDeck() {
-        WeaponsDeckCreator deckCreator = new WeaponsDeckCreator();
-        this.weaponsDeck = deckCreator.createDeck();
     }
 
     /**
@@ -193,15 +144,6 @@ public class Game {
     }
 
     /**
-     * Setter method to create the deck of power ups for a game
-     */
-
-    public void setPowerUpDeck() {
-        PowerUpsDeckCreator deckCreator = new PowerUpsDeckCreator ();
-        this.powerUpsDeck = deckCreator.createDeck();
-    }
-
-    /**
      * Getter method to obtain the deck of tiles in a game
      * @return tilesDeck
      */
@@ -211,19 +153,10 @@ public class Game {
     }
 
     /**
-     * Setter method to create the deck of tiles for a game
-     */
-
-    public void setTilesDeck() {
-        TilesDeckCreator deckCreator = new TilesDeckCreator();
-        this.tilesDeck = deckCreator.createDeck();
-    }
-
-    /**
      * Setter method to draw a Tile from the deck and place it on Square s
      */
 
-    public void setTile(Square s) {
+    public void setTileOnSquare(Square s) {
         Tile t = (Tile) this.getTilesDeck ().drawCard ();
         s.setPlacedTile(t);
         this.getTilesDeck ().discardCard (t);
