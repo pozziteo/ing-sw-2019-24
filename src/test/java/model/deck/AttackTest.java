@@ -13,7 +13,6 @@ public class AttackTest {
     @Test
     public void testAttack() throws FileNotFoundException {
         Game game = new Game(3);
-        game.setArena ("maps\\smallmap.json");
         Player p1 = new Player(game, "red");
         Player p2 = new Player(game, "blue");
 

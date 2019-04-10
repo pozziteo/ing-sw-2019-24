@@ -13,7 +13,6 @@ public class GameTest {
     @Test
     public void testWinner() throws FileNotFoundException {
         Game game = new Game (3);
-        game.setArena ("maps\\smallmap.json");
         game.getPlayers ().get(0).setPosition(game.getArena().getSquare(2));
         game.getPlayers ().get(1).setPosition(game.getArena().getSquare(4));
         game.getPlayers ().get(2).setPosition(game.getArena().getSquare(11));

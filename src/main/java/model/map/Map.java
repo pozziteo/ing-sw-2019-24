@@ -2,9 +2,7 @@ package model.map;
 
 import model.player.*;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.util.*;
 import java.io.*;
 
 /**
@@ -13,17 +11,10 @@ import java.io.*;
  */
 public class Map {
 
-    private static final String SMALL = "src\\Resources\\maps\\smallmap.json";
-    private static final String MEDIUM_1 = "src\\Resources\\maps\\mediummap_1.json";
-    private static final String MEDIUM_2 = "src\\Resources\\maps\\mediummap_2.json";
-    private static final String LARGE = "src\\Resources\\maps\\largemap.json";
-
     /**
-     * map is the instance of Map currently used in the game
+     * attribute which represents the "file name" of the map
      */
-    private static Map map;
-
-    private static String actualMap;
+    private String actualMap;
 
     /**
      * dimension is the number of squares which compose the map
@@ -40,28 +31,10 @@ public class Map {
      * and never used
      */
     private Map() {
+
     }
 
-    /**
-     * Method to get the instance of Map currently used in the game. If it doesn't exist,
-     * it creates one and stores it
-     * @return an instance of Map
-     */
-    public static Map getInstance() {
-        try {
-            if (map == null) {
-                String fileName = chooseMap();
-                actualMap = fileName;
-                map = (new ArenaBuilder()).createMap(fileName);
-            }
-        } catch (FileNotFoundException exc) {
-            System.err.println("Error: Invalid map file selected");
-            exc.printStackTrace();
-        }
-        return map;
-    }
-
-    public static String getActualMapName() {
+    public String getActualMapName() {
         return actualMap;
     }
 
@@ -82,30 +55,6 @@ public class Map {
         return this.arena[id];
     }
 
-    private static String chooseMap() {
-        System.out.println("Choose map:");
-        System.out.println("0 - Small Map");
-        System.out.println("1 - Medium Map 1");
-        System.out.println("2 - Medium Map 2");
-        System.out.println("3 - Large Map");
-        //TODO for now map is selected statically, in future may be selected by user
-        String filename = SMALL;
-        /*switch (selection) {
-            case 0: filename = SMALL;
-                    break;
-            case 1: filename = MEDIUM_1;
-                    break;
-            case 2: filename = MEDIUM_2;
-                    break;
-            case 3: filename = LARGE;
-                    break;
-            default: filename = null;
-                    break;
-        } */
-        System.out.println("Selected map: " + filename);
-        return filename;
-
-    }
 
     /**
      * Method to determine which players are in the same room and can therefore see each other
