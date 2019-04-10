@@ -52,6 +52,7 @@ public class Game {
         this.setTilesDeck ();
         this.ranking = players;
         this.endGame = false;
+        this.setArena();
     }
 
     /**
@@ -109,13 +110,16 @@ public class Game {
 
     /**
      * Setter method to set the arena for a game
-     * @param fileName which is the name of the file where the chosen arena is written
      * @return arena
      * @throws FileNotFoundException
      */
-
-    public void setArena(String fileName) throws FileNotFoundException {
-        this.arena = Map.getInstance();
+    public void setArena() {
+        try {
+            this.arena = new ArenaBuilder().createMap();
+        } catch (FileNotFoundException exc) {
+            System.err.println("Error: Invalid map file selected");
+            exc.printStackTrace();
+        }
     }
 
     /**

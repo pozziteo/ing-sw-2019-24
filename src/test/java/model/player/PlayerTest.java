@@ -16,7 +16,7 @@ class PlayerTest {
 
     @Test
     void testGiveMarks() throws Exception {
-        Map m = Map.getInstance();
+        Map m = new ArenaBuilder().createMap();
         Player p1 = new Player(g,"red");
         Player p2 = new Player(g, "blue");
 
@@ -56,7 +56,6 @@ class PlayerTest {
     @Test
     public void testPlayersInSameRoom() throws FileNotFoundException {
         Game game = new Game(3);
-        game.setArena ("maps\\smallmap.json");
         Player p1 = new Player(game, "red");
         Player p2 = new Player(game, "blue");
 
@@ -69,7 +68,6 @@ class PlayerTest {
     @Test
     public void testPlayerCanSee() throws FileNotFoundException {
         Game game = new Game(3);
-        game.setArena ("maps\\smallmap.json");
         Player p1 = new Player(game, "red");
         Player p2 = new Player(game, "blue");
 
@@ -82,7 +80,6 @@ class PlayerTest {
     @Test
     public void testPlayerGrabsTile() throws FileNotFoundException {
         Game game = new Game(3);
-        game.setArena ("maps\\smallmap.json");
         Player p = new Player(game, "red");
         p.setPosition(game.getArena().getSquare(0));
 
