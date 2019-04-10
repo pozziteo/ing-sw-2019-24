@@ -167,6 +167,22 @@ public class Player {
         setPointTokens (points);
     }
 
+
+    /**
+     * Method to set this player's spawn point based on the discarded power up
+     * @param powerUp is the discarded power up
+     */
+
+    public void chooseSpawnPoint(PowerUp powerUp) {
+        for (int i = 0; i < this.game.getArena ().getDimension (); i++) {
+            Square s = this.game.getArena ().getSquare (i);
+            if (s.getSquareColor ().equals(powerUp.getType ().getColor ()) && s.isSpawnPoint()) {
+                this.setPosition (s);
+            }
+        }
+        this.game.getPowerUpsDeck ().discardCard (powerUp);
+    }
+
     /**
      * Method to let a player grab a weapon from the spawn point he's on
      * @param w

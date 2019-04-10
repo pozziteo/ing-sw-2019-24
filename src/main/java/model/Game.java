@@ -41,8 +41,8 @@ public class Game {
         PowerUpsDeckCreator deckCreator2 = new PowerUpsDeckCreator ();
         this.powerUpsDeck = deckCreator2.createDeck();
 
-        TilesDeckCreator deckCreator = new TilesDeckCreator();
-        this.tilesDeck = deckCreator.createDeck();
+        TilesDeckCreator deckCreator3 = new TilesDeckCreator();
+        this.tilesDeck = deckCreator3.createDeck();
 
         Player p1 = new Player(this, "red");
         this.players.add(p1);
@@ -58,6 +58,11 @@ public class Game {
         if (numberOfPlayers == 5) {
             Player p5 = new Player(this, "grey");
             this.players.add(p5);
+        }
+
+        for (Player p : this.players) {
+            p.getOwnedPowerUps ().add ((PowerUp) this.powerUpsDeck.drawCard ());
+            p.getOwnedPowerUps ().add ((PowerUp) this.powerUpsDeck.drawCard ());
         }
 
         Collections.shuffle(this.players);

@@ -80,7 +80,12 @@ public enum PowerUpType {
         return bonusAmmo;
     }
 
-
-    /**if something seems wrong, feel free to change it
+    /**
+     * Method to obtain the power up's color
+     * @return
      */
+
+    public String getColor() {
+        return this.bonusAmmo.getColor ();
+    }
 }

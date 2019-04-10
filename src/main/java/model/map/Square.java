@@ -96,6 +96,15 @@ public class Square {
     }
 
     /**
+     * Method to know if this square is a spawn point
+     * @return true (if spawn point), false (otherwise)
+     */
+
+    public boolean isSpawnPoint() {
+        return this.spawn;
+    }
+
+    /**
      * Getter to obtain the current Tile placed on the square
      * @return the tile on the square
      */
