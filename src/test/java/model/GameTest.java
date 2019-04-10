@@ -13,26 +13,18 @@ public class GameTest {
     @Test
     public void testWinner() throws FileNotFoundException {
         Game game = new Game (3);
-        ArrayList<Player> players = new ArrayList<> ( );
         game.setArena ("maps\\smallmap.json");
-        Player p1 = new Player (game, "red");
-        p1.setPosition(game.getArena().getSquare(2));
-        players.add (p1);
-        Player p2 = new Player (game, "yellow");
-        p2.setPosition(game.getArena().getSquare(4));
-        players.add (p2);
-        Player p3 = new Player (game, "blue");
-        p3.setPosition(game.getArena().getSquare(11));
-        players.add (p3);
-        game.setRanking (players);
-        p1.setPointTokens (1);
-        p2.setPointTokens (6);
-        p3.setPointTokens (2);
+        game.getPlayers ().get(0).setPosition(game.getArena().getSquare(2));
+        game.getPlayers ().get(1).setPosition(game.getArena().getSquare(4));
+        game.getPlayers ().get(2).setPosition(game.getArena().getSquare(11));
+        game.getPlayers ().get(0).setPointTokens (1);
+        game.getPlayers ().get(1).setPointTokens (6);
+        game.getPlayers ().get(2).setPointTokens (2);
         game.updateRanking ();
         assertEquals ("yellow", game.getWinner ( ).getPlayerColor ( ));
-        p1.addPointTokens (10);
-        p2.addPointTokens (8);
-        p3.addPointTokens (16);
+        game.getPlayers ().get(0).addPointTokens (10);
+        game.getPlayers ().get(1).addPointTokens (8);
+        game.getPlayers ().get(2).addPointTokens (16);
         game.updateRanking();
         assertEquals ("blue", game.getWinner ( ).getPlayerColor ( ));
     }

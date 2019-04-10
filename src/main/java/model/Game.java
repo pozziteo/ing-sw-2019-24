@@ -29,7 +29,12 @@ public class Game {
     public Game(int numberOfPlayers) {
         this.gameID = 1;
         this.currentTurn = 1;
+        this.endGame = false;
         this.players = new ArrayList<> ();
+        this.ranking = new ArrayList<> ();
+        this.setWeaponsDeck ();
+        this.setPowerUpDeck ();
+        this.setTilesDeck ();
 
         Player p1 = new Player(this, "red");
         this.players.add(p1);
@@ -47,11 +52,9 @@ public class Game {
             this.players.add(p5);
         }
 
-        this.setWeaponsDeck ();
-        this.setPowerUpDeck ();
-        this.setTilesDeck ();
-        this.ranking = players;
-        this.endGame = false;
+        for (Player p : this.players) {
+            this.ranking.add(p);
+        }
     }
 
     /**
@@ -144,8 +147,7 @@ public class Game {
 
     public int getSkullsRemaining() {
         if (this.skullsRemaining == 0) {
-            Player w = getWinner ();
-            this.endGame ();
+            this.endGame = true;
         }
         return this.skullsRemaining;
     }
@@ -237,7 +239,7 @@ public class Game {
      */
 
     public void updateRanking() {
-        ranking.sort( (Player o1, Player o2) -> {
+        this.ranking.sort( (Player o1, Player o2) -> {
                 Integer points1 = o1.getPointTokens();
                 Integer points2 = o2.getPointTokens();
                 return points2.compareTo(points1);
@@ -254,26 +256,5 @@ public class Game {
        return this.ranking.get(0);
     }
 
-    /**
-     * Setter method to add a player to the winners list
-     * @param ranking
-     */
-
-    public void setRanking(List<Player> ranking) {
-        this.ranking = ranking;
-    }
-
-    /**
-     * Method to end a round within the same session
-     */
-
-    public void endGame() {
-        this.gameID = 1;
-        this.currentTurn = 0;
-        this.arena = null;
-        this.weaponsDeck.reloadDeck ();
-        this.powerUpsDeck.reloadDeck ();
-        this.tilesDeck.reloadDeck ();
-    }
 
 }
