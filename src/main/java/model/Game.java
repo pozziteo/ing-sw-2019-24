@@ -7,7 +7,6 @@ import model.player.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -19,6 +18,7 @@ public class Game {
     private int currentTurn;
     private Map arena;
     private List<Player> players;
+    private Player firstPlayer;
     private int skullsRemaining;
     private WeaponsDeck weaponsDeck;
     private PowerUpsDeck powerUpsDeck;
@@ -27,7 +27,7 @@ public class Game {
     private boolean endGame;
 
     public Game(int numberOfPlayers) {
-        this.gameID = 1;
+        this.gameID = (int) (Math.random () * 1000000);
         this.currentTurn = 1;
         this.endGame = false;
         this.skullsRemaining = 8;
@@ -60,7 +60,9 @@ public class Game {
             this.players.add(p5);
         }
 
+        Collections.shuffle(this.players);
         this.ranking.addAll(players);
+        this.firstPlayer = this.players.get (0);
     }
 
     // *********************************************
@@ -178,9 +180,8 @@ public class Game {
 
     /**
      * Setter method to set the arena for a game
-     * @return arena
-     * @throws FileNotFoundException
      */
+
     public void setArena() {
         try {
             this.arena = new ArenaBuilder().createMap();

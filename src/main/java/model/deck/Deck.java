@@ -23,8 +23,8 @@ public abstract class Deck {
      * Constructor for model.deck.Deck. Doesn't initialize the attributes.
      */
     protected Deck() {
-        cards = new ArrayList<Card>();
-        drawnCards = new ArrayList<Card>();
+        cards = new ArrayList<>();
+        drawnCards = new ArrayList<>();
     }
 
     /**

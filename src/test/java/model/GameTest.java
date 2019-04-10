@@ -14,21 +14,26 @@ public class GameTest {
     private Player p5 = game.getPlayers ().get(4);
 
     @Test
+    public void testID() {
+        assertTrue (this.game.getGameID () != (int) (Math.random () * 1000000));
+    }
+
+    @Test
     public void testWinner() {
         p1.setPosition(game.getArena().getSquare(2));
         p2.setPosition(game.getArena().getSquare(4));
         p3.setPosition(game.getArena().getSquare(11));
-        assertEquals ("red", game.getWinner ( ).getPlayerColor ( ));
+        assertEquals (0, game.getWinner ( ).getPointTokens ());
         p1.addPointTokens (8);
         p2.addPointTokens (2);
         p3.addPointTokens (16);
         p4.addPointTokens (4);
         p5.addPointTokens (6);
         game.updateRanking();
-        assertEquals ("blue", game.getWinner ( ).getPlayerColor ( ));
-        assertEquals ("red", game.getRanking ().get(1).getPlayerColor ( ));
-        assertEquals ("grey", game.getRanking ().get(2).getPlayerColor ( ));
-        assertEquals ("green", game.getRanking ().get(3).getPlayerColor ( ));
-        assertEquals ("yellow", game.getRanking ().get(4).getPlayerColor ( ));
+        assertEquals (16, game.getWinner ( ).getPointTokens ());
+        assertEquals (8, game.getRanking ().get(1).getPointTokens ());
+        assertEquals (6, game.getRanking ().get(2).getPointTokens ());
+        assertEquals (4, game.getRanking ().get(3).getPointTokens ());
+        assertEquals (2, game.getRanking ().get(4).getPointTokens ());
     }
 }
