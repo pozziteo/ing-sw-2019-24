@@ -20,8 +20,6 @@ class DeckTest {
             weapons.add(weaponsName);
         }
 
-        System.out.println("List of weapons: " + weapons);
-
         ArrayList<String> names = new ArrayList<>();
 
         for (int i = 0; i < d.getCards().size(); i++) {
@@ -51,8 +49,8 @@ class DeckTest {
         for (int i = 0; i < d.getCards().size(); i++) {
             PowerUp powerup = (PowerUp) d.getCards().get(i);
             names.add(powerup.getPowerUpsName ());
-            System.out.println(powerup.getPowerUpsName () + " " + powerup.getAmmo ().getColor () + ", ");
         }
+
         assertTrue(powerups.containsAll(names));
         assertEquals(12, d.getCards().size());
     }

@@ -5,17 +5,15 @@ import model.player.*;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.FileNotFoundException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AttackTest {
-    @Test
-    public void testAttack() throws FileNotFoundException {
-        Game game = new Game(3);
-        Player p1 = new Player(game, "red");
-        Player p2 = new Player(game, "blue");
+    private Game game = new Game(3);
+    private Player p1 = game.getPlayers ().get(0);
+    private Player p2 = game.getPlayers ().get(1);
 
+    @Test
+    public void testAttack() {
         p1.setPosition(game.getArena().getSquare(2));
         p2.setPosition(game.getArena().getSquare(4));
 

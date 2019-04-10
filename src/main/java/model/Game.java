@@ -30,6 +30,7 @@ public class Game {
         this.gameID = 1;
         this.currentTurn = 1;
         this.endGame = false;
+        this.skullsRemaining = 8;
         this.players = new ArrayList<> ();
         this.ranking = new ArrayList<> ();
         this.setArena();
@@ -62,6 +63,10 @@ public class Game {
         this.ranking.addAll(players);
     }
 
+    // *********************************************
+    // GETTER METHODS
+    // *********************************************
+
     /**
      * Getter method to obtain the current game's id
      * @return gameId
@@ -89,19 +94,6 @@ public class Game {
         return this.arena;
     }
 
-    /**
-     * Setter method to set the arena for a game
-     * @return arena
-     * @throws FileNotFoundException
-     */
-    public void setArena() {
-        try {
-            this.arena = new ArenaBuilder().createMap();
-        } catch (FileNotFoundException exc) {
-            System.err.println("Error: Invalid map file selected");
-            exc.printStackTrace();
-        }
-    }
 
     /**
      * Getter method to obtain the list of players in a game
@@ -153,16 +145,6 @@ public class Game {
     }
 
     /**
-     * Setter method to draw a Tile from the deck and place it on Square s
-     */
-
-    public void setTileOnSquare(Square s) {
-        Tile t = (Tile) this.getTilesDeck ().drawCard ();
-        s.setPlacedTile(t);
-        this.getTilesDeck ().discardCard (t);
-    }
-
-    /**
      * Getter method to obtain the list of players who won a round in the same session
      * @return winnersList
      */
@@ -170,6 +152,47 @@ public class Game {
     public List<Player> getRanking() {
         return this.ranking;
     }
+
+    /**
+     * Method to determine who made the most points and won the game
+     * @return winner
+     */
+
+    public Player getWinner() {
+        return this.ranking.get(0);
+    }
+
+    // **********************************************
+    // SETTER METHODS
+    // **********************************************
+
+    /**
+     * Setter method to draw a Tile from the deck and place it on Square s
+     */
+
+    public void setTileOnSquare(Square s) {
+        Tile t = (Tile) this.getTilesDeck ().drawCard ();
+        s.setPlacedTile(t);
+    }
+
+
+    /**
+     * Setter method to set the arena for a game
+     * @return arena
+     * @throws FileNotFoundException
+     */
+    public void setArena() {
+        try {
+            this.arena = new ArenaBuilder().createMap();
+        } catch (FileNotFoundException exc) {
+            System.err.println("Error: Invalid map file selected");
+            exc.printStackTrace();
+        }
+    }
+
+    // *********************************************
+    // METHODS
+    // *********************************************
 
     /**
      * Method to update the ranking every time a player has been killed
@@ -183,15 +206,5 @@ public class Game {
             }
         );
     }
-
-    /**
-     * Method to determine who made the most points and won the game
-     * @return winner
-     */
-
-    public Player getWinner() {
-       return this.ranking.get(0);
-    }
-
 
 }

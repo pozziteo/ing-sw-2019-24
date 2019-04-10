@@ -12,7 +12,6 @@ import java.util.*;
 public class Player {
     private Game game;
     private String playerID;
-    private boolean firstPlayerCard;
     private Board playerBoard;
     private int pointTokens;
     private Square position;
@@ -28,6 +27,7 @@ public class Player {
         this.game = game;
         this.playerID = color;
         this.playerBoard = new Board();
+        this.pointTokens = 0;
         this.ownedWeapons = new ArrayList<>();
         this.ownedPowerUps = new ArrayList<>();
     }
@@ -48,33 +48,6 @@ public class Player {
 
     public String getPlayerColor() {
         return this.playerID;
-    }
-
-    /**
-     * Setter method to set player's color
-     * @param color
-     */
-
-    public void setPlayerColor(String color) {
-        this.playerID = color;
-    }
-
-    /**
-     * Method to know if the current player is the one that begins the game
-     * @return true (if firstPlayerCard is true), false (otherwise)
-     */
-
-    public boolean isFirstPlayer() {
-        return this.firstPlayerCard;
-    }
-
-    /**
-     * Setter method to decide whether or not Player is the first player
-     * @param value
-     */
-
-    public void setFirstPlayer(boolean value) {
-        this.firstPlayerCard = value;
     }
 
     /**
@@ -118,15 +91,6 @@ public class Player {
      */
 
     public Board getBoard(){return this.playerBoard;}
-
-    /**
-     * Setter method to set a player's board
-     * @param board
-     */
-
-    public void setBoard(Board board) {
-        this.playerBoard = board;
-    }
 
     /**
      * Getter method to obtain a player's points
@@ -258,29 +222,10 @@ public class Player {
         }
         for (int i = 0; i < t.getTileContent ().size(); i++) {
             a = t.getTileContent ( ).get (i);
-            if (this.getBoard ().getAmountOfAmmo (a) < 3) {
+            if (this.getBoard ( ).getAmountOfAmmo (a) < 3) {
                 this.getBoard ( ).getOwnedAmmo ( ).add (a);
             }
         }
         this.game.getTilesDeck ().discardCard(t);
-    }
-
-    /**
-     * Method to let this player use one of his owned weapons as long as it's loaded
-     * @param w
-     * @param p
-     */
-
-    public void useWeapon(Weapon w, Player p) {
-        //write when we have weapon class done
-    }
-
-    /**
-     * Method to let this player use one of his owned power ups
-     * @param pup
-     */
-
-    public void usePowerUp(PowerUp pup) {
-        //write when we have powerup class done
     }
 }
