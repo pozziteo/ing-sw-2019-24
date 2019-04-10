@@ -16,6 +16,10 @@ public class AttackTest {
         game.setArena ("maps\\smallmap.json");
         Player p1 = new Player(game, "red");
         Player p2 = new Player(game, "blue");
+
+        p1.setPosition(game.getArena().getSquare(2));
+        p2.setPosition(game.getArena().getSquare(4));
+
         Attack a = new Attack(2, 1, p1, p2);
         a.giveDamage ();
         a.giveMarks ();

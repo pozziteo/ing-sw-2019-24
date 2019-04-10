@@ -19,6 +19,10 @@ class PlayerTest {
         Map m = Map.getInstance();
         Player p1 = new Player(g,"red");
         Player p2 = new Player(g, "blue");
+
+        p1.setPosition(m.getSquare(2));
+        p2.setPosition(m.getSquare(1));
+
         p1.giveMark (3, p2);
         assertEquals(3, p2.getBoard().getMarksAmountGivenByPlayer (p1));
     }
@@ -27,6 +31,8 @@ class PlayerTest {
     void testGrabWeapon() {
         Square sp = new SpawnPoint(0, "red", new ArrayList<>());
         Player p = new Player(g,"red");
+        p.setPosition(sp);
+
         WeaponsDeckCreator deckCreator = new WeaponsDeckCreator();
         WeaponsDeck d = deckCreator.createDeck();
         Weapon w = (Weapon) d.drawCard ();
@@ -53,6 +59,10 @@ class PlayerTest {
         game.setArena ("maps\\smallmap.json");
         Player p1 = new Player(game, "red");
         Player p2 = new Player(game, "blue");
+
+        p1.setPosition(game.getArena().getSquare(0));
+        p2.setPosition(game.getArena().getSquare(1));
+
         assertTrue(p1.isInTheSameRoom (p2));
     }
 
@@ -62,6 +72,10 @@ class PlayerTest {
         game.setArena ("maps\\smallmap.json");
         Player p1 = new Player(game, "red");
         Player p2 = new Player(game, "blue");
+
+        p1.setPosition(game.getArena().getSquare(0));
+        p2.setPosition(game.getArena().getSquare(6));
+
         assertTrue(p1.canSee (p2));
     }
 
@@ -70,6 +84,8 @@ class PlayerTest {
         Game game = new Game(3);
         game.setArena ("maps\\smallmap.json");
         Player p = new Player(game, "red");
+        p.setPosition(game.getArena().getSquare(0));
+
         game.setTile (p.getPosition ());
         Tile t = p.getPosition ().getPlacedTile ();
         System.out.println(t.getFormat ().getDescription ());

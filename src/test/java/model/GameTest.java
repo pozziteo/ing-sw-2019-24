@@ -16,10 +16,13 @@ public class GameTest {
         ArrayList<Player> players = new ArrayList<> ( );
         game.setArena ("maps\\smallmap.json");
         Player p1 = new Player (game, "red");
+        p1.setPosition(game.getArena().getSquare(2));
         players.add (p1);
         Player p2 = new Player (game, "yellow");
+        p2.setPosition(game.getArena().getSquare(4));
         players.add (p2);
         Player p3 = new Player (game, "blue");
+        p3.setPosition(game.getArena().getSquare(11));
         players.add (p3);
         game.setRanking (players);
         p1.setPointTokens (1);
