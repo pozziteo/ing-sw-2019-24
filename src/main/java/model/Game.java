@@ -2,18 +2,36 @@ package model;
 
 import model.deck.*;
 import model.map.*;
+import model.map.Map;
 import model.player.*;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Class used to access the entire model package
  */
 
 public class Game {
+
+    private enum PlayerColor {
+        RED("Red"),
+        YELLOW("Yellow"),
+        BLUE("Blue"),
+        GREEN("Green"),
+        GREY("Grey");
+
+        private String color;
+
+        PlayerColor(String color) {
+            this.color = color;
+        }
+
+        private String getColor() {
+            return color;
+        }
+    }
+
     private int gameID;
     private int currentTurn;
     private Map arena;
@@ -27,7 +45,7 @@ public class Game {
     private boolean endGame;
 
     public Game(int numberOfPlayers) {
-        this.gameID = (int) (Math.random () * 1000000);
+        this.gameID = new Random().nextInt() * 1000000;
         this.currentTurn = 1;
         this.endGame = false;
         this.skullsRemaining = 8;
@@ -35,34 +53,19 @@ public class Game {
         this.ranking = new ArrayList<> ();
         this.setArena();
 
-        WeaponsDeckCreator deckCreator1 = new WeaponsDeckCreator();
-        this.weaponsDeck = deckCreator1.createDeck();
+        this.weaponsDeck = new WeaponsDeckCreator().createDeck();
+        this.powerUpsDeck = new PowerUpsDeckCreator().createDeck();
+        this.tilesDeck = new TilesDeckCreator().createDeck();
 
-        PowerUpsDeckCreator deckCreator2 = new PowerUpsDeckCreator ();
-        this.powerUpsDeck = deckCreator2.createDeck();
+        List<PlayerColor> colors = Arrays.asList(PlayerColor.values());
+        Collections.shuffle(colors);
 
-        TilesDeckCreator deckCreator3 = new TilesDeckCreator();
-        this.tilesDeck = deckCreator3.createDeck();
-
-        Player p1 = new Player(this, "red");
-        this.players.add(p1);
-        Player p2 = new Player(this, "yellow");
-        this.players.add(p2);
-        Player p3 = new Player(this, "blue");
-        this.players.add(p3);
-
-        if(numberOfPlayers >= 4) {
-            Player p4 = new Player(this, "green");
-            this.players.add(p4);
-        }
-        if (numberOfPlayers == 5) {
-            Player p5 = new Player(this, "grey");
-            this.players.add(p5);
-        }
-
-        for (Player p : this.players) {
+        while (numberOfPlayers > 0) {
+            Player p = new Player(this, colors.get(numberOfPlayers-1).getColor());
             p.getOwnedPowerUps ().add ((PowerUp) this.powerUpsDeck.drawCard ());
             p.getOwnedPowerUps ().add ((PowerUp) this.powerUpsDeck.drawCard ());
+            this.players.add(p);
+            numberOfPlayers--;
         }
 
         Collections.shuffle(this.players);

@@ -3,6 +3,8 @@ package model;
 import model.player.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.Random;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameTest {
@@ -15,7 +17,7 @@ public class GameTest {
 
     @Test
     public void testID() {
-        assertTrue (this.game.getGameID () != (int) (Math.random () * 1000000));
+        assertTrue (this.game.getGameID () != (new Random().nextInt() * 1000000));
     }
 
     @Test
