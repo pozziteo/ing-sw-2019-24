@@ -65,16 +65,55 @@ class PlayerTest {
 
         game.setTileOnSquare (p1.getPosition ());
         Tile t = p1.getPosition ().getPlacedTile ();
-        System.out.println(t.getFormat ().getDescription ());
+        String format = t.getFormat ().getDescription ();
         p1.grabTile (t);
-        if (t.getFormat ().isPowerUpIsPresent ()) {
-            for (int i = 0; i < 2; i++) {
-                System.out.println (t.getTileContent ().get(i).getColor () + " " + p1.getBoard ( ).getAmountOfAmmo (t.getTileContent ( ).get (i)));
-            }
-        } else {
-            for (int i = 0; i < 3; i++) {
-                System.out.println (t.getTileContent().get(i).getColor () + " " + p1.getBoard ( ).getAmountOfAmmo (t.getTileContent ( ).get (i)));
-            }
+        switch (format) {
+            case "PowerUp YELLOW_AMMO YELLOW_AMMO":
+                assertEquals(3, p1.getBoard ( ).getAmountOfAmmo (Ammo.YELLOW_AMMO));
+                break;
+            case "PowerUp RED_AMMO RED_AMMO":
+                assertEquals(3, p1.getBoard ( ).getAmountOfAmmo (Ammo.RED_AMMO));
+                break;
+            case "PowerUp BLUE_AMMO BLUE_AMMO":
+                assertEquals(3, p1.getBoard ( ).getAmountOfAmmo (Ammo.BLUE_AMMO));
+                break;
+            case "PowerUp YELLOW_AMMO RED_AMMO":
+                assertEquals(2, p1.getBoard ( ).getAmountOfAmmo (Ammo.YELLOW_AMMO));
+                assertEquals(2, p1.getBoard ( ).getAmountOfAmmo (Ammo.RED_AMMO));
+                break;
+            case "PowerUp YELLOW_AMMO BLUE_AMMO":
+                assertEquals(2, p1.getBoard ( ).getAmountOfAmmo (Ammo.YELLOW_AMMO));
+                assertEquals(2, p1.getBoard ( ).getAmountOfAmmo (Ammo.BLUE_AMMO));
+                break;
+            case "PowerUp RED_AMMO BLUE_AMMO":
+                assertEquals(2, p1.getBoard ( ).getAmountOfAmmo (Ammo.RED_AMMO));
+                assertEquals(2, p1.getBoard ( ).getAmountOfAmmo (Ammo.BLUE_AMMO));
+                break;
+            case "YELLOW_AMMO BLUE_AMMO BLUE_AMMO":
+                assertEquals(2, p1.getBoard ( ).getAmountOfAmmo (Ammo.YELLOW_AMMO));
+                assertEquals(3, p1.getBoard ( ).getAmountOfAmmo (Ammo.BLUE_AMMO));
+                break;
+            case "YELLOW_AMMO RED_AMMO RED_AMMO":
+                assertEquals(2, p1.getBoard ( ).getAmountOfAmmo (Ammo.YELLOW_AMMO));
+                assertEquals(3, p1.getBoard ( ).getAmountOfAmmo (Ammo.RED_AMMO));
+                break;
+            case "RED_AMMO BLUE_AMMO BLUE_AMMO":
+                assertEquals(2, p1.getBoard ( ).getAmountOfAmmo (Ammo.RED_AMMO));
+                assertEquals(3, p1.getBoard ( ).getAmountOfAmmo (Ammo.BLUE_AMMO));
+                break;
+            case "RED_AMMO YELLOW_AMMO YELLOW_AMMO":
+                assertEquals(2, p1.getBoard ( ).getAmountOfAmmo (Ammo.RED_AMMO));
+                assertEquals(3, p1.getBoard ( ).getAmountOfAmmo (Ammo.YELLOW_AMMO));
+                break;
+            case "BLUE_AMMO YELLOW_AMMO YELLOW_AMMO":
+                assertEquals(2, p1.getBoard ( ).getAmountOfAmmo (Ammo.BLUE_AMMO));
+                assertEquals(3, p1.getBoard ( ).getAmountOfAmmo (Ammo.YELLOW_AMMO));
+                break;
+            case "BLUE_AMMO RED_AMMO RED_AMMO":
+                assertEquals(2, p1.getBoard ( ).getAmountOfAmmo (Ammo.BLUE_AMMO));
+                assertEquals(3, p1.getBoard ( ).getAmountOfAmmo (Ammo.RED_AMMO));
+                break;
         }
+
     }
 }

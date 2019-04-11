@@ -68,9 +68,11 @@ public enum TileFormat {
         this.powerUpPresent = gotPUp;
         this.ammo = new ArrayList<>(Arrays.asList(ammos));
         if (powerUpPresent)
-            this.description = "PowerUp, ";
+            this.description = "PowerUp ";
+        if (!powerUpPresent)
+            this.description = "";
         for (Ammo a : ammos)
-            this.description += a.name() + ", ";
+            this.description += a.name() + " ";
     }
 
     /**
