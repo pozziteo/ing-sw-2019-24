@@ -180,7 +180,7 @@ public class Game {
      * Setter method to draw a Tile from the deck and place it on Square s
      */
 
-    public void setTileOnSquare(Square s) {
+    public void setTileOnSquare(NormalSquare s) {
         Tile t = (Tile) this.getTilesDeck ().drawCard ();
         s.setPlacedTile(t);
     }

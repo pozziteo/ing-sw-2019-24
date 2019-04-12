@@ -1,7 +1,5 @@
 package model.map;
 
-import model.Game;
-import model.deck.*;
 import model.player.*;
 
 import java.util.ArrayList;
@@ -33,11 +31,6 @@ public class Square {
      * links is a list of all the other squares a player can move to from the actual square
      */
     private ArrayList<Integer> links;
-
-    /**
-     * placedTile is the Tile card actually present on the square and collectible
-     */
-    private Tile placedTile;
 
     /**
      * playersOnSquare is a list of all the players currently placed on the square
@@ -102,23 +95,6 @@ public class Square {
 
     public boolean isSpawnPoint() {
         return this.spawn;
-    }
-
-    /**
-     * Getter to obtain the current Tile placed on the square
-     * @return the tile on the square
-     */
-    public Tile getPlacedTile() {
-        return this.placedTile;
-    }
-
-    /**
-     * Setter method to place a tile on this square
-     * @param t
-     */
-
-    public void setPlacedTile(Tile t) {
-        this.placedTile = t;
     }
 
     /**

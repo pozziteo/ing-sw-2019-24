@@ -63,8 +63,8 @@ class PlayerTest {
     public void testPlayerGrabsTile() {
         p1.setPosition(game.getArena().getSquare(0));
 
-        game.setTileOnSquare (p1.getPosition ());
-        Tile t = p1.getPosition ().getPlacedTile ();
+        game.setTileOnSquare ((NormalSquare) (p1.getPosition ()));
+        Tile t = ((NormalSquare) p1.getPosition()).getPlacedTile ();
         String format = t.getFormat ().getDescription ();
         p1.grabTile (t);
         switch (format) {
