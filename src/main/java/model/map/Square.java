@@ -107,15 +107,12 @@ public class Square {
 
     /**
      * Method to know if two squares are in the same room
-     * @param s
+     * @param s is the square compared to the present square
      * @return true (if color of this square equals color of s), false (otherwise)
      */
 
     public boolean isInTheSameRoom(Square s) {
-        if (this.getSquareColor ().equals(s.getSquareColor ())) {
-            return true;
-        }
-        return false;
+        return (this.getSquareColor().equals(s.getSquareColor()));
     }
 
     public List<Integer> getLinks() {

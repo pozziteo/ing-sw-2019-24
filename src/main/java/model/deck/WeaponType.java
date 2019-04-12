@@ -71,7 +71,7 @@ public enum WeaponType {
      * @param ammo which is the cost to reload the weapon
      */
     private void setReloadingAmmo(Ammo... ammo) {
-        reloadingAmmo = new ArrayList<Ammo>();
+        reloadingAmmo = new ArrayList<>();
         reloadingAmmo.addAll(Arrays.asList(ammo));
     }
 
@@ -102,7 +102,7 @@ public enum WeaponType {
      *          except its first element.
      */
     public List<Ammo> getGrabbingCost() {
-        ArrayList<Ammo> grabbingCost = new ArrayList<Ammo>(reloadingAmmo);
+        ArrayList<Ammo> grabbingCost = new ArrayList<>(reloadingAmmo);
         grabbingCost.remove(0);
         return grabbingCost;
     }

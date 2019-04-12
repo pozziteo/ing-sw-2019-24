@@ -9,18 +9,18 @@ package model.deck;
 
 public enum PowerUpType {
 
-    TAGBACK_GRENADE_B("Tagback Grenade", Ammo.BLUE_AMMO),
-    TAGBACK_GRENADE_R("Tagback Grenade", Ammo.RED_AMMO),
-    TAGBACK_GRENADE_Y("Tagback Grenade", Ammo.YELLOW_AMMO),
-    TARGETING_SCOPE_B("Targeting Scope", Ammo.BLUE_AMMO),
-    TARGETING_SCOPE_R("Targeting Scope", Ammo.RED_AMMO),
-    TARGETING_SCOPE_Y("Targeting Scope", Ammo.YELLOW_AMMO),
-    NEWTON_B("Newton", Ammo.BLUE_AMMO),
-    NEWTON_R("Newton", Ammo.RED_AMMO),
-    NEWTON_Y("Newton", Ammo.YELLOW_AMMO),
-    TELEPORTER_B("Teleporter", Ammo.BLUE_AMMO),
-    TELEPORTER_R("Teleporter", Ammo.RED_AMMO),
-    TELEPORTER_Y("Teleporter", Ammo.YELLOW_AMMO);
+    TAGBACK_GRENADE_B("Tagback Grenade - Blue Ammo", Ammo.BLUE_AMMO),
+    TAGBACK_GRENADE_R("Tagback Grenade - Red Ammo", Ammo.RED_AMMO),
+    TAGBACK_GRENADE_Y("Tagback Grenade - Yellow Ammo", Ammo.YELLOW_AMMO),
+    TARGETING_SCOPE_B("Targeting Scope - Blue Ammo", Ammo.BLUE_AMMO),
+    TARGETING_SCOPE_R("Targeting Scope - Red Ammo", Ammo.RED_AMMO),
+    TARGETING_SCOPE_Y("Targeting Scope - Yellow Ammo", Ammo.YELLOW_AMMO),
+    NEWTON_B("Newton - Blue Ammo", Ammo.BLUE_AMMO),
+    NEWTON_R("Newton - Red Ammo", Ammo.RED_AMMO),
+    NEWTON_Y("Newton - Yellow Ammo", Ammo.YELLOW_AMMO),
+    TELEPORTER_B("Teleporter - Blue Ammo", Ammo.BLUE_AMMO),
+    TELEPORTER_R("Teleporter - Red Ammo", Ammo.RED_AMMO),
+    TELEPORTER_Y("Teleporter - Yellow Ammo", Ammo.YELLOW_AMMO);
 
     /**
      *  bonusAmmo is the ammo's color the powerup gives to the player (only 1 block)
@@ -82,7 +82,8 @@ public enum PowerUpType {
 
     /**
      * Method to obtain the power up's color
-     * @return
+     * @return the color of the power up (i.e. the color of the ammo or the spawn point
+     *      to be regenerated
      */
 
     public String getColor() {

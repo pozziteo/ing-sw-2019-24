@@ -95,7 +95,7 @@ public enum TileFormat {
      * Getter to obtain the list of ammos in the tile
      * @return the list of ammos in the tile
      */
-    public ArrayList<Ammo> getAmmo() {
+    public List<Ammo> getAmmo() {
         return this.ammo;
     }
 }

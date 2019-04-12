@@ -1,9 +1,7 @@
 package model.map;
 
 import model.player.*;
-
-import java.io.FileNotFoundException;
-import java.io.*;
+import java.util.*;
 
 /**
  * Map is a Singleton class which contains the description about the map currently
@@ -62,7 +60,8 @@ public class Map {
      * @return list of players in the same room
      */
 
-   /* public ArrayList<Player> getPlayersInRoom(String color){
-
-    } */
+    public List<Player> getPlayersInRoom(String color){
+        //TODO
+        return new ArrayList<>();
+    }
 }

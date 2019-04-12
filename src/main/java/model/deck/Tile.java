@@ -1,8 +1,6 @@
 package model.deck;
 
-import model.Game;
-
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Tile is a Card which contains Ammos and (optionally) a PowerUp
@@ -43,10 +41,10 @@ public class Tile extends Card {
 
     /**
      * Getter method to obtain the list of ammo in a tile
-     * @return
+     * @return a list containing ammo in the Tile
      */
 
-    public ArrayList<Ammo> getTileContent() {
+    public List<Ammo> getTileContent() {
 
         return this.getFormat ().getAmmo ();
     }
