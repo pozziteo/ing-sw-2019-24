@@ -1,6 +1,7 @@
 package model.map;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 
 import java.io.*;
@@ -28,7 +29,9 @@ public class ArenaBuilder {
      */
     public Map createMap() throws FileNotFoundException {
             String fileMap = chooseMap();
-            Gson gson = new Gson();
+            GsonBuilder builder = new GsonBuilder();
+            builder.registerTypeAdapter(Square.class, new SquareTypeAdapter());
+            Gson gson = builder.create();
             JsonReader reader = new JsonReader(new FileReader(fileMap));
             return gson.fromJson(reader, Map.class);
     }

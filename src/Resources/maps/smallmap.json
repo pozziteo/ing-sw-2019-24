@@ -18,9 +18,9 @@
       "links": [1, 6]
     },{
       "squareId": 3,
-      "room": null,
+      "room": "none",
       "spawn": false,
-      "links": null
+      "links": []
     },{
       "squareId": 4,
       "room": "red",
@@ -43,9 +43,9 @@
       "links": [6, 11]
     },{
       "squareId": 8,
-      "room": null,
+      "room": "none",
       "spawn": false,
-      "links": null
+      "links": []
     },{
       "squareId": 9,
       "room": "white",

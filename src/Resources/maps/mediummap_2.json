@@ -43,9 +43,9 @@
       "links": [3, 6, 11]
     },{
       "squareId": 8,
-      "room": null,
+      "room": "none",
       "spawn": false,
-      "links": null
+      "links": []
     },{
       "squareId": 9,
       "room": "white",
