@@ -1,15 +1,11 @@
 package model.player;
 
-import model.deck.Ammo;
-import model.deck.PowerUp;
-import model.deck.Tile;
-import model.deck.Weapon;
-import model.map.NormalSquare;
-import model.map.SpawnPoint;
-import model.map.Square;
+import model.deck.*;
+import model.map.*;
 
 import java.util.*;
 
+//TODO add JavaDoc
 public class MoveAndGrab implements Action {
 
     private List<Integer> paths;
