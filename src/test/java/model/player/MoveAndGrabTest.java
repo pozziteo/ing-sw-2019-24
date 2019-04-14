@@ -47,4 +47,30 @@ class MoveAndGrabTest {
         assertEquals(toGrab, player.getOwnedWeapons().get(0));
     }
 
+    @Test
+    void adrenalineMoveAndGrabTest() {
+        Map map = g.getArena();
+        Square initialSquare = map.getSquare(1);
+        Player notAdrenaline = g.getPlayers().get(1);
+        Player adrenaline = g.getPlayers().get(2);
+        adrenaline.getBoard().gotHit(5, notAdrenaline);
+
+        notAdrenaline.setPosition(initialSquare);
+        adrenaline.setPosition(initialSquare);
+
+        NormalSquare squareToGet = (NormalSquare) map.getSquare(6);
+        squareToGet.setPlacedTile(new Tile(TileFormat.TILE_FORMAT_20));
+
+        MoveAndGrab thisWillFail = new MoveAndGrab(notAdrenaline);
+        Square samePosition = thisWillFail.grabObject(notAdrenaline, 1, 2);
+        assertNotNull(squareToGet.getPlacedTile());
+        assertEquals(initialSquare, samePosition);
+
+        MoveAndGrab thisWillSucceed = new MoveAndGrab(adrenaline);
+        Square newPosition = thisWillSucceed.grabObject(adrenaline, 1, 2);
+        assertEquals(squareToGet, newPosition);
+        assertNull(squareToGet.getPlacedTile());
+
+    }
+
 }

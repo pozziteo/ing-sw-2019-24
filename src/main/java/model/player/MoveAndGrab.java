@@ -13,8 +13,12 @@ public class MoveAndGrab implements Action {
     public MoveAndGrab(Player player) {
         System.out.println("You can (optionally) move into squares:");
         Square position = player.getPosition();
-        paths = new ArrayList<>(position.getLinks());
-        System.out.println(paths);
+        if (player.getBoard().getDamageTaken().size() >= 3) {
+            System.out.println("( Adrenaline Action! )");
+            paths = findPaths(player, 2);
+        }
+        else
+            paths = findPaths(player, 1);
     }
 
     public Square grabObject(Player player) {
@@ -37,7 +41,10 @@ public class MoveAndGrab implements Action {
             player.setPosition(player.getGame().getArena().getSquare(squareId));
             grabObject(player);
         }
-        else player.setPosition(player.getPosition());
+        else {
+            System.out.println("Error: you can't reach the square!\n");
+            player.setPosition(player.getPosition());
+        }
         return player.getPosition();
     }
 
