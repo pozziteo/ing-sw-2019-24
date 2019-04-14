@@ -53,7 +53,7 @@ public class Move implements Action {
 
     @Override
     public String getActionInfo() {
-        return Action.super.getActionInfo() + "With this action you can move through up to 3 squares";
+        return Action.super.getActionInfo() + "With this action you can move through up to 3 squares.";
     }
 
     @Override

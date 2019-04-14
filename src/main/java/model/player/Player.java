@@ -194,16 +194,6 @@ public class Player {
     }
 
     /**
-     * Method to let a player grab a weapon from the spawn point he's on
-     * @param w
-     */
-
-    public void grabWeapon(Weapon w) {
-        ((SpawnPoint) getPosition ()).removeWeapon(w);
-        this.getOwnedWeapons().add(w);
-    }
-
-    /**
      * Method to know if two players are in the same room
      * @param p
      * @return
@@ -234,24 +224,5 @@ public class Player {
             }
         }
         return false;
-    }
-
-    /**
-     * Method to let this player grab the tile placed on his square
-     * @param t
-     */
-
-    public void grabTile(Tile t) {
-        Ammo a;
-        if (t.getFormat ().isPowerUpIsPresent ()) {
-            this.getOwnedPowerUps ().add((PowerUp) this.getGame().getPowerUpsDeck ().drawCard ());
-        }
-        for (int i = 0; i < t.getTileContent ().size(); i++) {
-            a = t.getTileContent ( ).get (i);
-            if (this.getBoard ( ).getAmountOfAmmo (a) < 3) {
-                this.getBoard ( ).getOwnedAmmo ( ).add (a);
-            }
-        }
-        this.game.getTilesDeck ().discardCard(t);
     }
 }
