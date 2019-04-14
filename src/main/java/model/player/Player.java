@@ -18,6 +18,7 @@ public class Player {
     private ArrayList<Weapon> ownedWeapons;
     private ArrayList<PowerUp> ownedPowerUps;
     private int givenMarks;
+    private Action[] performedActions;
 
     public Player() {
 
@@ -30,6 +31,7 @@ public class Player {
         this.pointTokens = 0;
         this.ownedWeapons = new ArrayList<>();
         this.ownedPowerUps = new ArrayList<>();
+        this.performedActions = new Action[2];
     }
 
     /**
@@ -134,6 +136,14 @@ public class Player {
 
     public List<PowerUp> getOwnedPowerUps() {
         return this.ownedPowerUps;
+    }
+
+    /**
+     * Getter method to obtain the actions performed by a player in a single turn
+     * @return the actions performed in a turn
+     */
+    public Action[] getPerformedActions() {
+        return this.performedActions;
     }
 
     /**

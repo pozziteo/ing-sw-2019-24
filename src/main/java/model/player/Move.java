@@ -42,8 +42,10 @@ public class Move implements Action {
 
     public Square takeMove(Player player, int xSquare, int ySquare) {
         int squareId = xSquare*4 + ySquare;
-        if (paths.contains(squareId))
+        if (paths.contains(squareId)) {
             player.setPosition(player.getGame().getArena().getSquare(squareId));
+            executedAction(player);
+        }
         else player.setPosition(player.getPosition());
 
         return player.getPosition();
@@ -55,7 +57,7 @@ public class Move implements Action {
     }
 
     @Override
-    public void executeAction(Player player) {
-        //TODO
+    public void executedAction(Player player) {
+        Action.super.executedAction(player);
     }
 }
