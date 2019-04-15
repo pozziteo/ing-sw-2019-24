@@ -15,10 +15,10 @@ class PlayerTest {
     private Game game = new Game(3);
     private Player p1 = game.getPlayers ().get(0);
     private Player p2 = game.getPlayers ().get(1);
-    private Player p3 = game.getPlayers ().get(2);;
+    private Player p3 = game.getPlayers ().get(2);
 
     @Test
-    void testGiveMarks() throws Exception {
+    void testGiveMarks() {
         p1.setPosition(game.getArena ().getSquare(2));
         p2.setPosition(game.getArena ().getSquare(1));
 
@@ -40,5 +40,14 @@ class PlayerTest {
         p2.setPosition(game.getArena().getSquare(6));
 
         assertTrue(p1.canSee (p2));
+    }
+
+    @Test
+    public void testPlayerChooseSpawn() {
+        PowerUp powerup = p1.getOwnedPowerUps ().get(0);
+        p1.chooseSpawnPoint (powerup);
+        p1.getPosition ();
+        assertTrue(p1.getPosition ().isSpawnPoint ());
+        assertTrue(p1.getPosition ().getSquareColor ().equals(powerup.getType ().getColor ()));
     }
 }

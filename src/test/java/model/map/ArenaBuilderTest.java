@@ -24,7 +24,7 @@ class ArenaBuilderTest {
 
     @Test
     void createMapTest() {
-        assertEquals("red", map.getSquare(6).getSquareColor());
+        assertEquals("Red", map.getSquare(6).getSquareColor());
         assertThrows(IndexOutOfBoundsException.class, () -> map.getSquare(map.getDimension()));
     }
 

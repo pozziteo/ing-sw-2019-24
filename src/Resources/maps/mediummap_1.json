@@ -3,62 +3,62 @@
   "arena": [
     {
       "squareId": 0,
-      "room": "red",
+      "room": "Red",
       "spawn": false,
       "links": [1, 4]
     },{
       "squareId": 1,
-      "room": "blue",
+      "room": "Blue",
       "spawn": false,
       "links": [0, 2, 5]
     },{
       "squareId": 2,
-      "room": "blue",
+      "room": "Blue",
       "spawn": true,
       "links": [1, 6]
     },{
       "squareId": 3,
-      "room": "none",
+      "room": "None",
       "spawn": false,
       "links": []
     },{
       "squareId": 4,
-      "room": "red",
+      "room": "Red",
       "spawn": true,
       "links": [0, 8]
     },{
       "squareId": 5,
-      "room": "purple",
+      "room": "Purple",
       "spawn": false,
       "links": [1, 6, 9]
     },{
       "squareId": 6,
-      "room": "purple",
+      "room": "Purple",
       "spawn": false,
       "links": [2, 7]
     },{
       "squareId": 7,
-      "room": "yellow",
+      "room": "Yellow",
       "spawn": false,
       "links": [6, 11]
     },{
       "squareId": 8,
-      "room": "white",
+      "room": "White",
       "spawn": false,
       "links": [4, 9]
     },{
       "squareId": 9,
-      "room": "white",
+      "room": "White",
       "spawn": false,
       "links": [5, 8, 10]
     },{
       "squareId": 10,
-      "room": "white",
+      "room": "White",
       "spawn": false,
       "links": [9, 11]
     },{
       "squareId": 11,
-      "room": "yellow",
+      "room": "Yellow",
       "spawn": true,
       "links": [7, 10]
     }
