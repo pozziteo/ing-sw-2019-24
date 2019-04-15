@@ -15,7 +15,7 @@ class MoveTest {
         Map map = g.getArena();
         Player player = g.getPlayers().get(0);
         player.setPosition(map.getSquare(2));
-        Move move = new Move(player);
+        Move move = new Move(player, player.getGame().isFinalFrenzy());
 
         //Testing an invalid move: asserting player hasn't changed position
         //newPosition should be equal to InitialPosition
@@ -25,7 +25,7 @@ class MoveTest {
         assertEquals(initialPosition, newPosition);
 
         //Now testing a valid move: player should get the new position
-        Move anotherMove = new Move(player);
+        Move anotherMove = new Move(player, player.getGame().isFinalFrenzy());
         Square anotherPosition = move.takeMove(player, 0, 0);
         assertTrue(anotherMove.getPaths().contains(0));
         assertNotEquals(initialPosition, anotherPosition);

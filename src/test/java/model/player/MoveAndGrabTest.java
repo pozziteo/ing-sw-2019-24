@@ -25,7 +25,7 @@ class MoveAndGrabTest {
         ((NormalSquare) initialSquare).setPlacedTile(new Tile(TileFormat.TILE_FORMAT_4));
         Player player = g.getPlayers().get(0);
         player.setPosition(initialSquare);
-        MoveAndGrab moveAndGrab = new MoveAndGrab(player);
+        MoveAndGrab moveAndGrab = new MoveAndGrab(player, player.getGame().isFinalFrenzy());
 
         Square newPosition = moveAndGrab.grabObject(player);
 
@@ -38,7 +38,7 @@ class MoveAndGrabTest {
 
         Weapon toGrab = ((SpawnPoint) map.getSquare(2)).getWeapons()[0];
 
-        MoveAndGrab anotherGrab = new MoveAndGrab(player);
+        MoveAndGrab anotherGrab = new MoveAndGrab(player, player.getGame().isFinalFrenzy());
         Square anotherPosition = anotherGrab.grabObject(player, 0, 2);
 
         assertNotEquals(initialSquare, anotherPosition);
@@ -61,12 +61,12 @@ class MoveAndGrabTest {
         NormalSquare squareToGet = (NormalSquare) map.getSquare(6);
         squareToGet.setPlacedTile(new Tile(TileFormat.TILE_FORMAT_20));
 
-        MoveAndGrab thisWillFail = new MoveAndGrab(notAdrenaline);
+        MoveAndGrab thisWillFail = new MoveAndGrab(notAdrenaline, notAdrenaline.getGame().isFinalFrenzy());
         Square samePosition = thisWillFail.grabObject(notAdrenaline, 1, 2);
         assertNotNull(squareToGet.getPlacedTile());
         assertEquals(initialSquare, samePosition);
 
-        MoveAndGrab thisWillSucceed = new MoveAndGrab(adrenaline);
+        MoveAndGrab thisWillSucceed = new MoveAndGrab(adrenaline, adrenaline.getGame().isFinalFrenzy());
         Square newPosition = thisWillSucceed.grabObject(adrenaline, 1, 2);
         assertEquals(squareToGet, newPosition);
         assertNull(squareToGet.getPlacedTile());

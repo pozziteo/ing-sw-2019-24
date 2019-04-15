@@ -10,15 +10,28 @@ public class MoveAndGrab implements Action {
 
     private List<Integer> paths;
 
-    public MoveAndGrab(Player player) {
+    public MoveAndGrab(Player player, boolean frenzy) {
+
+        List<Player> players = player.getGame().getPlayers();
+        Player firstPlayer = player.getGame().getFirstPlayer();
+
         System.out.println("You can (optionally) move into squares:");
-        Square position = player.getPosition();
-        if (player.getBoard().getDamageTaken().size() >= 3) {
-            System.out.println("( Adrenaline Action! )");
-            paths = findPaths(player, 2);
+        if (!frenzy) {
+            if (player.getBoard().getDamageTaken().size() >= 3) {
+                System.out.println("( Adrenaline Action! )");
+                paths = findPaths(player, 2);
+            } else
+                paths = findPaths(player, 1);
         }
-        else
-            paths = findPaths(player, 1);
+        else {
+            System.out.println("( Final Frenzy Turn! )");
+            if (!player.equals(firstPlayer) &&
+                    players.indexOf(player) < players.indexOf(firstPlayer)) {
+                paths = findPaths(player, 2);
+            }
+            else
+                paths = findPaths(player, 3);
+        }
     }
 
     public Square grabObject(Player player) {

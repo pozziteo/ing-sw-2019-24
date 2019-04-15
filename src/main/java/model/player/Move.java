@@ -10,9 +10,19 @@ public class Move implements Action {
 
     private List<Integer> paths;
 
-    public Move(Player player) {
-        System.out.println("You can move into squares:\n");
-        paths = findPaths(player, 3);
+    public Move(Player player, boolean frenzy) {
+        List<Player> players = player.getGame().getPlayers();
+        Player firstPlayer = player.getGame().getFirstPlayer();
+
+        System.out.println("You can move into squares:");
+        if (!frenzy)
+            paths = findPaths(player, 3);
+        else if (!player.equals(firstPlayer) &&
+                players.indexOf(player) < players.indexOf(firstPlayer)){
+            System.out.println("( Final Frenzy turn! )");
+            paths = findPaths(player, 4);
+        }
+        else System.out.println("None: you can't perform this action right now.");
     }
 
     public List<Integer> getPaths() {

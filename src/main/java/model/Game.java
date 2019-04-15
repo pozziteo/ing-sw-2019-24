@@ -42,12 +42,12 @@ public class Game {
     private PowerUpsDeck powerUpsDeck;
     private TilesDeck tilesDeck;
     private List<Player> ranking;
-    private boolean endGame;
+    private boolean finalFrenzy;
 
     public Game(int numberOfPlayers) {
         this.gameID = new Random().nextInt() * 1000000;
         this.currentTurn = 1;
-        this.endGame = false;
+        this.finalFrenzy = false;
         this.skullsRemaining = 8;
         this.players = new ArrayList<> ();
         this.ranking = new ArrayList<> ();
@@ -122,7 +122,7 @@ public class Game {
 
     public int getSkullsRemaining() {
         if (this.skullsRemaining == 0) {
-            this.endGame = true;
+            this.finalFrenzy = true;
         }
         return this.skullsRemaining;
     }
@@ -155,12 +155,27 @@ public class Game {
     }
 
     /**
+     * Getter method to obtain the first player
+     * @return the first player of the game
+     */
+    public Player getFirstPlayer() {
+        return this.firstPlayer;
+    }
+    /**
      * Getter method to obtain the list of players who won a round in the same session
      * @return winnersList
      */
 
     public List<Player> getRanking() {
         return this.ranking;
+    }
+
+    /**
+     * Getter method to establish if the game is in the Final Frenzy turn
+     * @return true if the game is in Final Frenzy, otherwise false
+     */
+    public boolean isFinalFrenzy() {
+        return this.finalFrenzy;
     }
 
     /**
