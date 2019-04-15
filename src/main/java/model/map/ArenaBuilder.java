@@ -12,7 +12,7 @@ import java.io.*;
  */
 public class ArenaBuilder {
 
-    private static final String PATH = "src" + File.separatorChar + "resources" + File.separatorChar + "maps";
+    private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
     private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
     private static final String MEDIUM_1 = PATH + File.separatorChar + "mediummap_1.json";
     private static final String MEDIUM_2 = PATH + File.separatorChar + "mediummap_2.json";
