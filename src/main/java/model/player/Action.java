@@ -1,7 +1,7 @@
 package model.player;
 
-import model.map.Map;
-import model.map.Square;
+import model.map.*;
+import model.deck.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +42,14 @@ public interface Action {
             System.out.println(" ] (" + moves + " movements)");
         }
         return visited;
+    }
+
+    default void getWeapons(Player player) {
+        List<Weapon> weapons = player.getOwnedWeapons ();
+
+        for (int i = 0; i < weapons.size (); i++) {
+            System.out.println (weapons.get(i).getWeaponsName ());
+        }
     }
 
     default String getActionInfo() {
