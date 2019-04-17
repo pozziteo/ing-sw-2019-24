@@ -43,6 +43,8 @@ public class Game {
     private TilesDeck tilesDeck;
     private List<Player> ranking;
     private boolean finalFrenzy;
+    private boolean endGame;
+    private ViewUpdater viewUpdater;
 
     public Game(int numberOfPlayers) {
         this.gameID = new Random().nextInt() * 1000000;
@@ -51,6 +53,7 @@ public class Game {
         this.skullsRemaining = 8;
         this.players = new ArrayList<> ();
         this.ranking = new ArrayList<> ();
+        this.endGame = false;
         this.setArena();
 
         this.weaponsDeck = new WeaponsDeckCreator().createDeck();
@@ -71,6 +74,14 @@ public class Game {
         Collections.shuffle(this.players);
         this.ranking.addAll(players);
         this.firstPlayer = this.players.get (0);
+    }
+
+    public void startGame(ViewUpdater viewUpdater) {
+        this.viewUpdater = viewUpdater;
+       /* for (Player p : this.players) {
+            p.getOwnedPowerUps ().add ((PowerUp) this.powerUpsDeck.drawCard ());
+            p.getOwnedPowerUps ().add ((PowerUp) this.powerUpsDeck.drawCard ());
+        } */
     }
 
     // *********************************************
@@ -212,6 +223,14 @@ public class Game {
             System.err.println("Error: Invalid map file selected");
             exc.printStackTrace();
         }
+    }
+
+    /**
+     * Setter method to change the boolean value of endGame and end this game
+     */
+
+    public void setEndGame(boolean value) {
+        this.endGame = value;
     }
 
     // *********************************************
