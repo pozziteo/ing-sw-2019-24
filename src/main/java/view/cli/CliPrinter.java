@@ -1,6 +1,11 @@
 package view.cli;
 
+import model.deck.PowerUp;
+import model.deck.PowerUpType;
+import model.player.Player;
 import org.fusesource.jansi.AnsiConsole;
+
+import java.util.List;
 
 /**
  * Class to display messages on command line
@@ -60,6 +65,14 @@ public class CliPrinter {
         print(ANSI_PURPLE +
                 "   /   /   /   /   /  |   |   |   |   |  \\   \\   \\   \\   \\   \\\n" +
                 "  /   /   /   /   /   |   |   |   |   |   \\   \\   \\   \\   \\   \\\n" + ANSI_RESET);
+        print("A SHOOTING GAME IMPLEMENTED BY " + ANSI_RESET + ANSI_RED + "Luca Pome', " + ANSI_RESET + ANSI_YELLOW + "Matteo Pozzi, " + ANSI_RESET + ANSI_GREEN + "Sara Sacco." + ANSI_RESET);
+        print("\nPress any button to continue");
+    }
+
+    synchronized void clearScreen() {
+        for(int i = 0; i < 30; i++) {
+            print("");
+        }
     }
 
     synchronized void printConnectionOptions() {
@@ -68,12 +81,39 @@ public class CliPrinter {
         print("1 - Socket");
     }
 
+    synchronized void printMapOptions() {
+        print("Which arena will be your battlefield?");
+        print("1 - Small arena");
+        print("2 - Medium arena (v1)");
+        print("3 - Medium arena (v2)");
+        print("4 - Large arena");
+    }
+
+    synchronized void printInitialSpawnPointOptions(List<PowerUp> powerUps) {
+        PowerUpType powerUp1 = powerUps.get(0).getType ();
+        PowerUpType powerUp2 = powerUps.get(1).getType ();
+        print("Pick your spawn point by discarding the power up card with the corresponding color:");
+        print("1 - " + powerUp1.getDescription () + " (spawn in " + powerUp1.getColor ().toLowerCase () + " room)");
+        print("2 - " + powerUp2.getDescription () + " (spawn in " + powerUp2.getColor ().toLowerCase () + " room)");
+    }
+
     synchronized void printActionOptions() {
-        print("Choose your action by pressing the corresponding number:");
+        print("What will you do next?");
         print("1 - Move");
         print("2 - Move and grab");
         print("3 - Shoot an opponent");
         print("4 - Pass this turn");
+    }
+
+    synchronized void printRanking(List<Player> ranking) {
+        print("Ranking:");
+        for (int i = 0; i < ranking.size(); i++) {
+            print ((i+1) + " - " + ranking.get(i).getPlayerColor () + " player");
+        }
+    }
+
+    synchronized void printSetUpComplete() {
+        print("You're all set up! The match will now begin");
     }
 
 }
