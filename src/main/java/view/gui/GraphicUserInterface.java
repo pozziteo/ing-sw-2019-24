@@ -7,7 +7,7 @@ import mvc.UserInterface;
 public class GraphicUserInterface implements UserInterface {
 
     @Override
-    public void update(Observable observable, Object object) {
+    public void update(Object object) {
 
     }
 
