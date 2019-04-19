@@ -1,6 +1,5 @@
 package view.cli;
 
-import mvc.Observable;
 import mvc.Observer;
 import mvc.UserInterface;
 
@@ -26,7 +25,7 @@ public class CliUserInterface implements UserInterface {
     }
 
     @Override
-    public void update(Observable observable, Object object) {
+    public void update(Object object) {
 
     }
 
