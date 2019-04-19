@@ -1,4 +1,4 @@
-package mvc;
+package obs;
 
 public interface Observable {
 

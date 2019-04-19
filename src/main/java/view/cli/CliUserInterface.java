@@ -1,7 +1,7 @@
 package view.cli;
 
-import mvc.Observer;
-import mvc.UserInterface;
+import obs.Observer;
+import view.UserInterface;
 
 public class CliUserInterface implements UserInterface {
     private static CliUserInterface instance;

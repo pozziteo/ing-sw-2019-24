@@ -1,4 +1,8 @@
-package mvc;
+package controller;
+
+import model.Model;
+import obs.*;
+import view.UserInterface;
 
 public class Controller implements Observer {
     private Model model;

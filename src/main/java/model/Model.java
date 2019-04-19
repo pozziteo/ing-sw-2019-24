@@ -1,16 +1,17 @@
-package mvc;
+package model;
 
-import model.Game;
+import obs.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Model implements Observable {
     private Game game;
-    private List<Observer> observers = new ArrayList<> ();
+    private List<Observer> observers;
 
     public Model(Game game) {
         this.game = game;
+        this.observers = new ArrayList<> ();
     }
 
     public void attach(Observer observer) {
@@ -25,5 +26,8 @@ public class Model implements Observable {
 
     }
 
+    public Game getGame() {
+        return this.game;
+    }
 
 }

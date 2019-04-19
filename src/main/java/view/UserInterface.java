@@ -1,4 +1,6 @@
-package mvc;
+package view;
+
+import obs.*;
 
 /**
  * Interface that extends both the Observer and Observable ends of the pattern.

@@ -1,8 +1,7 @@
 package view.gui;
 
-import mvc.Observable;
-import mvc.Observer;
-import mvc.UserInterface;
+import obs.Observer;
+import view.UserInterface;
 
 public class GraphicUserInterface implements UserInterface {
 
