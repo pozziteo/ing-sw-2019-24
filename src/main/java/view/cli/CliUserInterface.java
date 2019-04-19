@@ -1,6 +1,8 @@
 package view.cli;
 
-import view.UserInterface;
+import mvc.Observable;
+import mvc.Observer;
+import mvc.UserInterface;
 
 public class CliUserInterface implements UserInterface {
     private static CliUserInterface instance;
@@ -24,12 +26,23 @@ public class CliUserInterface implements UserInterface {
     }
 
     @Override
-    public void callController(/*insert param*/) {
+    public void update(Observable observable, Object object) {
 
     }
 
     @Override
-    public void getState(/*insert param*/) {
+    public void attach(Observer observer) {
 
     }
+
+    @Override
+    public void detach(Observer observer) {
+
+    }
+
+    @Override
+    public void inform() {
+
+    }
+
 }

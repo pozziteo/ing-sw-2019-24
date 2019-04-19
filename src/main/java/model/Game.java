@@ -44,7 +44,6 @@ public class Game {
     private List<Player> ranking;
     private boolean finalFrenzy;
     private boolean endGame;
-    private ViewUpdater viewUpdater;
 
     public Game(int numberOfPlayers) {
         this.gameID = new Random().nextInt() * 1000000;
@@ -74,14 +73,6 @@ public class Game {
         Collections.shuffle(this.players);
         this.ranking.addAll(players);
         this.firstPlayer = this.players.get (0);
-    }
-
-    public void startGame(ViewUpdater viewUpdater) {
-        this.viewUpdater = viewUpdater;
-       /* for (Player p : this.players) {
-            p.getOwnedPowerUps ().add ((PowerUp) this.powerUpsDeck.drawCard ());
-            p.getOwnedPowerUps ().add ((PowerUp) this.powerUpsDeck.drawCard ());
-        } */
     }
 
     // *********************************************
