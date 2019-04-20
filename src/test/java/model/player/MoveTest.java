@@ -31,5 +31,4 @@ class MoveTest {
         assertNotEquals(initialPosition, anotherPosition);
         assertEquals(0, player.getPosition().getSquareId());
     }
-
 }
