@@ -30,22 +30,17 @@ public class Client {
         PrintWriter writer = new PrintWriter(output, true);
         InputStream in = socket.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-        //Scanner input = new Scanner(socket.getInputStream());
+
         Scanner stdin = new Scanner(System.in);
         try {
 
-
-
             while(true) {
-
                 String inputText = stdin.nextLine();
+                if(inputText.equals("end")){break;}
                 writer.println(inputText);
                 writer.flush();
-
-
                 String text = reader.readLine();
                 System.out.println(text);
-
             }
 
 

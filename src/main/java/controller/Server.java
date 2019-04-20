@@ -32,28 +32,27 @@ public class Server {
            ss = new ServerSocket(port);
            System.out.println("the server is ready on port: " + port);
 
-
-
-           while (i<5) {
+           while (i<6) {
 
                Socket s = ss.accept();
                Scanner input = new Scanner(s.getInputStream());
                PrintWriter output = new PrintWriter(s.getOutputStream());
                Scanner stdin = new Scanner(System.in);
-               String sInput= stdin.nextLine();
+
                System.out.println("A new client is here: Client" +i);
 
-               String text = input.nextLine();
-               if (text.equals("end")){break;}
+                while(true) {
+                    String text = input.nextLine();
+                    if (text.equals("end")) {
+                        break;
+                    }
 
-               System.out.println("From Client"+i +": " + text);
+                    System.out.println("From Client" + i + ": " + text);
 
-
-
-               output.println("From Server:" + sInput);
-               output.flush();
-
-
+                    String sInput = stdin.nextLine();
+                    output.println("From Server:" + sInput);
+                    output.flush();
+                }
              /*  PrintWriter writer = new PrintWriter(output, true);
                System.out.println(input);
                writer.println("welcome Client" +i);
@@ -70,25 +69,18 @@ public class Server {
                s.close();*/
            }
 
-
-
-
        } catch (IOException e){
            System.out.println(e.getMessage());
            e.printStackTrace();
        }
-
         ss.close();
-
     }
-
 
     /**
      * Main Method
      * @param args
      * @throws IOException
      */
-
     public static void main(String[] args) throws IOException{
 
         Server server = new Server(6666);
