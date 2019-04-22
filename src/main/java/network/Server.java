@@ -1,7 +1,4 @@
-package controller;
-
-import view.cli.CliPrinter;
-import view.cli.CliUserInterface;
+package network;
 
 import java.io.IOException;
 import java.io.*;
@@ -49,9 +46,11 @@ public class Server {
                System.out.println("A new client is here: Client" +i);
                String text;
 
-               /*-----------------------------------------------------------------------------------------------------*/
+               /*
+
+               /*-----------------------------------------------------------------------------------------------------
                /*This is the connection selector*/
-               /*-----------------------------------------------------------------------------------------------------*/
+               /*-----------------------------------------------------------------------------------------------------
                 output.println("Choose your connection by pressing the corresponding number:\n" +
                         "0 - RMI\n" +
                         "1 - Socket\n");
@@ -62,9 +61,9 @@ public class Server {
                 if (text.equals("1")){output.println("You chose Socket connection");output.flush();}
 
 
-               /*-----------------------------------------------------------------------------------------------------*/
+               /*-----------------------------------------------------------------------------------------------------
                /*This is the map selector*/
-               /*-----------------------------------------------------------------------------------------------------*/
+               /*-----------------------------------------------------------------------------------------------------
                 output.println("Which arena will be your battlefield?\n"
                         +"1 - Small arena\n"
                         +"2 - Medium arena (v1)\n"
@@ -79,9 +78,9 @@ public class Server {
                 if (text.equals("4")){output.println("You chose Medium arena (v1)");}
 
 
-               /*-----------------------------------------------------------------------------------------------------*/
+               /*-----------------------------------------------------------------------------------------------------
                /*This is the action selector*/
-               /*-----------------------------------------------------------------------------------------------------*/
+               /*-----------------------------------------------------------------------------------------------------
                output.println("What will you do next?\n"
                         +"1 - Move\n"
                         +"2 - Move and grab\n"
@@ -98,6 +97,8 @@ public class Server {
                output.println("The game is starting...." +
                        "get ready!");
                output.flush();
+
+               */
 
 
                i = i+1;

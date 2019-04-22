@@ -4,12 +4,11 @@ import model.Game;
 import org.junit.jupiter.api.Test;
 
 public class CliTest {
-    Game g = new Game (5);
-    private CliUserInterface cli = CliUserInterface.getCliInstance ();
+    private Game g = new Game (5);
+    private CliPrinter printer = new CliPrinter();
 
     @Test
     public void testPrint() {
-        CliPrinter printer = this.cli.getPrinter ();
         printer.printTitle ();
         printer.clearScreen ();
         printer.printConnectionOptions ();

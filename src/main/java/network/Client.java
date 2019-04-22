@@ -1,7 +1,4 @@
-package controller;
-
-import view.cli.CliPrinter;
-import view.cli.CliUserInterface;
+package network;
 
 import java.io.*;
 import java.net.Socket;
@@ -59,13 +56,13 @@ public class Client {
         }
     }
 
-
+/*
     /**
      * Main method
      * @param args
      * @throws NullPointerException
      * @throws IOException
-     */
+
     public static void main(String[] args) throws NullPointerException, IOException {
 
         Client client = new Client("localhost", 6666);
@@ -76,5 +73,5 @@ public class Client {
         client.startClient();
         System.out.println("Connection lost");
 
-    }
+    }*/
 }
