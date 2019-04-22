@@ -1,5 +1,8 @@
 package controller;
 
+import view.cli.CliPrinter;
+import view.cli.CliUserInterface;
+
 import java.io.IOException;
 import java.io.*;
 import java.net.*;
@@ -17,6 +20,9 @@ public class Server {
     public Server(int port){
         this.port = port;
     }
+
+
+
 
     /**
      * This method starts the server;
@@ -36,39 +42,71 @@ public class Server {
 
                Socket s = ss.accept();
                Scanner input = new Scanner(s.getInputStream());
+               //InputStream in = s.getInputStream();
                PrintWriter output = new PrintWriter(s.getOutputStream());
-               Scanner stdin = new Scanner(System.in);
-
+               //BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+               /*Scanner stdin = new Scanner(System.in);*/
                System.out.println("A new client is here: Client" +i);
+               String text;
 
-                while(true) {
-                    String text = input.nextLine();
-                    if (text.equals("end")) {
-                        break;
-                    }
+               /*-----------------------------------------------------------------------------------------------------*/
+               /*This is the connection selector*/
+               /*-----------------------------------------------------------------------------------------------------*/
+                output.println("Choose your connection by pressing the corresponding number:\n" +
+                        "0 - RMI\n" +
+                        "1 - Socket\n");
+                output.flush();
+                text = input.next();
+                System.out.println("From Client" + i + ": " + text);
+                if (text.equals("0")){output.println("You chose RMI connection");output.flush();}
+                if (text.equals("1")){output.println("You chose Socket connection");output.flush();}
 
-                    System.out.println("From Client" + i + ": " + text);
 
-                    String sInput = stdin.nextLine();
-                    output.println("From Server:" + sInput);
-                    output.flush();
-                }
-             /*  PrintWriter writer = new PrintWriter(output, true);
-               System.out.println(input);
-               writer.println("welcome Client" +i);
-               writer.println("Sent by The SERVER!");
+               /*-----------------------------------------------------------------------------------------------------*/
+               /*This is the map selector*/
+               /*-----------------------------------------------------------------------------------------------------*/
+                output.println("Which arena will be your battlefield?\n"
+                        +"1 - Small arena\n"
+                        +"2 - Medium arena (v1)\n"
+                        +"3 - Medium arena (v2)\n"
+                        +"4 - Large arena\n");
+                output.flush();
+                text = input.next();
+                System.out.println("From Client" + i + ": " + text);
+                if (text.equals("1")){output.println("You chose Small arena");}
+                if (text.equals("2")){output.println("You chose Medium arena (v1)");}
+                if (text.equals("3")){output.println("You chose Small arena");}
+                if (text.equals("4")){output.println("You chose Medium arena (v1)");}
 
-                 InputStream in = s.getInputStream();
-               BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-               String text = reader.readLine();
-               System.out.println(text);*/
+
+               /*-----------------------------------------------------------------------------------------------------*/
+               /*This is the action selector*/
+               /*-----------------------------------------------------------------------------------------------------*/
+               output.println("What will you do next?\n"
+                        +"1 - Move\n"
+                        +"2 - Move and grab\n"
+                        +"3 - Shoot an opponent\n"
+                        +"4 - Pass this turn\n");
+               output.flush();
+               text = input.next();
+               System.out.println("From Client" + i + ": " + text);
+               if (text.equals("1")){output.println("You chose to move");}
+               if (text.equals("2")){output.println("You chose to move and grab");}
+               if (text.equals("3")){output.println("You chose to Shoot an opponent");}
+               if (text.equals("4")){output.println("You chose to pass this turn");}
+
+               output.println("The game is starting...." +
+                       "get ready!");
+               output.flush();
+
 
                i = i+1;
-               /*input.close();
-               output.close();
-               s.close();*/
-           }
 
+           }
+           /* input.close();
+            in.close();
+            output.close();
+            s.close();*/
        } catch (IOException e){
            System.out.println(e.getMessage());
            e.printStackTrace();

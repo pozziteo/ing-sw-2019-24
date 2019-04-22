@@ -1,5 +1,8 @@
 package controller;
 
+import view.cli.CliPrinter;
+import view.cli.CliUserInterface;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
@@ -19,6 +22,8 @@ public class Client {
         this.serverAddress = serverAddress;
     }
 
+
+
     /**
      * This Method starts the client
      */
@@ -35,12 +40,17 @@ public class Client {
         try {
 
             while(true) {
+
+                while(true){
+                    String text = reader.readLine();
+                    if (text.equals("")){break;}
+                    System.out.println(text);
+                }
                 String inputText = stdin.nextLine();
-                if(inputText.equals("end")){break;}
                 writer.println(inputText);
+
+                if(inputText.equals("end")){break;}
                 writer.flush();
-                String text = reader.readLine();
-                System.out.println(text);
             }
 
 
@@ -61,7 +71,8 @@ public class Client {
         Client client = new Client("localhost", 6666);
         System.out.println("The client is now running. " +
                 "Connecting to the server...");
-        System.out.println("Connection established");
+        System.out.println("Connection established\n");
+
         client.startClient();
         System.out.println("Connection lost");
 
