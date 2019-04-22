@@ -31,7 +31,7 @@ public class Server {
 
         try {
            ss = new ServerSocket(port);
-           System.out.println("the server is ready on port: " + port);
+           System.out.println("Server is listening on port: " + port);
 
            while (i<6) {
 
@@ -108,9 +108,7 @@ public class Server {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException{
-
         Server server = new Server(6666);
-
         server.startServer();
     }
 }

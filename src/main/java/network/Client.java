@@ -28,7 +28,7 @@ public class Client {
 
 
         Socket socket = new Socket("localhost", 6666);
-        OutputStream output = socket.getOutputStream();
+       /* OutputStream output = socket.getOutputStream();
         PrintWriter writer = new PrintWriter(output, true);
         InputStream in = socket.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -64,7 +64,7 @@ public class Client {
         reader.close();
         writer.close();
         in.close();
-        output.close();
+        output.close(); */
     }
 
 /*

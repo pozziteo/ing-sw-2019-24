@@ -8,12 +8,16 @@ public class Adrenaline {
     public static void main(String[] args) throws IOException {
         CliParser parser = new CliParser();
 
-        System.out.print("Press 0 to run the server, 1 to run a client: ");
-        if (parser.parseInt() == 0) {
+        System.out.print("What do you want to run?\n");
+        System.out.print("0 - Server\n");
+        System.out.print("1 - Client\n");
+        if (parser.parseInt(1) == 0) {
             Server.main(args);
         } else {
-            System.out.print("Press 0 to choose Cli as your user interface, 1 for GUI: ");
-            switch (parser.parseInt()) {
+            System.out.print("Choose your user interface: \n");
+            System.out.print("0 - Cli\n");
+            System.out.print("1 - GUI\n");
+            switch (parser.parseInt(1)) {
                 case 0:
                     CliUserInterface.getCliInstance ();
                     break;

@@ -25,22 +25,26 @@ public class CliUserInterface implements UserInterface {
         return instance;
     }
 
-    public CliPrinter getPrinter() {
-        return this.printer;
-    }
-
     public void establishConnection() {
         this.printer.printConnectionOptions ();
-        if (this.parser.parseInt () == 0) {
+        if (this.parser.parseInt (1) == 0) {
             //rmi
         } else {
             try {
                 this.client = new Client ("localhost", 6666);
-                client.startClient ( );
+                client.startClient();
+                launch();
             } catch (IOException e) {
                 System.out.println ("error"); //change
             }
         }
+    }
+
+    public void launch() {
+        this.printer.clearScreen ();
+        this.printer.printTitle ();
+        this.parser.parseEnter ();
+        this.printer.clearScreen ();
     }
 
     @Override

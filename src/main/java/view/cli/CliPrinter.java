@@ -66,7 +66,7 @@ public class CliPrinter {
                 "   /   /   /   /   /  |   |   |   |   |  \\   \\   \\   \\   \\   \\\n" +
                 "  /   /   /   /   /   |   |   |   |   |   \\   \\   \\   \\   \\   \\\n" + ANSI_RESET);
         print("A SHOOTING GAME IMPLEMENTED BY " + ANSI_RESET + ANSI_RED + "Luca Pome', " + ANSI_RESET + ANSI_YELLOW + "Matteo Pozzi, " + ANSI_RESET + ANSI_GREEN + "Sara Sacco." + ANSI_RESET);
-        print("\nPress any button to continue");
+        print("\nPress Enter to continue");
     }
 
     synchronized void clearScreen() {
@@ -75,34 +75,38 @@ public class CliPrinter {
         }
     }
 
+    synchronized void printInvalidInput() {
+        print("This input is not valid\n");
+    }
+
     synchronized void printConnectionOptions() {
-        print("Choose your connection by pressing the corresponding number:");
+        print("Choose your connection:");
         print("0 - RMI");
         print("1 - Socket");
     }
 
     synchronized void printMapOptions() {
         print("Which arena will be your battlefield?");
-        print("1 - Small arena");
-        print("2 - Medium arena (v1)");
-        print("3 - Medium arena (v2)");
-        print("4 - Large arena");
+        print("0 - Small arena");
+        print("1 - Medium arena (v1)");
+        print("2 - Medium arena (v2)");
+        print("3 - Large arena");
     }
 
     synchronized void printInitialSpawnPointOptions(List<PowerUp> powerUps) {
         PowerUpType powerUp1 = powerUps.get(0).getType ();
         PowerUpType powerUp2 = powerUps.get(1).getType ();
         print("Pick your spawn point by discarding the power up card with the corresponding color:");
-        print("1 - " + powerUp1.getDescription () + " (spawn in " + powerUp1.getColor ().toLowerCase () + " room)");
-        print("2 - " + powerUp2.getDescription () + " (spawn in " + powerUp2.getColor ().toLowerCase () + " room)");
+        print("0 - " + powerUp1.getDescription () + " (spawn in " + powerUp1.getColor ().toLowerCase () + " room)");
+        print("1 - " + powerUp2.getDescription () + " (spawn in " + powerUp2.getColor ().toLowerCase () + " room)");
     }
 
     synchronized void printActionOptions() {
         print("What will you do next?");
-        print("1 - Move");
-        print("2 - Move and grab");
-        print("3 - Shoot an opponent");
-        print("4 - Pass this turn");
+        print("0 - Move");
+        print("1 - Move and grab");
+        print("2 - Shoot an opponent");
+        print("3 - Pass this turn");
     }
 
     synchronized void printRanking(List<Player> ranking) {

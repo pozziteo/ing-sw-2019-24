@@ -40,13 +40,25 @@ public class CliParser {
 
         do {
             n = parseInt();
-            if (n > 0 && n < maxInt) {
+            if (n >= 0 && n <= maxInt) {
                 value = true;
             } else {
-                //printer.showInputNotValid();
+                printer.printInvalidInput ();
             }
         } while(!value);
 
         return n;
+    }
+
+    /**
+     * Method to parse enter from command line
+     */
+
+    public void parseEnter() {
+        try {
+            System.in.read();
+        } catch(Exception e) {
+            System.out.println ("error"); //change
+        }
     }
 }
