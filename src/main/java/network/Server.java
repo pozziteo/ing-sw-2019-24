@@ -19,8 +19,6 @@ public class Server {
     }
 
 
-
-
     /**
      * This method starts the server;
      * It also handles every new client that joins the server
@@ -39,11 +37,8 @@ public class Server {
 
                Socket s = ss.accept();
                Scanner input = new Scanner(s.getInputStream());
-               //InputStream in = s.getInputStream();
                PrintWriter output = new PrintWriter(s.getOutputStream());
-               //BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-               /*Scanner stdin = new Scanner(System.in);*/
-               System.out.println("A new client is here: Client" +i);
+               System.out.println("A new client is here: Client" +i +"\n");
                String text;
 
                /*
@@ -56,10 +51,10 @@ public class Server {
                         "1 - Socket\n");
                 output.flush();
                 text = input.next();
-                System.out.println("From Client" + i + ": " + text);
-                if (text.equals("0")){output.println("You chose RMI connection");output.flush();}
-                if (text.equals("1")){output.println("You chose Socket connection");output.flush();}
-
+                System.out.println("From Client" + i + ":");
+                if (text.equals("0")){output.println("You chose RMI connection");System.out.println("RMI");}
+                if (text.equals("1")){output.println("You chose Socket connection");System.out.println("Socket");}
+                output.flush();
 
                /*-----------------------------------------------------------------------------------------------------
                /*This is the map selector*/
@@ -71,12 +66,11 @@ public class Server {
                         +"4 - Large arena\n");
                 output.flush();
                 text = input.next();
-                System.out.println("From Client" + i + ": " + text);
-                if (text.equals("1")){output.println("You chose Small arena");}
-                if (text.equals("2")){output.println("You chose Medium arena (v1)");}
-                if (text.equals("3")){output.println("You chose Small arena");}
-                if (text.equals("4")){output.println("You chose Medium arena (v1)");}
-
+                if (text.equals("1")){output.println("You chose Small arena");System.out.println("Small arena");}
+                if (text.equals("2")){output.println("You chose Medium arena (v1)");System.out.println("Medium arena (v1)");}
+                if (text.equals("3")){output.println("You chose Medium arena (v2)");System.out.println("Medium arena (v2)");}
+                if (text.equals("4")){output.println("You chose Large arena");System.out.println("Large arena");}
+                output.flush();
 
                /*-----------------------------------------------------------------------------------------------------
                /*This is the action selector*/
@@ -88,26 +82,19 @@ public class Server {
                         +"4 - Pass this turn\n");
                output.flush();
                text = input.next();
-               System.out.println("From Client" + i + ": " + text);
-               if (text.equals("1")){output.println("You chose to move");}
-               if (text.equals("2")){output.println("You chose to move and grab");}
-               if (text.equals("3")){output.println("You chose to Shoot an opponent");}
-               if (text.equals("4")){output.println("You chose to pass this turn");}
-
-               output.println("The game is starting...." +
+               if (text.equals("1")){output.println("You chose to move");System.out.println("move\n");}
+               if (text.equals("2")){output.println("You chose to move and grab");System.out.println("move and grab\n");}
+               if (text.equals("3")){output.println("You chose to Shoot an opponent");System.out.println("shoot\n");}
+               if (text.equals("4")){output.println("You chose to pass this turn");System.out.println("pass\n");}
+               output.flush();
+               output.println("The game is starting... " +
                        "get ready!");
                output.flush();
 
-               */
-
-
+              */
                i = i+1;
-
            }
-           /* input.close();
-            in.close();
-            output.close();
-            s.close();*/
+
        } catch (IOException e){
            System.out.println(e.getMessage());
            e.printStackTrace();
@@ -123,9 +110,7 @@ public class Server {
     public static void main(String[] args) throws IOException{
 
         Server server = new Server(6666);
-        System.out.println("the server is running...");
 
         server.startServer();
-
     }
 }
