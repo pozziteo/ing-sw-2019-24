@@ -56,7 +56,18 @@ public class Client {
 
         } catch (IOException e){
             System.err.println(e.getMessage());
+        } finally {
+            socket.close();
+            reader.close();
+            writer.close();
+            in.close();
+            output.close();
         }
+        socket.close();
+        reader.close();
+        writer.close();
+        in.close();
+        output.close();
     }
 
 
