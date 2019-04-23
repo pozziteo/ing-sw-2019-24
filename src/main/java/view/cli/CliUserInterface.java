@@ -5,12 +5,14 @@ import obs.Observer;
 import view.UserInterface;
 
 import java.io.IOException;
+import java.util.List;
 
 public class CliUserInterface implements UserInterface {
     private static CliUserInterface instance;
     private CliPrinter printer;
     private CliParser parser;
     private Client client;
+    private List<Observer> observers;
 
     public CliUserInterface() {
         this.printer = new CliPrinter ();
@@ -47,22 +49,18 @@ public class CliUserInterface implements UserInterface {
         this.printer.clearScreen ();
     }
 
-    @Override
     public void update(Object object) {
 
     }
 
-    @Override
     public void attach(Observer observer) {
-
+        this.observers.add (observer);
     }
 
-    @Override
     public void detach(Observer observer) {
-
+        this.observers.remove (observer);
     }
 
-    @Override
     public void inform() {
 
     }

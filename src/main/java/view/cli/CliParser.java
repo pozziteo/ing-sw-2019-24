@@ -23,7 +23,7 @@ public class CliParser {
                 parsed = in.nextInt();
                 flag = true;
             } catch (InputMismatchException ex) {
-                //printer.showInputNotValid();
+                printer.printInvalidInput ();
                 in.next();
             }
         }
@@ -58,7 +58,7 @@ public class CliParser {
         try {
             System.in.read();
         } catch(Exception e) {
-            System.out.println ("error"); //change
+            printer.printInvalidInput ();
         }
     }
 }
