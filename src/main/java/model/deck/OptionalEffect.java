@@ -28,6 +28,11 @@ public class OptionalEffect extends WeaponEffect {
         return this.alternativeMode;
     }
 
+    public boolean isUsable(Player attacker) {
+        List<Ammo> actualAmmo = new ArrayList<>(attacker.getBoard().getOwnedAmmo());
+        return actualAmmo.removeAll(this.additionalCost);
+    }
+
     @Override
     public void useEffect(Player attacker, Player target, Integer... id) {
         if (!additionalCost.isEmpty())
@@ -37,8 +42,6 @@ public class OptionalEffect extends WeaponEffect {
 
     public void payAdditionalCost(Player attacker) {
         List<Ammo> actualAmmo = attacker.getBoard().getOwnedAmmo();
-        for (Ammo ammo : this.additionalCost) {
-            actualAmmo.remove(ammo);
-        }
+        actualAmmo.removeAll(this.additionalCost);
     }
 }

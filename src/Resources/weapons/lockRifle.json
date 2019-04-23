@@ -1,14 +1,48 @@
 {
 
-  "description" : "Lock Rifle: description",
+  "description" : "Lock Rifle",
 
-  "damage" : 2,
-  "mark" : 1,
-  "requiredAmmo": 2,
-  "colorAmmo1": "blue",
+  "cost": ["blue", "blue"],
 
-  "extraMark": 1,
-  "requiredBonusAmmo": 1,
-  "colorBonusAmmo1": "red"
+  "baseEffect": {
+
+    "required": {
+      "type": "position",
+      "value": "visible"
+    },
+
+    "target": "single",
+
+    "effects": [
+      {
+        "damage": 2,
+        "marks": 1
+      }
+    ]
+  },
+
+  "optionalEffects": [
+    {
+      "required": {
+        "type": "position",
+        "value": "visible"
+      },
+
+      "target": "single",
+      "constraints": [
+        "different from base target"
+      ],
+
+      "additionalCost": ["red"],
+
+      "effects": [
+        {
+          "damage": 0,
+          "marks": 1
+        }
+      ]
+    }
+  ]
+
 
 }
