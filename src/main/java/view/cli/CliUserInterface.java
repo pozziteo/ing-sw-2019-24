@@ -1,17 +1,15 @@
 package view.cli;
 
-import network.Client;
+import network.socket.SocketClient;
 import obs.Observer;
 import view.UserInterface;
-
-import java.io.IOException;
 import java.util.List;
 
 public class CliUserInterface implements UserInterface {
     private static CliUserInterface instance;
     private CliPrinter printer;
     private CliParser parser;
-    private Client client;
+    private SocketClient client;
     private List<Observer> observers;
 
     public CliUserInterface() {
@@ -32,13 +30,9 @@ public class CliUserInterface implements UserInterface {
         if (this.parser.parseInt (1) == 0) {
             //rmi
         } else {
-            try {
-                this.client = new Client ("localhost", 6666);
-                client.startClient();
-                launch();
-            } catch (IOException e) {
-                System.out.println ("error"); //change
-            }
+            this.client = new SocketClient ("localhost", 6666, this);
+            client.connect ();
+            launch();
         }
     }
 
