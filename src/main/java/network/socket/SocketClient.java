@@ -48,7 +48,7 @@ public class SocketClient implements Runnable {
         while (value) {
             try {
                 DataForClient receivedData = (DataForClient) in.readObject();
-                view.update(receivedData);
+                //view.update(receivedData);
             } catch (Exception e) {
                 value = false;
                 System.out.println(e);

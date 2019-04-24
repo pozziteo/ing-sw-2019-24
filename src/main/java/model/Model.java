@@ -1,30 +1,21 @@
 package model;
 
-import obs.*;
+import controller.Controller;
+import data.DataForServer;
+import view.UserInterface;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Model implements Observable {
+public class Model {
     private Game game;
-    private List<Observer> observers;
+    private UserInterface view;
+    private Controller controller;
 
-    public Model(Game game) {
+    public Model(Game game, UserInterface view, Controller controller) {
         this.game = game;
-        this.observers = new ArrayList<> ();
+        this.view = view;
+        this.controller = controller;
     }
 
-    public void attach(Observer observer) {
-        this.observers.add (observer);
-    }
 
-    public void detach(Observer observer) {
-        this.observers.remove (observer);
-    }
-
-    public void inform() {
-
-    }
 
     public Game getGame() {
         return this.game;

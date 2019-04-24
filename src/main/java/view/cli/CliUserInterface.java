@@ -1,16 +1,13 @@
 package view.cli;
 
 import network.socket.SocketClient;
-import obs.Observer;
 import view.UserInterface;
-import java.util.List;
 
 public class CliUserInterface implements UserInterface {
     private static CliUserInterface instance;
     private CliPrinter printer;
     private CliParser parser;
     private SocketClient client;
-    private List<Observer> observers;
 
     public CliUserInterface() {
         this.printer = new CliPrinter ();
@@ -32,7 +29,6 @@ public class CliUserInterface implements UserInterface {
         } else {
             this.client = new SocketClient ("localhost", 6666, this);
             client.connect ();
-            launch();
         }
     }
 
@@ -42,21 +38,4 @@ public class CliUserInterface implements UserInterface {
         this.parser.parseEnter ();
         this.printer.clearScreen ();
     }
-
-    public void update(Object object) {
-
-    }
-
-    public void attach(Observer observer) {
-        this.observers.add (observer);
-    }
-
-    public void detach(Observer observer) {
-        this.observers.remove (observer);
-    }
-
-    public void inform() {
-
-    }
-
 }
