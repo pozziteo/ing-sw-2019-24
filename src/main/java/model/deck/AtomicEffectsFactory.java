@@ -6,7 +6,7 @@ import model.player.Player;
 
 import java.util.List;
 
-public class AtomicEffectsFactory implements Action {
+public class AtomicEffectsFactory {
 
     public AtomicEffectsFactory() {
         super();
@@ -26,11 +26,11 @@ public class AtomicEffectsFactory implements Action {
             Player performer;
             List<Integer> paths;
             if (executor.equals("attacker")) {
-                paths = findPaths(attacker, movements);
+                paths = Action.findPaths(attacker, movements);
                 performer = attacker;
             }
             else {
-                paths = findPaths(target, movements);
+                paths = Action.findPaths(target, movements);
                 performer = target;
             }
 

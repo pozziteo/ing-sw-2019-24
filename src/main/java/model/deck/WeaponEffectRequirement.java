@@ -2,6 +2,8 @@ package model.deck;
 
 import model.player.Player;
 
+import java.util.List;
+
 public interface WeaponEffectRequirement {
-    void findTargets(Player attacker);
+    List<Player> findTargets(Player attacker);
 }

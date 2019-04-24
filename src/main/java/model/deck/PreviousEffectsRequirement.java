@@ -2,6 +2,8 @@ package model.deck;
 
 import model.player.Player;
 
+import java.util.List;
+
 public class PreviousEffectsRequirement implements WeaponEffectRequirement {
 
     private WeaponEffect previousEffect;
@@ -11,7 +13,8 @@ public class PreviousEffectsRequirement implements WeaponEffectRequirement {
     }
 
     @Override
-    public void findTargets(Player attacker) {
+    public List<Player> findTargets(Player attacker) {
         //TODO
+        return null;
     }
 }

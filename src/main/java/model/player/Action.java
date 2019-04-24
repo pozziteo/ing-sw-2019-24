@@ -18,7 +18,7 @@ public interface Action {
         }
     }
 
-    default List<Integer> findPaths(Player player, int movements) {
+    static List<Integer> findPaths(Player player, int movements) {
 
         Map map = player.getGame().getArena();
         Square position = player.getPosition();

@@ -16,11 +16,11 @@ public class Move implements Action {
 
         System.out.println("You can move into squares:");
         if (!frenzy)
-            paths = findPaths(player, 3);
+            paths = Action.findPaths(player, 3);
         else if (!player.equals(firstPlayer) &&
                 players.indexOf(player) < players.indexOf(firstPlayer)){
             System.out.println("( Final Frenzy turn! )");
-            paths = findPaths(player, 4);
+            paths = Action.findPaths(player, 4);
         }
         else System.out.println("None: you can't perform this action right now.");
     }

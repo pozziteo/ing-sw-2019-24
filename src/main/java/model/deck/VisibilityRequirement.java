@@ -2,6 +2,9 @@ package model.deck;
 
 import model.player.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class VisibilityRequirement implements WeaponEffectRequirement {
 
     private boolean visible;
@@ -11,7 +14,23 @@ public class VisibilityRequirement implements WeaponEffectRequirement {
     }
 
     @Override
-    public void findTargets(Player attacker){
-        //TODO
+    public List<Player> findTargets(Player attacker){
+
+        List<Player> visiblePlayers = new ArrayList<>();
+        List<Player> notVisiblePlayers = new ArrayList<>();
+        List<Player> players = new ArrayList<>(attacker.getGame().getPlayers());
+        players.remove(attacker);
+
+        for (Player player : players) {
+            if (attacker.canSee(player))
+                visiblePlayers.add(player);
+            else
+                notVisiblePlayers.add(player);
+        }
+
+        if (visible)
+            return visiblePlayers;
+        else
+            return notVisiblePlayers;
     }
 }

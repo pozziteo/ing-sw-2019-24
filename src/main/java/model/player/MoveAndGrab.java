@@ -19,18 +19,18 @@ public class MoveAndGrab implements Action {
         if (!frenzy) {
             if (player.getBoard().getDamageTaken().size() >= 3) {
                 System.out.println("( Adrenaline Action! )");
-                paths = findPaths(player, 2);
+                paths = Action.findPaths(player, 2);
             } else
-                paths = findPaths(player, 1);
+                paths = Action.findPaths(player, 1);
         }
         else {
             System.out.println("( Final Frenzy Turn! )");
             if (!player.equals(firstPlayer) &&
                     players.indexOf(player) < players.indexOf(firstPlayer)) {
-                paths = findPaths(player, 2);
+                paths = Action.findPaths(player, 2);
             }
             else
-                paths = findPaths(player, 3);
+                paths = Action.findPaths(player, 3);
         }
     }
 
