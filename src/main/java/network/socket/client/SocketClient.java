@@ -30,7 +30,7 @@ public class SocketClient implements Runnable {
      */
     public void connectToServer() {
         try {
-            socket = new Socket("localhost", 6666);
+            socket = new Socket(serverAddress, port);
             in = new ObjectInputStream(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
             out.flush();
@@ -45,7 +45,7 @@ public class SocketClient implements Runnable {
         while (value) {
             try {
                 DataForClient receivedData = (DataForClient) in.readObject();
-                //view.update(receivedData);
+                view.updateView(receivedData);
             } catch (Exception e) {
                 value = false;
                 System.out.println(e);

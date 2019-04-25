@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public abstract class Account {
     private String nickname;
+    private boolean online = false;
     private GameModel currentGame;
     private ArrayList<GameModel> gameHistory;
 
@@ -16,6 +17,14 @@ public abstract class Account {
 
     public String getNickName() {
         return this.nickname;
+    }
+
+    public void setOnline() {
+        this.online = true;
+    }
+
+    public boolean isConnected() {
+        return this.online;
     }
 
     public void sendData(DataForClient data) {

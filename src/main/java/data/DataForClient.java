@@ -6,19 +6,18 @@ import java.io.Serializable;
 
 public abstract class DataForClient implements Serializable {
     private Account account;
-    private int gameID;
 
-    public DataForClient(Account account, int gameID) {
+    public DataForClient(Account account) {
         this.account = account;
-        this.gameID = gameID;
     }
 
     public void sendToView() {
-        try {
-            account.sendData(this);
-        } catch (Exception e) {
-            System.out.println (e);
+        if (account.isConnected()) {
+            try {
+                account.sendData(this);
+            } catch (Exception e) {
+                System.out.println (e);
+            }
         }
     }
-
 }

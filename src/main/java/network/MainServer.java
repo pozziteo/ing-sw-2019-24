@@ -16,7 +16,7 @@ public class MainServer {
     private boolean rmiRunning;
     private boolean socketRunning;
     private String serverAddress;
-    private int rmiPort;
+    //private int rmiPort;
     private int socketPort;
     private CliParser parser;
 
@@ -24,7 +24,7 @@ public class MainServer {
         this.parser = new CliParser ();
         this.accounts = new ArrayList<>();
         this.serverAddress = "localhost"; //change to get dynamically
-        this.rmiPort = 5555;
+        //this.rmiPort = 5555;
         this.socketPort = 6666;
         this.mainRunning = false;
         this.rmiRunning = false;

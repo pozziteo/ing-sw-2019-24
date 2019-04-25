@@ -7,8 +7,8 @@ import network.visitors.Account;
 public class MapData extends DataForClient {
     private Square[] arena;
 
-    public MapData(Account account, int gameID, Square[] arena) {
-        super(account, gameID);
+    public MapData(Account account, Square[] arena) {
+        super(account);
         this.arena = arena;
     }
 }

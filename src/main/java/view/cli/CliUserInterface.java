@@ -1,5 +1,6 @@
 package view.cli;
 
+import data.DataForClient;
 import network.socket.client.SocketClient;
 import view.UserInterface;
 
@@ -39,5 +40,9 @@ public class CliUserInterface implements UserInterface {
         this.printer.printTitle ();
         this.parser.parseEnter ();
         this.printer.clearScreen ();
+    }
+
+    public void updateView(DataForClient data) {
+        //needs implementation
     }
 }

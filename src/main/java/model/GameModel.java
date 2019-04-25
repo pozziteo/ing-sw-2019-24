@@ -26,7 +26,7 @@ public class GameModel {
     }
 
     private MapData updateMapData(Account account) {
-        return new MapData(account, game.getGameID (), game.getMap ().getArena ());
+        return new MapData(account, game.getMap ().getArena ());
     }
 
     public void notifyNewMapData() {
