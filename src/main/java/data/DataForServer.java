@@ -1,4 +1,5 @@
 package data;
 
-public class DataForServer {
+public abstract class DataForServer {
+
 }

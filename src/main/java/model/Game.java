@@ -34,7 +34,7 @@ public class Game {
 
     private int gameID;
     private int currentTurn;
-    private Map arena;
+    private Map map;
     private List<Player> players;
     private Player firstPlayer;
     private int skullsRemaining;
@@ -102,8 +102,8 @@ public class Game {
      * @return arena
      */
 
-    public Map getArena() {
-        return this.arena;
+    public Map getMap() {
+        return this.map;
     }
 
 
@@ -209,7 +209,7 @@ public class Game {
 
     public void setArena() {
         try {
-            this.arena = new ArenaBuilder().createMap();
+            this.map = new ArenaBuilder().createMap();
         } catch (FileNotFoundException exc) {
             System.err.println("Error: Invalid map file selected");
             exc.printStackTrace();

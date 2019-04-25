@@ -1,6 +1,6 @@
 package view.cli;
 
-import network.socket.SocketClient;
+import network.socket.client.SocketClient;
 import view.UserInterface;
 
 public class CliUserInterface implements UserInterface {
@@ -23,12 +23,14 @@ public class CliUserInterface implements UserInterface {
     }
 
     public void establishConnection() {
+        this.printer.printNickname();
+        String nickname = this.parser.parseNickname();
         this.printer.printConnectionOptions ();
         if (this.parser.parseInt (1) == 0) {
             //rmi
         } else {
-            this.client = new SocketClient ("localhost", 6666, this);
-            client.connect ();
+            this.client = new SocketClient (nickname, "localhost", 6666, this);
+            client.connectToServer ();
         }
     }
 

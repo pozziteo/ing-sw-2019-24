@@ -1,13 +1,17 @@
 package network;
 
-import network.rmi.RmiServer;
-import network.socket.SocketServer;
+import network.rmi.server.RmiServer;
+import network.socket.server.SocketServer;
+import network.visitors.Account;
 import view.cli.CliParser;
+
+import java.util.ArrayList;
 
 public class MainServer {
     private static MainServer instance;
     private SocketServer socketServer;
     private RmiServer rmiServer;
+    private ArrayList<Account> accounts;
     private boolean mainRunning;
     private boolean rmiRunning;
     private boolean socketRunning;
@@ -18,6 +22,7 @@ public class MainServer {
 
     private MainServer() {
         this.parser = new CliParser ();
+        this.accounts = new ArrayList<>();
         this.serverAddress = "localhost"; //change to get dynamically
         this.rmiPort = 5555;
         this.socketPort = 6666;

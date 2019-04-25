@@ -20,7 +20,7 @@ public interface Action {
 
     default List<Integer> findPaths(Player player, int movements) {
 
-        Map map = player.getGame().getArena();
+        Map map = player.getGame().getMap();
         Square position = player.getPosition();
         List<Integer> toVisit = new ArrayList<>();
         toVisit.add(position.getSquareId());

@@ -15,19 +15,20 @@ public class CliParser {
      */
 
     public int parseInt() {
-        int parsed = 0;
-        boolean flag = false;
-        while (!flag) {
+        int n = 0;
+        boolean value = false;
+
+        while (!value) {
             Scanner in = new Scanner(System.in);
             try {
-                parsed = in.nextInt();
-                flag = true;
+                n = in.nextInt();
+                value = true;
             } catch (InputMismatchException ex) {
                 printer.printInvalidInput ();
                 in.next();
             }
         }
-        return parsed;
+        return n;
     }
 
     /**
@@ -60,5 +61,26 @@ public class CliParser {
         } catch(Exception e) {
             printer.printInvalidInput ();
         }
+    }
+
+    /**
+     * Method to parse a player's nickname
+     */
+
+    public String parseNickname() {
+        String nickname = "";
+        boolean value = false;
+
+        while (!value) {
+            Scanner in = new Scanner(System.in);
+            try {
+                nickname = in.next("([a-z]|[0-9]){0,11}");
+                value = true;
+            } catch (InputMismatchException ex) {
+                printer.printInvalidInput();
+                in.next();
+            }
+        }
+        return nickname;
     }
 }

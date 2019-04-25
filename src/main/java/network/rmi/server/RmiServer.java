@@ -1,4 +1,4 @@
-package network.rmi;
+package network.rmi.server;
 
 public class RmiServer {
     private boolean running;

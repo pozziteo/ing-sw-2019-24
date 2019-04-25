@@ -19,8 +19,8 @@ class PlayerTest {
 
     @Test
     void testGiveMarks() {
-        p1.setPosition(game.getArena ().getSquare(2));
-        p2.setPosition(game.getArena ().getSquare(1));
+        p1.setPosition(game.getMap ().getSquare(2));
+        p2.setPosition(game.getMap ().getSquare(1));
 
         p1.giveMark (3, p2);
         assertEquals(3, p2.getBoard().getMarksAmountGivenByPlayer (p1));
@@ -28,16 +28,16 @@ class PlayerTest {
 
     @Test
     public void testPlayersInSameRoom() {
-        p1.setPosition(game.getArena().getSquare(0));
-        p2.setPosition(game.getArena().getSquare(1));
+        p1.setPosition(game.getMap ().getSquare(0));
+        p2.setPosition(game.getMap ().getSquare(1));
 
         assertTrue(p1.isInTheSameRoom (p2));
     }
 
     @Test
     public void testPlayerCanSee() {
-        p1.setPosition(game.getArena().getSquare(0));
-        p2.setPosition(game.getArena().getSquare(6));
+        p1.setPosition(game.getMap ().getSquare(0));
+        p2.setPosition(game.getMap ().getSquare(6));
 
         assertTrue(p1.canSee (p2));
     }

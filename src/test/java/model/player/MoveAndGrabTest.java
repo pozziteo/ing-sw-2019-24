@@ -20,7 +20,7 @@ class MoveAndGrabTest {
     //TODO add JavaDoc
     @Test
     void moveAndGrabTest() {
-        Map map = g.getArena();
+        Map map = g.getMap ();
         Square initialSquare = map.getSquare(1);
         ((NormalSquare) initialSquare).setPlacedTile(new Tile(TileFormat.TILE_FORMAT_4));
         Player player = g.getPlayers().get(0);
@@ -49,7 +49,7 @@ class MoveAndGrabTest {
 
     @Test
     void adrenalineMoveAndGrabTest() {
-        Map map = g.getArena();
+        Map map = g.getMap ();
         Square initialSquare = map.getSquare(1);
         Player notAdrenaline = g.getPlayers().get(1);
         Player adrenaline = g.getPlayers().get(2);

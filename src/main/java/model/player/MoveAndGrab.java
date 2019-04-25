@@ -51,7 +51,7 @@ public class MoveAndGrab implements Action {
     public Square grabObject(Player player, int xSquare, int ySquare) {
         int squareId = xSquare*4 + ySquare;
         if (paths.contains(squareId)) {
-            player.setPosition(player.getGame().getArena().getSquare(squareId));
+            player.setPosition(player.getGame().getMap().getSquare(squareId));
             grabObject(player);
         }
         else {

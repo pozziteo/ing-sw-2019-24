@@ -1,4 +1,4 @@
-package network.socket;
+package network.socket.server;
 
 import java.io.*;
 import java.net.*;
@@ -42,7 +42,7 @@ public class SocketServer {
                     Socket s = ss.accept ( );
                     i++;
                     System.out.println ("A new client is here: Client" + i + "\n");
-                    executor.submit(new ServerThread (s, i));
+                    executor.submit(new PlayerThread (s, i));
                 } catch (IOException e) {
                     running = false;
                     System.out.println (e.getMessage ( ));

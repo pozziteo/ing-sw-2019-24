@@ -184,8 +184,8 @@ public class Player {
      */
 
     public void chooseSpawnPoint(PowerUp powerUp) {
-        for (int i = 0; i < this.game.getArena ().getDimension (); i++) {
-            Square s = this.game.getArena ().getSquare (i);
+        for (int i = 0; i < this.game.getMap ().getDimension (); i++) {
+            Square s = this.game.getMap ().getSquare (i);
             if (s.getSquareColor ().equals(powerUp.getType ().getColor ()) && s.isSpawnPoint()) {
                 this.setPosition (s);
             }
@@ -217,7 +217,7 @@ public class Player {
             return true;
         } else {
             for (int i = 0; i < this.getPosition ().getLinks().size(); i++) {
-                Square s = this.getGame().getArena ().getSquare(this.getPosition ().getLinks ().get(i));
+                Square s = this.getGame().getMap ().getSquare(this.getPosition ().getLinks ().get(i));
                 if (s.getSquareColor ().equals (p.getPosition ().getSquareColor ())) {
                     return true;
                 }

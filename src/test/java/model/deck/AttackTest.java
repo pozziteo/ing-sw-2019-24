@@ -14,8 +14,8 @@ public class AttackTest {
 
     @Test
     public void testAttack() {
-        p1.setPosition(game.getArena().getSquare(2));
-        p2.setPosition(game.getArena().getSquare(4));
+        p1.setPosition(game.getMap ().getSquare(2));
+        p2.setPosition(game.getMap ().getSquare(4));
 
         Attack a = new Attack(2, 1, p1, p2);
         a.giveDamage ();

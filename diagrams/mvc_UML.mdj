@@ -26,7 +26,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqNdLHVSvDv2I="
 							},
 							"subViews": [
@@ -36,7 +36,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqNdLHVivFYSw="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqNdLHVSvDv2I="
 									},
 									"subViews": [
@@ -133,7 +133,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqMjpFUy6wTq4="
 							},
 							"subViews": [
@@ -143,7 +143,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMjpFUy6ytck="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMjpFUy6wTq4="
 									},
 									"subViews": [
@@ -246,7 +246,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqMjkf/y3l3pk="
 							},
 							"subViews": [
@@ -256,7 +256,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMjkgAC3nl2M="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMjkf/y3l3pk="
 									},
 									"subViews": [
@@ -283,7 +283,7 @@
 											"top": 574,
 											"width": 399,
 											"height": 13,
-											"text": "model"
+											"text": "gameModel"
 										},
 										{
 											"_type": "LabelView",
@@ -356,7 +356,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqMjjaZS26sok="
 							},
 							"subViews": [
@@ -366,7 +366,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMjjaZy28kEc="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMjjaZS26sok="
 									},
 									"subViews": [
@@ -407,7 +407,7 @@
 											"top": 1328,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from model)"
+											"text": "(from gameModel)"
 										},
 										{
 											"_type": "LabelView",
@@ -447,7 +447,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMjjaZy28kEc="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMjjaZS26sok="
 									},
 									"font": "Arial;13;0",
@@ -462,7 +462,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMjjaZy28kEc="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMjjaZS26sok="
 									},
 									"font": "Arial;13;0",
@@ -477,7 +477,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMjjaZy28kEc="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMjjaZS26sok="
 									},
 									"visible": false,
@@ -493,7 +493,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMjjaZy28kEc="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMjjaZS26sok="
 									},
 									"visible": false,
@@ -535,7 +535,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqMjqp2S7O8Ho="
 							},
 							"subViews": [
@@ -545,7 +545,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMjqp2S7QC/k="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMjqp2S7O8Ho="
 									},
 									"subViews": [
@@ -642,7 +642,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqMj1LPi7wFDQ="
 							},
 							"subViews": [
@@ -652,7 +652,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMj1LPi7yo8A="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMj1LPi7wFDQ="
 									},
 									"subViews": [
@@ -752,7 +752,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqMj1jzS8K0dI="
 							},
 							"subViews": [
@@ -762,7 +762,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMj1jzi8Ma6U="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMj1jzS8K0dI="
 									},
 									"subViews": [
@@ -862,7 +862,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqMolcjzGkdbA="
 							},
 							"subViews": [
@@ -872,7 +872,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMolcjzGo0fs="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMolcjzGkdbA="
 									},
 									"font": "Arial;13;0",
@@ -894,7 +894,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMolcjzGo0fs="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMolcjzGkdbA="
 									},
 									"visible": null,
@@ -915,7 +915,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMolcjzGo0fs="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMolcjzGkdbA="
 									},
 									"visible": false,
@@ -936,7 +936,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMolcjzGo0fs="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMolcjzGlz4E="
 									},
 									"visible": false,
@@ -957,7 +957,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMolcjzGo0fs="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMolcjzGlz4E="
 									},
 									"visible": false,
@@ -978,7 +978,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMolcjzGo0fs="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMolcjzGlz4E="
 									},
 									"font": "Arial;13;0",
@@ -1000,7 +1000,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMolcjzGo0fs="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMolcjzGmvtE="
 									},
 									"visible": false,
@@ -1020,7 +1020,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMolcjzGo0fs="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMolcjzGmvtE="
 									},
 									"visible": false,
@@ -1040,7 +1040,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMolcjzGo0fs="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMolcjzGmvtE="
 									},
 									"visible": false,
@@ -1060,7 +1060,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMolcjzGo0fs="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMolcjzGlz4E="
 									},
 									"visible": false,
@@ -1076,7 +1076,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMolcjzGo0fs="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMolcjzGmvtE="
 									},
 									"visible": false,
@@ -1137,7 +1137,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqMpsA2TXEUwg="
 							},
 							"subViews": [
@@ -1147,7 +1147,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMpsA2TXGSlU="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMpsA2TXEUwg="
 									},
 									"visible": false,
@@ -1168,7 +1168,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMpsA2TXGSlU="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMpsA2TXEUwg="
 									},
 									"visible": null,
@@ -1189,7 +1189,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMpsA2TXGSlU="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMpsA2TXEUwg="
 									},
 									"visible": false,
@@ -1230,7 +1230,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqMp9okToFsLU="
 							},
 							"subViews": [
@@ -1240,7 +1240,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMp9okToJuzk="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMp9okToFsLU="
 									},
 									"visible": false,
@@ -1261,7 +1261,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMp9okToJuzk="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMp9okToFsLU="
 									},
 									"visible": null,
@@ -1282,7 +1282,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMp9okToJuzk="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMp9okToFsLU="
 									},
 									"visible": false,
@@ -1303,7 +1303,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMp9okToJuzk="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMp9okToGQl4="
 									},
 									"visible": false,
@@ -1324,7 +1324,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMp9okToJuzk="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMp9okToGQl4="
 									},
 									"visible": false,
@@ -1345,7 +1345,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMp9okToJuzk="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMp9okToGQl4="
 									},
 									"visible": false,
@@ -1366,7 +1366,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMp9okToJuzk="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMp9okToHi2s="
 									},
 									"visible": false,
@@ -1386,7 +1386,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMp9okToJuzk="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMp9okToHi2s="
 									},
 									"visible": false,
@@ -1406,7 +1406,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMp9okToJuzk="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMp9okToHi2s="
 									},
 									"visible": false,
@@ -1426,7 +1426,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMp9okToJuzk="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMp9okToGQl4="
 									},
 									"visible": false,
@@ -1442,7 +1442,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMp9okToJuzk="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMp9okToHi2s="
 									},
 									"visible": false,
@@ -1503,7 +1503,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqMqCwCDxXGZo="
 							},
 							"subViews": [
@@ -1513,7 +1513,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqCwCDxZhBQ="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqCwCDxXGZo="
 									},
 									"visible": false,
@@ -1534,7 +1534,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqCwCDxZhBQ="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqCwCDxXGZo="
 									},
 									"visible": null,
@@ -1555,7 +1555,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqCwCDxZhBQ="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqCwCDxXGZo="
 									},
 									"visible": false,
@@ -1597,7 +1597,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqMqDD0DyGR5Y="
 							},
 							"subViews": [
@@ -1607,7 +1607,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqDD0DyIOlE="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqDD0DyGR5Y="
 									},
 									"visible": false,
@@ -1628,7 +1628,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqDD0DyIOlE="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqDD0DyGR5Y="
 									},
 									"visible": null,
@@ -1649,7 +1649,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqDD0DyIOlE="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqDD0DyGR5Y="
 									},
 									"visible": false,
@@ -1691,7 +1691,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqMqEu6TzBvGE="
 							},
 							"subViews": [
@@ -1701,7 +1701,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqEu6TzFrCg="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqEu6TzBvGE="
 									},
 									"font": "Arial;13;0",
@@ -1723,7 +1723,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqEu6TzFrCg="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqEu6TzBvGE="
 									},
 									"visible": null,
@@ -1744,7 +1744,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqEu6TzFrCg="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqEu6TzBvGE="
 									},
 									"visible": false,
@@ -1765,7 +1765,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqEu6TzFrCg="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqEu6TzCXL4="
 									},
 									"visible": false,
@@ -1786,7 +1786,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqEu6TzFrCg="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqEu6TzCXL4="
 									},
 									"visible": false,
@@ -1807,7 +1807,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqEu6TzFrCg="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqEu6TzCXL4="
 									},
 									"visible": false,
@@ -1828,7 +1828,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqEu6TzFrCg="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqEu6TzDbYo="
 									},
 									"visible": false,
@@ -1848,7 +1848,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqEu6TzFrCg="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqEu6TzDbYo="
 									},
 									"visible": false,
@@ -1868,7 +1868,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqEu6TzFrCg="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqEu6TzDbYo="
 									},
 									"visible": false,
@@ -1888,7 +1888,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqEu6TzFrCg="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqEu6TzCXL4="
 									},
 									"visible": false,
@@ -1902,7 +1902,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqEu6TzFrCg="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqEu6TzDbYo="
 									},
 									"visible": false,
@@ -1961,7 +1961,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqMqFqoT1QS7w="
 							},
 							"subViews": [
@@ -1971,7 +1971,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqFqoj1UD5c="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqFqoT1QS7w="
 									},
 									"font": "Arial;13;0",
@@ -1985,7 +1985,7 @@
 										"$ref": "AAAAAAFqMqFqoj1UD5c="
 									},
 									"edgePosition": 1,
-									"text": "+model"
+									"text": "+gameModel"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -1993,7 +1993,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqFqoj1UD5c="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqFqoT1QS7w="
 									},
 									"visible": null,
@@ -2014,7 +2014,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqFqoj1UD5c="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqFqoT1QS7w="
 									},
 									"visible": false,
@@ -2035,7 +2035,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqFqoj1UD5c="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqFqoT1RlVU="
 									},
 									"visible": false,
@@ -2056,7 +2056,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqFqoj1UD5c="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqFqoT1RlVU="
 									},
 									"visible": false,
@@ -2077,7 +2077,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqFqoj1UD5c="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqFqoT1RlVU="
 									},
 									"visible": false,
@@ -2098,7 +2098,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqFqoj1UD5c="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqFqoT1SUAY="
 									},
 									"visible": false,
@@ -2118,7 +2118,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqFqoj1UD5c="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqFqoT1SUAY="
 									},
 									"visible": false,
@@ -2138,7 +2138,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqFqoj1UD5c="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqFqoT1SUAY="
 									},
 									"visible": false,
@@ -2158,7 +2158,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqFqoj1UD5c="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqFqoT1RlVU="
 									},
 									"visible": false,
@@ -2172,7 +2172,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqFqoj1UD5c="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqFqoT1SUAY="
 									},
 									"visible": false,
@@ -2231,7 +2231,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqMqGcqT3xht0="
 							},
 							"subViews": [
@@ -2241,7 +2241,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqGcqj31snc="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqGcqT3xht0="
 									},
 									"font": "Arial;13;0",
@@ -2255,7 +2255,7 @@
 										"$ref": "AAAAAAFqMqGcqj31snc="
 									},
 									"edgePosition": 1,
-									"text": "+model"
+									"text": "+gameModel"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -2263,7 +2263,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqGcqj31snc="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqGcqT3xht0="
 									},
 									"visible": null,
@@ -2284,7 +2284,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqGcqj31snc="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqGcqT3xht0="
 									},
 									"visible": false,
@@ -2305,7 +2305,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqGcqj31snc="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqGcqT3yd/Q="
 									},
 									"visible": false,
@@ -2326,7 +2326,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqGcqj31snc="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqGcqT3yd/Q="
 									},
 									"visible": false,
@@ -2347,7 +2347,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqGcqj31snc="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqGcqT3yd/Q="
 									},
 									"visible": false,
@@ -2368,7 +2368,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqGcqj31snc="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqGcqT3zel4="
 									},
 									"visible": false,
@@ -2388,7 +2388,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqGcqj31snc="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqGcqT3zel4="
 									},
 									"visible": false,
@@ -2408,7 +2408,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqGcqj31snc="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqGcqT3zel4="
 									},
 									"visible": false,
@@ -2428,7 +2428,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqGcqj31snc="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqGcqT3yd/Q="
 									},
 									"visible": false,
@@ -2442,7 +2442,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMqGcqj31snc="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMqGcqT3zel4="
 									},
 									"visible": false,
@@ -2501,7 +2501,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqMmAXHzApXv4="
 							},
 							"subViews": [
@@ -2511,7 +2511,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMmAXHzArpgA="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMmAXHzApXv4="
 									},
 									"subViews": [
@@ -2593,7 +2593,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMmAXHzArpgA="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMmAXHzApXv4="
 									},
 									"font": "Arial;13;0",
@@ -2608,7 +2608,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMmAXHzArpgA="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMmAXHzApXv4="
 									},
 									"subViews": [
@@ -2618,7 +2618,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqMmAXIDAyRoY="
 											},
-											"model": {
+											"gameModel": {
 												"$ref": "AAAAAAFqMmt2hzCCzkE="
 											},
 											"font": "Arial;13;0",
@@ -2642,7 +2642,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMmAXHzArpgA="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMmAXHzApXv4="
 									},
 									"visible": false,
@@ -2658,7 +2658,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMmAXHzArpgA="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMmAXHzApXv4="
 									},
 									"visible": false,
@@ -2700,7 +2700,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqMmCKVDBWI0M="
 							},
 							"subViews": [
@@ -2710,7 +2710,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMmCKVDBYic8="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMmCKVDBWI0M="
 									},
 									"subViews": [
@@ -2792,7 +2792,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMmCKVDBYic8="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMmCKVDBWI0M="
 									},
 									"font": "Arial;13;0",
@@ -2807,7 +2807,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMmCKVDBYic8="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMmCKVDBWI0M="
 									},
 									"subViews": [
@@ -2817,7 +2817,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqMmCKVDBf600="
 											},
-											"model": {
+											"gameModel": {
 												"$ref": "AAAAAAFqMm+kSDCJ718="
 											},
 											"font": "Arial;13;0",
@@ -2834,7 +2834,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqMmCKVDBf600="
 											},
-											"model": {
+											"gameModel": {
 												"$ref": "AAAAAAFqMouHWTL2a7c="
 											},
 											"font": "Arial;13;0",
@@ -2851,7 +2851,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqMmCKVDBf600="
 											},
-											"model": {
+											"gameModel": {
 												"$ref": "AAAAAAFqMpXA6TM9bJg="
 											},
 											"font": "Arial;13;0",
@@ -2875,7 +2875,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMmCKVDBYic8="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMmCKVDBWI0M="
 									},
 									"visible": false,
@@ -2891,7 +2891,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMmCKVDBYic8="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMmCKVDBWI0M="
 									},
 									"visible": false,
@@ -2933,7 +2933,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqNdTgbTpoEJ4="
 							},
 							"subViews": [
@@ -2943,7 +2943,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqNdTgbTpq0V4="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqNdTgbTpoEJ4="
 									},
 									"visible": false,
@@ -2964,7 +2964,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqNdTgbTpq0V4="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqNdTgbTpoEJ4="
 									},
 									"visible": null,
@@ -2985,7 +2985,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqNdTgbTpq0V4="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqNdTgbTpoEJ4="
 									},
 									"visible": false,
@@ -3027,7 +3027,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqNdcFMkFMH84="
 							},
 							"subViews": [
@@ -3037,7 +3037,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqNdcFM0FOYfY="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqNdcFMkFMH84="
 									},
 									"subViews": [
@@ -3118,7 +3118,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqNdcFM0FOYfY="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqNdcFMkFMH84="
 									},
 									"font": "Arial;13;0",
@@ -3133,7 +3133,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqNdcFM0FOYfY="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqNdcFMkFMH84="
 									},
 									"font": "Arial;13;0",
@@ -3148,7 +3148,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqNdcFM0FOYfY="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqNdcFMkFMH84="
 									},
 									"visible": false,
@@ -3164,7 +3164,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqNdcFM0FOYfY="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqNdcFMkFMH84="
 									},
 									"visible": false,
@@ -3206,7 +3206,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqNdc8O0KUhpw="
 							},
 							"subViews": [
@@ -3216,7 +3216,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqNdc8O0KWozA="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqNdc8O0KUhpw="
 									},
 									"visible": false,
@@ -3237,7 +3237,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqNdc8O0KWozA="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqNdc8O0KUhpw="
 									},
 									"visible": null,
@@ -3258,7 +3258,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqNdc8O0KWozA="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqNdc8O0KUhpw="
 									},
 									"visible": false,
@@ -3300,7 +3300,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqNdfVIUdM7NM="
 							},
 							"subViews": [
@@ -3310,7 +3310,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqNdfVIUdOd5Y="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqNdfVIUdM7NM="
 									},
 									"visible": false,
@@ -3331,7 +3331,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqNdfVIUdOd5Y="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqNdfVIUdM7NM="
 									},
 									"visible": null,
@@ -3352,7 +3352,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqNdfVIUdOd5Y="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqNdfVIUdM7NM="
 									},
 									"visible": false,
@@ -3394,7 +3394,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqMkMSai+Y464="
 							},
 							"subViews": [
@@ -3404,7 +3404,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMkMSay+ait0="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMkMSai+Y464="
 									},
 									"subViews": [
@@ -3485,7 +3485,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMkMSay+ait0="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMkMSai+Y464="
 									},
 									"subViews": [
@@ -3495,7 +3495,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqMkMSay+gzkU="
 											},
-											"model": {
+											"gameModel": {
 												"$ref": "AAAAAAFqNdUlYjtqzRc="
 											},
 											"font": "Arial;13;0",
@@ -3503,7 +3503,7 @@
 											"top": 942,
 											"width": 161.26220703125,
 											"height": 13,
-											"text": "-model: Model",
+											"text": "-gameModel: Model",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3512,7 +3512,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqMkMSay+gzkU="
 											},
-											"model": {
+											"gameModel": {
 												"$ref": "AAAAAAFqNdWUojzqfC8="
 											},
 											"font": "Arial;13;0",
@@ -3536,7 +3536,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMkMSay+ait0="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMkMSai+Y464="
 									},
 									"subViews": [
@@ -3546,7 +3546,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqMkMSay+hJys="
 											},
-											"model": {
+											"gameModel": {
 												"$ref": "AAAAAAFqMpZakDPdZ+g="
 											},
 											"font": "Arial;13;0",
@@ -3570,7 +3570,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMkMSay+ait0="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMkMSai+Y464="
 									},
 									"visible": false,
@@ -3586,7 +3586,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMkMSay+ait0="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMkMSai+Y464="
 									},
 									"visible": false,
@@ -3628,7 +3628,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqMj2wci8mKhg="
 							},
 							"subViews": [
@@ -3638,7 +3638,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMj2wci8oxck="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMj2wci8mKhg="
 									},
 									"subViews": [
@@ -3720,7 +3720,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMj2wci8oxck="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMj2wci8mKhg="
 									},
 									"subViews": [
@@ -3730,7 +3730,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqMj2wcy8ur6Q="
 											},
-											"model": {
+											"gameModel": {
 												"$ref": "AAAAAAFqNdY2oz49omE="
 											},
 											"font": "Arial;13;0",
@@ -3738,7 +3738,7 @@
 											"top": 555,
 											"width": 197.615234375,
 											"height": 13,
-											"text": "-model: Model",
+											"text": "-gameModel: Model",
 											"horizontalAlignment": 0
 										}
 									],
@@ -3754,7 +3754,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMj2wci8oxck="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMj2wci8mKhg="
 									},
 									"subViews": [
@@ -3764,7 +3764,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqMj2wcy8v1iw="
 											},
-											"model": {
+											"gameModel": {
 												"$ref": "AAAAAAFqMqJZGz/bqFE="
 											},
 											"font": "Arial;13;0",
@@ -3781,7 +3781,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqMj2wcy8v1iw="
 											},
-											"model": {
+											"gameModel": {
 												"$ref": "AAAAAAFqMqJqcUCG2cs="
 											},
 											"font": "Arial;13;0",
@@ -3798,7 +3798,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqMj2wcy8v1iw="
 											},
-											"model": {
+											"gameModel": {
 												"$ref": "AAAAAAFqMqJ1GkEEdJA="
 											},
 											"font": "Arial;13;0",
@@ -3815,7 +3815,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqMj2wcy8v1iw="
 											},
-											"model": {
+											"gameModel": {
 												"$ref": "AAAAAAFqMqKBQUGC+Fw="
 											},
 											"font": "Arial;13;0",
@@ -3839,7 +3839,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMj2wci8oxck="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMj2wci8mKhg="
 									},
 									"visible": false,
@@ -3855,7 +3855,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMj2wci8oxck="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMj2wci8mKhg="
 									},
 									"visible": false,
@@ -3897,7 +3897,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqNdedckYikB8="
 							},
 							"subViews": [
@@ -3907,7 +3907,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqNdedckYkLME="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqNdedckYikB8="
 									},
 									"subViews": [
@@ -3988,7 +3988,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqNdedckYkLME="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqNdedckYikB8="
 									},
 									"font": "Arial;13;0",
@@ -4003,7 +4003,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqNdedckYkLME="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqNdedckYikB8="
 									},
 									"font": "Arial;13;0",
@@ -4018,7 +4018,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqNdedckYkLME="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqNdedckYikB8="
 									},
 									"visible": false,
@@ -4034,7 +4034,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqNdedckYkLME="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqNdedckYikB8="
 									},
 									"visible": false,
@@ -4076,7 +4076,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
-							"model": {
+							"gameModel": {
 								"$ref": "AAAAAAFqMp0oIzgb0zk="
 							},
 							"subViews": [
@@ -4086,7 +4086,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMp0oIzgdckg="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMp0oIzgb0zk="
 									},
 									"subViews": [
@@ -4127,7 +4127,7 @@
 											"top": 144,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from model)"
+											"text": "(from gameModel)"
 										},
 										{
 											"_type": "LabelView",
@@ -4167,7 +4167,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMp0oIzgdckg="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMp0oIzgb0zk="
 									},
 									"subViews": [
@@ -4177,7 +4177,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqMp0oJDgjrBE="
 											},
-											"model": {
+											"gameModel": {
 												"$ref": "AAAAAAFqMp1uoDhzAfU="
 											},
 											"font": "Arial;13;0",
@@ -4194,7 +4194,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqMp0oJDgjrBE="
 											},
-											"model": {
+											"gameModel": {
 												"$ref": "AAAAAAFqNdaXsz/ME+k="
 											},
 											"font": "Arial;13;0",
@@ -4218,7 +4218,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMp0oIzgdckg="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMp0oIzgb0zk="
 									},
 									"subViews": [
@@ -4228,7 +4228,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqMp0oJDgka4g="
 											},
-											"model": {
+											"gameModel": {
 												"$ref": "AAAAAAFqMp32aTkO8Jc="
 											},
 											"font": "Arial;13;0",
@@ -4245,7 +4245,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqMp0oJDgka4g="
 											},
-											"model": {
+											"gameModel": {
 												"$ref": "AAAAAAFqMp5yCTlMCNE="
 											},
 											"font": "Arial;13;0",
@@ -4262,7 +4262,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqMp0oJDgka4g="
 											},
-											"model": {
+											"gameModel": {
 												"$ref": "AAAAAAFqMp6IMDlz/pg="
 											},
 											"font": "Arial;13;0",
@@ -4279,7 +4279,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqMp0oJDgka4g="
 											},
-											"model": {
+											"gameModel": {
 												"$ref": "AAAAAAFqMp6U6TmR+3o="
 											},
 											"font": "Arial;13;0",
@@ -4303,7 +4303,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMp0oIzgdckg="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMp0oIzgb0zk="
 									},
 									"visible": false,
@@ -4319,7 +4319,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMp0oIzgdckg="
 									},
-									"model": {
+									"gameModel": {
 										"$ref": "AAAAAAFqMp0oIzgb0zk="
 									},
 									"visible": false,
@@ -4363,7 +4363,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "model",
+					"name": "gameModel",
 					"ownedElements": [
 						{
 							"_type": "UMLClass",
@@ -4625,7 +4625,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMkMSai+Y464="
 									},
-									"name": "model",
+									"name": "gameModel",
 									"end1": {
 										"_type": "UMLAssociationEnd",
 										"_id": "AAAAAAFqMqGcqT3yd/Q=",
@@ -4656,7 +4656,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMkMSai+Y464="
 									},
-									"name": "model",
+									"name": "gameModel",
 									"visibility": "private",
 									"type": {
 										"$ref": "AAAAAAFqMp0oIzgb0zk="
@@ -4813,7 +4813,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMj2wci8mKhg="
 									},
-									"name": "model",
+									"name": "gameModel",
 									"end1": {
 										"_type": "UMLAssociationEnd",
 										"_id": "AAAAAAFqMqFqoT1RlVU=",
@@ -4845,7 +4845,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFqMj2wci8mKhg="
 									},
-									"name": "model",
+									"name": "gameModel",
 									"visibility": "private",
 									"type": {
 										"$ref": "AAAAAAFqMp0oIzgb0zk="

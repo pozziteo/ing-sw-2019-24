@@ -120,4 +120,8 @@ public class CliPrinter {
         print("You're all set up! The match will now begin");
     }
 
+    synchronized void printNickname() {
+        print("Enter your nickname: ");
+    }
+
 }

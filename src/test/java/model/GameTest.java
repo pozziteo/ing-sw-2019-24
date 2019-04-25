@@ -22,9 +22,9 @@ public class GameTest {
 
     @Test
     public void testWinner() {
-        p1.setPosition(game.getArena().getSquare(2));
-        p2.setPosition(game.getArena().getSquare(4));
-        p3.setPosition(game.getArena().getSquare(11));
+        p1.setPosition(game.getMap ().getSquare(2));
+        p2.setPosition(game.getMap ().getSquare(4));
+        p3.setPosition(game.getMap ().getSquare(11));
         assertEquals (0, game.getWinner ( ).getPointTokens ());
         p1.addPointTokens (8);
         p2.addPointTokens (2);

@@ -12,7 +12,7 @@ class MoveTest {
 
      @Test
     void correctMovesTest() {
-        Map map = g.getArena();
+        Map map = g.getMap ();
         Player player = g.getPlayers().get(0);
         player.setPosition(map.getSquare(2));
         Move move = new Move(player, player.getGame().isFinalFrenzy());

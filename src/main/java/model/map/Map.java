@@ -53,6 +53,15 @@ public class Map {
         return this.arena[id];
     }
 
+    /**
+     * Method to get the array of squares that make up a map
+     * @return
+     */
+
+    public Square[] getArena() {
+        return this.arena;
+    }
+
 
     /**
      * Method to determine which players are in the same room and can therefore see each other
