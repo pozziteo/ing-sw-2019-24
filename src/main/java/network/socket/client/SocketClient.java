@@ -1,10 +1,15 @@
 package network.socket.client;
 
 import data.DataForClient;
+import data.DataForServer;
 import view.cli.CliUserInterface;
 
 import java.io.*;
 import java.net.Socket;
+
+/**
+ * Class is used to connect a generic client to the server after choosing the socket option.
+ */
 
 public class SocketClient implements Runnable {
     private int port;
@@ -19,15 +24,17 @@ public class SocketClient implements Runnable {
      * @param port represents the socket port of the server
      * @param serverAddress represents the IP address (on the same machine it might be called localhost)
      */
-    public SocketClient(String nickname, String serverAddress, int port, CliUserInterface view){
+
+    public SocketClient(String serverAddress, int port, CliUserInterface view){
         this.port = port;
         this.serverAddress = serverAddress;
         this.view = view;
     }
 
     /**
-     * This Method starts the client
+     * Method to connect the client to the server via socket
      */
+
     public void connectToServer() {
         try {
             socket = new Socket(serverAddress, port);
@@ -35,10 +42,15 @@ public class SocketClient implements Runnable {
             out = new ObjectOutputStream(socket.getOutputStream());
             out.flush();
             (new Thread(this)).start();
+            view.setUpAccount ();
         } catch(Exception e) {
             System.err.println(e.getMessage());
         }
     }
+
+    /**
+     * Implements run() method from Runnable interface
+     */
 
     public void run() {
         boolean value = true;
@@ -55,6 +67,20 @@ public class SocketClient implements Runnable {
             in.close();
             out.close();
             socket.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+
+    /**
+     * Method to write data from the view on the output stream
+     * @param data that needs to be sent to the server
+     */
+
+    public void sendData(DataForServer data) {
+        try {
+            out.writeObject(data);
+            out.reset();
         } catch (IOException e) {
             System.out.println(e);
         }

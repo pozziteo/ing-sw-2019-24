@@ -1,8 +1,12 @@
 package view.cli;
 
 import data.DataForClient;
+import data.DataForServer;
+import data.data_for_network.AccountSetUp;
 import network.socket.client.SocketClient;
 import view.UserInterface;
+
+//TODO javadoc
 
 public class CliUserInterface implements UserInterface {
     private static CliUserInterface instance;
@@ -24,19 +28,16 @@ public class CliUserInterface implements UserInterface {
     }
 
     public void establishConnection() {
-        this.printer.printNickname();
-        String nickname = this.parser.parseNickname();
         this.printer.printConnectionOptions ();
         if (this.parser.parseInt (1) == 0) {
             //rmi
         } else {
-            this.client = new SocketClient (nickname, "localhost", 6666, this);
+            this.client = new SocketClient ("localhost", 6666, this);
             client.connectToServer ();
         }
     }
 
-    public void launch() {
-        this.printer.clearScreen ();
+    public void launchTitle() {
         this.printer.printTitle ();
         this.parser.parseEnter ();
         this.printer.clearScreen ();
@@ -44,5 +45,16 @@ public class CliUserInterface implements UserInterface {
 
     public void updateView(DataForClient data) {
         //needs implementation
+    }
+
+    public void sendToController(DataForServer data) {
+        client.sendData (data);
+    }
+
+    public void setUpAccount() {
+        this.printer.printNickname ();
+        String nickname = this.parser.parseNickname ();
+        AccountSetUp accountData = new AccountSetUp (nickname);
+        sendToController (accountData);
     }
 }

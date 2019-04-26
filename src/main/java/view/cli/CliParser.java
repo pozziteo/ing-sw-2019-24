@@ -3,6 +3,10 @@ package view.cli;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Class to parse inputs from command line.
+ */
+
 public class CliParser {
     private CliPrinter printer;
 
@@ -74,7 +78,7 @@ public class CliParser {
         while (!value) {
             Scanner in = new Scanner(System.in);
             try {
-                nickname = in.next("([a-z]|[0-9]){0,11}");
+                nickname = in.next("([A-z]|[0-9]){0,11}");
                 value = true;
             } catch (InputMismatchException ex) {
                 printer.printInvalidInput();

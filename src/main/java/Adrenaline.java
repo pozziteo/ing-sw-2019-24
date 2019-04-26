@@ -1,6 +1,10 @@
 import view.cli.CliParser;
 import view.cli.CliUserInterface;
 
+/**
+ * Class to launch a new client, it lets the client choose the user interface.
+ */
+
 public class Adrenaline {
     public static void main(String[] args) {
         CliParser parser = new CliParser();

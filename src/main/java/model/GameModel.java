@@ -6,15 +6,20 @@ import network.visitors.Account;
 
 import java.util.ArrayList;
 
+//TODO javadoc
+
 public class GameModel {
     private Game game;
     private Controller controller;
     private ArrayList<Account> players;
 
-    public GameModel(Game game, Controller controller) {
-        this.game = game;
-        this.controller = controller;
+    public GameModel() {
+        this.controller = new Controller(this);
         this.players = new ArrayList<>();
+    }
+
+    public void startNewGame() {
+        this.game = new Game(players.size ());
     }
 
     public Game getGame() {

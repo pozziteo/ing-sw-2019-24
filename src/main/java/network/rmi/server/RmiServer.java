@@ -8,11 +8,13 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class RmiServer implements CommonInterface{
     private boolean running;
+    private int port;
 
     /**
      * Constructor that creates a not-running RmiServer
      */
-    public RmiServer() {
+    public RmiServer(int port) {
+        this.port = port;
         this.running = false;
     }
 
@@ -25,7 +27,7 @@ public class RmiServer implements CommonInterface{
         while(running) {
             try {
 
-                RmiServer server = new RmiServer();
+                RmiServer server = new RmiServer(port);
                 CommonInterface stub = (CommonInterface) UnicastRemoteObject.exportObject(server, 0);
 
                 //bind the remote object's stub in the registry

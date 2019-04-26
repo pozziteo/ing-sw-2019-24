@@ -4,6 +4,8 @@ import data.DataForClient;
 import model.map.Square;
 import network.visitors.Account;
 
+//TODO javadoc
+
 public class MapData extends DataForClient {
     private Square[] arena;
 

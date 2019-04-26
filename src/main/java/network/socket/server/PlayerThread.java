@@ -2,20 +2,27 @@ package network.socket.server;
 
 import data.DataForClient;
 import data.DataForServer;
+import network.MainServer;
 import network.visitors.Account;
 
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * Class that implements the thread (server side) for every single client connected.
+ */
+
 public class PlayerThread extends Account implements Runnable {
+    private MainServer server;
     private Socket socket;
     private int clientNum;
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private boolean connected;
+    private Account account;
 
-    public PlayerThread(Socket s, int i) {
-        super();
+    public PlayerThread(MainServer server, Socket s, int i) {
+        this.server = server;
         this.socket = s;
         this.clientNum = i;
         this.connected = true;
@@ -28,12 +35,17 @@ public class PlayerThread extends Account implements Runnable {
         }
     }
 
+    /**
+     * Implementation of run() method of Runnable interface
+     */
+
     @Override
     public void run() {
         try {
         connected = true;
             while (connected && socket.isConnected ()) {
                 DataForServer receivedData = (DataForServer) in.readObject ();
+                receivedData.sendToController ();
             }
         } catch (Exception e) {
             System.out.println (e);
@@ -51,7 +63,11 @@ public class PlayerThread extends Account implements Runnable {
         }
     }
 
-    @Override
+    /**
+     * Method to forward data from server to client
+     * @param data meant for the client
+     */
+
     public void sendData(DataForClient data) {
         try {
             out.writeObject(data);
@@ -60,4 +76,5 @@ public class PlayerThread extends Account implements Runnable {
             System.out.println(e);
         }
     }
+
 }

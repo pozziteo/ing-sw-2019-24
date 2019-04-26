@@ -11,6 +11,8 @@ import java.util.List;
  * Class to display messages on command line
  */
 
+//TODO javadoc
+
 public class CliPrinter {
 
     /**

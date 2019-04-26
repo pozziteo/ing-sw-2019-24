@@ -5,6 +5,8 @@ import model.GameModel;
 
 import java.util.ArrayList;
 
+//TODO javadoc
+
 public abstract class Account {
     private String nickname;
     private boolean online = false;
@@ -23,7 +25,7 @@ public abstract class Account {
         this.online = true;
     }
 
-    public boolean isConnected() {
+    public boolean isOnline() {
         return this.online;
     }
 

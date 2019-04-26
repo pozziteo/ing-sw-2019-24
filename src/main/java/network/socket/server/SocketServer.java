@@ -1,11 +1,18 @@
 package network.socket.server;
 
+import network.MainServer;
+
 import java.io.*;
 import java.net.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Class that implements a server with socket connection.
+ */
+
 public class SocketServer {
+    private MainServer server;
     private boolean running;
     private int port;
     private ServerSocket ss;
@@ -15,7 +22,8 @@ public class SocketServer {
      *
      * @param port is the port required for creating the socket
      */
-    public SocketServer(int port) {
+    public SocketServer(MainServer server, int port) {
+        this.server = server;
         this.port = port;
         this.running = false;
     }
@@ -42,7 +50,7 @@ public class SocketServer {
                     Socket s = ss.accept ( );
                     i++;
                     System.out.println ("A new client is here: Client" + i + "\n");
-                    executor.submit(new PlayerThread (s, i));
+                    executor.submit(new PlayerThread (server, s, i));
                 } catch (IOException e) {
                     running = false;
                     System.out.println (e.getMessage ( ));
@@ -50,16 +58,5 @@ public class SocketServer {
                 }
             }
         executor.shutdown ();
-    }
-
-
-    /**
-     * Main Method
-     * @param args passed to main()
-     * @throws IOException thrown by startServer()
-     */
-    public static void main(String[] args) {
-        SocketServer socketServer = new SocketServer (6666);
-        socketServer.startServer();
     }
 }
