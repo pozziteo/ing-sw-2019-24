@@ -8,7 +8,9 @@ import adrenaline.network.rmi.client.RmiClient;
 import adrenaline.network.socket.client.SocketClient;
 import adrenaline.view.UserInterface;
 
-//TODO javadoc
+/**
+ * Class that implements the user interface using command line.
+ */
 
 public class CliUserInterface implements UserInterface {
     private static CliUserInterface instance;
@@ -21,6 +23,12 @@ public class CliUserInterface implements UserInterface {
         this.parser = new CliParser ();
     }
 
+    /**
+     * Getter to create and obtain the instance of this singleton class.
+     * It calls the method that establishes connection with the server.
+     * @return istance
+     */
+
     public static CliUserInterface getCliInstance() {
         if (instance == null) {
             instance = new CliUserInterface ( );
@@ -28,6 +36,10 @@ public class CliUserInterface implements UserInterface {
         }
         return instance;
     }
+
+    /**
+     * Method to connect this client to the server based on the connection type chosen.
+     */
 
     private void establishConnection() {
         this.printer.printConnectionOptions ();
@@ -40,18 +52,27 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
+    /**
+     * Shows title screen on command line.
+     */
+
     public void launchTitleScreen() {
         this.printer.printTitle ();
         this.parser.parseEnter ();
         this.printer.clearScreen ();
     }
 
-    public void updateView(DataForClient data) {
-        //needs implementation
-    }
+    /**
+     * Implements UserInterface method. It sends parsed data to the controller.
+     * @param data to send
+     */
 
     public void sendToController(DataForServer data) {
         client.sendData (data);
+    }
+
+    public void updateView(DataForClient data) {
+        //this.printer.printData();
     }
 
     public void setUpAccount() {
