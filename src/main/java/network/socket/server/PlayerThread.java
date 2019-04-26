@@ -1,9 +1,10 @@
 package network.socket.server;
 
+import controller.Controller;
 import data.DataForClient;
 import data.DataForServer;
 import network.MainServer;
-import network.visitors.Account;
+import network.Account;
 
 import java.io.*;
 import java.net.Socket;
@@ -19,10 +20,11 @@ public class PlayerThread extends Account implements Runnable {
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private boolean connected;
-    private Account account;
+    private Controller controller;
 
     public PlayerThread(MainServer server, Socket s, int i) {
         this.server = server;
+        this.controller = new Controller(server.getGame());
         this.socket = s;
         this.clientNum = i;
         this.connected = true;
@@ -45,7 +47,7 @@ public class PlayerThread extends Account implements Runnable {
         connected = true;
             while (connected && socket.isConnected ()) {
                 DataForServer receivedData = (DataForServer) in.readObject ();
-                receivedData.sendToController ();
+                this.controller.receiveData (receivedData);
             }
         } catch (Exception e) {
             System.out.println (e);

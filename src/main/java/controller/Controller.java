@@ -1,16 +1,14 @@
 package controller;
 
 import data.DataForServer;
-import data.data_for_network.AccountSetUp;
 import model.GameModel;
-import network.visitors.Account;
-import view.UserInterface;
 
-//TODO javadoc
+/**
+ * Class that manages data received in every single thread (server-side).
+ */
 
 public class Controller {
     private GameModel gameModel;
-    private UserInterface view;
 
     public Controller(GameModel gameModel) {
         this.gameModel = gameModel;
@@ -24,11 +22,7 @@ public class Controller {
         //TODO implement
     }
 
-    public void receiveData(AccountSetUp data) {
-        //addPlayer (data.g);
-    }
-
-    public void addPlayer(Account account) {
+    /* public void addPlayer(Account account) {
         this.gameModel.setPlayers (account);
-    }
+    } */
 }

@@ -2,7 +2,7 @@ package data.data_for_view;
 
 import data.DataForClient;
 import model.map.Square;
-import network.visitors.Account;
+import network.Account;
 
 //TODO javadoc
 

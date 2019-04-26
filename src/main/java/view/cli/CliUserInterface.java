@@ -3,6 +3,8 @@ package view.cli;
 import data.DataForClient;
 import data.DataForServer;
 import data.data_for_network.AccountSetUp;
+import network.ClientInterface;
+import network.rmi.client.RmiClient;
 import network.socket.client.SocketClient;
 import view.UserInterface;
 
@@ -12,7 +14,7 @@ public class CliUserInterface implements UserInterface {
     private static CliUserInterface instance;
     private CliPrinter printer;
     private CliParser parser;
-    private SocketClient client;
+    private ClientInterface client;
 
     public CliUserInterface() {
         this.printer = new CliPrinter ();
@@ -27,17 +29,18 @@ public class CliUserInterface implements UserInterface {
         return instance;
     }
 
-    public void establishConnection() {
+    private void establishConnection() {
         this.printer.printConnectionOptions ();
         if (this.parser.parseInt (1) == 0) {
-            //rmi
+            this.client = new RmiClient (this);
+            client.connectToServer ();
         } else {
             this.client = new SocketClient ("localhost", 6666, this);
             client.connectToServer ();
         }
     }
 
-    public void launchTitle() {
+    public void launchTitleScreen() {
         this.printer.printTitle ();
         this.parser.parseEnter ();
         this.printer.clearScreen ();

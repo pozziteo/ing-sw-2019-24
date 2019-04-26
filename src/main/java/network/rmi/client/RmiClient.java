@@ -1,15 +1,29 @@
 package network.rmi.client;
 
+import data.DataForServer;
+import network.ClientInterface;
 import network.rmi.commoninterface.CommonInterface;
+import view.UserInterface;
+
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-public class RmiClient {
+/**
+ * Class used to connect a generic client to the server after choosing rmi option.
+ */
 
-    private RmiClient(){}
+public class RmiClient implements ClientInterface {
+    private UserInterface view;
 
-    public void startRmiClient() {
+    public RmiClient(UserInterface view) {
+        this.view = view;
+    }
 
+    /**
+     * Method to connect the client to the server
+     */
+
+    public void connectToServer() {
         try {
             Registry registry = LocateRegistry.getRegistry();
             CommonInterface stub = (CommonInterface) registry.lookup("CommonInterface");
@@ -21,6 +35,15 @@ public class RmiClient {
             System.err.println("Client exception: " + e.toString());
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Implementation of sendData() from ClientInterface
+     * @param data to send
+     */
+
+    public void sendData(DataForServer data) {
+        //TODO implement
     }
 
 }

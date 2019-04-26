@@ -6,12 +6,16 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
+/**
+ * Class that implements a server with rmi connection.
+ */
+
 public class RmiServer implements CommonInterface{
     private boolean running;
     private int port;
 
     /**
-     * Constructor that creates a not-running RmiServer
+     * Constructor that creates a RmiServer
      */
     public RmiServer(int port) {
         this.port = port;
@@ -19,9 +23,10 @@ public class RmiServer implements CommonInterface{
     }
 
     /**
-     * this Method runs the RmiServer on default port 1099
+     * Method that runs the RmiServer
      * It stops when boolean "running" becomes false
      */
+
     public void startServer() {
         running = true;
         while(running) {
@@ -43,17 +48,19 @@ public class RmiServer implements CommonInterface{
     }
 
     /**
-     * this Method that shuts down the server
+     * Method that shuts down the server
      */
+
     public void shutDownRmiServer(){
         running = false;
     }
 
     /**
-     * getter Method of the running state of the server
-     * @return a boolean that indicates if the server is running or not
+     * Getter for the running state of the server
+     * @return boolean that indicates if the server is running or not
      */
-    public boolean getRunning() {
+
+    public boolean isRunning() {
         return this.running;
     }
 }

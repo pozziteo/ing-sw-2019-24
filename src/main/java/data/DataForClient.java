@@ -1,6 +1,6 @@
 package data;
 
-import network.visitors.Account;
+import network.Account;
 
 import java.io.Serializable;
 

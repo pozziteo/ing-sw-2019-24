@@ -1,4 +1,4 @@
-package network.visitors;
+package network;
 
 import data.DataForClient;
 import model.GameModel;

@@ -2,7 +2,7 @@ package model;
 
 import controller.Controller;
 import data.data_for_view.MapData;
-import network.visitors.Account;
+import network.Account;
 
 import java.util.ArrayList;
 
@@ -10,11 +10,9 @@ import java.util.ArrayList;
 
 public class GameModel {
     private Game game;
-    private Controller controller;
     private ArrayList<Account> players;
 
     public GameModel() {
-        this.controller = new Controller(this);
         this.players = new ArrayList<>();
     }
 

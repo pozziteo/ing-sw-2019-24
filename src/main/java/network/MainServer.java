@@ -3,8 +3,6 @@ package network;
 import model.GameModel;
 import network.rmi.server.RmiServer;
 import network.socket.server.SocketServer;
-import network.visitors.Account;
-import view.cli.CliParser;
 
 import java.util.ArrayList;
 
@@ -97,5 +95,12 @@ public class MainServer {
         System.exit (0);
     }
 
+    /**
+     * Getter to obtain game
+     */
+
+    public GameModel getGame() {
+        return this.gameModel;
+    }
 
 }

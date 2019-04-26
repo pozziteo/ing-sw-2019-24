@@ -2,20 +2,21 @@ package network.socket.client;
 
 import data.DataForClient;
 import data.DataForServer;
-import view.cli.CliUserInterface;
+import network.ClientInterface;
+import view.UserInterface;
 
 import java.io.*;
 import java.net.Socket;
 
 /**
- * Class is used to connect a generic client to the server after choosing the socket option.
+ * Class used to connect a generic client to the server after choosing the socket option.
  */
 
-public class SocketClient implements Runnable {
+public class SocketClient implements ClientInterface, Runnable {
     private int port;
     private String serverAddress;
     private Socket socket;
-    private CliUserInterface view;
+    private UserInterface view;
     private ObjectInputStream in;
     private ObjectOutputStream out;
 
@@ -25,7 +26,7 @@ public class SocketClient implements Runnable {
      * @param serverAddress represents the IP address (on the same machine it might be called localhost)
      */
 
-    public SocketClient(String serverAddress, int port, CliUserInterface view){
+    public SocketClient(String serverAddress, int port, UserInterface view){
         this.port = port;
         this.serverAddress = serverAddress;
         this.view = view;
@@ -42,7 +43,7 @@ public class SocketClient implements Runnable {
             out = new ObjectOutputStream(socket.getOutputStream());
             out.flush();
             (new Thread(this)).start();
-            view.setUpAccount ();
+            //view.setUpAccount ();
         } catch(Exception e) {
             System.err.println(e.getMessage());
         }
