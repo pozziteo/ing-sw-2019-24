@@ -29,8 +29,7 @@ public class DistanceRequirement implements WeaponEffectRequirement {
     @Override
     public List<Player> findTargets(Player attacker) {
         List<Player> targets = new ArrayList<>();
-        List<Player> players = new ArrayList<>(attacker.getGame().getPlayers());
-        players.remove(attacker);
+        List<Player> players = WeaponEffectRequirement.super.findTargets(attacker);
 
         List<Integer> validSquares = findValidSquares(attacker);
 

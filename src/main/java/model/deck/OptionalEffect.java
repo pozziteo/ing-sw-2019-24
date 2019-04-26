@@ -40,7 +40,7 @@ public class OptionalEffect extends WeaponEffect {
         super.useEffect(attacker, target, id);
     }
 
-    public void payAdditionalCost(Player attacker) {
+    private void payAdditionalCost(Player attacker) {
         List<Ammo> actualAmmo = attacker.getBoard().getOwnedAmmo();
         actualAmmo.removeAll(this.additionalCost);
     }

@@ -18,8 +18,7 @@ public class VisibilityRequirement implements WeaponEffectRequirement {
 
         List<Player> visiblePlayers = new ArrayList<>();
         List<Player> notVisiblePlayers = new ArrayList<>();
-        List<Player> players = new ArrayList<>(attacker.getGame().getPlayers());
-        players.remove(attacker);
+        List<Player> players = WeaponEffectRequirement.super.findTargets(attacker);
 
         for (Player player : players) {
             if (attacker.canSee(player))
