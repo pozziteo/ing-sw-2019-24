@@ -12,7 +12,7 @@ import java.rmi.registry.Registry;
  * Class used to connect a generic client to the server after choosing rmi option.
  */
 
-public class RmiClient implements ClientInterface {
+public class RmiClient implements ClientInterface, CommonInterface {
     private UserInterface view;
 
     public RmiClient(UserInterface view) {
@@ -25,7 +25,7 @@ public class RmiClient implements ClientInterface {
 
     public void connectToServer() {
         try {
-            Registry registry = LocateRegistry.getRegistry();
+            Registry registry = LocateRegistry.getRegistry(5555);
             CommonInterface stub = (CommonInterface) registry.lookup("CommonInterface");
 
             /* DataType var = stub.METHOD(); //here you call the methods you need

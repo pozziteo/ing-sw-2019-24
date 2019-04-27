@@ -8,4 +8,6 @@ public interface CommonInterface extends Remote {
     //REMEMBER: EVERY METHOD MUST THROWS RemoteException
 
     //callable methods must be written here
+
+
 }

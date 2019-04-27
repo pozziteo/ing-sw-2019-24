@@ -13,18 +13,36 @@ public abstract class Account {
     private GameModel currentGame;
     private ArrayList<GameModel> gameHistory;
 
+
+
+    /**
+     * SETTER Method to set the player's nickname
+     * @param nickname is the nickname
+     */
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
+
+    /**
+     * GETTER Method
+     * @return the player's nickname
+     */
     public String getNickName() {
         return this.nickname;
     }
 
+    /**
+     * SETTER Method to set the online status = true
+     */
     public void setOnline() {
         this.online = true;
     }
 
+    /**
+     * Method to know if the status is online
+     * @return a boolean
+     */
     public boolean isOnline() {
         return this.online;
     }

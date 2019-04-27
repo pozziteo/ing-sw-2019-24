@@ -36,7 +36,7 @@ public class RmiServer implements CommonInterface {
                 CommonInterface stub = (CommonInterface) UnicastRemoteObject.exportObject(server, 0);
 
                 //bind the remote object's stub in the registry
-                Registry registry = LocateRegistry.getRegistry();
+                Registry registry = LocateRegistry.getRegistry(5555);
                 registry.bind("CommonInterface", stub);
                 System.err.println("RmiServer ready on default port 1099");
 
