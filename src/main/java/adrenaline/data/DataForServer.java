@@ -2,13 +2,13 @@ package adrenaline.data;
 
 //TODO javadoc
 
-import adrenaline.controller.Controller;
+import adrenaline.controller.PlayerController;
 
 import java.io.Serializable;
 
 public abstract class DataForServer implements Serializable {
     private String nickname;
-    private Controller controller;
+    private PlayerController controller;
 
     public DataForServer() {
     }

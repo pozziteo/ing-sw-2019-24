@@ -3,11 +3,12 @@ package adrenaline.network;
 import adrenaline.data.DataForClient;
 import adrenaline.model.GameModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 //TODO javadoc
 
-public abstract class Account {
+public abstract class Account implements Serializable {
     private String nickname;
     private boolean online = false;
     private GameModel currentGame;

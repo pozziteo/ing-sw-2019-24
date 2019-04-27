@@ -1,6 +1,6 @@
 package adrenaline.network.socket.server;
 
-import adrenaline.controller.Controller;
+import adrenaline.controller.PlayerController;
 import adrenaline.data.DataForClient;
 import adrenaline.data.DataForServer;
 import adrenaline.network.MainServer;
@@ -14,17 +14,15 @@ import java.net.Socket;
  */
 
 public class PlayerThread extends Account implements Runnable {
-    private MainServer server;
     private Socket socket;
     private int clientNum;
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private boolean connected;
-    private Controller controller;
+    private PlayerController controller;
 
     public PlayerThread(MainServer server, Socket s, int i) {
-        this.server = server;
-        this.controller = new Controller(server.getGame());
+        this.controller = new PlayerController(server.getGame(), this);
         this.socket = s;
         this.clientNum = i;
         this.connected = true;
