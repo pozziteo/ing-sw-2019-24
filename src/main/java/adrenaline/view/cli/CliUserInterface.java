@@ -18,6 +18,7 @@ public class CliUserInterface implements UserInterface {
     private CliPrinter printer;
     private CliParser parser;
     private ClientInterface client;
+    private boolean valid;
 
     public CliUserInterface() {
         this.printer = new CliPrinter ();
@@ -57,18 +58,51 @@ public class CliUserInterface implements UserInterface {
      * This Method asks the player which map he wants to play
      */
     private void mapSelector(){
-        this.printer.printMapOptions();
-        if (this.parser.parseInt(3)==0){
-            //TODO scegli mappa piccola
-        }else if (this.parser.parseInt(3)==1){
-            //TODO scegli mappa media v1
-        }else if (this.parser.parseInt(3)==2){
-            //TODO scegli mappa media v2
-        }else if (this.parser.parseInt(3)==3){
-            //TODO scegli mappa grande
+        valid = false;
+        while(!valid) {
+            this.printer.printMapOptions();
+            if (this.parser.parseInt(3) == 0) {
+                //TODO scegli mappa piccola
+                valid = true;
+            } else if (this.parser.parseInt(3) == 1) {
+                //TODO scegli mappa media v1
+                valid = true;
+            } else if (this.parser.parseInt(3) == 2) {
+                //TODO scegli mappa media v2
+                valid = true;
+            } else if (this.parser.parseInt(3) == 3) {
+                //TODO scegli mappa grande
+                valid = true;
+            } else {
+                this.printer.printInvalidInput();
+                valid=false;
+            }
         }
-        else this.printer.printInvalidInput();
+    }
 
+    /**
+     * this method asks the player the action he wants to perform
+     */
+    private void actionSelector(){
+        valid = false;
+        while(valid == false){
+            this.printer.printActionOptions();
+            if (this.parser.parseInt(3)==0){
+                valid=true;
+                //TODO move
+            }else if(this.parser.parseInt(3)==1){
+                valid=true;
+                //TODO move and grab
+            } else if(this.parser.parseInt(3)==2){
+                valid=true;
+                //TODO shoot
+            } else if(this.parser.parseInt(3)==3){
+                valid=true;
+                //TODO pass
+            } else{
+                this.printer.printInvalidInput();
+            }
+        }
     }
 
     /**
