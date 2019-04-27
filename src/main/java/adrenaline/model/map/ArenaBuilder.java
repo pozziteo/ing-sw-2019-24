@@ -11,7 +11,7 @@ import java.io.*;
  * about a map and creates an instance of Map
  */
 public class ArenaBuilder {
-
+    //TODO remove
     private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
     private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
     private static final String MEDIUM_1 = PATH + File.separatorChar + "mediummap_1.json";
@@ -28,8 +28,8 @@ public class ArenaBuilder {
      * @return an instance of Map class
      * @throws FileNotFoundException if the file's name is invalid
      */
-    public Map createMap() throws FileNotFoundException {
-            String fileMap = chooseMap();
+    public Map createMap(String fileName) throws FileNotFoundException {
+            String fileMap = fileName;
             GsonBuilder builder = new GsonBuilder();
             builder.registerTypeAdapter(Square.class, new SquareTypeAdapter());
             Gson gson = builder.create();
@@ -37,6 +37,7 @@ public class ArenaBuilder {
             return gson.fromJson(reader, Map.class);
     }
 
+    //TODO remove after testing dynamic initialization works
     private String chooseMap() {
         //TODO for now map is selected statically, in future may be selected by user
         String filename = SMALL;

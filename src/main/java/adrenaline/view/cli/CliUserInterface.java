@@ -2,11 +2,14 @@ package adrenaline.view.cli;
 
 import adrenaline.data.DataForClient;
 import adrenaline.data.DataForServer;
+import adrenaline.data.data_for_game.MapSetUp;
 import adrenaline.data.data_for_network.AccountSetUp;
 import adrenaline.network.ClientInterface;
 import adrenaline.network.rmi.client.RmiClient;
 import adrenaline.network.socket.client.SocketClient;
 import adrenaline.view.UserInterface;
+
+import java.io.File;
 import java.lang.Throwable;
 
 /**
@@ -18,6 +21,13 @@ public class CliUserInterface implements UserInterface {
     private CliPrinter printer;
     private CliParser parser;
     private ClientInterface client;
+
+    //attributes that represent the file names for each map
+    private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
+    private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
+    private static final String MEDIUM_1 = PATH + File.separatorChar + "mediummap_1.json";
+    private static final String MEDIUM_2 = PATH + File.separatorChar + "mediummap_2.json";
+    private static final String LARGE = PATH + File.separatorChar + "largemap.json";
 
     public CliUserInterface() {
         this.printer = new CliPrinter ();
@@ -54,24 +64,6 @@ public class CliUserInterface implements UserInterface {
     }
 
     /**
-     * This Method asks the player which map he wants to play
-     */
-    private void mapSelector(){
-        this.printer.printMapOptions();
-        if (this.parser.parseInt(3)==0){
-            //TODO scegli mappa piccola
-        }else if (this.parser.parseInt(3)==1){
-            //TODO scegli mappa media v1
-        }else if (this.parser.parseInt(3)==2){
-            //TODO scegli mappa media v2
-        }else if (this.parser.parseInt(3)==3){
-            //TODO scegli mappa grande
-        }
-        else this.printer.printInvalidInput();
-
-    }
-
-    /**
      * Shows title screen on command line.
      */
 
@@ -99,5 +91,28 @@ public class CliUserInterface implements UserInterface {
         String nickname = this.parser.parseNickname ();
         AccountSetUp accountData = new AccountSetUp (nickname);
         sendToController (accountData);
+    }
+
+
+    /**
+     * This Method asks the player which map he wants to play with
+     */
+    private void mapSelector(){
+        this.printer.printMapOptions();
+        if (this.parser.parseInt(3)==0){
+            MapSetUp mapData = new MapSetUp (SMALL);
+            sendToController (mapData);
+        }else if (this.parser.parseInt(3)==1){
+            MapSetUp mapData = new MapSetUp (MEDIUM_1);
+            sendToController (mapData);
+        }else if (this.parser.parseInt(3)==2){
+            MapSetUp mapData = new MapSetUp (MEDIUM_2);
+            sendToController (mapData);
+        }else if (this.parser.parseInt(3)==3){
+            MapSetUp mapData = new MapSetUp (LARGE);
+            sendToController (mapData);
+        }
+        else this.printer.printInvalidInput();
+
     }
 }

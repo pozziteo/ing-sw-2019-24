@@ -54,7 +54,6 @@ public class Game {
         this.players = new ArrayList<> ();
         this.ranking = new ArrayList<> ();
         this.endGame = false;
-        this.setArena();
 
         this.weaponsDeck = new WeaponsDeckCreator ().createDeck();
         this.powerUpsDeck = new PowerUpsDeckCreator ().createDeck();
@@ -208,9 +207,9 @@ public class Game {
      * Setter method to set the arena for a game
      */
 
-    public void setArena() {
+    public void setArena(String fileName) {
         try {
-            this.map = new ArenaBuilder ().createMap();
+            this.map = new ArenaBuilder ().createMap(fileName);
         } catch (FileNotFoundException exc) {
             System.err.println("Error: Invalid map file selected");
             exc.printStackTrace();

@@ -13,15 +13,20 @@ import adrenaline.model.player.MoveAndGrab;
 import adrenaline.model.player.Player;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class MoveAndGrabTest {
+    private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
+    private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
 
     private Game g = new Game(3);
 
     //TODO add JavaDoc
     @Test
     void moveAndGrabTest() {
+        this.g.setArena (SMALL);
         Map map = g.getMap ();
         Square initialSquare = map.getSquare(1);
         ((NormalSquare) initialSquare).setPlacedTile(new Tile(TileFormat.TILE_FORMAT_4));
@@ -51,6 +56,7 @@ class MoveAndGrabTest {
 
     @Test
     void adrenalineMoveAndGrabTest() {
+        this.g.setArena (SMALL);
         Map map = g.getMap ();
         Square initialSquare = map.getSquare(1);
         Player notAdrenaline = g.getPlayers().get(1);

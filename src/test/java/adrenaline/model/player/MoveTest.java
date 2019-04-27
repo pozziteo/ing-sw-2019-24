@@ -7,13 +7,19 @@ import adrenaline.model.player.Move;
 import adrenaline.model.player.Player;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class MoveTest {
+    private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
+    private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
+
      private Game g = new Game(3);
 
      @Test
     void correctMovesTest() {
+         this.g.setArena (SMALL);
         Map map = g.getMap ();
         Player player = g.getPlayers().get(0);
         player.setPosition(map.getSquare(2));

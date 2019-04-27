@@ -4,11 +4,14 @@ import adrenaline.model.Game;
 import adrenaline.model.player.Player;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameTest {
+    private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
+    private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
     private Game game = new Game (5);
     private Player p1 = game.getPlayers ().get(0);
     private Player p2 = game.getPlayers ().get(1);
@@ -23,6 +26,7 @@ public class GameTest {
 
     @Test
     public void testWinner() {
+        this.game.setArena (SMALL);
         p1.setPosition(game.getMap ().getSquare(2));
         p2.setPosition(game.getMap ().getSquare(4));
         p3.setPosition(game.getMap ().getSquare(11));

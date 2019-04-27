@@ -1,6 +1,7 @@
 package adrenaline.controller;
 
 import adrenaline.data.DataForServer;
+import adrenaline.data.data_for_game.MapSetUp;
 import adrenaline.model.GameModel;
 import adrenaline.network.Account;
 
@@ -22,5 +23,9 @@ public class PlayerController extends Controller {
 
     public void updateGame(DataForServer data) {
         //TODO implement
+    }
+
+    public void updateGame(MapSetUp data) {
+        super.getGameModel ().setMap(data.getFilename ());
     }
 }

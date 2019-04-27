@@ -27,6 +27,10 @@ public class GameModel {
         this.players.add(account);
     }
 
+    public void setMap(String fileName) {
+        this.game.setArena (fileName);
+    }
+
     private MapData updateMapData(Account account) {
         return new MapData(account, game.getMap ().getArena ());
     }

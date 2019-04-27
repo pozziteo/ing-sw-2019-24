@@ -6,9 +6,14 @@ import adrenaline.model.player.Player;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
+    private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
+    private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
+
     private Game game = new Game(3);
     private Player p1 = game.getPlayers ().get(0);
     private Player p2 = game.getPlayers ().get(1);
@@ -16,6 +21,7 @@ class PlayerTest {
 
     @Test
     void testGiveMarks() {
+        this.game.setArena (SMALL);
         p1.setPosition(game.getMap ().getSquare(2));
         p2.setPosition(game.getMap ().getSquare(1));
 
@@ -25,6 +31,7 @@ class PlayerTest {
 
     @Test
     public void testPlayersInSameRoom() {
+        this.game.setArena (SMALL);
         p1.setPosition(game.getMap ().getSquare(0));
         p2.setPosition(game.getMap ().getSquare(1));
 
@@ -33,6 +40,7 @@ class PlayerTest {
 
     @Test
     public void testPlayerCanSee() {
+        this.game.setArena (SMALL);
         p1.setPosition(game.getMap ().getSquare(0));
         p2.setPosition(game.getMap ().getSquare(6));
 
@@ -41,6 +49,7 @@ class PlayerTest {
 
     @Test
     public void testPlayerChooseSpawn() {
+        this.game.setArena (SMALL);
         PowerUp powerup = p1.getOwnedPowerUps ().get(0);
         p1.chooseSpawnPoint (powerup);
         p1.getPosition ();

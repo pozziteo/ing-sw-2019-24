@@ -8,4 +8,8 @@ public class Controller {
     public Controller(GameModel model) {
         this.gameModel = model;
     }
+
+    public GameModel getGameModel() {
+        return this.gameModel;
+    }
 }
