@@ -47,10 +47,17 @@ public class CliPrinter {
         AnsiConsole.systemInstall();
     }
 
+    /**
+     * Printer Method
+     * @param input is what it's printed
+     */
     public void print(String input) {
         AnsiConsole.out.println (input);
     }
 
+    /**
+     * Method that prints the title of the game
+     */
     synchronized void printTitle() {
         print (ANSI_CYAN + "WELCOME TO \n" + ANSI_RESET);
         print(ANSI_GREEN +
@@ -71,22 +78,34 @@ public class CliPrinter {
         print("\nPress Enter to continue");
     }
 
+    /**
+     * Method that clears the screen (scrolls down)
+     */
     synchronized void clearScreen() {
         for(int i = 0; i < 30; i++) {
             print("");
         }
     }
 
+    /**
+     * Method that reports an invalid input
+     */
     synchronized void printInvalidInput() {
         print("This input is not valid\n");
     }
 
+    /**
+     * Method that shows to the client the Connection options
+     */
     synchronized void printConnectionOptions() {
         print("Choose your connection:");
         print("0 - RMI");
         print("1 - Socket");
     }
 
+    /**
+     * Method that shows to the client the Map Selector
+     */
     synchronized void printMapOptions() {
         print("Which arena will be your battlefield?");
         print("0 - Small arena");
@@ -95,6 +114,11 @@ public class CliPrinter {
         print("3 - Large arena");
     }
 
+    /**
+     * This Method declares the player's starting position
+     * after he keeps a PowerUp
+     * @param powerUps is the couple of powerUps the player gets at the beginning of the game
+     */
     synchronized void printInitialSpawnPointOptions(List<PowerUp> powerUps) {
         PowerUpType powerUp1 = powerUps.get(0).getType ();
         PowerUpType powerUp2 = powerUps.get(1).getType ();
@@ -103,6 +127,9 @@ public class CliPrinter {
         print("1 - " + powerUp2.getDescription () + " (spawn in " + powerUp2.getColor ().toLowerCase () + " room)");
     }
 
+    /**
+     * Method that shows to the player the legal actions he can perform
+     */
     synchronized void printActionOptions() {
         print("What will you do next?");
         print("0 - Move");
@@ -111,6 +138,10 @@ public class CliPrinter {
         print("3 - Pass this turn");
     }
 
+    /**
+     * Method that prints the ranking
+     * @param ranking is a sorted list
+     */
     synchronized void printRanking(List<Player> ranking) {
         print("Ranking:");
         for (int i = 0; i < ranking.size(); i++) {
@@ -118,10 +149,16 @@ public class CliPrinter {
         }
     }
 
+    /**
+     * Method that tells when the game is ready to start
+     */
     synchronized void printSetUpComplete() {
         print("You're all set up! The match will now begin");
     }
 
+    /**
+     * Method that asks the player for his nickname
+     */
     synchronized void printNickname() {
         print("Enter your nickname: ");
     }
