@@ -10,7 +10,6 @@ import adrenaline.network.socket.client.SocketClient;
 import adrenaline.view.UserInterface;
 
 import java.io.File;
-import java.lang.Throwable;
 
 /**
  * Class that implements the user interface using command line.
@@ -114,5 +113,31 @@ public class CliUserInterface implements UserInterface {
         }
         else this.printer.printInvalidInput();
 
+    }
+
+
+    /**
+     * This method asks the player the action he wants to perform
+     */
+    private void actionSelector(){
+        boolean valid = false;
+        while(!valid){
+            this.printer.printActionOptions();
+            if (this.parser.parseInt(3)==0){
+                valid=true;
+                //TODO move
+            }else if(this.parser.parseInt(3)==1){
+                valid=true;
+                //TODO move and grab
+            } else if(this.parser.parseInt(3)==2){
+                valid=true;
+                //TODO shoot
+            } else if(this.parser.parseInt(3)==3){
+                valid=true;
+                //TODO pass
+            } else{
+                this.printer.printInvalidInput();
+            }
+        }
     }
 }
