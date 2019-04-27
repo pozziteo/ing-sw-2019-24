@@ -17,15 +17,13 @@ public class PlayerController extends Controller {
         this.account = account;
     }
 
+    //UPDATE MAP INFO IN MODEL
+
     public void receiveData(DataForServer data) {
-        updateGame(data);
+        updateGame((MapSetUp) data);
     }
 
-    public void updateGame(DataForServer data) {
-        //TODO implement
-    }
-
-    public void updateGame(MapSetUp data) {
+    private void updateGame(MapSetUp data) {
         super.getGameModel ().setMap(data.getFilename ());
     }
 }

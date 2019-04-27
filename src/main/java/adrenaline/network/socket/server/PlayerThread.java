@@ -18,20 +18,18 @@ public class PlayerThread extends Account implements Runnable {
     private int clientNum;
     private ObjectInputStream in;
     private ObjectOutputStream out;
-    private boolean connected;
     private PlayerController controller;
 
     public PlayerThread(MainServer server, Socket s, int i) {
         this.controller = new PlayerController(server.getGame(), this);
         this.socket = s;
         this.clientNum = i;
-        this.connected = true;
         try {
             this.in = new ObjectInputStream(socket.getInputStream());
             this.out = new ObjectOutputStream(socket.getOutputStream());
             this.out.flush();
         } catch (IOException exc) {
-            connected = false;
+            super.setOnline (false);
         }
     }
 
@@ -41,26 +39,20 @@ public class PlayerThread extends Account implements Runnable {
 
     @Override
     public void run() {
+        super.setOnline (true);
         try {
-        connected = true;
-            while (connected && socket.isConnected ()) {
+            while (socket.isConnected ()) {
                 DataForServer receivedData = (DataForServer) in.readObject ();
                 this.controller.receiveData (receivedData);
             }
         } catch (Exception e) {
             System.out.println (e);
-            connected = false;
+            super.setOnline (false);
         } finally {
             System.out.println ("Client " + clientNum + " disconnected");
-            connected = false;
+            super.setOnline (false);
         }
-        try {
-            socket.close ( );
-            in.close();
-            out.close();
-        } catch(IOException e) {
-            System.out.println (e);
-        }
+        closeThread ();
     }
 
     /**
@@ -68,12 +60,27 @@ public class PlayerThread extends Account implements Runnable {
      * @param data meant for the client
      */
 
+    @Override
     public void sendData(DataForClient data) {
         try {
             out.writeObject(data);
             out.reset();
         } catch (IOException e) {
             System.out.println(e);
+        }
+    }
+
+    /**
+     * Method to shut down this thread
+     */
+
+    private void closeThread() {
+        try {
+            socket.close ( );
+            in.close();
+            out.close();
+        } catch(IOException e) {
+            System.out.println (e);
         }
     }
 

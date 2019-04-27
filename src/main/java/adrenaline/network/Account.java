@@ -36,8 +36,8 @@ public abstract class Account implements Serializable {
     /**
      * SETTER Method to set the online status = true
      */
-    public void setOnline() {
-        this.online = true;
+    public void setOnline(boolean value) {
+        this.online = value;
     }
 
     /**
