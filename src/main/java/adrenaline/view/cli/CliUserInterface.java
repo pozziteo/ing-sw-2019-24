@@ -7,6 +7,7 @@ import adrenaline.network.ClientInterface;
 import adrenaline.network.rmi.client.RmiClient;
 import adrenaline.network.socket.client.SocketClient;
 import adrenaline.view.UserInterface;
+import java.lang.Throwable;
 
 /**
  * Class that implements the user interface using command line.
@@ -50,6 +51,24 @@ public class CliUserInterface implements UserInterface {
             this.client = new SocketClient ("localhost", 6666, this);
             client.connectToServer ();
         }
+    }
+
+    /**
+     * This Method asks the player which map he wants to play
+     */
+    private void mapSelector(){
+        this.printer.printMapOptions();
+        if (this.parser.parseInt(3)==0){
+            //TODO scegli mappa piccola
+        }else if (this.parser.parseInt(3)==1){
+            //TODO scegli mappa media v1
+        }else if (this.parser.parseInt(3)==2){
+            //TODO scegli mappa media v2
+        }else if (this.parser.parseInt(3)==3){
+            //TODO scegli mappa grande
+        }
+        else this.printer.printInvalidInput();
+
     }
 
     /**
