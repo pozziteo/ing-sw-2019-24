@@ -13,6 +13,9 @@ public abstract class DataForClient implements Serializable {
         this.account = account;
     }
 
+    /**
+     * this Method sends data to view
+     */
     public void sendToView() {
         if (account.isOnline()) {
             try {
