@@ -1,6 +1,6 @@
 package adrenaline.network;
 
-import adrenaline.data.DataForServer;
+import adrenaline.data.data_for_server.DataForServer;
 
 /**
  * Interface that represents a generic client.

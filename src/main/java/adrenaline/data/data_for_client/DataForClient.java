@@ -1,10 +1,12 @@
-package adrenaline.data;
+package adrenaline.data.data_for_client;
 
 import adrenaline.network.Account;
 
 import java.io.Serializable;
 
-//TODO javadoc
+/**
+ * Class that represents generic data that has to be sent to the client.
+ */
 
 public abstract class DataForClient implements Serializable {
     private Account account;
@@ -14,7 +16,7 @@ public abstract class DataForClient implements Serializable {
     }
 
     /**
-     * this Method sends data to view
+     * Method to send data to the client's user interface
      */
     public void sendToView() {
         if (account.isOnline()) {

@@ -1,6 +1,6 @@
 package adrenaline.network;
 
-import adrenaline.data.data_for_view.AccountResponse;
+import adrenaline.data.data_for_client.data_for_view.AccountResponse;
 import adrenaline.network.rmi.server.RmiServer;
 import adrenaline.network.socket.server.SocketServer;
 
@@ -57,7 +57,7 @@ public class MainServer {
      * @param args passed to main
      */
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         instance = getInstance ();
         instance.startServer();
         instance.shutDown();
@@ -98,7 +98,8 @@ public class MainServer {
      * Method to shut down MainServer
      */
 
-    private void shutDown() {
+    private void shutDown() throws IOException {
+        storeAccounts ();
         System.out.println ("Server shutting down...");
         System.exit (0);
     }
@@ -120,18 +121,22 @@ public class MainServer {
                     } else done = true;
                 }
             } catch (FileNotFoundException e) {
-                createFile();
+                if (createFile()) {
+                    System.out.println ("File created successfully in " + ACCOUNTS);
+                } else
+                    System.out.println ("File could not be created.");
             } catch (IOException | ClassNotFoundException e) {
             System.out.println (e);
         }
     }
 
-    private void createFile() {
+    private boolean createFile() {
         try {
             File f = new File (ACCOUNTS);
-            f.createNewFile ( );
+            return f.createNewFile ( );
         } catch (IOException e) {
             System.out.println (e);
+            return false;
         }
     }
 

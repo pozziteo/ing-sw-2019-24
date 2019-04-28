@@ -1,7 +1,8 @@
 package adrenaline.network;
 
 import adrenaline.controller.Controller;
-import adrenaline.data.data_for_view.MapData;
+import adrenaline.data.data_for_client.data_for_view.MapData;
+import adrenaline.data.data_for_client.data_for_view.FirstPlayerSetUp;
 import adrenaline.model.GameModel;
 
 import java.util.ArrayList;
@@ -36,6 +37,10 @@ public class Lobby {
         return this.controller;
     }
 
+    public GameModel getGameModel() {
+        return this.game;
+    }
+
     private boolean checkFull() {
         if (this.players.size () == 5)
             full = true;
@@ -47,7 +52,18 @@ public class Lobby {
     }
 
     public void setPlayers(Account a) {
+        checkFirst(a);
         this.players.add (a);
+    }
+
+    private void checkFirst(Account a) {
+        if (players.isEmpty ()) {
+            FirstPlayerSetUp data = new FirstPlayerSetUp (true, a);
+            data.sendToView ();
+        } else {
+            FirstPlayerSetUp data = new FirstPlayerSetUp (false, a);
+            data.sendToView ();
+        }
     }
 
     public void updateMapData() {

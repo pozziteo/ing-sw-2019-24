@@ -17,6 +17,7 @@ public class Player {
     private Board playerBoard;
     private int pointTokens;
     private Square position;
+    private boolean firstPlayer;
     private ArrayList<Weapon> ownedWeapons;
     private ArrayList<PowerUp> ownedPowerUps;
     private int givenMarks;
@@ -97,6 +98,15 @@ public class Player {
 
     public void setPosition(Square square) {
         this.position = square;
+    }
+
+    /**
+     * Setter method to signal this player is the first to act
+     * @param value true (if first), false (otherwise)
+     */
+
+    public void setFirstPlayer(boolean value) {
+        this.firstPlayer = value;
     }
 
     /**

@@ -1,6 +1,6 @@
-package adrenaline.data.data_for_view;
+package adrenaline.data.data_for_client.data_for_view;
 
-import adrenaline.data.DataForClient;
+import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.network.Account;
 
 public class AccountResponse extends DataForClient {

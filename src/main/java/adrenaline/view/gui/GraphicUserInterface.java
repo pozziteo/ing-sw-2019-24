@@ -1,7 +1,7 @@
 package adrenaline.view.gui;
 
-import adrenaline.data.DataForClient;
-import adrenaline.data.DataForServer;
+import adrenaline.data.data_for_client.DataForClient;
+import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.view.UserInterface;
 
 //TODO

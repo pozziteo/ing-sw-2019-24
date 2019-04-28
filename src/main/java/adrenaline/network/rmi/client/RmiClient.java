@@ -1,6 +1,6 @@
 package adrenaline.network.rmi.client;
 
-import adrenaline.data.DataForServer;
+import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.network.rmi.commoninterface.CommonInterface;
 import adrenaline.network.ClientInterface;
 import adrenaline.view.UserInterface;

@@ -1,7 +1,7 @@
 package adrenaline.network.socket.client;
 
-import adrenaline.data.DataForClient;
-import adrenaline.data.DataForServer;
+import adrenaline.data.data_for_client.DataForClient;
+import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.network.ClientInterface;
 import adrenaline.view.UserInterface;
 
@@ -39,10 +39,11 @@ public class SocketClient implements ClientInterface, Runnable {
     public void connectToServer() {
         try {
             socket = new Socket(serverAddress, port);
-            input = new ObjectInputStream(socket.getInputStream());
             output = new ObjectOutputStream(socket.getOutputStream());
+            input = new ObjectInputStream(socket.getInputStream());
             output.flush();
             (new Thread(this)).start();
+            view.setUpAccount ();
         } catch(Exception e) {
             System.err.println(e.getMessage());
         }

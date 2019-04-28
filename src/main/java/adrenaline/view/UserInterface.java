@@ -1,7 +1,7 @@
 package adrenaline.view;
 
-import adrenaline.data.DataForClient;
-import adrenaline.data.DataForServer;
+import adrenaline.data.data_for_client.DataForClient;
+import adrenaline.data.data_for_server.DataForServer;
 
 /**
  * Interface implemented by two different classes in the view package based on the

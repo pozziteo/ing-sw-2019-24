@@ -1,10 +1,10 @@
 package adrenaline.view.cli;
 
-import adrenaline.data.DataForClient;
-import adrenaline.data.DataForServer;
-import adrenaline.data.data_for_game.MapSetUp;
-import adrenaline.data.data_for_network.AccountSetUp;
-import adrenaline.data.data_for_view.AccountResponse;
+import adrenaline.data.data_for_client.DataForClient;
+import adrenaline.data.data_for_server.DataForServer;
+import adrenaline.data.data_for_server.data_for_game.MapSetUp;
+import adrenaline.data.data_for_server.data_for_network.AccountSetUp;
+import adrenaline.data.data_for_client.data_for_view.AccountResponse;
 import adrenaline.network.ClientInterface;
 import adrenaline.network.rmi.client.RmiClient;
 import adrenaline.network.socket.client.SocketClient;

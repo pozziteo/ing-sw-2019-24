@@ -1,6 +1,6 @@
 package adrenaline.network;
 
-import adrenaline.data.DataForClient;
+import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.model.GameModel;
 
 import java.io.Serializable;
@@ -37,8 +37,12 @@ public class Account implements Serializable {
      * GETTER Method
      * @return the player's nickname
      */
-    protected String getNickName() {
+    public String getNickName() {
         return this.nickname;
+    }
+
+    public MainServer getServer() {
+        return this.server;
     }
 
     /**
@@ -61,7 +65,7 @@ public class Account implements Serializable {
      * @return lobby
      */
 
-    protected Lobby getCurrentLobby() {
+    public Lobby getCurrentLobby() {
         return this.currentLobby;
     }
 

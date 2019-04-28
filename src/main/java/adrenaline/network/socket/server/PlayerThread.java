@@ -1,7 +1,7 @@
 package adrenaline.network.socket.server;
 
-import adrenaline.data.DataForClient;
-import adrenaline.data.DataForServer;
+import adrenaline.data.data_for_client.DataForClient;
+import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.network.MainServer;
 import adrenaline.network.Account;
 
@@ -14,15 +14,15 @@ import java.net.Socket;
 
 public class PlayerThread extends Account implements Runnable {
     private transient Socket socket;
-    private transient ObjectInputStream in;
-    private transient ObjectOutputStream out;
+    private ObjectInputStream in;
+    private ObjectOutputStream out;
 
     public PlayerThread(MainServer server, Socket s, String nickname) {
         super(nickname, server);
         this.socket = s;
         try {
-            this.in = new ObjectInputStream(socket.getInputStream());
             this.out = new ObjectOutputStream(socket.getOutputStream());
+            this.in = new ObjectInputStream(socket.getInputStream());
             this.out.flush();
         } catch (IOException exc) {
             super.setOnline (false);
@@ -35,11 +35,19 @@ public class PlayerThread extends Account implements Runnable {
 
     @Override
     public void run() {
+        //boolean registered = false;
         super.setOnline (true);
         try {
             while (socket.isConnected ()) {
                 DataForServer receivedData = (DataForServer) in.readObject ();
-                this.getCurrentLobby ().getController().receiveData (receivedData);
+                receivedData.setAccount(this);
+                /*if (!registered && receivedData instanceof AccountSetUp) {
+                    registered = true;
+                    super.setNickname (((AccountSetUp) receivedData).getNickname ());
+                    super.getServer().registerAccount (this);
+                } else { */
+                    this.getCurrentLobby ( ).getController ( ).receiveData (receivedData);
+               /* } */
             }
         } catch (Exception e) {
             System.out.println (e);

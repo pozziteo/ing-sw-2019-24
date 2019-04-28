@@ -1,6 +1,6 @@
 package adrenaline.model;
 
-import adrenaline.data.data_for_view.MapData;
+import adrenaline.data.data_for_client.data_for_view.MapData;
 import adrenaline.network.Account;
 
 //TODO javadoc
@@ -21,9 +21,7 @@ public class GameModel {
         return this.game;
     }
 
-    public void setMap(String fileName) {
-        this.game.setArena (fileName);
-    }
+    //METHODS TO UPDATE THE VIEW
 
     public MapData updateMapData(Account account) {
         return new MapData(account, game.getMap ().getArena ());

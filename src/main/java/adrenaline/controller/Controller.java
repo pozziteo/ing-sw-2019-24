@@ -1,7 +1,6 @@
 package adrenaline.controller;
 
-import adrenaline.data.DataForServer;
-import adrenaline.data.data_for_game.MapSetUp;
+import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.model.GameModel;
 
 public class Controller {
@@ -16,12 +15,6 @@ public class Controller {
     }
 
     public void receiveData(DataForServer data) {
-        if (data instanceof MapSetUp) {
-            updateGame ((MapSetUp) data);
-        }
-    }
-
-    private void updateGame(MapSetUp data) {
-        gameModel.setMap(data.getFilename ());
+        data.updateModel ();
     }
 }
