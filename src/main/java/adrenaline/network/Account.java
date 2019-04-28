@@ -21,6 +21,7 @@ public class Account implements Serializable {
     public Account(String nick, MainServer server) {
         this.nickname = nick;
         this.server = server;
+        this.gameHistory = new ArrayList<> ();
     }
 
     /**

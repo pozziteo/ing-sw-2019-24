@@ -1,6 +1,7 @@
 package adrenaline.network;
 
 import adrenaline.controller.Controller;
+import adrenaline.data.data_for_view.MapData;
 import adrenaline.model.GameModel;
 
 import java.util.ArrayList;
@@ -13,9 +14,22 @@ public class Lobby {
 
     public Lobby() {
         this.players = new ArrayList<> ();
-        this.game = new GameModel(players.size ());
-        this.controller = new Controller(game);
         this.full = false;
+    }
+
+    public void createGame() {
+        if (players.size () > 2 && players.size () < 6) {
+            String[] playerNames = new String[players.size ( )];
+            int i = 0;
+            for (Account a : players) {
+                playerNames[i] = a.getNickName ( );
+                i++;
+            }
+            this.game = new GameModel (playerNames);
+            this.controller = new Controller(game);
+        } else {
+            System.out.println ("Lobby is not ready.");
+        }
     }
 
     public Controller getController() {
@@ -34,6 +48,13 @@ public class Lobby {
 
     public void setPlayers(Account a) {
         this.players.add (a);
+    }
+
+    public void updateMapData() {
+        for (Account a : players) {
+            MapData data = this.game.updateMapData (a);
+            data.sendToView ();
+        }
     }
 
 }

@@ -20,6 +20,8 @@ public class MainServer {
     private RmiServer rmiServer;
     private ArrayList<Account> storedAccounts;
     private boolean mainRunning;
+    private boolean socketRunning;
+    private boolean rmiRunning;
     private String serverAddress;
     private int rmiPort;
     private int socketPort;
@@ -34,6 +36,8 @@ public class MainServer {
         this.rmiPort = 5555;
         this.socketPort = 6666;
         this.mainRunning = false;
+        this.socketRunning = false;
+        this.rmiRunning = false;
     }
 
     /**
@@ -67,18 +71,21 @@ public class MainServer {
         this.gameLobbies = new LinkedList<> ();
         loadAccounts ();
         mainRunning = true;
-        while(mainRunning && !socketServer.isRunning()) {
+        while(mainRunning && !socketRunning) {
             try {
                 this.socketServer = new SocketServer (getInstance (), socketPort);
+                socketRunning = true;
                 socketServer.startServer ();
             } catch (Exception e) {
                 System.out.println (e);
                 mainRunning = false;
             }
         }
-        while(mainRunning && !rmiServer.isRunning()) {
+        mainRunning = true;
+        while(mainRunning && !rmiRunning) {
             try {
                 this.rmiServer = new RmiServer (rmiPort);
+                rmiRunning = true;
                 rmiServer.startServer ();
             } catch (Exception e) {
                 System.out.println (e);
@@ -104,7 +111,7 @@ public class MainServer {
         Account a;
         this.storedAccounts = new ArrayList<> ();
         boolean done = false;
-        try (FileInputStream f = new FileInputStream (new File (PATH + ACCOUNTS));
+        try (FileInputStream f = new FileInputStream (new File (ACCOUNTS));
              ObjectInputStream stream = new ObjectInputStream (f)) {
                 while (!done) {
                     if (stream.readObject ( ) != null) {
@@ -112,9 +119,20 @@ public class MainServer {
                         this.storedAccounts.add (a);
                     } else done = true;
                 }
-            } catch (Exception e) {
-                System.out.println (e);
-            }
+            } catch (FileNotFoundException e) {
+                createFile();
+            } catch (IOException | ClassNotFoundException e) {
+            System.out.println (e);
+        }
+    }
+
+    private void createFile() {
+        try {
+            File f = new File (ACCOUNTS);
+            f.createNewFile ( );
+        } catch (IOException e) {
+            System.out.println (e);
+        }
     }
 
     /**
@@ -143,17 +161,17 @@ public class MainServer {
             if (account.getNickName ( ).equals (a.getNickName () )) {
                 if (a.isOnline ()) {
                     responseSent = true;
-                    new AccountResponse (false, "This nickname is already in use");
+                    new AccountResponse (account,false, "This nickname is already in use");
                 } else {
                     responseSent = true;
-                    new AccountResponse(true, "Welcome back, " + account.getNickName ());
+                    new AccountResponse(account,true, "Welcome back, " + account.getNickName ());
                 }
             }
         }
         if (!responseSent) {
             this.storedAccounts.add (account);
             storeAccounts ();
-            new AccountResponse (true, "Welcome, " + account.getNickName () + ". Your registration was successful.");
+            new AccountResponse (account,true, "Welcome, " + account.getNickName () + ". Your registration was successful.");
         }
     }
 

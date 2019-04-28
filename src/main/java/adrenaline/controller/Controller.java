@@ -15,10 +15,10 @@ public class Controller {
         return this.gameModel;
     }
 
-    //METHODS TO UPDATE MAP INFO IN MODEL
-
     public void receiveData(DataForServer data) {
-        updateGame((MapSetUp) data);
+        if (data instanceof MapSetUp) {
+            updateGame ((MapSetUp) data);
+        }
     }
 
     private void updateGame(MapSetUp data) {

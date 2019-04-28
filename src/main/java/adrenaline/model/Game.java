@@ -46,7 +46,7 @@ public class Game {
     private boolean finalFrenzy;
     private boolean endGame;
 
-    public Game(int numberOfPlayers) {
+    public Game(String[] playerNames) {
         this.gameID = new Random().nextInt() * 1000000;
         this.currentTurn = 1;
         this.finalFrenzy = false;
@@ -62,12 +62,14 @@ public class Game {
         List<PlayerColor> colors = Arrays.asList(PlayerColor.values());
         Collections.shuffle(colors);
 
-        while (numberOfPlayers > 0) {
-            Player p = new Player(this, colors.get(numberOfPlayers-1).getColor());
+        int n = playerNames.length;
+
+        while (n > 0) {
+            Player p = new Player(playerNames[n-1], this, colors.get(n-1).getColor());
             p.getOwnedPowerUps ().add ((PowerUp) this.powerUpsDeck.drawCard ());
             p.getOwnedPowerUps ().add ((PowerUp) this.powerUpsDeck.drawCard ());
             this.players.add(p);
-            numberOfPlayers--;
+            n--;
         }
 
         Collections.shuffle(this.players);

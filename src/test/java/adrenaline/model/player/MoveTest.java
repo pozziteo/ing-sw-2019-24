@@ -14,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class MoveTest {
     private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
     private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
-
-     private Game g = new Game(3);
+    private String[] playerNames = {"luca", "matteo", "sara"};
+    private Game g = new Game(playerNames);
 
      @Test
     void correctMovesTest() {

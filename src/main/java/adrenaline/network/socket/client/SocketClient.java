@@ -17,8 +17,8 @@ public class SocketClient implements ClientInterface, Runnable {
     private String serverAddress;
     private Socket socket;
     private UserInterface view;
-    private ObjectInputStream in;
-    private ObjectOutputStream out;
+    private ObjectInputStream input;
+    private ObjectOutputStream output;
 
     /**
      * constructor of client socket
@@ -39,11 +39,10 @@ public class SocketClient implements ClientInterface, Runnable {
     public void connectToServer() {
         try {
             socket = new Socket(serverAddress, port);
-            in = new ObjectInputStream(socket.getInputStream());
-            out = new ObjectOutputStream(socket.getOutputStream());
-            out.flush();
+            input = new ObjectInputStream(socket.getInputStream());
+            output = new ObjectOutputStream(socket.getOutputStream());
+            output.flush();
             (new Thread(this)).start();
-            view.setUpAccount ();
         } catch(Exception e) {
             System.err.println(e.getMessage());
         }
@@ -57,7 +56,7 @@ public class SocketClient implements ClientInterface, Runnable {
         boolean value = true;
         while (value) {
             try {
-                DataForClient receivedData = (DataForClient) in.readObject();
+                DataForClient receivedData = (DataForClient) input.readObject();
                 view.updateView(receivedData);
             } catch (Exception e) {
                 value = false;
@@ -65,8 +64,8 @@ public class SocketClient implements ClientInterface, Runnable {
             }
         }
         try {
-            in.close();
-            out.close();
+            input.close();
+            output.close();
             socket.close();
         } catch (IOException e) {
             System.out.println(e);
@@ -80,8 +79,8 @@ public class SocketClient implements ClientInterface, Runnable {
 
     public void sendData(DataForServer data) {
         try {
-            out.writeObject(data);
-            out.reset();
+            output.writeObject(data);
+            output.reset();
         } catch (IOException e) {
             System.out.println(e);
         }

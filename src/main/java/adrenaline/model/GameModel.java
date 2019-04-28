@@ -7,14 +7,14 @@ import adrenaline.network.Account;
 
 public class GameModel {
     private Game game;
-    private int numberOfPlayers;
+    private String[] playerNames;
 
-    public GameModel(int n) {
-        this.numberOfPlayers = n;
+    public GameModel(String[] playerNames) {
+        this.playerNames = playerNames;
     }
 
     public void startNewGame() {
-        this.game = new Game(numberOfPlayers);
+        this.game = new Game(playerNames);
     }
 
     public Game getGame() {
@@ -25,7 +25,7 @@ public class GameModel {
         this.game.setArena (fileName);
     }
 
-    private MapData updateMapData(Account account) {
+    public MapData updateMapData(Account account) {
         return new MapData(account, game.getMap ().getArena ());
     }
 

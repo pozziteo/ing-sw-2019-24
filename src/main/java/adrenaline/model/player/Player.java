@@ -12,7 +12,8 @@ import java.util.*;
 
 public class Player {
     private Game game;
-    private String playerID;
+    private String playerName;
+    private String playerColor;
     private Board playerBoard;
     private int pointTokens;
     private Square position;
@@ -25,9 +26,10 @@ public class Player {
 
     }
 
-    public Player(Game game, String color) {
+    public Player(String playerName, Game game, String color) {
         this.game = game;
-        this.playerID = color;
+        this.playerName = playerName;
+        this.playerColor = color;
         this.playerBoard = new Board();
         this.pointTokens = 0;
         this.ownedWeapons = new ArrayList<>();
@@ -45,12 +47,21 @@ public class Player {
     }
 
     /**
+     * Getter method to obtain this player's nickname
+     * @return nickname
+     */
+
+    public String getPlayerName() {
+        return this.playerName;
+    }
+
+    /**
      * Getter method to obtain player's color
      * @return color which is used to univocally distinguish players
      */
 
     public String getPlayerColor() {
-        return this.playerID;
+        return this.playerColor;
     }
 
     /**

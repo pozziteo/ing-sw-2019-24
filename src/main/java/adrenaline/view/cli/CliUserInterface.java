@@ -4,6 +4,7 @@ import adrenaline.data.DataForClient;
 import adrenaline.data.DataForServer;
 import adrenaline.data.data_for_game.MapSetUp;
 import adrenaline.data.data_for_network.AccountSetUp;
+import adrenaline.data.data_for_view.AccountResponse;
 import adrenaline.network.ClientInterface;
 import adrenaline.network.rmi.client.RmiClient;
 import adrenaline.network.socket.client.SocketClient;
@@ -82,8 +83,13 @@ public class CliUserInterface implements UserInterface {
         client.sendData (data);
     }
 
+    /**
+     * Implements UserInterface method. It updates data received from server.
+     * @param data that has to be updated
+     */
     public void updateView(DataForClient data) {
-        //this.printer.printData();
+        if (data instanceof AccountResponse)
+            updateView((AccountResponse) data);
     }
 
     public void setUpAccount() {
@@ -91,6 +97,18 @@ public class CliUserInterface implements UserInterface {
         String nickname = this.parser.parseNickname ();
         AccountSetUp accountData = new AccountSetUp (nickname);
         sendToController (accountData);
+    }
+
+    public void updateView(AccountResponse data) {
+        this.printer.print (data.getMessage ());
+        if (data.isSuccessful ()) {
+            if (this.firstPlayer) {
+                mapSelector ();
+            }
+        } else {
+            this.printer.print ("Try again.");
+            setUpAccount ();
+        }
     }
 
 

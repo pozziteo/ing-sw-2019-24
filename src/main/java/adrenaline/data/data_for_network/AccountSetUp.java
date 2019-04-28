@@ -4,7 +4,7 @@ import adrenaline.data.DataForServer;
 
 //TODO javadoc
 
-public class AccountSetUp extends DataForServer {
+public class AccountSetUp implements DataForServer {
     private String nickname;
 
     public AccountSetUp(String nickname) {

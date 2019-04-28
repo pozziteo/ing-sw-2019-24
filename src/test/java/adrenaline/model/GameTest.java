@@ -12,7 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GameTest {
     private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
     private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
-    private Game game = new Game (5);
+    private String[] playerNames = {"luca", "matteo", "sara", "pippo", "baudo"};
+    private Game game = new Game (playerNames);
     private Player p1 = game.getPlayers ().get(0);
     private Player p2 = game.getPlayers ().get(1);
     private Player p3 = game.getPlayers ().get(2);

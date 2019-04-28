@@ -7,7 +7,8 @@ import adrenaline.model.player.Shoot;
 import org.junit.jupiter.api.Test;
 
 public class ShootTest {
-    private Game g = new Game(3);
+    private String[] playerNames = {"luca", "matteo", "sara"};
+    private Game g = new Game(playerNames);
     private Player p = g.getPlayers ().get(0);
 
     @Test

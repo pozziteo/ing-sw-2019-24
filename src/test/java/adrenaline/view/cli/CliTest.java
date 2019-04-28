@@ -5,7 +5,8 @@ import adrenaline.view.cli.CliPrinter;
 import org.junit.jupiter.api.Test;
 
 public class CliTest {
-    private Game g = new Game (5);
+    String[] playerNames = {"luca", "matteo", "sara"};
+    private Game g = new Game (playerNames);
     private CliPrinter printer = new CliPrinter();
 
     @Test

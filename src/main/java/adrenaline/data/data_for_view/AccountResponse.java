@@ -1,15 +1,23 @@
 package adrenaline.data.data_for_view;
 
-public class AccountResponse {
+import adrenaline.data.DataForClient;
+import adrenaline.network.Account;
+
+public class AccountResponse extends DataForClient {
     private boolean successful;
     private String message;
 
-    public AccountResponse(boolean value, String message) {
+    public AccountResponse(Account account, boolean value, String message) {
+        super(account);
         this.successful = value;
         this.message = message;
     }
 
-    public boolean getStatus() {
+    public boolean isSuccessful() {
         return this.successful;
+    }
+
+    public String getMessage() {
+        return this.message;
     }
 }
