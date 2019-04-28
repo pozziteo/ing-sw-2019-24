@@ -30,7 +30,6 @@ public class MainServer {
     private static final String ACCOUNTS = PATH + File.separatorChar + "accounts.ser";
 
     private MainServer() {
-        this.storedAccounts = new ArrayList<>();
         this.serverAddress = "localhost"; //change to get dynamically
         this.rmiPort = 5555;
         this.socketPort = 6666;
@@ -103,10 +102,10 @@ public class MainServer {
 
     private void loadAccounts() {
         Account a;
+        this.storedAccounts = new ArrayList<> ();
         boolean done = false;
-        try {
-            FileInputStream f = new FileInputStream (new File (PATH + ACCOUNTS));
-            try (ObjectInputStream stream = new ObjectInputStream (f)) {
+        try (FileInputStream f = new FileInputStream (new File (PATH + ACCOUNTS));
+             ObjectInputStream stream = new ObjectInputStream (f)) {
                 while (!done) {
                     if (stream.readObject ( ) != null) {
                         a = (Account) stream.readObject ( );
@@ -116,27 +115,29 @@ public class MainServer {
             } catch (Exception e) {
                 System.out.println (e);
             }
-        } catch (FileNotFoundException e) {
-            System.out.println (e);
-        }
     }
 
+    /**
+     * Method to write accounts stored in storedAccounts in ser file in memory.
+     * @throws IOException
+     */
 
-    private void storeAccounts() {
+    private void storeAccounts() throws IOException {
         for (Account account : this.storedAccounts) {
-            try {
-                FileOutputStream f = new FileOutputStream (new File (PATH + ACCOUNTS));
-                ObjectOutputStream s = new ObjectOutputStream (f);
-                s.writeObject (account);
-                f.close ( );
-                s.close ( );
-            } catch (Exception e) {
-                System.out.println (e);
+            try (FileOutputStream f = new FileOutputStream (new File (PATH + ACCOUNTS));
+                 ObjectOutputStream stream = new ObjectOutputStream (f)) {
+                stream.writeObject (account);
             }
         }
     }
 
-    public void registerAccount(Account account) {
+    /**
+     * Method to check if the nickname chosen by a user is valid for registration or not.
+     * @param account to register
+     * @throws IOException
+     */
+
+    public void registerAccount(Account account) throws IOException {
         boolean responseSent = false;
         for (Account a : this.storedAccounts) {
             if (account.getNickName ( ).equals (a.getNickName () )) {
@@ -152,6 +153,7 @@ public class MainServer {
         if (!responseSent) {
             this.storedAccounts.add (account);
             storeAccounts ();
+            new AccountResponse (true, "Welcome, " + account.getNickName () + ". Your registration was successful.");
         }
     }
 

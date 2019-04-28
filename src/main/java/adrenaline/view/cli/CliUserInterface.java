@@ -20,6 +20,7 @@ public class CliUserInterface implements UserInterface {
     private CliPrinter printer;
     private CliParser parser;
     private ClientInterface client;
+    private boolean firstPlayer;
 
     //attributes that represent the file names for each map
     private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
