@@ -1,10 +1,13 @@
 package adrenaline.network;
 
-import adrenaline.model.GameModel;
+import adrenaline.data.data_for_view.AccountResponse;
 import adrenaline.network.rmi.server.RmiServer;
 import adrenaline.network.socket.server.SocketServer;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Singleton class that represents the main server hosting a game. It implements both socket
@@ -15,23 +18,23 @@ public class MainServer {
     private static MainServer instance;
     private SocketServer socketServer;
     private RmiServer rmiServer;
-    private ArrayList<Account> accounts;
+    private ArrayList<Account> storedAccounts;
     private boolean mainRunning;
-    private boolean rmiRunning;
-    private boolean socketRunning;
     private String serverAddress;
     private int rmiPort;
     private int socketPort;
-    private GameModel gameModel;
+    private LinkedList<Lobby> gameLobbies;
+
+    //attributes that represent the path of the file with all the accounts
+    private static final String PATH = "src" + File.separatorChar + "Resources";
+    private static final String ACCOUNTS = PATH + File.separatorChar + "accounts.ser";
 
     private MainServer() {
-        this.accounts = new ArrayList<>();
+        this.storedAccounts = new ArrayList<>();
         this.serverAddress = "localhost"; //change to get dynamically
         this.rmiPort = 5555;
         this.socketPort = 6666;
         this.mainRunning = false;
-        this.rmiRunning = false;
-        this.socketRunning = false;
     }
 
     /**
@@ -62,22 +65,21 @@ public class MainServer {
      */
 
     private void startServer() {
-        this.gameModel = new GameModel ();
+        this.gameLobbies = new LinkedList<> ();
+        loadAccounts ();
         mainRunning = true;
-        while(mainRunning && !socketRunning) {
+        while(mainRunning && !socketServer.isRunning()) {
             try {
                 this.socketServer = new SocketServer (getInstance (), socketPort);
-                socketRunning = true;
                 socketServer.startServer ();
             } catch (Exception e) {
                 System.out.println (e);
                 mainRunning = false;
             }
         }
-        while(mainRunning && !rmiRunning) {
+        while(mainRunning && !rmiServer.isRunning()) {
             try {
                 this.rmiServer = new RmiServer (rmiPort);
-                rmiRunning = true;
                 rmiServer.startServer ();
             } catch (Exception e) {
                 System.out.println (e);
@@ -96,11 +98,68 @@ public class MainServer {
     }
 
     /**
-     * Getter to obtain game
+     * Method to read account info from ser file in memory.
      */
 
-    public GameModel getGame() {
-        return this.gameModel;
+    private void loadAccounts() {
+        Account a;
+        boolean done = false;
+        try {
+            FileInputStream f = new FileInputStream (new File (PATH + ACCOUNTS));
+            try (ObjectInputStream stream = new ObjectInputStream (f)) {
+                while (!done) {
+                    if (stream.readObject ( ) != null) {
+                        a = (Account) stream.readObject ( );
+                        this.storedAccounts.add (a);
+                    } else done = true;
+                }
+            } catch (Exception e) {
+                System.out.println (e);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println (e);
+        }
     }
 
+
+    private void storeAccounts() {
+        for (Account account : this.storedAccounts) {
+            try {
+                FileOutputStream f = new FileOutputStream (new File (PATH + ACCOUNTS));
+                ObjectOutputStream s = new ObjectOutputStream (f);
+                s.writeObject (account);
+                f.close ( );
+                s.close ( );
+            } catch (Exception e) {
+                System.out.println (e);
+            }
+        }
+    }
+
+    public void registerAccount(Account account) {
+        boolean responseSent = false;
+        for (Account a : this.storedAccounts) {
+            if (account.getNickName ( ).equals (a.getNickName () )) {
+                if (a.isOnline ()) {
+                    responseSent = true;
+                    new AccountResponse (false, "This nickname is already in use");
+                } else {
+                    responseSent = true;
+                    new AccountResponse(true, "Welcome back, " + account.getNickName ());
+                }
+            }
+        }
+        if (!responseSent) {
+            this.storedAccounts.add (account);
+            storeAccounts ();
+        }
+    }
+
+    public List<Lobby> getGameLobbies() {
+        return this.gameLobbies;
+    }
+
+    public void createLobby(Lobby l) {
+        gameLobbies.add (l);
+    }
 }

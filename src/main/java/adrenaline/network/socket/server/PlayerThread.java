@@ -1,6 +1,5 @@
 package adrenaline.network.socket.server;
 
-import adrenaline.controller.PlayerController;
 import adrenaline.data.DataForClient;
 import adrenaline.data.DataForServer;
 import adrenaline.network.MainServer;
@@ -14,16 +13,13 @@ import java.net.Socket;
  */
 
 public class PlayerThread extends Account implements Runnable {
-    private Socket socket;
-    private int clientNum;
-    private ObjectInputStream in;
-    private ObjectOutputStream out;
-    private PlayerController controller;
+    private transient Socket socket;
+    private transient ObjectInputStream in;
+    private transient ObjectOutputStream out;
 
-    public PlayerThread(MainServer server, Socket s, int i) {
-        this.controller = new PlayerController(server.getGame(), this);
+    public PlayerThread(MainServer server, Socket s, String nickname) {
+        super(nickname, server);
         this.socket = s;
-        this.clientNum = i;
         try {
             this.in = new ObjectInputStream(socket.getInputStream());
             this.out = new ObjectOutputStream(socket.getOutputStream());
@@ -43,13 +39,13 @@ public class PlayerThread extends Account implements Runnable {
         try {
             while (socket.isConnected ()) {
                 DataForServer receivedData = (DataForServer) in.readObject ();
-                this.controller.receiveData (receivedData);
+                this.getCurrentLobby ().getController().receiveData (receivedData);
             }
         } catch (Exception e) {
             System.out.println (e);
             super.setOnline (false);
         } finally {
-            System.out.println ("Client " + clientNum + " disconnected");
+            System.out.println ("Client " + super.getNickName () + " disconnected");
             super.setOnline (false);
         }
         closeThread ();

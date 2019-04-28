@@ -6,15 +6,22 @@ import adrenaline.model.GameModel;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-//TODO javadoc
+/**
+ * Class that stores the data of a client and differentiates it from other players
+ * based on the account's unique nickname
+ */
 
-public abstract class Account implements Serializable {
+public class Account implements Serializable {
     private String nickname;
-    private boolean online = false;
-    private GameModel currentGame;
+    private transient boolean online = false;
+    private transient MainServer server;
+    private transient Lobby currentLobby;
     private ArrayList<GameModel> gameHistory;
 
-
+    public Account(String nick, MainServer server) {
+        this.nickname = nick;
+        this.server = server;
+    }
 
     /**
      * SETTER Method to set the player's nickname
@@ -29,14 +36,14 @@ public abstract class Account implements Serializable {
      * GETTER Method
      * @return the player's nickname
      */
-    public String getNickName() {
+    protected String getNickName() {
         return this.nickname;
     }
 
     /**
      * SETTER Method to set the online status = true
      */
-    public void setOnline(boolean value) {
+    protected void setOnline(boolean value) {
         this.online = value;
     }
 
@@ -47,6 +54,50 @@ public abstract class Account implements Serializable {
     public boolean isOnline() {
         return this.online;
     }
+
+    /**
+     * Getter to obtain the lobby this account is currently in
+     * @return lobby
+     */
+
+    protected Lobby getCurrentLobby() {
+        return this.currentLobby;
+    }
+
+    /**
+     * Method to add this account to the first open lobby in the main server
+     */
+
+    public void addToLobby() {
+        boolean added = false;
+        for (Lobby lobby : server.getGameLobbies()) {
+            if (!lobby.isFull()) {
+                lobby.setPlayers (this);
+                this.currentLobby = lobby;
+                added = true;
+            }
+        }
+        if (!added) {
+            Lobby lobby = new Lobby();
+            server.createLobby (lobby);
+            lobby.setPlayers (this);
+            this.currentLobby = lobby;
+        }
+    }
+
+    /**
+     * Method to add a game to the list of stored games
+     * @param game to save
+     */
+
+    public void storeGame(GameModel game) {
+        this.gameHistory.add (game);
+    }
+
+    /**
+     * Method to send data to a client
+     * @param data to send
+     */
 
     public void sendData(DataForClient data) {
         //implemented by subclasses

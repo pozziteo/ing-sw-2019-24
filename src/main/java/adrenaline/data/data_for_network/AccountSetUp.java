@@ -14,5 +14,4 @@ public class AccountSetUp extends DataForServer {
     public String getNickname() {
         return this.nickname;
     }
-
 }

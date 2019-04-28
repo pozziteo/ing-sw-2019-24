@@ -97,22 +97,27 @@ public class CliUserInterface implements UserInterface {
      * This Method asks the player which map he wants to play with
      */
     private void mapSelector(){
-        this.printer.printMapOptions();
-        if (this.parser.parseInt(3)==0){
-            MapSetUp mapData = new MapSetUp (SMALL);
-            sendToController (mapData);
-        }else if (this.parser.parseInt(3)==1){
-            MapSetUp mapData = new MapSetUp (MEDIUM_1);
-            sendToController (mapData);
-        }else if (this.parser.parseInt(3)==2){
-            MapSetUp mapData = new MapSetUp (MEDIUM_2);
-            sendToController (mapData);
-        }else if (this.parser.parseInt(3)==3){
-            MapSetUp mapData = new MapSetUp (LARGE);
-            sendToController (mapData);
+        boolean valid = false;
+        while(!valid) {
+            this.printer.printMapOptions ( );
+            if (this.parser.parseInt (3) == 0) {
+                valid = true;
+                MapSetUp mapData = new MapSetUp (SMALL);
+                sendToController (mapData);
+            } else if (this.parser.parseInt (3) == 1) {
+                valid = true;
+                MapSetUp mapData = new MapSetUp (MEDIUM_1);
+                sendToController (mapData);
+            } else if (this.parser.parseInt (3) == 2) {
+                valid = true;
+                MapSetUp mapData = new MapSetUp (MEDIUM_2);
+                sendToController (mapData);
+            } else if (this.parser.parseInt (3) == 3) {
+                valid = true;
+                MapSetUp mapData = new MapSetUp (LARGE);
+                sendToController (mapData);
+            } else this.printer.printInvalidInput ( );
         }
-        else this.printer.printInvalidInput();
-
     }
 
 
@@ -124,20 +129,18 @@ public class CliUserInterface implements UserInterface {
         while(!valid){
             this.printer.printActionOptions();
             if (this.parser.parseInt(3)==0){
-                valid=true;
+                valid = true;
                 //TODO move
             }else if(this.parser.parseInt(3)==1){
-                valid=true;
+                valid = true;
                 //TODO move and grab
             } else if(this.parser.parseInt(3)==2){
-                valid=true;
+                valid = true;
                 //TODO shoot
             } else if(this.parser.parseInt(3)==3){
-                valid=true;
+                valid = true;
                 //TODO pass
-            } else{
-                this.printer.printInvalidInput();
-            }
+            } else this.printer.printInvalidInput();
         }
     }
 }

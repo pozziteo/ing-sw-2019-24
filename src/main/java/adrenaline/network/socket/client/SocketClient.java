@@ -43,7 +43,7 @@ public class SocketClient implements ClientInterface, Runnable {
             out = new ObjectOutputStream(socket.getOutputStream());
             out.flush();
             (new Thread(this)).start();
-            //view.setUpAccount ();
+            view.setUpAccount ();
         } catch(Exception e) {
             System.err.println(e.getMessage());
         }

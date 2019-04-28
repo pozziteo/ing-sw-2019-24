@@ -50,7 +50,7 @@ public class SocketServer {
                     Socket s = ss.accept ( );
                     i++;
                     System.out.println ("A new client is here: Client" + i + "\n");
-                    executor.submit(new PlayerThread (server, s, i));
+                    executor.submit(new PlayerThread (server, s, null));
                 } catch (IOException e) {
                     running = false;
                     System.out.println (e.getMessage ( ));
@@ -58,5 +58,9 @@ public class SocketServer {
                 }
             }
         executor.shutdown ();
+    }
+
+    public boolean isRunning() {
+        return this.running;
     }
 }

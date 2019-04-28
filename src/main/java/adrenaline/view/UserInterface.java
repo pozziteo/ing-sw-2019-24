@@ -21,4 +21,6 @@ public interface UserInterface {
      * @param data to send
      */
     void sendToController(DataForServer data);
+
+    void setUpAccount();
 }
