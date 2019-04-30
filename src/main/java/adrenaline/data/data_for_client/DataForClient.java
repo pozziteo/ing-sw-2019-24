@@ -1,6 +1,7 @@
 package adrenaline.data.data_for_client;
 
 import adrenaline.network.Account;
+import adrenaline.view.UserInterface;
 
 import java.io.Serializable;
 
@@ -26,5 +27,13 @@ public abstract class DataForClient implements Serializable {
                 System.out.println (e);
             }
         }
+    }
+
+    /**
+     * Method that implements command pattern
+     * @param view to update
+     */
+    public void updateView(UserInterface view) {
+        //implemented by subclasses
     }
 }

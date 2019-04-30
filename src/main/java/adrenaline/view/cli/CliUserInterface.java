@@ -50,6 +50,14 @@ public class CliUserInterface implements UserInterface {
     }
 
     /**
+     * Setter method to
+     */
+
+    public void setFirstPlayer(boolean value) {
+        this.firstPlayer = value;
+    }
+
+    /**
      * Method to connect this client to the server based on the connection type chosen.
      */
 
@@ -88,8 +96,7 @@ public class CliUserInterface implements UserInterface {
      * @param data that has to be updated
      */
     public void updateView(DataForClient data) {
-        if (data instanceof AccountResponse)
-            updateView((AccountResponse) data);
+        data.updateView(this);
     }
 
     public void setUpAccount() {

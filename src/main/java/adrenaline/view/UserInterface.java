@@ -22,5 +22,14 @@ public interface UserInterface {
      */
     void sendToController(DataForServer data);
 
+    /**
+     * Method to set up a client's account
+     */
     void setUpAccount();
+
+    /**
+     * Method to choose the player that sets up the match
+     * @param value true (if first), false (otherwise)
+     */
+    void setFirstPlayer(boolean value);
 }

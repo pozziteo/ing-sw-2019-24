@@ -22,4 +22,9 @@ public class GraphicUserInterface implements UserInterface {
     public void setUpAccount() {
         //TODO implement
     }
+
+    @Override
+    public void setFirstPlayer(boolean value) {
+        //TODO implement
+    }
 }
