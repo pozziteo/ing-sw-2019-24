@@ -14,8 +14,8 @@ import java.net.Socket;
 
 public class PlayerThread extends Account implements Runnable {
     private transient Socket socket;
-    private ObjectInputStream in;
-    private ObjectOutputStream out;
+    private transient ObjectInputStream in;
+    private transient ObjectOutputStream out;
 
     public PlayerThread(MainServer server, Socket s, String nickname) {
         super(nickname, server);
@@ -35,19 +35,11 @@ public class PlayerThread extends Account implements Runnable {
 
     @Override
     public void run() {
-        //boolean registered = false;
         super.setOnline (true);
         try {
             while (socket.isConnected ()) {
                 DataForServer receivedData = (DataForServer) in.readObject ();
-                receivedData.setAccount(this);
-                /*if (!registered && receivedData instanceof AccountSetUp) {
-                    registered = true;
-                    super.setNickname (((AccountSetUp) receivedData).getNickname ());
-                    super.getServer().registerAccount (this);
-                } else { */
-                    this.getCurrentLobby ( ).getController ( ).receiveData (receivedData);
-               /* } */
+                this.getCurrentLobby ( ).getController ( ).receiveData (receivedData);
             }
         } catch (Exception e) {
             System.out.println (e);
