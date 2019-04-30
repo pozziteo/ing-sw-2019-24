@@ -1,5 +1,6 @@
 package adrenaline.model.deck;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
  * Deck is the supertype for WeaponsDeck, TilesDeck and PowerUpsDeck.
  */
 
-public abstract class Deck {
+public abstract class Deck implements Serializable {
     /**
      * cards is the list of cards that makes up a certain deck, it represents the pool of cards a player can draw from.
      */

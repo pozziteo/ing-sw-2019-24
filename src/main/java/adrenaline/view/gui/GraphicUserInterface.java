@@ -2,6 +2,7 @@ package adrenaline.view.gui;
 
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_server.DataForServer;
+import adrenaline.model.map.Square;
 import adrenaline.view.UserInterface;
 
 //TODO
@@ -25,6 +26,10 @@ public class GraphicUserInterface implements UserInterface {
     }
 
     public void loginStatus(boolean successful, String message) {
+        //TODO
+    }
+
+    public void printMap(Square[] arena) {
         //TODO
     }
 }

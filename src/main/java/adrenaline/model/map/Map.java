@@ -1,13 +1,15 @@
 package adrenaline.model.map;
 
 import adrenaline.model.player.Player;
+
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Map is a Singleton class which contains the description about the map currently
  * used in a game. There can be only one instance of Map in a single game
  */
-public class Map {
+public class Map implements Serializable {
 
     /**
      * attribute which represents the "file name" of the map

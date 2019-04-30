@@ -3,9 +3,11 @@ package adrenaline.model;
 import adrenaline.data.data_for_client.data_for_view.MapData;
 import adrenaline.network.Account;
 
+import java.io.Serializable;
+
 //TODO javadoc
 
-public class GameModel {
+public class GameModel implements Serializable {
     private Game game;
     private String[] playerNames;
 

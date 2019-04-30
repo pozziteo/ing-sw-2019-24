@@ -7,13 +7,14 @@ import adrenaline.model.player.Player;
 import adrenaline.model.map.Map;
 
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Class used to access the entire model package
  */
 
-public class Game {
+public class Game implements Serializable {
 
     private enum PlayerColor {
         RED("Red"),

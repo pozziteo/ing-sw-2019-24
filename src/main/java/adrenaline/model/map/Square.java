@@ -2,6 +2,7 @@ package adrenaline.model.map;
 
 import adrenaline.model.player.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * Square is a single "element" which compose the map, it is characterized by
  * an id, a room and the links to the other squares in the map
  */
-public class Square {
+public class Square implements Serializable {
 
     /**
      * squareId is the id of a square, and also its index in arena attribute

@@ -3,6 +3,7 @@ package adrenaline.data.data_for_client.data_for_view;
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.model.map.Square;
 import adrenaline.network.Account;
+import adrenaline.view.UserInterface;
 
 /**
  * Class that represents data containing updated map info.
@@ -23,11 +24,11 @@ public class MapData extends DataForClient {
     }
 
     /**
-     * Getter to obtain the array of Squares making up an arena.
-     * @return arena
+     * Method to print the array of Squares making up an arena.
      */
 
-    public Square[] getArena() {
-        return this.arena;
+    @Override
+    public void updateView(UserInterface view) {
+        view.printMap(arena);
     }
 }

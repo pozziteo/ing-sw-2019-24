@@ -12,6 +12,7 @@ public class FirstPlayerSetUp extends DataForClient {
         this.first = value;
     }
 
+    @Override
     public void updateView(UserInterface view) {
         view.setFirstPlayer(first);
     }

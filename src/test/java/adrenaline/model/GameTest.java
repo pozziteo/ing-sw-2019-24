@@ -1,6 +1,5 @@
 package adrenaline.model;
 
-import adrenaline.model.Game;
 import adrenaline.model.player.Player;
 import org.junit.jupiter.api.Test;
 

@@ -2,6 +2,7 @@ package adrenaline.view;
 
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_server.DataForServer;
+import adrenaline.model.map.Square;
 
 /**
  * Interface implemented by two different classes in the view package based on the
@@ -34,4 +35,6 @@ public interface UserInterface {
     void setFirstPlayer(boolean value);
 
     void loginStatus(boolean value, String message);
+
+    void printMap(Square[] arena);
 }

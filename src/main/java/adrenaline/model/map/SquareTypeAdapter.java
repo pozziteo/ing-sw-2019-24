@@ -10,7 +10,7 @@ public class SquareTypeAdapter extends TypeAdapter<Square> {
 
     @Override
     public void write(JsonWriter writer, Square square) throws IOException {
-
+        //overrides superclass method
     }
 
     //TODO add JavaDoc

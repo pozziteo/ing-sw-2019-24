@@ -17,6 +17,6 @@ public class AccountSetUp extends DataForServer {
 
     @Override
     public void updateModel() {
-
+        //TODO
     }
 }

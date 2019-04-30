@@ -14,6 +14,7 @@ public class AccountResponse extends DataForClient {
         this.message = message;
     }
 
+    @Override
     public void updateView(UserInterface view) {
         view.loginStatus(successful, message);
     }

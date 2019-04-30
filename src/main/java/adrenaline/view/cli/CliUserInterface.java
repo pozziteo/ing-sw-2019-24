@@ -5,6 +5,7 @@ import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.MapSetUp;
 import adrenaline.data.data_for_server.data_for_network.AccountSetUp;
 import adrenaline.data.data_for_client.data_for_view.AccountResponse;
+import adrenaline.model.map.Square;
 import adrenaline.network.ClientInterface;
 import adrenaline.network.rmi.client.RmiClient;
 import adrenaline.network.socket.client.SocketClient;
@@ -168,5 +169,9 @@ public class CliUserInterface implements UserInterface {
                 //TODO pass
             } else this.printer.printInvalidInput();
         }
+    }
+
+    public void printMap(Square[] arena) {
+        //TODO implement
     }
 }
