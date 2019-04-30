@@ -8,23 +8,23 @@ import adrenaline.view.UserInterface;
 
 public class GraphicUserInterface implements UserInterface {
 
-    @Override
     public void updateView(DataForClient data) {
         //TODO implement
     }
 
-    @Override
     public void sendToController(DataForServer data) {
         //TODO implement
     }
 
-    @Override
     public void setUpAccount() {
         //TODO implement
     }
 
-    @Override
     public void setFirstPlayer(boolean value) {
         //TODO implement
+    }
+
+    public void loginStatus(boolean successful, String message) {
+        //TODO
     }
 }

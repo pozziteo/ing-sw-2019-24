@@ -2,6 +2,7 @@ package adrenaline.data.data_for_client.data_for_view;
 
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.network.Account;
+import adrenaline.view.UserInterface;
 
 public class AccountResponse extends DataForClient {
     private boolean successful;
@@ -13,11 +14,7 @@ public class AccountResponse extends DataForClient {
         this.message = message;
     }
 
-    public boolean isSuccessful() {
-        return this.successful;
-    }
-
-    public String getMessage() {
-        return this.message;
+    public void updateView(UserInterface view) {
+        view.loginStatus(successful, message);
     }
 }

@@ -50,7 +50,7 @@ public class CliUserInterface implements UserInterface {
     }
 
     /**
-     * Setter method to
+     * Setter method for firstPlayer
      */
 
     public void setFirstPlayer(boolean value) {
@@ -106,9 +106,9 @@ public class CliUserInterface implements UserInterface {
         sendToController (accountData);
     }
 
-    public void updateView(AccountResponse data) {
-        this.printer.print (data.getMessage ());
-        if (data.isSuccessful ()) {
+    public void loginStatus(boolean successful, String message) {
+        this.printer.print (message);
+        if (successful) {
             if (this.firstPlayer) {
                 mapSelector ();
             }
@@ -122,7 +122,7 @@ public class CliUserInterface implements UserInterface {
     /**
      * This Method asks the player which map he wants to play with
      */
-    private void mapSelector(){
+    public void mapSelector(){
         boolean valid = false;
         while(!valid) {
             this.printer.printMapOptions ( );
@@ -150,7 +150,7 @@ public class CliUserInterface implements UserInterface {
     /**
      * This method asks the player the action he wants to perform
      */
-    private void actionSelector(){
+    public void actionSelector(){
         boolean valid = false;
         while(!valid){
             this.printer.printActionOptions();

@@ -32,4 +32,6 @@ public interface UserInterface {
      * @param value true (if first), false (otherwise)
      */
     void setFirstPlayer(boolean value);
+
+    void loginStatus(boolean value, String message);
 }
