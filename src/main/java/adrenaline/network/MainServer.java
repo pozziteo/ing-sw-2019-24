@@ -8,6 +8,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Singleton class that represents the main server hosting a game. It implements both socket
@@ -57,10 +59,9 @@ public class MainServer {
      * @param args passed to main
      */
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         instance = getInstance ();
         instance.startServer();
-        instance.shutDown();
     }
 
     /**
@@ -71,14 +72,16 @@ public class MainServer {
         this.gameLobbies = new LinkedList<> ();
         loadAccounts ();
         mainRunning = true;
+        ExecutorService executor = Executors.newCachedThreadPool ( );
         while(mainRunning && !rmiRunning) {
             try {
                 this.rmiServer = new RmiServer ();
                 rmiRunning = true;
-                rmiServer.startServer ();
+                executor.submit(rmiServer);
             } catch (Exception e) {
                 System.out.println (e);
                 mainRunning = false;
+                rmiRunning = rmiServer.isRunning ();
             }
         }
         mainRunning = true;
@@ -86,10 +89,11 @@ public class MainServer {
             try {
                 this.socketServer = new SocketServer (getInstance (), socketPort);
                 socketRunning = true;
-                socketServer.startServer ();
+                executor.submit (socketServer);
             } catch (Exception e) {
                 System.out.println (e);
                 mainRunning = false;
+                socketRunning = socketServer.isRunning ();
             }
         }
 

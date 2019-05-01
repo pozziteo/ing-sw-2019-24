@@ -1,11 +1,9 @@
 package adrenaline.network.rmi.client;
 
 import adrenaline.data.data_for_server.DataForServer;
-import adrenaline.network.rmi.commoninterface.CommonInterface;
+import adrenaline.network.rmi.CommonInterface;
 import adrenaline.network.ClientInterface;
 import adrenaline.view.UserInterface;
-import adrenaline.view.cli.CliPrinter;
-import adrenaline.view.cli.CliUserInterface;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;

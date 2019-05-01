@@ -1,8 +1,6 @@
 package adrenaline.network.rmi.server;
 
-import adrenaline.network.rmi.commoninterface.CommonInterface;
-import adrenaline.view.cli.CliPrinter;
-import adrenaline.view.cli.CliUserInterface;
+import adrenaline.network.rmi.CommonInterface;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -14,7 +12,7 @@ import java.util.Scanner;
  * Class that implements a server with rmi connection.
  */
 
-public class RmiServer extends RmiServerImpl {
+public class RmiServer implements Runnable, CommonInterface {
     private boolean running;
    // private int port;
 
@@ -32,18 +30,13 @@ public class RmiServer extends RmiServerImpl {
      * It stops when boolean "running" becomes false
      */
     private int i=1;
-    public void startServer() throws RemoteException{
+    public void run() {
         running = true;
-
             try {
-                Scanner scanner = new Scanner(System.in);
                 Registry registry = LocateRegistry.createRegistry(10000);
-                // Instantiating the implementation class
-                RmiServerImpl obj = new RmiServerImpl();
-
                 // Exporting the object of implementation class
                 // (here we are exporting the remote object to the stub)
-                CommonInterface skeleton = (CommonInterface) UnicastRemoteObject.exportObject(obj, 0);
+                CommonInterface skeleton = (CommonInterface) UnicastRemoteObject.exportObject(this, 0);
 
                 // Binding the remote object (stub) in the registry
                 registry.bind("CommonInterface", skeleton);
@@ -78,5 +71,17 @@ public class RmiServer extends RmiServerImpl {
 
     public boolean isRunning() {
         return this.running;
+    }
+
+    public String Hello() {
+        return "Hello, the RmiServer is now running correctly (more or less)";
+    }
+
+    public String addedClient(int n){
+        return "A new client is here: Client" +n;
+    }
+
+    public void send(String msg) {
+        System.out.println(msg);
     }
 }

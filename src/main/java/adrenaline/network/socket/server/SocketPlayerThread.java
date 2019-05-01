@@ -12,12 +12,12 @@ import java.net.Socket;
  * Class that implements the thread (server side) for every single client connected.
  */
 
-public class PlayerThread extends Account implements Runnable {
+public class SocketPlayerThread extends Account implements Runnable {
     private transient Socket socket;
     private transient ObjectInputStream in;
     private transient ObjectOutputStream out;
 
-    public PlayerThread(MainServer server, Socket s, String nickname) {
+    public SocketPlayerThread(MainServer server, Socket s, String nickname) {
         super(nickname, server);
         this.socket = s;
         try {

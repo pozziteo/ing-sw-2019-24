@@ -4,11 +4,9 @@ import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.MapSetUp;
 import adrenaline.data.data_for_server.data_for_network.AccountSetUp;
-import adrenaline.data.data_for_client.data_for_view.AccountResponse;
 import adrenaline.model.map.Square;
 import adrenaline.network.ClientInterface;
 import adrenaline.network.rmi.client.RmiClient;
-import adrenaline.network.rmi.commoninterface.CommonInterface;
 import adrenaline.network.socket.client.SocketClient;
 import adrenaline.view.UserInterface;
 

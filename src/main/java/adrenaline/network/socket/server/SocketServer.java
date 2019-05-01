@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
  * Class that implements a server with socket connection.
  */
 
-public class SocketServer {
+public class SocketServer implements Runnable {
     private MainServer server;
     private boolean running;
     private int port;
@@ -34,7 +34,7 @@ public class SocketServer {
      * It also handles every new client that joins the server
      * and allows bidirectional communication between client and server
      */
-    public void startServer() {
+    public void run() {
         running = true;
         ExecutorService executor = Executors.newCachedThreadPool ( );
         try {
@@ -50,7 +50,7 @@ public class SocketServer {
                     Socket s = ss.accept ( );
                     i++;
                     System.out.println ("A new client is here: Client" + i + "\n");
-                    executor.submit(new PlayerThread (server, s, null));
+                    executor.submit(new SocketPlayerThread (server, s, null));
                 } catch (IOException e) {
                     running = false;
                     System.out.println (e.getMessage ( ));
