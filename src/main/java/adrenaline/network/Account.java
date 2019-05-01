@@ -91,7 +91,7 @@ public class Account implements Serializable {
             }
         }
         if (!added) {
-            Lobby lobby = new Lobby();
+            Lobby lobby = new Lobby(server);
             server.createLobby (lobby);
             lobby.setPlayers (this);
             this.currentLobby = lobby;

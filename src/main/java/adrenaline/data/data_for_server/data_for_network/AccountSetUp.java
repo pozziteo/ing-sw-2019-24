@@ -1,6 +1,7 @@
 package adrenaline.data.data_for_server.data_for_network;
 
 import adrenaline.data.data_for_server.DataForServer;
+import adrenaline.network.MainServer;
 
 //TODO javadoc
 
@@ -16,7 +17,7 @@ public class AccountSetUp extends DataForServer {
     }
 
     @Override
-    public void updateModel() {
-        super.getAccount ().getServer ().registerAccount (super.getAccount (), nickname);
+    public void updateServer(MainServer server) {
+        server.registerAccount (super.getAccount (), nickname);
     }
 }

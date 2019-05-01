@@ -50,7 +50,7 @@ public class SocketServer implements Runnable {
                     Socket s = ss.accept ( );
                     i++;
                     System.out.println ("A new client is here: Client" + i + "\n");
-                    executor.submit(new SocketPlayerThread (server, s, null));
+                    executor.submit(new SocketPlayerThread (server, s, "guest"));
                 } catch (IOException e) {
                     running = false;
                     System.out.println (e.getMessage ( ));

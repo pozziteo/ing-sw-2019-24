@@ -1,6 +1,7 @@
 package adrenaline.data.data_for_server;
 
 import adrenaline.network.Account;
+import adrenaline.network.MainServer;
 
 import java.io.Serializable;
 
@@ -26,6 +27,10 @@ public abstract class DataForServer implements Serializable {
      */
 
     public void updateModel() {
+        //implemented by subclasses
+    }
+
+    public void updateServer(MainServer server) {
         //implemented by subclasses
     }
 }

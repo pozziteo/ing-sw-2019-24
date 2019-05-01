@@ -65,11 +65,10 @@ public class CliUserInterface implements UserInterface {
         this.printer.printConnectionOptions ();
         if (this.parser.parseInt (1) == 0) {
             this.client = new RmiClient (this);
-            client.connectToServer ();
         } else {
             this.client = new SocketClient ("localhost", 6666, this);
-            client.connectToServer ();
         }
+        client.connectToServer ();
     }
 
     /**

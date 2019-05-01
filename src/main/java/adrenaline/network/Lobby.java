@@ -8,12 +8,14 @@ import adrenaline.model.GameModel;
 import java.util.ArrayList;
 
 public class Lobby {
+    private MainServer server;
     private ArrayList<Account> players;
     private GameModel game;
     private Controller controller;
     private boolean full;
 
-    public Lobby() {
+    public Lobby(MainServer server) {
+        this.server = server;
         this.players = new ArrayList<> ();
         this.full = false;
     }
@@ -27,7 +29,7 @@ public class Lobby {
                 i++;
             }
             this.game = new GameModel (playerNames);
-            this.controller = new Controller(game);
+            this.controller = new Controller(server, game);
         } else {
             System.out.println ("Lobby is not ready.");
         }
