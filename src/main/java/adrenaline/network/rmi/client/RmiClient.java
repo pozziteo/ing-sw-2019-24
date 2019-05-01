@@ -33,15 +33,18 @@ public class RmiClient implements ClientInterface {
             int i = 1;
             String newClient = stub.addedClient(i);
             stub.send(newClient);
-            i++;
-            System.out.println("connected to the rmiServer!");
+
+            System.err.println("connected to the rmiServer!");
 
            while (true) {
                String msg = scanner.nextLine().trim();
                if(msg.equals("quit")){break;}
                stub.send(msg);
            }
-
+           System.err.println("Disconnected from the rmiServer");
+           String goodbye = "A client left the room: Client";
+           stub.send(goodbye+i);
+            i++;
             // DataType var = stub.METHOD(); //here you call the methods you need
 
         }catch (Exception e){
