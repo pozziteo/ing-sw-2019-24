@@ -2,6 +2,7 @@ package adrenaline.network.rmi.server;
 
 import adrenaline.network.rmi.commoninterface.CommonInterface;
 
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -10,15 +11,15 @@ import java.rmi.server.UnicastRemoteObject;
  * Class that implements a server with rmi connection.
  */
 
-public class RmiServer implements CommonInterface {
+public class RmiServer extends RmiServerImpl {
     private boolean running;
-    private int port;
+   // private int port;
 
     /**
      * Constructor that creates a RmiServer
      */
-    public RmiServer(int port) {
-        this.port = port;
+    public RmiServer() throws RemoteException {
+
         this.running = false;
     }
 
@@ -26,25 +27,34 @@ public class RmiServer implements CommonInterface {
      * Method that runs the RmiServer
      * It stops when boolean "running" becomes false
      */
-
-    public void startServer() {
+    private int i=1;
+    public void startServer() throws RemoteException{
         running = true;
-        while(running) {
+
+       // while(running) {
             try {
+                Registry registry = LocateRegistry.createRegistry(10000);
+                // Instantiating the implementation class
+                RmiServerImpl obj = new RmiServerImpl();
 
-                RmiServer server = new RmiServer(port);
-                CommonInterface stub = (CommonInterface) UnicastRemoteObject.exportObject(server, 0);
+                // Exporting the object of implementation class
+                // (here we are exporting the remote object to the stub)
+                CommonInterface skeleton = (CommonInterface) UnicastRemoteObject.exportObject(obj, 0);
 
-                //bind the remote object's stub in the registry
-                Registry registry = LocateRegistry.getRegistry(5555);
-                registry.bind("CommonInterface", stub);
-                System.err.println("RmiServer ready on default port 1099");
+                // Binding the remote object (stub) in the registry
 
+
+                registry.bind("CommonInterface", skeleton);
+                System.err.println("Server ready on port 10000, "+i+"round");
+                i++;
+                while(running){
+
+                }
             } catch (Exception e) {
                 System.err.println(e.getMessage());
-                running = false;
+                shutDownRmiServer();
             }
-        }
+       // }
     }
 
     /**
