@@ -54,6 +54,10 @@ public class MainServer {
         return instance;
     }
 
+    public List<Account> getStoredAccounts() {
+        return this.storedAccounts;
+    }
+
     /**
      * Main method to start and shut down the server
      * @param args passed to main
@@ -165,28 +169,30 @@ public class MainServer {
      * @throws IOException
      */
 
-    public void registerAccount(Account account, String nickname) {
+    public synchronized void registerAccount(Account account) {
         if (storedAccounts.isEmpty ()) {
             try {
-                System.out.println("New account registered by " + nickname);
-                account.setNickname (nickname);
+                System.out.println("New account registered by " + account.getNickName ());
+                account.setNickname (account.getNickName ());
                 this.storedAccounts.add (account);
                 storeAccounts ( );
-                new AccountResponse (account, true, "Welcome, " + account.getNickName ( ) + ". Your registration was successful.");
+                AccountResponse response = new AccountResponse (account, true, "Welcome, " + account.getNickName ( ) + ". Your registration was successful.");
+                response.sendToView ();
             } catch (IOException e) {
                 System.err.println (e.getMessage ());
             }
         } else {
             for (Account a : this.storedAccounts) {
-                if (nickname.equals (a.getNickName () )) {
+                if (account.getNickName ().equals (a.getNickName () )) {
                     if (a.isOnline ()) {
-                        System.out.println("Someone tried registering an account already in use: " + nickname);
-                        new AccountResponse (account,false, "This nickname is already in use");
+                        System.out.println("Someone tried registering an account already in use: " + account.getNickName ());
+                        AccountResponse response = new AccountResponse (account,false, "This nickname is already in use");
+                        response.sendToView ();
                     } else {
-                        System.out.println(nickname + " is back");
-                        account.setNickname (nickname);
+                        System.out.println(account.getNickName () + " is back");
                         account.setGameHistory(a.getGameHistory());
-                        new AccountResponse(account,true, "Welcome back, " + account.getNickName ());
+                        AccountResponse response = new AccountResponse(account,true, "Welcome back, " + account.getNickName ());
+                        response.sendToView();
                     }
                 }
             }

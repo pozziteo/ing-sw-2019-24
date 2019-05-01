@@ -4,6 +4,7 @@ import adrenaline.network.Account;
 import adrenaline.network.MainServer;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Class that represents data that has to be sent to the server.
@@ -11,14 +12,23 @@ import java.io.Serializable;
  */
 
 public abstract class DataForServer implements Serializable {
-    private Account account;
+    private String nickname;
 
-    public void setAccount(Account a) {
-        this.account = a;
+    public DataForServer(String nickname) {
+        this.nickname = nickname;
     }
 
-    public Account getAccount() {
-        return this.account;
+    public Account findAccount(List<Account> accounts) {
+        for (Account a : accounts) {
+            if (a.getNickName ().equals(nickname)) {
+                return a;
+            }
+        }
+        return null;
+    }
+
+    public String getNickname() {
+        return this.nickname;
     }
 
     /**

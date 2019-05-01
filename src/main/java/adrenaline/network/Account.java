@@ -45,6 +45,10 @@ public class Account implements Serializable {
         return this.server;
     }
 
+    public void setServer(MainServer server) {
+        this.server = server;
+    }
+
     /**
      * SETTER Method to set the online status = true
      */

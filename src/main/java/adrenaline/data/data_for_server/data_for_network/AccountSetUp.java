@@ -1,23 +1,19 @@
 package adrenaline.data.data_for_server.data_for_network;
 
 import adrenaline.data.data_for_server.DataForServer;
+import adrenaline.network.Account;
 import adrenaline.network.MainServer;
 
 //TODO javadoc
 
 public class AccountSetUp extends DataForServer {
-    private String nickname;
 
     public AccountSetUp(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getNickname() {
-        return this.nickname;
+        super(nickname);
     }
 
     @Override
     public void updateServer(MainServer server) {
-        server.registerAccount (super.getAccount (), nickname);
+        server.registerAccount (new Account(super.getNickname(), server));
     }
 }
