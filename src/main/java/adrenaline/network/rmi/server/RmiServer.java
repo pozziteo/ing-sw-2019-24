@@ -2,6 +2,7 @@ package adrenaline.network.rmi.server;
 
 import adrenaline.network.rmi.commoninterface.CommonInterface;
 import adrenaline.view.cli.CliPrinter;
+import adrenaline.view.cli.CliUserInterface;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -49,10 +50,12 @@ public class RmiServer extends RmiServerImpl {
                 System.err.println("Server ready on port 10000, "+i+"round");
                 i++;
 
+                String hello = skeleton.Hello();
+                skeleton.send(hello);
+
                 while(running){
-                    //CliPrinter printer = new CliPrinter();
-                    //printer.printMapOptions();
-                    //skeleton.sendMethod(printer);
+
+
                 }
             } catch (Exception e) {
                 System.err.println(e.getMessage());

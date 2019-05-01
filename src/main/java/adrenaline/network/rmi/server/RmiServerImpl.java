@@ -6,59 +6,28 @@ import adrenaline.model.map.Square;
 import adrenaline.network.rmi.commoninterface.CommonInterface;
 import adrenaline.view.UserInterface;
 import adrenaline.view.cli.CliPrinter;
+import adrenaline.view.cli.CliUserInterface;
 
 import java.rmi.*;
 import java.rmi.registry.*;
 import java.rmi.server.*;
 import java.util.*;
 
-public class RmiServerImpl implements CommonInterface, UserInterface {
-
+public class RmiServerImpl implements CommonInterface {
     private CliPrinter printer;
 
-
-    public RmiServerImpl(){}
-
-    public String mapSelectorRmi(){
-        return "ciao";
+    public RmiServerImpl() {
     }
 
-
-    public void sendMethod(CliPrinter printer){
-        System.out.println(printer);
+    public String Hello() {
+        return "Hello, the RmiServer is now running correctly (more or less)";
     }
 
-    public void send(String msg){
+    public String addedClient(int n){
+        return "A new client is here: Client" +n;
+    }
+
+    public void send(String msg) {
         System.out.println(msg);
-    }
-
-    @Override
-    public void updateView(DataForClient data) {
-
-    }
-
-    @Override
-    public void sendToController(DataForServer data) {
-
-    }
-
-    @Override
-    public void setUpAccount() {
-
-    }
-
-    @Override
-    public void setFirstPlayer(boolean value) {
-
-    }
-
-    @Override
-    public void loginStatus(boolean value, String message) {
-
-    }
-
-    @Override
-    public void printMap(Square[] arena) {
-
     }
 }

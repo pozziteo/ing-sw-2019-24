@@ -32,9 +32,10 @@ public class RmiClient implements ClientInterface {
             Scanner scanner =new Scanner(System.in);
             Registry registry = LocateRegistry.getRegistry(10000);
             CommonInterface stub = (CommonInterface) registry.lookup("CommonInterface");
-            CliPrinter printer = new CliPrinter();
-            printer.printMapOptions();
-
+            int i = 1;
+            String newClient = stub.addedClient(i);
+            stub.send(newClient);
+            System.out.println("connected to the rmiServer!");
             String msg = scanner.nextLine().trim();
             stub.send(msg);
 
