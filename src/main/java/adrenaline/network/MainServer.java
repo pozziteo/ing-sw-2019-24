@@ -35,7 +35,7 @@ public class MainServer {
 
     private MainServer() {
         this.serverAddress = "localhost"; //change to get dynamically
-
+        this.rmiPort = 10000;
         this.socketPort = 6666;
         this.mainRunning = false;
         this.socketRunning = false;
@@ -75,11 +75,11 @@ public class MainServer {
         ExecutorService executor = Executors.newCachedThreadPool ( );
         while(mainRunning && !rmiRunning) {
             try {
-                this.rmiServer = new RmiServer ();
+                this.rmiServer = new RmiServer (rmiPort);
                 rmiRunning = true;
                 executor.submit(rmiServer);
             } catch (Exception e) {
-                System.out.println (e);
+                System.err.println (e.getMessage ());
                 mainRunning = false;
                 rmiRunning = rmiServer.isRunning ();
             }
@@ -91,7 +91,7 @@ public class MainServer {
                 socketRunning = true;
                 executor.submit (socketServer);
             } catch (Exception e) {
-                System.out.println (e);
+                System.err.println (e.getMessage ());
                 mainRunning = false;
                 socketRunning = socketServer.isRunning ();
             }
@@ -114,24 +114,24 @@ public class MainServer {
      */
 
     private void loadAccounts() {
+        System.out.println ("Loading saved accounts...");
         Account a;
         this.storedAccounts = new ArrayList<> ();
-        boolean done = false;
         try (FileInputStream f = new FileInputStream (new File (ACCOUNTS));
              ObjectInputStream stream = new ObjectInputStream (f)) {
-                while (!done) {
-                    if (stream.readObject ( ) != null) {
-                        a = (Account) stream.readObject ( );
-                        this.storedAccounts.add (a);
-                    } else done = true;
+                while (stream.available () > 0) {
+                    a = (Account) stream.readObject ( );
+                    this.storedAccounts.add (a);
                 }
+            } catch (EOFException e){
+                System.out.println("No accounts have been saved at this time.");
             } catch (FileNotFoundException e) {
                 if (createFile()) {
                     System.out.println ("File created successfully in " + ACCOUNTS);
                 } else
                     System.out.println ("File could not be created.");
             } catch (IOException | ClassNotFoundException e) {
-            System.out.println (e);
+            System.err.println (e.getMessage ());
         }
     }
 
@@ -140,7 +140,7 @@ public class MainServer {
             File f = new File (ACCOUNTS);
             return f.createNewFile ( );
         } catch (IOException e) {
-            System.out.println (e);
+            System.out.println (e.getMessage ());
             return false;
         }
     }
@@ -152,7 +152,7 @@ public class MainServer {
 
     private void storeAccounts() throws IOException {
         for (Account account : this.storedAccounts) {
-            try (FileOutputStream f = new FileOutputStream (new File (PATH + ACCOUNTS));
+            try (FileOutputStream f = new FileOutputStream (new File (ACCOUNTS));
                  ObjectOutputStream stream = new ObjectOutputStream (f)) {
                 stream.writeObject (account);
             }
@@ -165,23 +165,31 @@ public class MainServer {
      * @throws IOException
      */
 
-    public void registerAccount(Account account) throws IOException {
-        boolean responseSent = false;
-        for (Account a : this.storedAccounts) {
-            if (account.getNickName ( ).equals (a.getNickName () )) {
-                if (a.isOnline ()) {
-                    responseSent = true;
-                    new AccountResponse (account,false, "This nickname is already in use");
-                } else {
-                    responseSent = true;
-                    new AccountResponse(account,true, "Welcome back, " + account.getNickName ());
+    public void registerAccount(Account account, String nickname) {
+        if (storedAccounts.isEmpty ()) {
+            try {
+                System.out.println("New account registered by " + nickname);
+                account.setNickname (nickname);
+                this.storedAccounts.add (account);
+                storeAccounts ( );
+                new AccountResponse (account, true, "Welcome, " + account.getNickName ( ) + ". Your registration was successful.");
+            } catch (IOException e) {
+                System.err.println (e.getMessage ());
+            }
+        } else {
+            for (Account a : this.storedAccounts) {
+                if (nickname.equals (a.getNickName () )) {
+                    if (a.isOnline ()) {
+                        System.out.println("Someone tried registering an account already in use: " + nickname);
+                        new AccountResponse (account,false, "This nickname is already in use");
+                    } else {
+                        System.out.println(nickname + " is back");
+                        account.setNickname (nickname);
+                        account.setGameHistory(a.getGameHistory());
+                        new AccountResponse(account,true, "Welcome back, " + account.getNickName ());
+                    }
                 }
             }
-        }
-        if (!responseSent) {
-            this.storedAccounts.add (account);
-            storeAccounts ();
-            new AccountResponse (account,true, "Welcome, " + account.getNickName () + ". Your registration was successful.");
         }
     }
 

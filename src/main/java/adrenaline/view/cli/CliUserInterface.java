@@ -100,10 +100,11 @@ public class CliUserInterface implements UserInterface {
     }
 
     public void setUpAccount() {
-        this.printer.printNickname ();
+        printer.printNickname ();
         String nickname = this.parser.parseNickname ();
         AccountSetUp accountData = new AccountSetUp (nickname);
         sendToController (accountData);
+        printer.print ("Account data sent to server. Waiting for response...");
     }
 
     public void loginStatus(boolean successful, String message) {

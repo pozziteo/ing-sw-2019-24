@@ -69,6 +69,14 @@ public class Account implements Serializable {
         return this.currentLobby;
     }
 
+    public ArrayList<GameModel> getGameHistory() {
+        return this.gameHistory;
+    }
+
+    public void setGameHistory(ArrayList<GameModel> gameHistory) {
+        this.gameHistory = gameHistory;
+    }
+
     /**
      * Method to add this account to the first open lobby in the main server
      */
