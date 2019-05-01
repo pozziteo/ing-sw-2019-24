@@ -38,6 +38,7 @@ public class RmiClient implements ClientInterface {
 
            while (true) {
                String msg = scanner.nextLine().trim();
+               if(msg.equals("quit")){break;}
                stub.send(msg);
            }
 
