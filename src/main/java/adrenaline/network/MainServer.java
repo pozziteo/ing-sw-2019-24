@@ -33,7 +33,7 @@ public class MainServer {
 
     private MainServer() {
         this.serverAddress = "localhost"; //change to get dynamically
-        this.rmiPort = 5555;
+
         this.socketPort = 6666;
         this.mainRunning = false;
         this.socketRunning = false;
@@ -71,6 +71,17 @@ public class MainServer {
         this.gameLobbies = new LinkedList<> ();
         loadAccounts ();
         mainRunning = true;
+        while(mainRunning && !rmiRunning) {
+            try {
+                this.rmiServer = new RmiServer ();
+                rmiRunning = true;
+                rmiServer.startServer ();
+            } catch (Exception e) {
+                System.out.println (e);
+                mainRunning = false;
+            }
+        }
+        mainRunning = true;
         while(mainRunning && !socketRunning) {
             try {
                 this.socketServer = new SocketServer (getInstance (), socketPort);
@@ -81,17 +92,7 @@ public class MainServer {
                 mainRunning = false;
             }
         }
-        mainRunning = true;
-        while(mainRunning && !rmiRunning) {
-            try {
-                this.rmiServer = new RmiServer (rmiPort);
-                rmiRunning = true;
-                rmiServer.startServer ();
-            } catch (Exception e) {
-                System.out.println (e);
-                mainRunning = false;
-            }
-        }
+
     }
 
     /**

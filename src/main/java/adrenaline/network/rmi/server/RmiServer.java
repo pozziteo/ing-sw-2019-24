@@ -1,11 +1,13 @@
 package adrenaline.network.rmi.server;
 
 import adrenaline.network.rmi.commoninterface.CommonInterface;
+import adrenaline.view.cli.CliPrinter;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Scanner;
 
 /**
  * Class that implements a server with rmi connection.
@@ -23,6 +25,7 @@ public class RmiServer extends RmiServerImpl {
         this.running = false;
     }
 
+
     /**
      * Method that runs the RmiServer
      * It stops when boolean "running" becomes false
@@ -31,8 +34,8 @@ public class RmiServer extends RmiServerImpl {
     public void startServer() throws RemoteException{
         running = true;
 
-       // while(running) {
             try {
+                Scanner scanner = new Scanner(System.in);
                 Registry registry = LocateRegistry.createRegistry(10000);
                 // Instantiating the implementation class
                 RmiServerImpl obj = new RmiServerImpl();
@@ -42,19 +45,19 @@ public class RmiServer extends RmiServerImpl {
                 CommonInterface skeleton = (CommonInterface) UnicastRemoteObject.exportObject(obj, 0);
 
                 // Binding the remote object (stub) in the registry
-
-
                 registry.bind("CommonInterface", skeleton);
                 System.err.println("Server ready on port 10000, "+i+"round");
                 i++;
-                while(running){
 
+                while(running){
+                    //CliPrinter printer = new CliPrinter();
+                    //printer.printMapOptions();
+                    //skeleton.sendMethod(printer);
                 }
             } catch (Exception e) {
                 System.err.println(e.getMessage());
                 shutDownRmiServer();
             }
-       // }
     }
 
     /**

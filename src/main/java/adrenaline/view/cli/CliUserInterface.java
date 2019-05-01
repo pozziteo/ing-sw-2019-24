@@ -8,6 +8,7 @@ import adrenaline.data.data_for_client.data_for_view.AccountResponse;
 import adrenaline.model.map.Square;
 import adrenaline.network.ClientInterface;
 import adrenaline.network.rmi.client.RmiClient;
+import adrenaline.network.rmi.commoninterface.CommonInterface;
 import adrenaline.network.socket.client.SocketClient;
 import adrenaline.view.UserInterface;
 
