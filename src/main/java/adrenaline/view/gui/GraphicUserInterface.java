@@ -32,4 +32,8 @@ public class GraphicUserInterface implements UserInterface {
     public void printMap(Square[] arena) {
         //TODO
     }
+
+    public void setNickname(String nickname) {
+        //TODO
+    }
 }

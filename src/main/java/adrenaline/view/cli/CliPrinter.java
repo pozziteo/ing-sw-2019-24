@@ -91,7 +91,7 @@ public class CliPrinter {
      * Method that reports an invalid input
      */
     synchronized void printInvalidInput() {
-        print("This input is not valid\n");
+        print("This input is not valid.\nTry again:\n");
     }
 
     /**

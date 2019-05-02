@@ -20,6 +20,7 @@ public class MainServer {
     private static MainServer instance;
     private SocketServer socketServer;
     private RmiServer rmiServer;
+    private ArrayList<Account> onlineClients;
     private ArrayList<Account> storedAccounts;
     private boolean mainRunning;
     private boolean socketRunning;
@@ -34,6 +35,7 @@ public class MainServer {
     private static final String ACCOUNTS = PATH + File.separatorChar + "accounts.ser";
 
     private MainServer() {
+        this.onlineClients = new ArrayList<>();
         this.serverAddress = "localhost"; //change to get dynamically
         this.rmiPort = 10000;
         this.socketPort = 6666;
@@ -113,6 +115,10 @@ public class MainServer {
         System.exit (0);
     }
 
+    public void logClient(Account account) {
+        this.onlineClients.add (account);
+    }
+
     /**
      * Method to read account info from ser file in memory.
      */
@@ -164,34 +170,42 @@ public class MainServer {
     }
 
     /**
-     * Method to check if the nickname chosen by a user is valid for registration or not.
-     * @param account to register
-     * @throws IOException
+     * Method to change the default nickname to a custom one and save the client's data
+     * @param oldNickname to change
+     * @param newNickname to set instead of the old one
      */
 
-    public synchronized void registerAccount(Account account) {
-        if (storedAccounts.isEmpty ()) {
+    public void registerAccount(String oldNickname, String newNickname) {
+        Account toRegister = null;
+        for (Account client : onlineClients) {
+            if (oldNickname.equals(client.getNickName ())) {
+                toRegister = client;
+            }
+        }
+        if (storedAccounts.isEmpty ( )) {
             try {
-                System.out.println("New account registered by " + account.getNickName ());
-                account.setNickname (account.getNickName ());
-                this.storedAccounts.add (account);
+                System.out.println ("New account registered by " + toRegister.getNickName ( ) + " -> " + newNickname);
+                toRegister.setNickname (newNickname);
+                this.storedAccounts.add (toRegister);
                 storeAccounts ( );
-                AccountResponse response = new AccountResponse (account, true, "Welcome, " + account.getNickName ( ) + ". Your registration was successful.");
-                response.sendToView ();
+                AccountResponse response = new AccountResponse (toRegister, true, "Welcome, " + toRegister.getNickName ( ) + ". Your registration was successful.");
+                response.sendToView ( );
             } catch (IOException e) {
-                System.err.println (e.getMessage ());
+                System.err.println (e.getMessage ( ));
             }
         } else {
-            for (Account a : this.storedAccounts) {
-                if (account.getNickName ().equals (a.getNickName () )) {
-                    if (a.isOnline ()) {
-                        System.out.println("Someone tried registering an account already in use: " + account.getNickName ());
-                        AccountResponse response = new AccountResponse (account,false, "This nickname is already in use");
+            for (Account storedAccount : this.storedAccounts) {
+                if (newNickname.equals (storedAccount.getNickName () )) {
+                    if (storedAccount.isOnline ()) {
+
+                        System.out.println("Someone tried registering an account already in use: " + storedAccount.getNickName ());
+                        AccountResponse response = new AccountResponse (toRegister,false, "This nickname is already in use");
                         response.sendToView ();
                     } else {
-                        System.out.println(account.getNickName () + " is back");
-                        account.setGameHistory(a.getGameHistory());
-                        AccountResponse response = new AccountResponse(account,true, "Welcome back, " + account.getNickName ());
+                        System.out.println(storedAccount.getNickName () + " is back");
+                        toRegister.setNickname (newNickname);
+                        toRegister.setGameHistory(storedAccount.getGameHistory());
+                        AccountResponse response = new AccountResponse(toRegister,true, "Welcome back, " + storedAccount.getNickName ());
                         response.sendToView();
                     }
                 }

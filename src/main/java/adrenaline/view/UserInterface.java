@@ -37,4 +37,6 @@ public interface UserInterface {
     void loginStatus(boolean value, String message);
 
     void printMap(Square[] arena);
+
+    void setNickname(String nickname);
 }

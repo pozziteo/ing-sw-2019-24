@@ -4,6 +4,8 @@ import adrenaline.network.MainServer;
 
 import java.io.*;
 import java.net.*;
+import java.nio.charset.Charset;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -48,7 +50,7 @@ public class SocketServer implements Runnable {
                 try {
                     Socket socket = serverSocket.accept ( );
                     System.out.println ("A new client is here\n");
-                    executor.submit(new SocketPlayerThread (server, socket, "guest"));
+                    executor.submit(new SocketPlayerThread (server, socket, Integer.toString(new Random().nextInt() * 1000000)));
                 } catch (IOException e) {
                     running = false;
                     System.err.println (e.getMessage ( ));

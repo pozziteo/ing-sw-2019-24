@@ -20,13 +20,13 @@ public class CliParser {
 
     public int parseInt() {
         int n = 0;
-        boolean value = false;
+        boolean valid = false;
 
-        while (!value) {
+        while (!valid) {
             Scanner in = new Scanner(System.in);
             try {
                 n = in.nextInt();
-                value = true;
+                valid = true;
             } catch (InputMismatchException ex) {
                 printer.printInvalidInput ();
                 in.next();
@@ -41,16 +41,16 @@ public class CliParser {
      */
     public int parseInt(int maxInt) {
         int n;
-        boolean value = false;
+        boolean valid = false;
 
         do {
             n = parseInt();
             if (n >= 0 && n <= maxInt) {
-                value = true;
+                valid = true;
             } else {
                 printer.printInvalidInput ();
             }
-        } while(!value);
+        } while(!valid);
 
         return n;
     }
@@ -63,7 +63,7 @@ public class CliParser {
         try {
             System.in.read();
         } catch(Exception e) {
-            printer.printInvalidInput ();
+            printer.print(e.getMessage ());
         }
     }
 

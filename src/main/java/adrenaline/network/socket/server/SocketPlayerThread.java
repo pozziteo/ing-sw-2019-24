@@ -37,6 +37,7 @@ public class SocketPlayerThread extends Account implements Runnable {
     @Override
     public void run() {
         super.setOnline (true);
+        super.getServer ().logClient (this);
         super.setCurrentLobby(super.getServer().getOpenLobby());
         try {
             while (socket.isConnected ()) {

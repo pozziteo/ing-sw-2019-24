@@ -16,6 +16,10 @@ public abstract class DataForClient implements Serializable {
         this.account = account;
     }
 
+    public Account getAccount() {
+        return this.account;
+    }
+
     /**
      * Method to send data to the client's user interface
      */

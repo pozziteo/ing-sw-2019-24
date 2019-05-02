@@ -50,6 +50,10 @@ public class CliUserInterface implements UserInterface {
         return instance;
     }
 
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     /**
      * Setter method for firstPlayer
      */
@@ -101,8 +105,8 @@ public class CliUserInterface implements UserInterface {
 
     public void setUpAccount() {
         printer.printNickname ();
-        this.nickname = this.parser.parseNickname ();
-        AccountSetUp accountData = new AccountSetUp (nickname);
+        String newNickname = this.parser.parseNickname ();
+        AccountSetUp accountData = new AccountSetUp (nickname, newNickname);
         sendToController (accountData);
         printer.print ("Account data sent to server. Waiting for response...");
     }
