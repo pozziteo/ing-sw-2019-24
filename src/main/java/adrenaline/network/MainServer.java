@@ -176,41 +176,49 @@ public class MainServer {
      */
 
     public void registerAccount(String oldNickname, String newNickname) {
-        Account toRegister = null;
-        for (Account client : onlineClients) {
-            if (oldNickname.equals(client.getNickName ())) {
-                toRegister = client;
-            }
-        }
-        if (storedAccounts.isEmpty ( )) {
-            try {
-                System.out.println ("New account registered by " + toRegister.getNickName ( ) + " -> " + newNickname);
-                toRegister.setNickname (newNickname);
-                this.storedAccounts.add (toRegister);
-                storeAccounts ( );
-                AccountResponse response = new AccountResponse (toRegister, true, "Welcome, " + toRegister.getNickName ( ) + ". Your registration was successful.");
-                response.sendToView ( );
-            } catch (IOException e) {
-                System.err.println (e.getMessage ( ));
-            }
-        } else {
-            for (Account storedAccount : this.storedAccounts) {
-                if (newNickname.equals (storedAccount.getNickName () )) {
-                    if (storedAccount.isOnline ()) {
+        Account toRegister = findClient (oldNickname);
+        if (toRegister != null) {
+            if (storedAccounts.isEmpty ( )) {
+                try {
+                    System.out.println ("New account registered by " + toRegister.getNickName ( ) + " -> " + newNickname);
+                    toRegister.setNickname (newNickname);
+                    this.storedAccounts.add (toRegister);
+                    storeAccounts ( );
+                    AccountResponse response = new AccountResponse (toRegister, true, "Welcome, " + toRegister.getNickName ( ) + ". Your registration was successful.");
+                    response.sendToView ( );
+                } catch (IOException e) {
+                    System.err.println (e.getMessage ( ));
+                }
+            } else {
+                for (Account storedAccount : this.storedAccounts) {
+                    if (newNickname.equals (storedAccount.getNickName () )) {
+                        if (storedAccount.isOnline ()) {
 
-                        System.out.println("Someone tried registering an account already in use: " + storedAccount.getNickName ());
-                        AccountResponse response = new AccountResponse (toRegister,false, "This nickname is already in use");
-                        response.sendToView ();
-                    } else {
-                        System.out.println(storedAccount.getNickName () + " is back");
-                        toRegister.setNickname (newNickname);
-                        toRegister.setGameHistory(storedAccount.getGameHistory());
-                        AccountResponse response = new AccountResponse(toRegister,true, "Welcome back, " + storedAccount.getNickName ());
-                        response.sendToView();
+                            System.out.println("Someone tried registering an account already in use: " + storedAccount.getNickName ());
+                            AccountResponse response = new AccountResponse (toRegister,false, "This nickname is already in use");
+                            response.sendToView ();
+                        } else {
+                            System.out.println(storedAccount.getNickName () + " is back");
+                            toRegister.setNickname (newNickname);
+                            toRegister.setGameHistory(storedAccount.getGameHistory());
+                            AccountResponse response = new AccountResponse(toRegister,true, "Welcome back, " + storedAccount.getNickName ());
+                            response.sendToView();
+                        }
                     }
                 }
             }
+        } else {
+            System.err.print ("Client not found.");
         }
+    }
+
+    private Account findClient(String nickname) {
+        for (Account client : onlineClients) {
+            if (nickname.equals(client.getNickName ())) {
+                return client;
+            }
+        }
+        return null;
     }
 
     public List<Lobby> getGameLobbies() {
