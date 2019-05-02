@@ -15,7 +15,7 @@ public class SocketServer implements Runnable {
     private MainServer server;
     private boolean running;
     private int port;
-    private ServerSocket ss;
+    private ServerSocket serverSocket;
 
     /**
      * This Method creates the server
@@ -38,23 +38,20 @@ public class SocketServer implements Runnable {
         running = true;
         ExecutorService executor = Executors.newCachedThreadPool ( );
         try {
-            ss = new ServerSocket (port);
+            serverSocket = new ServerSocket (port);
         } catch(IOException e) {
             System.err.println (e.getMessage ());
             return;
         }
         System.out.println ("SocketServer is listening on port: " + port);
-            int i = 0;
             while (running) {
                 try {
-                    Socket s = ss.accept ( );
-                    i++;
-                    System.out.println ("A new client is here: Client" + i + "\n");
-                    executor.submit(new SocketPlayerThread (server, s, "guest"));
+                    Socket socket = serverSocket.accept ( );
+                    System.out.println ("A new client is here\n");
+                    executor.submit(new SocketPlayerThread (server, socket, "guest"));
                 } catch (IOException e) {
                     running = false;
-                    System.out.println (e.getMessage ( ));
-                    e.printStackTrace ( );
+                    System.err.println (e.getMessage ( ));
                 }
             }
         executor.shutdown ();

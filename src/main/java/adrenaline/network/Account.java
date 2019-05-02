@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class Account implements Serializable {
     private String nickname;
-    private transient boolean online = false;
+    private transient boolean online;
     private transient MainServer server;
     private transient Lobby currentLobby;
     private ArrayList<GameModel> gameHistory;
@@ -21,6 +21,7 @@ public class Account implements Serializable {
     public Account(String nick, MainServer server) {
         this.nickname = nick;
         this.server = server;
+        this.online = false;
         this.gameHistory = new ArrayList<> ();
     }
 
@@ -71,6 +72,10 @@ public class Account implements Serializable {
 
     public Lobby getCurrentLobby() {
         return this.currentLobby;
+    }
+
+    public void setCurrentLobby(Lobby lobby) {
+        this.currentLobby = lobby;
     }
 
     public ArrayList<GameModel> getGameHistory() {

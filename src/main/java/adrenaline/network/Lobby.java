@@ -17,6 +17,7 @@ public class Lobby {
     public Lobby(MainServer server) {
         this.server = server;
         this.players = new ArrayList<> ();
+        this.controller = new Controller(server);
         this.full = false;
     }
 
@@ -29,7 +30,7 @@ public class Lobby {
                 i++;
             }
             this.game = new GameModel (playerNames);
-            this.controller = new Controller(server, game);
+            this.controller.setGameModel(game);
         } else {
             System.out.println ("Lobby is not ready.");
         }

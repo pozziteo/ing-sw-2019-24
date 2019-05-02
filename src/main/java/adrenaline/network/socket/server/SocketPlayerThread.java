@@ -2,6 +2,7 @@ package adrenaline.network.socket.server;
 
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_server.DataForServer;
+import adrenaline.network.Lobby;
 import adrenaline.network.MainServer;
 import adrenaline.network.Account;
 
@@ -36,16 +37,17 @@ public class SocketPlayerThread extends Account implements Runnable {
     @Override
     public void run() {
         super.setOnline (true);
+        super.setCurrentLobby(super.getServer().getOpenLobby());
         try {
             while (socket.isConnected ()) {
                 DataForServer receivedData = (DataForServer) in.readObject ();
-                this.getCurrentLobby ( ).getController ( ).receiveData (receivedData);
+                super.getCurrentLobby ( ).getController ( ).receiveData (receivedData);
             }
         } catch (Exception e) {
-            System.out.println (e);
+            System.err.println (e.getMessage());
             super.setOnline (false);
         } finally {
-            System.out.println ("Client " + super.getNickName () + " disconnected");
+            System.out.println (super.getNickName ().toUpperCase() + " disconnected");
             super.setOnline (false);
         }
         closeThread ();
@@ -60,9 +62,9 @@ public class SocketPlayerThread extends Account implements Runnable {
     public void sendData(DataForClient data) {
         try {
             out.writeObject(data);
-            out.reset();
+            out.flush();
         } catch (IOException e) {
-            System.out.println(e);
+            System.err.println(e.getMessage());
         }
     }
 
@@ -76,7 +78,7 @@ public class SocketPlayerThread extends Account implements Runnable {
             in.close();
             out.close();
         } catch(IOException e) {
-            System.out.println (e);
+            System.err.println (e.getMessage());
         }
     }
 

@@ -61,7 +61,7 @@ public class SocketClient implements ClientInterface, Runnable {
                 view.updateView(receivedData);
             } catch (Exception e) {
                 value = false;
-                System.out.println(e);
+                System.err.println(e.getMessage());
             }
         }
         try {
@@ -69,7 +69,7 @@ public class SocketClient implements ClientInterface, Runnable {
             output.close();
             socket.close();
         } catch (IOException e) {
-            System.out.println(e);
+            System.err.println(e.getMessage());
         }
     }
 
@@ -81,9 +81,9 @@ public class SocketClient implements ClientInterface, Runnable {
     public void sendData(DataForServer data) {
         try {
             output.writeObject(data);
-            output.reset();
+            output.flush();
         } catch (IOException e) {
-            System.out.println(e);
+            System.err.println(e.getMessage());
         }
     }
 }

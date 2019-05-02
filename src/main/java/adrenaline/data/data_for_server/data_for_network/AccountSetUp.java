@@ -14,6 +14,7 @@ public class AccountSetUp extends DataForServer {
 
     @Override
     public void updateServer(MainServer server) {
-        server.registerAccount (new Account(super.getNickname(), server));
+        Account account = new Account(super.getNickname(), server);
+        server.registerAccount (account);
     }
 }

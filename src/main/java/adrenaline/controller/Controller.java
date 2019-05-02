@@ -8,13 +8,16 @@ public class Controller {
     private MainServer server;
     private GameModel gameModel;
 
-    public Controller(MainServer server, GameModel model) {
+    public Controller(MainServer server) {
         this.server = server;
-        this.gameModel = model;
     }
 
     public GameModel getGameModel() {
         return this.gameModel;
+    }
+
+    public void setGameModel(GameModel model) {
+        this.gameModel = model;
     }
 
     public void receiveData(DataForServer data) {

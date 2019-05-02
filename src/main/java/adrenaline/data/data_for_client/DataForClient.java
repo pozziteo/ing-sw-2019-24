@@ -24,8 +24,10 @@ public abstract class DataForClient implements Serializable {
             try {
                 account.sendData(this);
             } catch (Exception e) {
-                System.out.println (e);
+                System.err.println (e.getMessage());
             }
+        } else {
+            System.err.println(account.getNickName() + " is offline.");
         }
     }
 

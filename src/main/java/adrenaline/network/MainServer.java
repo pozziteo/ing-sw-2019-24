@@ -144,7 +144,7 @@ public class MainServer {
             File f = new File (ACCOUNTS);
             return f.createNewFile ( );
         } catch (IOException e) {
-            System.out.println (e.getMessage ());
+            System.err.println (e.getMessage ());
             return false;
         }
     }
@@ -201,6 +201,21 @@ public class MainServer {
 
     public List<Lobby> getGameLobbies() {
         return this.gameLobbies;
+    }
+
+    public Lobby getOpenLobby() {
+        if (gameLobbies.isEmpty()) {
+            createLobby(new Lobby(this));
+            return gameLobbies.getFirst();
+        } else {
+            for (Lobby lobby : gameLobbies) {
+                if (!lobby.isFull()) {
+                    return lobby;
+                }
+            }
+            createLobby(new Lobby(this));
+            return gameLobbies.getLast();
+        }
     }
 
     public void createLobby(Lobby l) {
