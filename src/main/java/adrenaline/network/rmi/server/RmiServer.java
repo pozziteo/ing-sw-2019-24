@@ -38,7 +38,7 @@ public class RmiServer implements Runnable, CommonInterface {
 
             // Binding the remote object (stub) in the registry
             registry.bind("CommonInterface", skeleton);
-            System.out.println("Server ready on port " + port + ", " + i + " round");
+            System.out.println("RmiServer is listening on port: " + port);
             i++;
 
             String hello = skeleton.Hello();
@@ -64,7 +64,7 @@ public class RmiServer implements Runnable, CommonInterface {
     }
 
     public String Hello() {
-        return "Hello, the RmiServer is now running correctly (more or less)";
+        return "Hello, RmiServer is now running";
     }
 
     public String addedClient(int n){

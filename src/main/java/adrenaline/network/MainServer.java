@@ -6,6 +6,7 @@ import adrenaline.network.socket.server.SocketServer;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -65,7 +66,7 @@ public class MainServer {
      * @param args passed to main
      */
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         instance = getInstance ();
         instance.startServer();
     }
@@ -74,9 +75,9 @@ public class MainServer {
      * Method to run socketServer and rmiServer
      */
 
-    private void startServer() {
+    private void startServer() throws IOException, ClassNotFoundException {
         this.gameLobbies = new LinkedList<> ();
-        loadAccounts ();
+        this.storedAccounts = loadAccounts ();
         mainRunning = true;
         ExecutorService executor = Executors.newCachedThreadPool ( );
         while(mainRunning && !rmiRunning) {
@@ -123,26 +124,22 @@ public class MainServer {
      * Method to read account info from ser file in memory.
      */
 
-    private void loadAccounts() {
+    private ArrayList<Account> loadAccounts() throws IOException, ClassNotFoundException {
+        ArrayList<Account> list = new ArrayList<>();
+        boolean done = false;
         System.out.println ("Loading saved accounts...");
-        Account a;
-        this.storedAccounts = new ArrayList<> ();
-        try (FileInputStream f = new FileInputStream (new File (ACCOUNTS));
-             ObjectInputStream stream = new ObjectInputStream (f)) {
-                while (stream.available () > 0) {
-                    a = (Account) stream.readObject ( );
-                    this.storedAccounts.add (a);
-                }
-            } catch (EOFException e){
-                System.out.println("No accounts have been saved at this time.");
-            } catch (FileNotFoundException e) {
-                if (createFile()) {
-                    System.out.println ("File created successfully in " + ACCOUNTS);
-                } else
-                    System.out.println ("File could not be created.");
-            } catch (IOException | ClassNotFoundException e) {
-            System.err.println (e.getMessage ());
+        FileInputStream file = new FileInputStream(new File(ACCOUNTS));
+        ObjectInputStream stream = new ObjectInputStream (file);
+        while (!done) {
+          /*  try {
+                list = (ArrayList<Account>) Arrays.asList( (Account[]) stream.readObject() );
+            } catch (EOFException e) {
+                done = true;
+            } finally {
+                stream.close();
+            } */
         }
+        return list;
     }
 
     private boolean createFile() {
@@ -161,11 +158,9 @@ public class MainServer {
      */
 
     private void storeAccounts() throws IOException {
-        for (Account account : this.storedAccounts) {
-            try (FileOutputStream f = new FileOutputStream (new File (ACCOUNTS));
-                 ObjectOutputStream stream = new ObjectOutputStream (f)) {
-                stream.writeObject (account);
-            }
+        try (FileOutputStream f = new FileOutputStream (new File (ACCOUNTS));
+             ObjectOutputStream stream = new ObjectOutputStream (f)) {
+            stream.writeObject (this.storedAccounts);
         }
     }
 
