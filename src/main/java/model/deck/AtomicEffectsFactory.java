@@ -39,4 +39,8 @@ public class AtomicEffectsFactory {
         };
     }
 
+    public AtomicWeaponEffect createMoveToAttackerPosition() {
+        return (attacker, target, id) -> target.setPosition(attacker.getPosition());
+    }
+
 }

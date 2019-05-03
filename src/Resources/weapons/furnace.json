@@ -1,14 +1,54 @@
-{
+[
+  {
+    "type": "baseEffect",
+    "effect": {
+      "requirement": {
+        "type": "visibility",
+        "visible": true
+      },
+      "target": {
+        "type": "room"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 1,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  },
 
-  "description" : "Furnace: description",
-
-  "damage" : 1,
-  "requiredAmmo": 2,
-  "colorAmmo1": "red",
-  "colorAmmo2": "blue",
-
-  "extraDamage": 1,
-  "extraMark": 1,
-  "requiredBonusAmmo": 0
-
-}
+  {
+    "type": "alternativeMode",
+    "effect": {
+      "additionalCost": null,
+      "requirement": {
+        "type": "distance",
+        "minDistance": 1,
+        "maxDistance": 1
+      },
+      "target": {
+        "type": "multiple",
+        "value": "all"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 1,
+          "marks": 1
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  }
+]

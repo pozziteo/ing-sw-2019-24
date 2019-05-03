@@ -1,16 +1,87 @@
-{
+[
+  {
+    "type": "baseEffect",
+    "effect": {
+      "requirement": {
+        "type": "visibility",
+        "visible": true
+      },
+      "target": {
+        "type": "multiple",
+        "value": 2
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 1,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  },
+  {
+    "type": "optionalEffect",
+    "usableBeforeBase": false,
+    "effect": {
+      "additionalCost": [
+        "yellow"
+      ],
+      "requirement": null,
+      "target": {
+        "type": "single",
+        "constraints": [
+          "one of base targets"
+        ]
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 1,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "targets",
+        "effects"
+      ]
+    }
+  },
 
-  "description" : "Machine Gun: description",
+  {
+    "type": "optionalEffect",
+    "usableBeforeBase": false,
+    "effect": {
+      "additionalCost": ["blue"],
+      "required": {
+        "type": "visibility",
+        "visible": true
+      },
+      "target": {
+        "type": "multiple",
+        "value": 2,
+        "constraints": [
+          "one of base targets different from first optional target",
+          "different from base target"
+        ]
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 1,
+          "marks": 0
+        }
+      ],
 
-  "damage" : 1,
-  "requiredAmmo": 2,
-  "colorAmmo1": "blue",
-  "colorAmmo2": "red",
-
-  "extraDamage": 2,
-  "requiredBonusAmmo": 1,
-  "requireSecondBonusAmmo": 1,
-  "colorBonusAmmo1": "yellow",
-  "colorBonusAmmo2": "blue"
-
-}
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  }
+]

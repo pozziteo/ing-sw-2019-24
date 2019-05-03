@@ -1,16 +1,69 @@
-{
+[
+  {
+    "type": "baseEffect",
+    "effect": {
+      "requirement": {
+        "type": "visibility",
+        "visible": true
+      },
+      "target": {
+        "type": "area",
+        "targets": 1,
+        "constraints": [
+          "square different from actual position",
+          "target at distance 1 from square"
+        ]
+      },
+      "effects": [
+        {
+          "type": "moveToSquare",
+          "executor": "target"
+        },
+        {
+          "type": "damage",
+          "damage": 2,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  },
 
-  "description" : "Vortex Cannon: description",
-
-  "damage" : 2,
-  "victimBasicMovements": 1,
-  "requiredAmmo": 2,
-  "colorAmmo1": "red",
-  "colorAmmo2": "blue",
-
-  "extraDamage": 1,
-  "victimBonusMovements1": 1,
-  "requiredBonusAmmo": 1,
-  "colorBonusAmmo1": "red"
-
-}
+  {
+    "type": "optionalEffect",
+    "effect": {
+      "additionalCost": ["red"],
+      "requirement": {
+        "type": "distanceFromSquare",
+        "value": 1
+      },
+      "target": {
+        "type": "multiple",
+        "value": 2,
+        "constraints": [
+          "different from base target"
+        ]
+      },
+      "effects": [
+        {
+          "type": "moveToSquare",
+          "executor": "target"
+        },
+        {
+          "type": "damage",
+          "damage": 1,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  }
+]

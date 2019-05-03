@@ -1,12 +1,27 @@
-{
-
-  "description" : "Plasma Gun: description",
-
-  "damage": 3,
-  "mark": 1,
-  "requiredAmmo": 3,
-  "colorAmmo1": "blue",
-  "colorAmmo2": "blue",
-  "colorAmmo3": "yellow"
-
-}
+[
+  {
+    "type": "baseEffect",
+    "effect": {
+      "requirement": {
+        "type": "distance",
+        "minDistance": 2,
+        "maxDistance": 0
+      },
+      "target": {
+        "type": "single"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 3,
+          "marks": 1
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  }
+]

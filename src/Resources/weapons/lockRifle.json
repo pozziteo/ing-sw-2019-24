@@ -1,48 +1,60 @@
-{
-
-  "description" : "Lock Rifle",
-
-  "cost": ["blue", "blue"],
-
-  "baseEffect": {
-
-    "required": {
-      "type": "position",
-      "value": "visible"
-    },
-
-    "target": "single",
-
-    "effects": [
-      {
-        "damage": 2,
-        "marks": 1
-      }
-    ]
-  },
-
-  "optionalEffects": [
-    {
-      "required": {
-        "type": "position",
-        "value": "visible"
+[
+  {
+    "type": "baseEffect",
+    "effect": {
+      "requirement": {
+        "type": "visibility",
+        "visible": true
       },
 
-      "target": "single",
-      "constraints": [
-        "different from base target"
-      ],
-
-      "additionalCost": ["red"],
+      "target": {
+        "type": "single"
+      },
 
       "effects": [
         {
-          "damage": 0,
+          "type": "damage",
+          "damage": 2,
           "marks": 1
         }
+      ],
+
+      "executionOrder": [
+        "requirement",
+        "effects"
       ]
     }
-  ]
+  },
 
+  {
+    "type": "optionalEffect",
+    "usableBeforeBase": false,
+    "effect": {
+      "additionalCost": ["red"],
+      "requirement": {
+        "type": "visibility",
+        "visible": true
+      }
+    },
 
-}
+    "target": {
+      "type": "single",
+      "constraints": [
+        "different from base target"
+      ]
+    },
+
+    "effects": [
+      {
+        "type": "damage",
+        "damage": 0,
+        "marks": 1
+      }
+    ],
+
+    "executionOrder": [
+      "requirement",
+      "effects"
+    ]
+  }
+]

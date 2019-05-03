@@ -1,11 +1,26 @@
-{
-
-  "description" : "HeatSeeker: description",
-
-  "damage" : 3,
-  "requiredAmmo": 3,
-  "colorAmmo1": "red",
-  "colorAmmo2": "red",
-  "colorAmmo3": "yellow"
-
-}
+[
+  {
+    "type": "baseEffect",
+    "effect": {
+      "requirement": {
+        "type": "visibility",
+        "visible": false
+      },
+      "target": {
+        "type": "single"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 3,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  }
+]

@@ -1,16 +1,92 @@
-{
+[
+  {
+    "type": "baseEffect",
+    "effect": {
+      "requirement": {
+        "type": "distance",
+        "minDistance": 1,
+        "maxDistance": 0
+      },
+      "target": {
+        "type": "single"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 1,
+          "marks": 1
+        }
+      ],
+      "otherEffects": [
+        {
+          "target": {
+            "type": "multiple",
+            "value": "all",
+            "constraints": [
+              "on target position"
+            ]
+          },
+          "effects": [
+            {
+              "type": "damage",
+              "damage": 0,
+              "marks": 1
+            }
+          ]
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects",
+        "otherEffects"
+      ]
+    }
+  },
 
-  "description" : "Hellion: description",
-
-  "damage" : 1,
-  "mark": 1,
-  "requiredAmmo": 2,
-  "colorAmmo1": "red",
-  "colorAmmo2": "yellow",
-
-  "extraDamage": 1,
-  "extraMark": 2,
-  "requiredBonusAmmo": 1,
-  "colorBonusAmmo1": "red"
-
-}
+  {
+    "type": "alternativeMode",
+    "effect": {
+      "requirement": {
+        "type": "distance",
+        "minDistance": 1,
+        "maxDistance": 0
+      },
+      "target": {
+        "type": "single"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 1,
+          "marks": 2
+        }
+      ],
+      "otherEffects": [
+        {
+          "target": {
+            "type": "multiple",
+            "value": "all",
+            "constraints": [
+              "on target position"
+            ]
+          },
+          "effects": [
+            {
+              "type": "damage",
+              "damage": 0,
+              "marks": 2
+            }
+          ]
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects",
+        "otherEffects"
+      ]
+    }
+    }
+  }
+]

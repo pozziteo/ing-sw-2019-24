@@ -1,14 +1,59 @@
-{
+[
+  {
+    "type": "baseEffect",
+    "effect": {
+      "requirement": {
+        "type": "distance",
+        "minDistance": 0,
+        "maxDistance": 0
+      },
+      "target": {
+        "type": "multiple",
+        "value": "all"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 1,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "effects"
+      ]
+    }
+  },
 
-  "description" : "ElectroScythe: description",
-
-  "damage" : 1,
-  "requiredAmmo": 1,
-  "colorAmmo1": "blue",
-
-  "extraDamage": 2,
-  "requiredBonusAmmo": 2,
-  "colorBonusAmmo1": "blue",
-  "colorBonusAmmo2": "red"
-
-}
+  {
+    "type": "alternativeMode",
+    "effect": {
+      "additionalCost": [
+        "blue",
+        "red"
+      ],
+      "alternativeMode": true,
+      "requirement": {
+        "type": "distance",
+        "minDistance": 0,
+        "maxDistance": 0
+      },
+      "target": {
+        "type": "multiple",
+        "value": "all",
+        "constraints": []
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 2,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "effects"
+      ]
+    }
+  }
+]

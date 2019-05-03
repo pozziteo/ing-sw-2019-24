@@ -1,14 +1,72 @@
-{
+[
+  {
+    "type": "baseEffect",
+    "effect": {
+      "requirement": {
+        "type": "visibility",
+        "visible": true
+      },
+      "target": {
+        "type": "single"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 2,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  },
 
-  "description" : "Plasma Gun: description",
+  {
+    "type": "optionalEffect",
+    "usableBeforeBase": true,
+    "effect": {
+      "additionalCost": null,
+      "requirement": null,
+      "target": null,
+      "effects": [
+        {
+          "type": "movement",
+          "executor": "attacker",
+          "movements": 2
+        }
+      ],
+      "executionOrder": [
+        "effects"
+      ]
+    }
+  },
 
-  "damage" : 2,
-  "requiredAmmo": 2,
-  "colorAmmo1": "blue",
-  "colorAmmo2": "yellow",
-
-  "extraDamage": 1,
-  "requiredBonusAmmo": 1,
-  "colorBonusAmmo1": "blue"
-
-}
+  {
+    "type": "optionalEffect",
+    "usableBeforeBase": false,
+    "effect": {
+      "additionalCost": ["blue"],
+      "requirement": null,
+      "target": {
+        "type": "single",
+        "constraints": [
+          "one of base target"
+        ]
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 1,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "targets",
+        "effects"
+      ]
+    }
+  }
+]
