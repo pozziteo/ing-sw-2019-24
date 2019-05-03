@@ -39,7 +39,7 @@ public class RmiClient implements ClientInterface {
            while (true) {
                String msg = scanner.nextLine().trim();
                if(msg.equals("quit")){break;}
-               stub.send(msg);
+               stub.send("From Client"+i+": "+msg);
            }
            System.err.println("Disconnected from the rmiServer");
            String goodbye = "A client left the room: Client";
