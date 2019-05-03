@@ -1,14 +1,59 @@
-{
+[
+  {
+    "type": "baseEffect",
+    "effect": {
+      "requirement": {
+        "type": "distance",
+        "minDistance": 0,
+        "maxDistance": 0
+      },
+      "target": {
+        "type": "single"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 3,
+          "marks": 0
+        },
+        {
+          "type": "movement",
+          "executor": "target",
+          "movements": 1
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  },
 
-  "description" : "Shotgun: description",
-
-  "damage" : 3,
-  "victimBasicMovements": 1,
-  "requiredAmmo": 2,
-  "colorAmmo1": "yellow",
-  "colorAmmo2": "yellow",
-
-  "extraDamage": 2,
-  "requiredBonusAmmo": 0
-
-}
+  {
+    "type": "alternativeMode",
+    "effect": {
+      "additionalCost": [],
+      "requirement": {
+        "type": "distance",
+        "minDistance": 1,
+        "maxDistance": 1
+      },
+      "target": {
+        "type": "single"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 2,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  }
+]

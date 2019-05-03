@@ -1,18 +1,75 @@
-{
+[
+  {
+    "type": "baseEffect",
+    "effect": {
+      "requirement": {
+        "type": "distance",
+        "minDistance": 1,
+        "maxDistance": 0
+      },
+      "target": {
+        "type": "single"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 2,
+          "marks": 0
+        },
+        {
+          "type": "movement",
+          "executor": "target",
+          "movements": 1
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  },
 
-  "description" : "Rocket Launcher: description",
+  {
+    "type": "optionalEffect",
+    "usableBeforeBase": true,
+    "effect": {
+      "additionalCost": ["blue"],
+      "requirement": null,
+      "target": null,
+      "effects": [
+        {
+          "type": "movement",
+          "executor": "attacker",
+          "movements": 2
+        }
+      ],
+      "executionOrder": [
+        "effects"
+      ]
+    }
+  },
 
-  "damage" : 2,
-  "victimBasicMovements": 1,
-  "requiredAmmo": 2,
-  "colorAmmo1": "red",
-  "colorAmmo2": "red",
-
-  "extraDamage": 1,
-  "attackerBonusMovements1": 2,
-  "requiredBonusAmmo": 1,
-  "requiredSecondBonusAmmo": 1,
-  "colorBonusAmmo1": "blue",
-  "colorBonusAmmo2": "yellow"
-
-}
+  {
+    "type": "optionalEffect",
+    "usableBeforeBase": false,
+    "effect": {
+      "additionalCost": ["yellow"],
+      "requirement": null,
+      "target": {
+        "type": "multiple",
+        "value": "all",
+        "constraints": [
+          "on base target position"
+        ]
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 1,
+          "marks": 0
+        }
+      ]
+    }
+  }
+]

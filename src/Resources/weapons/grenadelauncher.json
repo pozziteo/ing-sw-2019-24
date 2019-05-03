@@ -1,14 +1,54 @@
-{
+[
+  {
+    "type": "baseEffect",
+    "effect": {
+      "requirement": {
+        "type": "visibility",
+        "visible": true
+      },
+      "target": {
+        "type": "single"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 1,
+          "marks": 0
+        },
+        {
+          "type": "movement",
+          "executor": "target",
+          "movements": 1
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  },
 
-  "description" : "Grenade Launcher: description",
-
-  "damage" : 1,
-  "victimBasicMovements": 1,
-  "requiredAmmo": 1,
-  "colorAmmo1": "red",
-
-  "extraDamage": 1,
-  "requiredBonusAmmo": 1,
-  "colorBonusAmmo1": "red"
-
-}
+  {
+    "type": "optionalEffect",
+    "usableBeforeBase": true,
+    "effect": {
+      "additionalCost": ["red"],
+      "requirement": {
+        "type": "visibility",
+        "visible": true
+      },
+      "target": {
+        "type": "area",
+        "targets": "all"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 1,
+          "marks": 0
+        }
+      ]
+    }
+  }
+]

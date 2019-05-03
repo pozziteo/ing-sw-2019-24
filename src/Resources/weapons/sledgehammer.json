@@ -1,14 +1,59 @@
-{
+[
+  {
+    "type": "baseEffect",
+    "effect": {
+      "requirement": {
+        "type": "distance",
+        "minDistance": 0,
+        "maxDistance": 0
+      },
+      "target": {
+        "type": "single"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 2,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  },
 
-  "description" : "SledgeHammer: description",
-
-  "damage" : 2,
-  "requiredAmmo": 1,
-  "colorAmmo1": "yellow",
-
-  "extraDamage": 3,
-  "victimBonusMovements1": 2,
-  "requiredBonusAmmo": 1,
-  "colorBonus": "red"
-
-}
+  {
+    "type": "alternativeMode",
+    "effect": {
+      "additionalCost": ["red"],
+      "requirement": {
+        "type": "distance",
+        "minDistance": 0,
+        "maxDistance": 0
+      },
+      "target": {
+        "type": "single"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 3,
+          "marks": 0
+        },
+        {
+          "type": "movement",
+          "executor": "target",
+          "movements": 2
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  }
+]

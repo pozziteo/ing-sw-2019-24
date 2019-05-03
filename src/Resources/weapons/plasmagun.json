@@ -28,7 +28,7 @@
     "type": "optionalEffect",
     "usableBeforeBase": true,
     "effect": {
-      "additionalCost": null,
+      "additionalCost": [],
       "requirement": null,
       "target": null,
       "effects": [

@@ -1,13 +1,59 @@
-{
+[
+  {
+    "type": "baseEffect",
+    "effect": {
+      "requirement": {
+        "type": "distance",
+        "minDistance": 1,
+        "maxDistance": 1
+      },
+      "target": {
+        "type": "multiple",
+        "value": 3,
+        "constraints": [
+          "on different squares"
+        ]
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 1,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  },
 
-  "description" : "ShockWave: description",
-
-  "damage" : 1,
-  "requiredAmmo": 1,
-  "colorAmmo1": "yellow",
-
-  "extraDamage": 1,
-  "requiredBonusAmmo": 1,
-  "colorBonusAmmo1": "yellow"
-
-}
+  {
+    "type": "alternativeMode",
+    "effect": {
+      "additionalCost": ["yellow"],
+      "requirement": {
+        "type": "distance",
+        "minDistance": 1,
+        "maxDistance": 1
+      },
+      "target": {
+        "type": "multiple",
+        "value": "all"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 1,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  }
+]

@@ -27,7 +27,7 @@
   {
     "type": "alternativeMode",
     "effect": {
-      "additionalCost": null,
+      "additionalCost": [],
       "requirement": {
         "type": "distance",
         "minDistance": 1,

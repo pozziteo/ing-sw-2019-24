@@ -1,18 +1,68 @@
-{
+[
+  {
+    "type": "baseEffect",
+    "effect": {
+      "requirement": {
+        "type": "distance",
+        "minDistance": 1,
+        "maxDistance": 1
+      },
+      "target": {
+        "type": "single"
+      },
+      "effects": [
+        {
+          "type": "moveToSquare",
+          "executor": "attacker"
+        },
+        {
+          "type": "damage",
+          "damage": 1,
+          "marks": 2
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  },
 
-  "description" : "Power Glove: description",
-
-  "damage" : 1,
-  "mark": 2,
-  "attackerBasicMovements": 1,
-  "requiredAmmo": 2,
-  "colorAmmo1": "yellow",
-  "colorAmmo2": "blue",
-
-  "extraDamage": 2,
-  "attackerBonusMovements1": 1,
-  "attackerBonusMovements2": 1,
-  "requiredBonusAmmo": 1,
-  "colorBonusAmmo1": "blue"
-
-}
+  {
+    "type": "alternativeMode",
+    "effect": {
+      "additionalCost": ["blue"],
+      "requirement": {
+        "type": "distance",
+        "minDistance": 1,
+        "maxDistance": 2
+      },
+      "target": {
+        "type": "multiple",
+        "value": 2,
+        "constraints": [
+          "on same direction",
+          "one target per square"
+        ]
+      },
+      "effects": [
+        {
+          "type": "moveToSquare",
+          "executor": "attacker",
+          "dest": "target"
+        },
+        {
+          "type": "damage",
+          "damage": 2,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  }
+]

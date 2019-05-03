@@ -28,10 +28,7 @@
   {
     "type": "alternativeMode",
     "effect": {
-      "additionalCost": [
-        "blue",
-        "red"
-      ],
+      "additionalCost": ["blue", "red"],
       "alternativeMode": true,
       "requirement": {
         "type": "distance",
