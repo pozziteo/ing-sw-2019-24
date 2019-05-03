@@ -50,7 +50,7 @@ public class SocketServer implements Runnable {
                 try {
                     Socket socket = serverSocket.accept ( );
                     System.out.println ("A new client is here\n");
-                    executor.submit(new SocketPlayerThread (server, socket, Integer.toString(new Random().nextInt() * 1000000)));
+                    executor.submit(new SocketPlayerThread (server, socket, Integer.toString( new Random().nextInt (1000000000))));
                 } catch (IOException e) {
                     running = false;
                     System.err.println (e.getMessage ( ));

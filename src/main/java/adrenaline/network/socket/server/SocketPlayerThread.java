@@ -1,6 +1,7 @@
 package adrenaline.network.socket.server;
 
 import adrenaline.data.data_for_client.DataForClient;
+import adrenaline.data.data_for_client.data_for_view.ClientSetUp;
 import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.network.Lobby;
 import adrenaline.network.MainServer;
@@ -36,9 +37,8 @@ public class SocketPlayerThread extends Account implements Runnable {
 
     @Override
     public void run() {
-        super.setOnline (true);
-        super.getServer ().logClient (this);
-        super.setCurrentLobby(super.getServer().getOpenLobby());
+        accountSetUp ();
+        clientSetUp ();
         try {
             while (socket.isConnected ()) {
                 DataForServer receivedData = (DataForServer) in.readObject ();
@@ -81,6 +81,16 @@ public class SocketPlayerThread extends Account implements Runnable {
         } catch(IOException e) {
             System.err.println (e.getMessage());
         }
+    }
+
+    private void accountSetUp() {
+        super.setOnline (true);
+        super.getServer ().logClient (this);
+        super.setCurrentLobby(super.getServer().getOpenLobby());
+    }
+
+    private void clientSetUp() {
+        this.sendData(new ClientSetUp (this));
     }
 
 }
