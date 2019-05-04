@@ -16,6 +16,8 @@ import java.util.*;
 
 public class Game implements Serializable {
 
+    private static final long serialVersionUID = -8605988129141962335L;
+
     private enum PlayerColor {
         RED("Red"),
         YELLOW("Yellow"),

@@ -12,6 +12,7 @@ import java.util.List;
  */
 
 public abstract class DataForServer implements Serializable {
+    private static final long serialVersionUID = -6009348198210309658L;
     private String nickname;
 
     public DataForServer(String nickname) {

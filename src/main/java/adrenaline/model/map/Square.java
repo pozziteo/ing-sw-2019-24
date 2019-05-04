@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class Square implements Serializable {
 
+    private static final long serialVersionUID = 8964761200917759943L;
     /**
      * squareId is the id of a square, and also its index in arena attribute
      * of Map instance which contains it

@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 
 public class Account implements Serializable {
+    private static final long serialVersionUID = -663080251766657000L;
     private String nickname;
     private transient boolean online;
     private transient MainServer server;
@@ -84,6 +85,10 @@ public class Account implements Serializable {
 
     public void setGameHistory(ArrayList<GameModel> gameHistory) {
         this.gameHistory = gameHistory;
+    }
+
+    public void logClient() {
+        server.logClient (this);
     }
 
     /**

@@ -5,8 +5,6 @@ import adrenaline.network.rmi.server.RmiServer;
 import adrenaline.network.socket.server.SocketServer;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -21,8 +19,8 @@ public class MainServer {
     private static MainServer instance;
     private SocketServer socketServer;
     private RmiServer rmiServer;
-    private ArrayList<Account> onlineClients;
-    private ArrayList<Account> storedAccounts;
+    private LinkedList<Account> onlineClients;
+    private LinkedList<Account> storedAccounts;
     private boolean mainRunning;
     private boolean socketRunning;
     private boolean rmiRunning;
@@ -36,7 +34,7 @@ public class MainServer {
     private static final String ACCOUNTS = PATH + File.separatorChar + "accounts.ser";
 
     private MainServer() {
-        this.onlineClients = new ArrayList<>();
+        this.onlineClients = new LinkedList<>();
         this.serverAddress = "localhost"; //change to get dynamically
         this.rmiPort = 10000;
         this.socketPort = 6666;
@@ -124,32 +122,21 @@ public class MainServer {
      * Method to read account info from ser file in memory.
      */
 
-    private ArrayList<Account> loadAccounts() throws IOException, ClassNotFoundException {
-        ArrayList<Account> list = new ArrayList<>();
-        boolean done = false;
+    private LinkedList<Account> loadAccounts() throws IOException, ClassNotFoundException {
+        LinkedList<Account> list = new LinkedList<>();
         System.out.println ("Loading saved accounts...");
-        FileInputStream file = new FileInputStream(new File(ACCOUNTS));
-        ObjectInputStream stream = new ObjectInputStream (file);
-        while (!done) {
-          /*  try {
-                list = (ArrayList<Account>) Arrays.asList( (Account[]) stream.readObject() );
-            } catch (EOFException e) {
-                done = true;
-            } finally {
-                stream.close();
-            } */
+        try (FileInputStream file = new FileInputStream (new File (ACCOUNTS));
+             ObjectInputStream stream = new ObjectInputStream (file)) {
+            list = (LinkedList<Account>) stream.readObject();
+            System.out.print ("Accounts list: [ ");
+            for (Account a : list) {
+                System.out.print(a.getNickName () + " ");
+            }
+            System.out.print ("]\n");
+        } catch(EOFException e) {
+            System.err.println("File " + ACCOUNTS + " is empty. Registered accounts could not be loaded.");
         }
         return list;
-    }
-
-    private boolean createFile() {
-        try {
-            File f = new File (ACCOUNTS);
-            return f.createNewFile ( );
-        } catch (IOException e) {
-            System.err.println (e.getMessage ());
-            return false;
-        }
     }
 
     /**
@@ -172,39 +159,49 @@ public class MainServer {
 
     public void registerAccount(String oldNickname, String newNickname) {
         Account toRegister = findClient (oldNickname);
+        boolean alreadyRegistered = false;
         if (toRegister != null) {
             if (storedAccounts.isEmpty ( )) {
-                try {
-                    System.out.println ("New account registered by " + toRegister.getNickName ( ) + " -> " + newNickname);
-                    toRegister.setNickname (newNickname);
-                    this.storedAccounts.add (toRegister);
-                    storeAccounts ( );
-                    AccountResponse response = new AccountResponse (toRegister, true, "Welcome, " + toRegister.getNickName ( ) + ". Your registration was successful.");
-                    response.sendToView ( );
-                } catch (IOException e) {
-                    System.err.println (e.getMessage ( ));
-                }
+               saveNewAccount (toRegister, oldNickname, newNickname);
             } else {
                 for (Account storedAccount : this.storedAccounts) {
                     if (newNickname.equals (storedAccount.getNickName () )) {
                         if (storedAccount.isOnline ()) {
-
                             System.out.println("Someone tried registering an account already in use: " + storedAccount.getNickName ());
-                            AccountResponse response = new AccountResponse (toRegister,false, "This nickname is already in use");
-                            response.sendToView ();
+                            sendLoginResponse (toRegister, false, "This nickname is already in use");
                         } else {
                             System.out.println(storedAccount.getNickName () + " is back");
                             toRegister.setNickname (newNickname);
                             toRegister.setGameHistory(storedAccount.getGameHistory());
-                            AccountResponse response = new AccountResponse(toRegister,true, "Welcome back, " + storedAccount.getNickName ());
-                            response.sendToView();
+                            sendLoginResponse (toRegister, true, "Welcome back, " + storedAccount.getNickName ());
                         }
+                        alreadyRegistered = true;
                     }
+                }
+                if (!alreadyRegistered) {
+                    saveNewAccount (toRegister, oldNickname, newNickname);
                 }
             }
         } else {
             System.err.print ("Client not found.");
         }
+    }
+
+    private void saveNewAccount(Account account, String oldNickname, String newNickname) {
+        try {
+            System.out.println ("New account registered by " + oldNickname + " -> " + newNickname);
+            account.setNickname (newNickname);
+            this.storedAccounts.add (account);
+            storeAccounts ( );
+            sendLoginResponse (account, true, "Welcome, " + account.getNickName ( ) + ". Your registration was successful.");
+        } catch (IOException e) {
+            System.err.println (e.getMessage ( ));
+        }
+    }
+
+    private void sendLoginResponse(Account a, boolean successful, String message) {
+        AccountResponse response = new AccountResponse (a, successful, message);
+        response.sendToView ( );
     }
 
     private Account findClient(String nickname) {

@@ -10,6 +10,7 @@ import java.util.List;
  */
 
 public abstract class Deck implements Serializable {
+    private static final long serialVersionUID = -9201755528839670312L;
     /**
      * cards is the list of cards that makes up a certain deck, it represents the pool of cards a player can draw from.
      */

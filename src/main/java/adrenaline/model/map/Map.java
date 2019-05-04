@@ -11,6 +11,7 @@ import java.util.*;
  */
 public class Map implements Serializable {
 
+    private static final long serialVersionUID = 4605842846381645032L;
     /**
      * attribute which represents the "file name" of the map
      */

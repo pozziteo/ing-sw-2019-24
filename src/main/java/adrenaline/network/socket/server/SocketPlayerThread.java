@@ -3,7 +3,6 @@ package adrenaline.network.socket.server;
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_client.data_for_view.ClientSetUp;
 import adrenaline.data.data_for_server.DataForServer;
-import adrenaline.network.Lobby;
 import adrenaline.network.MainServer;
 import adrenaline.network.Account;
 
@@ -85,7 +84,7 @@ public class SocketPlayerThread extends Account implements Runnable {
 
     private void accountSetUp() {
         super.setOnline (true);
-        super.getServer ().logClient (this);
+        super.logClient ();
         super.setCurrentLobby(super.getServer().getOpenLobby());
     }
 

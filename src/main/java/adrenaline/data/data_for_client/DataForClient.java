@@ -10,6 +10,7 @@ import java.io.Serializable;
  */
 
 public abstract class DataForClient implements Serializable {
+    private static final long serialVersionUID = -6366149212487254142L;
     private Account account;
 
     public DataForClient(Account account) {
