@@ -164,20 +164,7 @@ public class MainServer {
             if (storedAccounts.isEmpty ( )) {
                saveNewAccount (toRegister, oldNickname, newNickname);
             } else {
-                for (Account storedAccount : this.storedAccounts) {
-                    if (newNickname.equals (storedAccount.getNickName () )) {
-                        if (storedAccount.isOnline ()) {
-                            System.out.println("Someone tried registering an account already in use: " + storedAccount.getNickName ());
-                            sendLoginResponse (toRegister, false, "This nickname is already in use");
-                        } else {
-                            System.out.println(storedAccount.getNickName () + " is back");
-                            toRegister.setNickname (newNickname);
-                            toRegister.setGameHistory(storedAccount.getGameHistory());
-                            sendLoginResponse (toRegister, true, "Welcome back, " + storedAccount.getNickName ());
-                        }
-                        alreadyRegistered = true;
-                    }
-                }
+                alreadyRegistered = checkAlreadyRegistered(toRegister, newNickname);
                 if (!alreadyRegistered) {
                     saveNewAccount (toRegister, oldNickname, newNickname);
                 }
@@ -185,6 +172,24 @@ public class MainServer {
         } else {
             System.err.print ("Client not found.");
         }
+    }
+
+    private boolean checkAlreadyRegistered(Account toRegister, String newNickname) {
+        for (Account storedAccount : this.storedAccounts) {
+            if (newNickname.equals (storedAccount.getNickName () )) {
+                if (storedAccount.isOnline ()) {
+                    System.out.println("Someone tried registering an account already in use: " + storedAccount.getNickName ());
+                    sendLoginResponse (toRegister, false, "This nickname is already in use");
+                } else {
+                    System.out.println(storedAccount.getNickName () + " is back");
+                    toRegister.setNickname (newNickname);
+                    toRegister.setGameHistory(storedAccount.getGameHistory());
+                    sendLoginResponse (toRegister, true, "Welcome back, " + storedAccount.getNickName ());
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     private void saveNewAccount(Account account, String oldNickname, String newNickname) {

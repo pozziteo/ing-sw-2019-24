@@ -5,10 +5,11 @@ import adrenaline.network.Account;
 import adrenaline.view.UserInterface;
 
 public class ClientSetUp extends DataForClient {
-
     public ClientSetUp(Account account) {
         super(account);
     }
+
+    @Override
     public void updateView(UserInterface view) {
         view.setNickname(super.getAccount ().getNickName ());
     }

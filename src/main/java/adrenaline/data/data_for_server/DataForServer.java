@@ -37,10 +37,6 @@ public abstract class DataForServer implements Serializable {
      * Implements command pattern.
      */
 
-    public void updateModel() {
-        //implemented by subclasses
-    }
-
     public void updateServer(MainServer server) {
         //implemented by subclasses
     }

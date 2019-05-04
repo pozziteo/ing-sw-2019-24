@@ -11,10 +11,6 @@ public class MapSetUp extends DataForServer {
         this.filename = filename;
     }
 
-    public String getFilename() {
-        return this.filename;
-    }
-
     @Override
     public void updateServer(MainServer server) {
         super.findAccount(server.getStoredAccounts()).getCurrentLobby ().getGameModel ().getGame ().setArena (filename);
