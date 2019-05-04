@@ -237,7 +237,7 @@ public class MainServer {
         }
     }
 
-    public void createLobby(Lobby l) {
+    private void createLobby(Lobby l) {
         gameLobbies.add (l);
     }
 }

@@ -107,7 +107,7 @@ public class CliPrinter {
      * Method that shows to the client the Map Selector
      */
     synchronized void printMapOptions() {
-        print("Which arena will be your battlefield?");
+        print("Since you are the first player in your lobby, you get to choose your battlefield:\n");
         print("0 - Small arena");
         print("1 - Medium arena (v1)");
         print("2 - Medium arena (v2)");

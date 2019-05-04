@@ -73,13 +73,13 @@ public class CliParser {
 
     public String parseNickname() {
         String nickname = "";
-        boolean value = false;
+        boolean valid = false;
 
-        while (!value) {
+        while (!valid) {
             Scanner in = new Scanner(System.in);
             try {
                 nickname = in.next("([A-z]|[0-9]){0,11}");
-                value = true;
+                valid = true;
             } catch (InputMismatchException ex) {
                 printer.printInvalidInput();
                 in.next();

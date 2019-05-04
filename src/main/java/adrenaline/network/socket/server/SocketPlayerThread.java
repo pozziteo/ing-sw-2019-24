@@ -47,7 +47,7 @@ public class SocketPlayerThread extends Account implements Runnable {
             System.err.println (e.getMessage());
             super.setOnline (false);
         } finally {
-            System.out.println (super.getNickName ().toUpperCase() + " disconnected");
+            System.out.println (super.getNickName () + " disconnected");
             super.setOnline (false);
         }
         closeThread ();

@@ -77,6 +77,7 @@ public class Account implements Serializable {
 
     public void setCurrentLobby(Lobby lobby) {
         this.currentLobby = lobby;
+        addToLobby (lobby);
     }
 
     public ArrayList<GameModel> getGameHistory() {
@@ -95,20 +96,9 @@ public class Account implements Serializable {
      * Method to add this account to the first open lobby in the main server
      */
 
-    public void addToLobby() {
-        boolean added = false;
-        for (Lobby lobby : server.getGameLobbies()) {
-            if (!lobby.isFull()) {
-                lobby.setPlayers (this);
-                this.currentLobby = lobby;
-                added = true;
-            }
-        }
-        if (!added) {
-            Lobby lobby = new Lobby(server);
-            server.createLobby (lobby);
+    public void addToLobby(Lobby lobby) {
+        if (!lobby.isFull()) {
             lobby.setPlayers (this);
-            this.currentLobby = lobby;
         }
     }
 

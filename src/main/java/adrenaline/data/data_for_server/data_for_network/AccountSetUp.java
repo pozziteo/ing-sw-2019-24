@@ -13,10 +13,6 @@ public class AccountSetUp extends DataForServer {
         this.customNickname = customNickname;
     }
 
-    public String getCustomNickname() {
-        return this.customNickname;
-    }
-
     @Override
     public void updateServer(MainServer server) {
         server.registerAccount (super.getNickname (), customNickname);
