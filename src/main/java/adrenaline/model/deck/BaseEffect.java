@@ -1,4 +1,4 @@
-package model.deck;
+package adrenaline.model.deck;
 
 import java.util.List;
 

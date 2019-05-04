@@ -1,6 +1,6 @@
-package model.deck;
+package adrenaline.model.deck;
 
-import model.player.Player;
+import adrenaline.model.player.Player;
 
 public interface AtomicWeaponEffect {
     void applyEffect(Player attacker, Player target, Integer... id);

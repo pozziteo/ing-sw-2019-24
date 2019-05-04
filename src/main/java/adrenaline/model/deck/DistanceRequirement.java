@@ -1,7 +1,7 @@
-package model.deck;
+package adrenaline.model.deck;
 
-import model.player.Action;
-import model.player.Player;
+import adrenaline.model.player.Action;
+import adrenaline.model.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +64,7 @@ public class DistanceRequirement implements WeaponEffectRequirement {
             validSquares = Action.findPaths(attacker, maxDistance);
         }
         else if (maxDistance == 0) {
-            for (int id=0; id < attacker.getGame().getArena().getDimension(); id++)
+            for (int id=0; id < attacker.getGame().getMap().getDimension(); id++)
                 validSquares.add(id);
             List<Integer> tooNear = Action.findPaths(attacker, minDistance-1);
             validSquares.removeAll(tooNear);

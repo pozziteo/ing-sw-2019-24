@@ -1,6 +1,7 @@
-package model.deck;
+package adrenaline.model.deck;
 
-import model.player.Player;
+import adrenaline.model.deck.Ammo;
+import adrenaline.model.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;

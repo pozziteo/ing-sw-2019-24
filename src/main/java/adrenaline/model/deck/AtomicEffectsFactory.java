@@ -1,8 +1,7 @@
-package model.deck;
+package adrenaline.model.deck;
 
-import model.player.Action;
-import model.player.Move;
-import model.player.Player;
+import adrenaline.model.player.Action;
+import adrenaline.model.player.Player;
 
 import java.util.List;
 
@@ -35,7 +34,7 @@ public class AtomicEffectsFactory {
             }
 
             if (id[0] != null && paths.contains(id[0]))
-                performer.setPosition(performer.getGame().getArena().getSquare(id[0]));
+                performer.setPosition(performer.getGame().getMap().getSquare(id[0]));
         };
     }
 
