@@ -3,11 +3,11 @@
     "type": "baseEffect",
     "effect": {
       "requirement": {
-        "type": "visibility",
-        "visible": true
+        "type": "room"
       },
       "target": {
-        "type": "room"
+        "type": "multiple",
+        "value": "all"
       },
       "effects": [
         {

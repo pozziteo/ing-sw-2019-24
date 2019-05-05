@@ -11,13 +11,19 @@ public class AtomicEffectsFactory {
         super();
     }
 
-    public AtomicWeaponEffect createDamageEffect(int pureDamage, int marks) {
+    public AtomicWeaponEffect createBaseDamageEffect(int pureDamage, int marks) {
          return (attacker, target, id) ->  {
             target.getBoard().gotHit(pureDamage, attacker);
             int previousMarks = target.getBoard().getMarksAmountGivenByPlayer(attacker);
+            for (int i=0; i < previousMarks; i++)
+                target.getBoard().getReceivedMarks().remove(attacker.getPlayerColor());
             target.getBoard().gotHit(previousMarks, attacker);
             target.getBoard().gotMarked(marks, attacker);
         };
+    }
+
+    public AtomicWeaponEffect createAdditionalDamageEffect(int pureDamage) {
+        return (attacker, target, id) -> target.getBoard().gotHit(pureDamage, attacker);
     }
 
     public AtomicWeaponEffect createMovementEffect(String executor, int movements) {
@@ -40,6 +46,22 @@ public class AtomicEffectsFactory {
 
     public AtomicWeaponEffect createMoveToAttackerPosition() {
         return (attacker, target, id) -> target.setPosition(attacker.getPosition());
+    }
+
+    public AtomicWeaponEffect createMoveToTargetPosition() {
+        return (attacker, target, id) -> attacker.setPosition(target.getPosition());
+    }
+
+    public AtomicWeaponEffect createMoveToSquare(String executor) {
+        return (attacker, target, id) -> {
+            Player performer;
+            if (executor.equals("attacker"))
+                performer = attacker;
+            else
+                performer = target;
+
+            performer.setPosition(performer.getGame().getMap().getSquare(id[0]));
+        };
     }
 
 }

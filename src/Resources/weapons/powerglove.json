@@ -12,7 +12,7 @@
       },
       "effects": [
         {
-          "type": "moveToSquare",
+          "type": "moveToTarget",
           "executor": "attacker"
         },
         {
@@ -48,9 +48,8 @@
       },
       "effects": [
         {
-          "type": "moveToSquare",
-          "executor": "attacker",
-          "dest": "target"
+          "type": "moveToTarget",
+          "executor": "attacker"
         },
         {
           "type": "damage",
