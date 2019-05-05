@@ -26,6 +26,17 @@ public class AtomicEffectsFactory {
         return (attacker, target, id) -> target.getBoard().gotHit(pureDamage, attacker);
     }
 
+    public AtomicWeaponEffect createSquareBasedDamage(int pureDamage, int marks) {
+        return (attacker, target, id) -> {
+            List<Player> players = attacker.getGame().getPlayers();
+            for (Player player : players)
+                if (player.getPosition().getSquareId() == id[0]) {
+                    AtomicWeaponEffect effect = createBaseDamageEffect(pureDamage, marks);
+                    effect.applyEffect(attacker, player, id);
+                }
+        };
+    }
+
     public AtomicWeaponEffect createMovementEffect(String executor, int movements) {
         return (attacker, target, id) -> {
             Player performer;
