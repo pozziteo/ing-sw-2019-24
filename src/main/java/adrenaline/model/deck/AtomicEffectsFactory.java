@@ -53,7 +53,7 @@ public class AtomicEffectsFactory {
         };
     }
 
-    public AtomicWeaponEffect createMovementEffect(String executor, int movements) {
+    public AtomicWeaponEffect createGenericMovementEffect(String executor, int movements) {
         return (attacker, target, id) -> {
             Player performer;
             List<Integer> paths;
@@ -77,6 +77,14 @@ public class AtomicEffectsFactory {
 
     public AtomicWeaponEffect createMoveToTargetPosition() {
         return (attacker, target, id) -> attacker.setPosition(target.getPosition());
+    }
+
+    public AtomicWeaponEffect createMoveTargetToVisibleSquare(int maxMovements) {
+        return (attacker, target, id) -> {
+            List<Integer> targetPaths = Action.findPaths(target, maxMovements);
+            if (targetPaths.contains(id[0]) && attacker.canSee(attacker.getGame().getMap().getSquare(id[0])))
+                target.setPosition(target.getGame().getMap().getSquare(id[0]));
+        };
     }
 
     public AtomicWeaponEffect createMoveToSquare(String executor) {

@@ -1,5 +1,6 @@
 package adrenaline.model.deck;
 
+import adrenaline.model.player.Action;
 import adrenaline.model.player.Player;
 
 import java.util.ArrayList;
@@ -18,7 +19,15 @@ public class MoveToVisibleRequirement implements WeaponEffectRequirement {
         List<Player> targets = new ArrayList<>();
         List<Player> players = WeaponEffectRequirement.super.findTargets(attacker);
 
-
+        for (Player player : players) {
+            List<Integer> playerPaths = Action.findPaths(player, movements);
+            for (int squareId : playerPaths) {
+                if (attacker.canSee(player.getGame().getMap().getSquare(squareId))) {
+                    targets.add(player);
+                    break;
+                }
+            }
+        }
         return targets;
     }
 }

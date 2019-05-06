@@ -238,17 +238,7 @@ public class Player implements Serializable {
 
     public boolean canSee(Player player) {
         return this.canSee(player.getPosition());
-        /*if (this.isInTheSameRoom (p)) {
-            return true;
-        } else {
-            for (int i = 0; i < this.getPosition ().getLinks().size(); i++) {
-                Square s = this.getGame().getMap ().getSquare(this.getPosition ().getLinks ().get(i));
-                if (s.getSquareColor ().equals (p.getPosition ().getSquareColor ())) {
-                    return true;
-                }
-            }
-        }
-        return false; */
+
     }
 
     public boolean canSee(Square square) {
