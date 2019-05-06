@@ -39,12 +39,13 @@
         "visible": true
       },
       "target": {
-        "type": "area",
+        "type": "multiple",
         "targets": "all"
       },
       "effects": [
         {
-          "type": "damage",
+          "type": "squareBasedDamage",
+          "square": "target",
           "damage": 1,
           "marks": 0
         }

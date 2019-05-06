@@ -14,32 +14,19 @@
         {
           "type": "damage",
           "damage": 1,
-          "marks": 1
-        }
-      ],
-      "otherEffects": [
+          "marks": 0
+        },
         {
-          "target": {
-            "type": "multiple",
-            "value": "all",
-            "constraints": [
-              "on target position"
-            ]
-          },
-          "effects": [
-            {
-              "type": "damage",
-              "damage": 0,
-              "marks": 1
-            }
-          ]
+          "type": "squareBasedDamage",
+          "square": "target",
+          "damage": 0,
+          "marks": 1
         }
       ],
       "executionOrder": [
         "requirement",
         "targets",
-        "effects",
-        "otherEffects"
+        "effects"
       ]
     }
   },
@@ -60,32 +47,19 @@
         {
           "type": "damage",
           "damage": 1,
-          "marks": 2
-        }
-      ],
-      "otherEffects": [
+          "marks": 0
+        },
         {
-          "target": {
-            "type": "multiple",
-            "value": "all",
-            "constraints": [
-              "on target position"
-            ]
-          },
-          "effects": [
-            {
-              "type": "damage",
-              "damage": 0,
-              "marks": 2
-            }
-          ]
+          "type": "squareBasedDamage",
+          "square": "target",
+          "damage": 0,
+          "marks": 2
         }
       ],
       "executionOrder": [
         "requirement",
         "targets",
-        "effects",
-        "otherEffects"
+        "effects"
       ]
     }
   }

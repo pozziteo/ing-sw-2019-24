@@ -29,6 +29,7 @@ public class AtomicEffectsFactory {
     public AtomicWeaponEffect createSquareBasedDamage(int pureDamage, int marks) {
         return (attacker, target, id) -> {
             List<Player> players = attacker.getGame().getPlayers();
+            players.remove(attacker);
             for (Player player : players)
                 if (player.getPosition().getSquareId() == id[0]) {
                     AtomicWeaponEffect effect = createBaseDamageEffect(pureDamage, marks);

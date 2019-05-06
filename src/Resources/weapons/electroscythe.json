@@ -13,7 +13,8 @@
       },
       "effects": [
         {
-          "type": "damage",
+          "type": "squareBasedDamage",
+          "square": "attacker",
           "damage": 1,
           "marks": 0
         }
@@ -37,12 +38,12 @@
       },
       "target": {
         "type": "multiple",
-        "value": "all",
-        "constraints": []
+        "value": "all"
       },
       "effects": [
         {
-          "type": "damage",
+          "type": "squareBasedDamage",
+          "square": "attacker",
           "damage": 2,
           "marks": 0
         }
