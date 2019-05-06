@@ -11,7 +11,7 @@
       },
       "effects": [
         {
-          "type": "damage",
+          "type": "roomBasedDamage",
           "damage": 1,
           "marks": 0
         }
