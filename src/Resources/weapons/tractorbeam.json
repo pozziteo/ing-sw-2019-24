@@ -1,0 +1,60 @@
+[
+  {
+    "type": "baseEffect",
+    "effect": {
+      "requirement": {
+        "type": "moveToVisible",
+        "maxMovements": 2
+      },
+      "target": {
+        "type": "single"
+      },
+      "effects": [
+        {
+          "type": "moveTargetToVisibleSquare",
+          "maxMovements": 2
+        },
+        {
+          "type": "damage",
+          "damage": 1,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  },
+
+  {
+    "type": "alternativeMode",
+    "effect": {
+      "additionalCost": ["red", "yellow"],
+      "requirement": {
+        "type": "distance",
+        "minDistance": 0,
+        "maxDistance": 2
+      },
+      "target": {
+        "type": "single"
+      },
+      "effects": [
+        {
+          "type": "moveToAttackerPosition"
+        },
+        {
+          "type": "damage",
+          "damage": 3,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  }
+]
