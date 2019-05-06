@@ -72,8 +72,13 @@ public class Map implements Serializable {
      * @return list of players in the same room
      */
 
-    public List<Player> getPlayersInRoom(String color){
-        //TODO
-        return new ArrayList<>();
+    public List<Player> getPlayersInRoom(String color, List<Player> players){
+        List<Player> playersInRoom = new ArrayList<>();
+        for (Player player : players) {
+            if (player.getPosition().getSquareColor().equals(color))
+                playersInRoom.add(player);
+        }
+
+        return playersInRoom;
     }
 }

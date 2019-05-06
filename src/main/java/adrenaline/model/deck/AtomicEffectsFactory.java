@@ -3,6 +3,7 @@ package adrenaline.model.deck;
 import adrenaline.model.player.Action;
 import adrenaline.model.player.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AtomicEffectsFactory {
@@ -28,13 +29,27 @@ public class AtomicEffectsFactory {
 
     public AtomicWeaponEffect createSquareBasedDamage(int pureDamage, int marks) {
         return (attacker, target, id) -> {
-            List<Player> players = attacker.getGame().getPlayers();
+            List<Player> players = new ArrayList<>(attacker.getGame().getPlayers());
             players.remove(attacker);
             for (Player player : players)
                 if (player.getPosition().getSquareId() == id[0]) {
                     AtomicWeaponEffect effect = createBaseDamageEffect(pureDamage, marks);
                     effect.applyEffect(attacker, player, id);
                 }
+        };
+    }
+
+    public AtomicWeaponEffect createRoomBasedDamage(int pureDamage, int marks) {
+        return (attacker, target, id) -> {
+            List<Player> players = new ArrayList<>(attacker.getGame().getPlayers());
+            players.remove(attacker);
+            String roomColor = attacker.getGame().getMap().getSquare(id[0]).getSquareColor();
+            List<Player> playersInRoom = attacker.getGame().getMap().getPlayersInRoom(roomColor, players);
+
+            for (Player player : playersInRoom) {
+                AtomicWeaponEffect effect = createBaseDamageEffect(pureDamage, marks);
+                effect.applyEffect(attacker, player, id);
+            }
         };
     }
 
