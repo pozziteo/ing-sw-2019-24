@@ -39,4 +39,6 @@ public interface UserInterface {
     void printMap(Square[] arena);
 
     void setNickname(String nickname);
+
+    void showTimeOutExpired(String message);
 }
