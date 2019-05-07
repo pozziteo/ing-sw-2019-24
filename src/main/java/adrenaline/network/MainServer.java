@@ -1,6 +1,8 @@
 package adrenaline.network;
 
 import adrenaline.data.data_for_client.data_for_view.AccountResponse;
+import adrenaline.data.data_for_server.DataForServer;
+import adrenaline.misc.RegistrationThread;
 import adrenaline.network.rmi.server.RmiServer;
 import adrenaline.network.socket.server.SocketServer;
 
@@ -114,6 +116,14 @@ public class MainServer {
         System.exit (0);
     }
 
+    public void receiveData(Account sender, DataForServer data) {
+        if (findClient (sender.getNickName ()).getCurrentLobby () == null) {
+            data.updateServer (this);
+        } else {
+            findClient (sender.getNickName ()).getCurrentLobby ().getController ().receiveData (data);
+        }
+    }
+
     public void logClient(Account account) {
         this.onlineClients.add (account);
     }
@@ -157,7 +167,7 @@ public class MainServer {
      * @param newNickname to set instead of the old one
      */
 
-    public void registerAccount(String oldNickname, String newNickname) {
+    public synchronized void registerAccount(String oldNickname, String newNickname) {
         Account toRegister = findClient (oldNickname);
         boolean alreadyRegistered;
         if (toRegister != null) {
@@ -206,7 +216,8 @@ public class MainServer {
 
     private void sendLoginResponse(Account a, boolean successful, String message) {
         AccountResponse response = new AccountResponse (a, successful, message);
-        response.sendToView ( );
+        RegistrationThread thread = new RegistrationThread (response);
+        thread.start();
     }
 
     public Account findClient(String nickname) {

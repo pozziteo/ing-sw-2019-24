@@ -4,8 +4,8 @@ import adrenaline.data.data_for_client.data_for_view.TimeOutExpired;
 import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.model.GameModel;
 import adrenaline.network.MainServer;
-import adrenaline.timer.TimerCallBack;
-import adrenaline.timer.TimerThread;
+import adrenaline.misc.TimerCallBack;
+import adrenaline.misc.TimerThread;
 
 public class Controller implements TimerCallBack {
     private MainServer server;
@@ -15,7 +15,7 @@ public class Controller implements TimerCallBack {
 
     public Controller(MainServer server) {
         this.server = server;
-        this.timeout = 120 * 1000;
+        this.timeout = (long) 120 * 1000;
         this.timer = new TimerThread (this, timeout);
     }
 

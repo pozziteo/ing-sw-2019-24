@@ -1,11 +1,12 @@
 package adrenaline.network;
 
 import adrenaline.controller.Controller;
+import adrenaline.data.data_for_client.data_for_view.LobbyStatus;
 import adrenaline.data.data_for_client.data_for_view.MapData;
 import adrenaline.data.data_for_client.data_for_view.FirstPlayerSetUp;
 import adrenaline.model.GameModel;
-import adrenaline.timer.TimerCallBack;
-import adrenaline.timer.TimerThread;
+import adrenaline.misc.TimerCallBack;
+import adrenaline.misc.TimerThread;
 
 import java.util.ArrayList;
 
@@ -15,12 +16,15 @@ public class Lobby implements TimerCallBack {
     private GameModel game;
     private Controller controller;
     private TimerThread timerThread;
+    private long timeout;
     private boolean full;
 
     public Lobby(MainServer server) {
         this.server = server;
         this.players = new ArrayList<> ();
         this.controller = new Controller(server);
+        this.timeout = (long) 10 * 1000;
+        this.timerThread = new TimerThread (this, timeout);
         this.full = false;
     }
 
@@ -43,15 +47,25 @@ public class Lobby implements TimerCallBack {
         return this.game;
     }
 
-    public void checkReady() {
+    public synchronized void checkReady() {
         if (this.players.size() > 2 && this.players.size() < 6) {
             if (isFull ()) {
-                createGame ();
+                sendLobbyStatusToAll (true, "Your lobby is full, the game will begin shortly\n");
+                createGame ( );
             } else {
+                sendLobbyStatusToAll (false, "Waiting for more players... (Current players: " + this.players.size () + ")\n");
                 this.timerThread.startThread ();
             }
+        } else {
+            sendLobbyStatusToAll (false, "Your lobby does not have enough players, waiting for more... (Current players: " + this.players.size () + ")\n");
         }
+    }
 
+    private void sendLobbyStatusToAll(boolean value, String message) {
+        for (Account a : players) {
+            LobbyStatus data = new LobbyStatus (a, value, message);
+            data.sendToView ();
+        }
     }
 
     private boolean checkFull() {
@@ -64,7 +78,7 @@ public class Lobby implements TimerCallBack {
         return checkFull ();
     }
 
-    public void setPlayers(Account a) {
+    public synchronized void setPlayers(Account a) {
         checkFirst(a);
         this.players.add (a);
         checkReady();
@@ -90,6 +104,7 @@ public class Lobby implements TimerCallBack {
     @Override
     public void timerCallBack() {
         try {
+            System.err.println("Lobby timer is up... Creating new game\n");
             createGame ();
         } catch (Exception e) {
             System.err.println(e.getMessage ());

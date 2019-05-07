@@ -40,4 +40,8 @@ public class GraphicUserInterface implements UserInterface {
     public void showTimeOutExpired(String message) {
         //TODO
     }
+
+    public void waitLobby(boolean value, String message) {
+        //TODO
+    }
 }

@@ -41,7 +41,7 @@ public class SocketPlayerThread extends Account implements Runnable {
         try {
             while (socket.isConnected ()) {
                 DataForServer receivedData = (DataForServer) in.readObject ();
-                super.getCurrentLobby ( ).getController ( ).receiveData (receivedData);
+                super.getServer().receiveData(this, receivedData);
             }
         } catch (Exception e) {
             System.err.println (e.getMessage());

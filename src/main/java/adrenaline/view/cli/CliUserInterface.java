@@ -67,6 +67,7 @@ public class CliUserInterface implements UserInterface {
      */
 
     private void establishConnection() {
+        launchTitleScreen ();
         this.printer.printConnectionOptions ();
         if (this.parser.parseInt (1) == 0) {
             this.client = new RmiClient (this);
@@ -108,18 +109,28 @@ public class CliUserInterface implements UserInterface {
         String newNickname = this.parser.parseNickname ();
         AccountSetUp accountData = new AccountSetUp (nickname, newNickname);
         sendToController (accountData);
-        printer.print ("Account data sent to server. Waiting for response...");
+        printer.print ("Account data sent to server. Waiting for response...\n");
     }
 
     public void loginStatus(boolean successful, String message) {
         this.printer.print (message);
-        if (successful) {
-            if (this.firstPlayer) {
-                mapSelector ();
-            }
-        } else {
-            this.printer.print ("Try again.");
+        if (!successful) {
+            this.printer.print ("Try again...\n");
             setUpAccount ();
+        }
+    }
+
+    public void waitLobby(boolean ready, String message) {
+        if (nickname != null) {
+            printer.print ("A new player joined your lobby...");
+            printer.print (message);
+        }
+        if (ready) {
+            if (firstPlayer) {
+                selectMap ();
+            } else {
+                printer.print("First player is selecting the arena.\nPlease wait...");
+            }
         }
     }
 
@@ -131,7 +142,7 @@ public class CliUserInterface implements UserInterface {
     /**
      * This Method asks the player which map he wants to play with
      */
-    public void mapSelector(){
+    public void selectMap(){
         boolean valid = false;
         while(!valid) {
             this.printer.printMapOptions ( );
@@ -159,7 +170,7 @@ public class CliUserInterface implements UserInterface {
     /**
      * This method asks the player the action he wants to perform
      */
-    public void actionSelector(){
+    public void selectAction(){
         boolean valid = false;
         while(!valid){
             this.printer.printActionOptions();

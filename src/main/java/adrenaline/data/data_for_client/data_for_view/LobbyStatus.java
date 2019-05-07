@@ -4,16 +4,18 @@ import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.network.Account;
 import adrenaline.view.UserInterface;
 
-public class TimeOutExpired extends DataForClient {
+public class LobbyStatus extends DataForClient {
+    private boolean ready;
     private String message;
 
-    public TimeOutExpired(Account account, String message) {
+    public LobbyStatus(Account account, boolean value, String message) {
         super(account);
+        this.ready = value;
         this.message = message;
     }
 
     @Override
     public void updateView(UserInterface view) {
-        view.showTimeOutExpired(message);
+        view.waitLobby (ready, message);
     }
 }

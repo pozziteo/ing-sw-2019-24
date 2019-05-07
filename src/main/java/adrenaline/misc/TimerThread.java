@@ -1,4 +1,4 @@
-package adrenaline.timer;
+package adrenaline.misc;
 
 public class TimerThread implements Runnable {
     private long timeout;

@@ -13,6 +13,6 @@ public class MapSetUp extends DataForServer {
 
     @Override
     public void updateServer(MainServer server) {
-        super.findAccount(server.getStoredAccounts()).getCurrentLobby ().getGameModel ().getGame ().setArena (filename);
+        server.findClient(super.getNickname ()).getCurrentLobby ().getGameModel ().getGame ().setArena (filename);
     }
 }

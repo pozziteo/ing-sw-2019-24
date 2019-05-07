@@ -1,4 +1,4 @@
-package adrenaline.timer;
+package adrenaline.misc;
 
 public interface TimerCallBack {
     void timerCallBack();
