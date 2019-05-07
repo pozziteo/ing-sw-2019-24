@@ -1,0 +1,65 @@
+[
+  {
+    "type": "baseEffect",
+    "effect": {
+      "requirement": {
+        "type": "limitedDirection",
+        "maxDistance": 2
+      },
+      "target": {
+        "type": "multiple",
+        "value": 2,
+        "constraints": [
+          "one target per square",
+          "squares in same direction"
+        ]
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 1,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  },
+
+  {
+    "type": "alternativeMode",
+    "effect": {
+      "additionalCost": ["yellow", "yellow"],
+      "requirement": {
+        "type": "limitedDirection",
+        "maxDistance": 2
+      },
+      "target": {
+        "type": "multiple",
+        "value": "all"
+      }
+    },
+    "effects": [
+      {
+        "type": "squareBasedDamage",
+        "square": "distance: 1",
+        "damage": 2,
+        "marks": 0
+      },
+      {
+        "type": "squareBasedDamage",
+        "square": "distance: 2",
+        "damage": 1,
+        "marls": 0
+      }
+    ],
+    "executionOrder": [
+      "requirement",
+      "targets",
+      "effects"
+    ]
+  }
+]

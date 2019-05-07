@@ -11,8 +11,9 @@ public class OptionalEffect extends WeaponEffect {
     private List<Ammo> additionalCost;
     private boolean alternativeMode;
 
-    protected OptionalEffect(List<AtomicWeaponEffect> effects, List<Ammo> additionalCost, boolean alternativeMode) {
-        super(effects);
+    protected OptionalEffect(WeaponEffectRequirement requirement, List<AtomicWeaponEffect> effects,
+                             List<Ammo> additionalCost, boolean alternativeMode) {
+        super(requirement, effects);
         this.additionalCost = new ArrayList<>();
 
         if (!additionalCost.isEmpty())

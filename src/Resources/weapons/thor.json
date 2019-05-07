@@ -1,0 +1,84 @@
+[
+  {
+    "type": "baseEffect",
+    "effect": {
+      "requirement": {
+        "type": "visibility",
+        "visible": true
+      },
+      "target": {
+        "type": "single"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 2,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  },
+
+  {
+    "type": "chainEffect",
+    "chainedTo": "baseEffect",
+    "usableBeforeBase": false,
+    "effect": {
+      "additionalCost": ["blue"],
+      "requirement": {
+        "type": "visibility",
+        "visible": true
+      },
+      "target": {
+        "type": "single"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 1,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  },
+
+  {
+    "type": "chainEffect",
+    "chainedTo": "optional: 1",
+    "usableBeforeBase": false,
+    "effect": {
+      "additionalCost": [
+        "blue"
+      ],
+      "requirement": {
+        "type": "visibility",
+        "visible": true
+      },
+      "target": {
+        "type": "single"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 2,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
+  }
+]
