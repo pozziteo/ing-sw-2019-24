@@ -6,9 +6,11 @@ import java.util.*;
 
 public abstract class WeaponEffect {
 
+    private WeaponEffectRequirement requirement;
     private List<AtomicWeaponEffect> effects;
 
-    protected WeaponEffect(List<AtomicWeaponEffect> effects) {
+    protected WeaponEffect(WeaponEffectRequirement requirement, List<AtomicWeaponEffect> effects) {
+        this.requirement = requirement;
         this.effects = new ArrayList<>(effects);
     }
 
