@@ -17,6 +17,7 @@ public class Lobby implements TimerCallBack {
     private Controller controller;
     private TimerThread timerThread;
     private long timeout;
+    private boolean gameStarted;
     private boolean full;
 
     public Lobby(MainServer server) {
@@ -25,10 +26,12 @@ public class Lobby implements TimerCallBack {
         this.controller = new Controller(server);
         this.timeout = (long) 10 * 1000;
         this.timerThread = new TimerThread (this, timeout);
+        this.gameStarted = false;
         this.full = false;
     }
 
     public void createGame() {
+        this.gameStarted = true;
         String[] playerNames = new String[players.size ( )];
         int i = 0;
         for (Account a : players) {
@@ -45,6 +48,10 @@ public class Lobby implements TimerCallBack {
 
     public GameModel getGameModel() {
         return this.game;
+    }
+
+    public boolean isGameStarted() {
+        return this.gameStarted;
     }
 
     public synchronized void checkReady() {

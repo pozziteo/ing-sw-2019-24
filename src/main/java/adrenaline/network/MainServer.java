@@ -235,7 +235,7 @@ public class MainServer {
             return gameLobbies.getFirst();
         } else {
             for (Lobby lobby : gameLobbies) {
-                if (!lobby.isFull()) {
+                if (!lobby.isFull() && !lobby.isGameStarted()) {
                     return lobby;
                 }
             }
