@@ -30,7 +30,7 @@ public class Lobby implements TimerCallBack {
         this.full = false;
     }
 
-    public void createGame() {
+    private void createGame() {
         this.gameStarted = true;
         String[] playerNames = new String[players.size ( )];
         int i = 0;
@@ -39,7 +39,7 @@ public class Lobby implements TimerCallBack {
             i++;
         }
         this.game = new GameModel (playerNames);
-        this.controller.setGameModel(game);
+        this.controller.startController (game);
     }
 
     public Controller getController() {
@@ -55,6 +55,7 @@ public class Lobby implements TimerCallBack {
     }
 
     public synchronized void checkReady() {
+        verifyConnected();
         if (this.players.size() > 2 && this.players.size() < 6) {
             if (isFull ()) {
                 sendLobbyStatusToAll (true, "Your lobby is full, the game will begin shortly\n");
@@ -65,6 +66,14 @@ public class Lobby implements TimerCallBack {
             }
         } else {
             sendLobbyStatusToAll (false, "Your lobby does not have enough players, waiting for more... (Current players: " + this.players.size () + ")\n");
+        }
+    }
+
+    private void verifyConnected() {
+        for (Account a : players) {
+            if (!a.isOnline ()) {
+                players.remove (a);
+            }
         }
     }
 

@@ -9,14 +9,10 @@ import java.io.Serializable;
 
 public class GameModel implements Serializable {
     private static final long serialVersionUID = 5055517717183645074L;
+
     private Game game;
-    private String[] playerNames;
 
     public GameModel(String[] playerNames) {
-        this.playerNames = playerNames;
-    }
-
-    public void startNewGame() {
         this.game = new Game(playerNames);
     }
 

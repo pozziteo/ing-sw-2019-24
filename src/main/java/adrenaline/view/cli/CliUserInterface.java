@@ -125,13 +125,6 @@ public class CliUserInterface implements UserInterface {
             printer.print ("A new player joined your lobby...");
             printer.print (message);
         }
-        if (ready) {
-            if (firstPlayer) {
-                selectMap ();
-            } else {
-                printer.print("First player is selecting the arena.\nPlease wait...");
-            }
-        }
     }
 
 
@@ -143,26 +136,30 @@ public class CliUserInterface implements UserInterface {
      * This Method asks the player which map he wants to play with
      */
     public void selectMap(){
-        boolean valid = false;
-        while(!valid) {
-            this.printer.printMapOptions ( );
-            if (this.parser.parseInt (3) == 0) {
-                valid = true;
-                MapSetUp mapData = new MapSetUp (nickname, SMALL);
-                sendToController (mapData);
-            } else if (this.parser.parseInt (3) == 1) {
-                valid = true;
-                MapSetUp mapData = new MapSetUp (nickname, MEDIUM_1);
-                sendToController (mapData);
-            } else if (this.parser.parseInt (3) == 2) {
-                valid = true;
-                MapSetUp mapData = new MapSetUp (nickname, MEDIUM_2);
-                sendToController (mapData);
-            } else if (this.parser.parseInt (3) == 3) {
-                valid = true;
-                MapSetUp mapData = new MapSetUp (nickname, LARGE);
-                sendToController (mapData);
-            } else this.printer.printInvalidInput ( );
+        if (firstPlayer){
+            boolean valid = false;
+            while(!valid) {
+                this.printer.printMapOptions ( );
+                if (this.parser.parseInt (3) == 0) {
+                    valid = true;
+                    MapSetUp mapData = new MapSetUp (nickname, SMALL);
+                    sendToController (mapData);
+                } else if (this.parser.parseInt (3) == 1) {
+                    valid = true;
+                    MapSetUp mapData = new MapSetUp (nickname, MEDIUM_1);
+                    sendToController (mapData);
+                } else if (this.parser.parseInt (3) == 2) {
+                    valid = true;
+                    MapSetUp mapData = new MapSetUp (nickname, MEDIUM_2);
+                    sendToController (mapData);
+                } else if (this.parser.parseInt (3) == 3) {
+                    valid = true;
+                    MapSetUp mapData = new MapSetUp (nickname, LARGE);
+                    sendToController (mapData);
+                } else this.printer.printInvalidInput ( );
+            }
+        } else {
+            printer.print ("The first player in your lobby is choosing the arena. Please wait...");
         }
     }
 

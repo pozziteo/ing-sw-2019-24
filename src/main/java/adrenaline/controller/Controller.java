@@ -19,12 +19,13 @@ public class Controller implements TimerCallBack {
         this.timer = new TimerThread (this, timeout);
     }
 
-    public GameModel getGameModel() {
-        return this.gameModel;
+    public void startController(GameModel model) {
+        this.gameModel = model;
+        this.timer = new TimerThread (this, timeout);
     }
 
-    public void setGameModel(GameModel model) {
-        this.gameModel = model;
+    public GameModel getGameModel() {
+        return this.gameModel;
     }
 
     public void receiveData(DataForServer data) {

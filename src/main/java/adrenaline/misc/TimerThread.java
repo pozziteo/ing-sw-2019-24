@@ -2,9 +2,8 @@ package adrenaline.misc;
 
 public class TimerThread implements Runnable {
     private long timeout;
-    private Thread timerThread;
+    private Thread thread;
     private TimerCallBack timerCallBack;
-    private long startTime;
     private boolean running;
     private boolean forSpecificPlayer;
     private String nickname;
@@ -22,22 +21,22 @@ public class TimerThread implements Runnable {
 
     public void startThread() {
         this.forSpecificPlayer = false;
-        this.timerThread = new Thread(this);
+        this.thread = new Thread(this);
         this.running = true;
-        timerThread.start();
+        thread.start();
     }
 
     public void startThread(String nickname) {
         this.forSpecificPlayer = true;
         this.nickname = nickname;
-        this.timerThread = new Thread (this);
+        this.thread = new Thread (this);
         this.running = true;
-        this.timerThread.start();
+        this.thread.start();
     }
 
     @Override
     public void run() {
-        startTime = System.currentTimeMillis ();
+        long startTime = System.currentTimeMillis ();
         while(System.currentTimeMillis () - startTime <= timeout) {
             if (!running) {
                 return;
