@@ -70,6 +70,10 @@
       },
       "effects": [
         {
+          "type": "additionalDamage",
+          "damage": 1
+        },
+        {
           "type": "damage",
           "damage": 1,
           "marks": 0
