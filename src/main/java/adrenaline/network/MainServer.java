@@ -159,7 +159,7 @@ public class MainServer {
 
     public void registerAccount(String oldNickname, String newNickname) {
         Account toRegister = findClient (oldNickname);
-        boolean alreadyRegistered = false;
+        boolean alreadyRegistered;
         if (toRegister != null) {
             if (storedAccounts.isEmpty ( )) {
                saveNewAccount (toRegister, oldNickname, newNickname);
@@ -209,17 +209,13 @@ public class MainServer {
         response.sendToView ( );
     }
 
-    private Account findClient(String nickname) {
+    public Account findClient(String nickname) {
         for (Account client : onlineClients) {
             if (nickname.equals(client.getNickName ())) {
                 return client;
             }
         }
         return null;
-    }
-
-    public List<Lobby> getGameLobbies() {
-        return this.gameLobbies;
     }
 
     public Lobby getOpenLobby() {

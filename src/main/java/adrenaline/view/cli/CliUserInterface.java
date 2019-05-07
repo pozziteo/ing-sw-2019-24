@@ -124,6 +124,10 @@ public class CliUserInterface implements UserInterface {
     }
 
 
+    public void showTimeOutExpired(String message) {
+        this.printer.print (message);
+    }
+
     /**
      * This Method asks the player which map he wants to play with
      */

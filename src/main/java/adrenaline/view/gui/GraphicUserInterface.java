@@ -36,4 +36,8 @@ public class GraphicUserInterface implements UserInterface {
     public void setNickname(String nickname) {
         //TODO
     }
+
+    public void showTimeOutExpired(String message) {
+        //TODO
+    }
 }
