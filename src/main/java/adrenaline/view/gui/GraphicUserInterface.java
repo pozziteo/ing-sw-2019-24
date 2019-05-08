@@ -37,7 +37,7 @@ public class GraphicUserInterface implements UserInterface {
         //TODO
     }
 
-    public void showTimeOutExpired(String message) {
+    public void showMessageFromServer(String message) {
         //TODO
     }
 

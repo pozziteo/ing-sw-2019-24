@@ -4,6 +4,7 @@ import adrenaline.controller.Controller;
 import adrenaline.data.data_for_client.data_for_view.LobbyStatus;
 import adrenaline.data.data_for_client.data_for_view.MapData;
 import adrenaline.data.data_for_client.data_for_view.FirstPlayerSetUp;
+import adrenaline.data.data_for_client.data_for_view.MessageForClient;
 import adrenaline.model.GameModel;
 import adrenaline.misc.TimerCallBack;
 import adrenaline.misc.TimerThread;
@@ -55,7 +56,6 @@ public class Lobby implements TimerCallBack {
     }
 
     public synchronized void checkReady() {
-        verifyConnected();
         if (this.players.size() > 2 && this.players.size() < 6) {
             if (isFull ()) {
                 sendLobbyStatusToAll (true, "Your lobby is full, the game will begin shortly\n");
@@ -69,12 +69,17 @@ public class Lobby implements TimerCallBack {
         }
     }
 
-    private void verifyConnected() {
-        for (Account a : players) {
-            if (!a.isOnline ()) {
-                players.remove (a);
+    public void removeDisconnected(Account disconnected) {
+        if (gameStarted) {
+            //TODO
+        } else {
+            players.remove (disconnected);
+            for (Account connected : players) {
+                MessageForClient message = new MessageForClient (connected, disconnected.getNickName () + " left the lobby...\n");
+                message.sendToView ();
             }
         }
+        checkReady ();
     }
 
     private void sendLobbyStatusToAll(boolean value, String message) {

@@ -40,7 +40,7 @@ public interface UserInterface {
 
     void setNickname(String nickname);
 
-    void showTimeOutExpired(String message);
+    void showMessageFromServer(String message);
 
     void waitLobby(boolean ready, String message);
 }

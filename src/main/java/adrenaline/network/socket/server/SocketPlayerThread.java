@@ -26,7 +26,7 @@ public class SocketPlayerThread extends Account implements Runnable {
             this.in = new ObjectInputStream(socket.getInputStream());
             this.out.flush();
         } catch (IOException exc) {
-            super.setOnline (false);
+            disconnectClient ();
         }
     }
 
@@ -36,8 +36,8 @@ public class SocketPlayerThread extends Account implements Runnable {
 
     @Override
     public void run() {
-        accountSetUp ();
-        clientSetUp ();
+        setUpAccount ();
+        setUpClient ();
         try {
             while (socket.isConnected ()) {
                 DataForServer receivedData = (DataForServer) in.readObject ();
@@ -47,8 +47,7 @@ public class SocketPlayerThread extends Account implements Runnable {
             System.err.println (e.getMessage());
             super.setOnline (false);
         } finally {
-            System.out.println (super.getNickName () + " disconnected");
-            super.setOnline (false);
+            disconnectClient ();
         }
         closeThread ();
     }
@@ -82,14 +81,20 @@ public class SocketPlayerThread extends Account implements Runnable {
         }
     }
 
-    private void accountSetUp() {
+    private void setUpAccount() {
         super.setOnline (true);
         super.logClient ();
         super.setCurrentLobby(super.getServer().getOpenLobby());
     }
 
-    private void clientSetUp() {
+    private void setUpClient() {
         this.sendData(new ClientSetUp (this));
+    }
+
+    private void disconnectClient() {
+        System.out.println (super.getNickName () + " disconnected");
+        super.setOnline (false);
+        super.getServer ().notifyDisconnection (super.getNickName ());
     }
 
 }

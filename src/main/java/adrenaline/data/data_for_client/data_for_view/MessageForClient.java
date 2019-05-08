@@ -4,16 +4,16 @@ import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.network.Account;
 import adrenaline.view.UserInterface;
 
-public class TimeOutExpired extends DataForClient {
+public class MessageForClient extends DataForClient {
     private String message;
 
-    public TimeOutExpired(Account account, String message) {
+    public MessageForClient(Account account, String message) {
         super(account);
         this.message = message;
     }
 
     @Override
     public void updateView(UserInterface view) {
-        view.showTimeOutExpired(message);
+        view.showMessageFromServer(message);
     }
 }

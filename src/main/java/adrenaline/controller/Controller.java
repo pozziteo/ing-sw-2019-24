@@ -1,6 +1,6 @@
 package adrenaline.controller;
 
-import adrenaline.data.data_for_client.data_for_view.TimeOutExpired;
+import adrenaline.data.data_for_client.data_for_view.MessageForClient;
 import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.model.GameModel;
 import adrenaline.network.MainServer;
@@ -39,7 +39,7 @@ public class Controller implements TimerCallBack {
 
     @Override
     public void timerCallBack(String nickname) {
-        TimeOutExpired data = new TimeOutExpired (server.findClient(nickname), "Time is up. You took too long to make your move.");
-        data.sendToView ();
+        MessageForClient message = new MessageForClient (server.findClient(nickname), "Time is up. You took too long to make your move.");
+        message.sendToView ();
     }
 }

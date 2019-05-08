@@ -189,12 +189,12 @@ public class MainServer {
             if (newNickname.equals (storedAccount.getNickName () )) {
                 if (storedAccount.isOnline ()) {
                     System.out.println("Someone tried registering an account already in use: " + storedAccount.getNickName ());
-                    sendLoginResponse (toRegister, false, "This nickname is already in use");
+                    sendLoginResponse (toRegister, false, "This nickname is already in use.\n");
                 } else {
                     System.out.println(storedAccount.getNickName () + " is back");
                     toRegister.setNickname (newNickname);
                     toRegister.setGameHistory(storedAccount.getGameHistory());
-                    sendLoginResponse (toRegister, true, "Welcome back, " + storedAccount.getNickName ());
+                    sendLoginResponse (toRegister, true, "Welcome back, " + storedAccount.getNickName () + ".\nYou joined a lobby.\nPlease wait...");
                 }
                 return true;
             }
@@ -208,7 +208,7 @@ public class MainServer {
             account.setNickname (newNickname);
             this.storedAccounts.add (account);
             storeAccounts ( );
-            sendLoginResponse (account, true, "Welcome, " + account.getNickName ( ) + ". Your registration was successful.");
+            sendLoginResponse (account, true, "Welcome, " + account.getNickName ( ) + ". Your registration was successful.\n You joined a lobby.\n Please wait...");
         } catch (IOException e) {
             System.err.println (e.getMessage ( ));
         }
@@ -247,4 +247,12 @@ public class MainServer {
     private void createLobby(Lobby l) {
         gameLobbies.add (l);
     }
+
+    public void notifyDisconnection(String disconnectedNickname) {
+        Account disconnected = findClient (disconnectedNickname);
+        Lobby toNotify = disconnected.getCurrentLobby ();
+        toNotify.removeDisconnected(disconnected);
+        this.onlineClients.remove(disconnected);
+    }
+
 }

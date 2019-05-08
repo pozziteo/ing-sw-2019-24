@@ -122,13 +122,12 @@ public class CliUserInterface implements UserInterface {
 
     public void waitLobby(boolean ready, String message) {
         if (nickname != null) {
-            printer.print ("A new player joined your lobby...");
             printer.print (message);
         }
     }
 
 
-    public void showTimeOutExpired(String message) {
+    public void showMessageFromServer(String message) {
         this.printer.print (message);
     }
 
