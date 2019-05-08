@@ -1,9 +1,10 @@
 package adrenaline.network;
 
 import adrenaline.data.data_for_client.data_for_view.AccountResponse;
+import adrenaline.data.data_for_client.data_for_view.MessageForClient;
 import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
-import adrenaline.misc.RegistrationThread;
+import adrenaline.exceptions.GameStartedException;
 import adrenaline.network.rmi.server.RmiServer;
 import adrenaline.network.socket.server.SocketServer;
 
@@ -168,17 +169,12 @@ public class MainServer {
      * @param newNickname to set instead of the old one
      */
 
-    public synchronized void registerAccount(String oldNickname, String newNickname) {
+    public void registerAccount(String oldNickname, String newNickname) {
         Account toRegister = findClient (oldNickname);
-        boolean alreadyRegistered;
         if (toRegister != null) {
-            if (storedAccounts.isEmpty ( )) {
-               saveNewAccount (toRegister, oldNickname, newNickname);
-            } else {
-                alreadyRegistered = checkAlreadyRegistered(toRegister, newNickname);
-                if (!alreadyRegistered) {
-                    saveNewAccount (toRegister, oldNickname, newNickname);
-                }
+            boolean alreadyRegistered = checkAlreadyRegistered(toRegister, newNickname);
+            if (!alreadyRegistered) {
+                saveNewAccount (toRegister, oldNickname, newNickname);
             }
         } else {
             System.err.print ("Client not found.");
@@ -188,15 +184,15 @@ public class MainServer {
     private boolean checkAlreadyRegistered(Account toRegister, String newNickname) {
         for (Account storedAccount : this.storedAccounts) {
             if (newNickname.equals (storedAccount.getNickName () )) {
-                if (storedAccount.isOnline ()) {
+                if (findClient (newNickname) != null) {
                     System.out.println("Someone tried registering an account already in use: " + storedAccount.getNickName ());
                     sendLoginResponse (toRegister, false, "This nickname is already in use.\n");
                 } else {
                     System.out.println(storedAccount.getNickName () + " is back");
                     toRegister.setNickname (newNickname);
                     toRegister.setGameHistory(storedAccount.getGameHistory());
-                    toRegister.setCurrentLobby (getOpenLobby ());
-                    sendLoginResponse (toRegister, true, "Welcome back, " + storedAccount.getNickName () + ".\nYou joined a lobby.\nPlease wait...");
+                    tryInsertingIntoLobby (toRegister);
+                    sendLoginResponse (toRegister, true, "Welcome back, " + storedAccount.getNickName () + ".\nYou joined a lobby. Please wait...");
                 }
                 return true;
             }
@@ -210,8 +206,8 @@ public class MainServer {
             account.setNickname (newNickname);
             this.storedAccounts.add (account);
             storeAccounts ( );
-            account.setCurrentLobby (getOpenLobby ());
-            sendLoginResponse (account, true, "Welcome, " + account.getNickName ( ) + ". Your registration was successful.\n You joined a lobby.\n Please wait...");
+            tryInsertingIntoLobby (account);
+            sendLoginResponse (account, true, "Welcome, " + account.getNickName ( ) + ". Your registration was successful.\nYou joined a lobby. Please wait...");
         } catch (IOException e) {
             System.err.println (e.getMessage ( ));
         }
@@ -219,8 +215,16 @@ public class MainServer {
 
     private void sendLoginResponse(Account a, boolean successful, String message) {
         AccountResponse response = new AccountResponse (a, successful, message);
-        RegistrationThread thread = new RegistrationThread (response);
-        thread.start();
+        response.sendToView ();
+    }
+
+    private void tryInsertingIntoLobby(Account toRegister) {
+        try {
+            toRegister.setCurrentLobby (getOpenLobby ());
+        } catch (GameStartedException e) {
+            MessageForClient message = new MessageForClient (toRegister, e.getMessage ());
+            message.sendToView ();
+        }
     }
 
     public Account findClient(String nickname) {

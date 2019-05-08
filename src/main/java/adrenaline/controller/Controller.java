@@ -3,18 +3,19 @@ package adrenaline.controller;
 import adrenaline.data.data_for_client.data_for_view.MessageForClient;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.model.GameModel;
+import adrenaline.network.Lobby;
 import adrenaline.network.MainServer;
 import adrenaline.misc.TimerCallBack;
 import adrenaline.misc.TimerThread;
 
 public class Controller implements TimerCallBack {
-    private MainServer server;
+    private Lobby lobby;
     private GameModel gameModel;
     private long timeout;
     private TimerThread timer;
 
-    public Controller(MainServer server) {
-        this.server = server;
+    public Controller(Lobby lobby) {
+        this.lobby = lobby;
         this.timeout = (long) 120 * 1000;
         this.timer = new TimerThread (this, timeout);
     }
@@ -43,7 +44,7 @@ public class Controller implements TimerCallBack {
 
     @Override
     public void timerCallBack(String nickname) {
-        MessageForClient message = new MessageForClient (server.findClient(nickname), "Time is up. You took too long to make your move.");
+        MessageForClient message = new MessageForClient (lobby.findPlayer(nickname), "Time is up. You took too long to make your move.");
         message.sendToView ();
     }
 }

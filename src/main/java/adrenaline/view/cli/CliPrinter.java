@@ -2,6 +2,7 @@ package adrenaline.view.cli;
 
 import adrenaline.model.deck.PowerUp;
 import adrenaline.model.deck.PowerUpType;
+import adrenaline.model.map.Square;
 import adrenaline.model.player.Player;
 import org.fusesource.jansi.AnsiConsole;
 
@@ -51,7 +52,7 @@ public class CliPrinter {
      * Printer Method
      * @param input is what it's printed
      */
-    void print(String input) {
+    public void print(String input) {
         AnsiConsole.out.println (input);
     }
 

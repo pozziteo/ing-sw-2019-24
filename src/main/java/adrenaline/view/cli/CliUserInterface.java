@@ -22,7 +22,6 @@ public class CliUserInterface implements UserInterface {
     private CliParser parser;
     private ClientInterface client;
     private String nickname;
-    private boolean firstPlayer;
 
     //attributes that represent the file names for each map
     private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
@@ -34,6 +33,7 @@ public class CliUserInterface implements UserInterface {
     public CliUserInterface() {
         this.printer = new CliPrinter ();
         this.parser = new CliParser ();
+        this.nickname = null;
     }
 
     /**
@@ -48,18 +48,6 @@ public class CliUserInterface implements UserInterface {
             instance.establishConnection ();
         }
         return instance;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    /**
-     * Setter method for firstPlayer
-     */
-
-    public void setFirstPlayer(boolean value) {
-        this.firstPlayer = value;
     }
 
     /**
@@ -92,7 +80,7 @@ public class CliUserInterface implements UserInterface {
      * @param data to send
      */
 
-    public void sendToController(DataForServer data) {
+    public void sendToServer(DataForServer data) {
         client.sendData (data);
     }
 
@@ -104,57 +92,51 @@ public class CliUserInterface implements UserInterface {
         data.updateView(this);
     }
 
+    public CliPrinter getPrinter() {
+        return this.printer;
+    }
+
+    public String getNickname() {
+        return this.nickname;
+    }
+
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     public void setUpAccount() {
-        printer.printNickname ();
-        String newNickname = this.parser.parseNickname ();
+        printer.printNickname ( );
+        String newNickname = this.parser.parseNickname ( );
         AccountSetUp accountData = new AccountSetUp (nickname, newNickname);
-        sendToController (accountData);
+        sendToServer (accountData);
         printer.print ("Account data sent to server. Waiting for response...\n");
-    }
-
-    public void loginStatus(boolean successful, String message) {
-        this.printer.print (message);
-        if (!successful) {
-            this.printer.print ("Try again...\n");
-            setUpAccount ();
-        }
-    }
-
-    public void waitLobby(boolean ready, String message) {
-        if (nickname != null) {
-            printer.print (message);
-        }
-    }
-
-
-    public void showMessageFromServer(String message) {
-        this.printer.print (message);
     }
 
     /**
      * This Method asks the player which map he wants to play with
      */
-    public void selectMap(){
-        if (firstPlayer){
+    public void selectMap(String firstPlayerNick){
+        if (nickname.equals(firstPlayerNick)){
             boolean valid = false;
             while(!valid) {
                 this.printer.printMapOptions ( );
                 if (this.parser.parseInt (3) == 0) {
                     valid = true;
                     MapSetUp mapData = new MapSetUp (nickname, SMALL);
-                    sendToController (mapData);
+                    sendToServer (mapData);
                 } else if (this.parser.parseInt (3) == 1) {
                     valid = true;
                     MapSetUp mapData = new MapSetUp (nickname, MEDIUM_1);
-                    sendToController (mapData);
+                    sendToServer (mapData);
                 } else if (this.parser.parseInt (3) == 2) {
                     valid = true;
                     MapSetUp mapData = new MapSetUp (nickname, MEDIUM_2);
-                    sendToController (mapData);
+                    sendToServer (mapData);
                 } else if (this.parser.parseInt (3) == 3) {
                     valid = true;
                     MapSetUp mapData = new MapSetUp (nickname, LARGE);
-                    sendToController (mapData);
+                    sendToServer (mapData);
                 } else this.printer.printInvalidInput ( );
             }
         } else {

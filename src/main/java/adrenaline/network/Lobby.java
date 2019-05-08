@@ -1,10 +1,9 @@
 package adrenaline.network;
 
 import adrenaline.controller.Controller;
-import adrenaline.data.data_for_client.data_for_view.LobbyStatus;
 import adrenaline.data.data_for_client.data_for_view.MapData;
-import adrenaline.data.data_for_client.data_for_view.FirstPlayerSetUp;
 import adrenaline.data.data_for_client.data_for_view.MessageForClient;
+import adrenaline.exceptions.GameStartedException;
 import adrenaline.model.GameModel;
 import adrenaline.misc.TimerCallBack;
 import adrenaline.misc.TimerThread;
@@ -24,23 +23,28 @@ public class Lobby implements TimerCallBack {
     public Lobby(MainServer server) {
         this.server = server;
         this.players = new ArrayList<> ();
-        this.controller = new Controller(server);
-        this.timeout = (long) 10 * 1000;
+        this.controller = new Controller(this);
+        this.timeout = (long) 60 * 1000;
         this.timerThread = new TimerThread (this, timeout);
         this.gameStarted = false;
         this.full = false;
     }
 
     private void createGame() {
-        this.gameStarted = true;
-        String[] playerNames = new String[players.size ( )];
-        int i = 0;
-        for (Account a : players) {
-            playerNames[i] = a.getNickName ( );
-            i++;
+        if (thereIsEnoughPlayers()) {
+            this.gameStarted = true;
+            String[] playerNames = new String[players.size ( )];
+            int i = 0;
+            for (Account a : players) {
+                playerNames[i] = a.getNickName ( );
+                i++;
+            }
+            this.game = new GameModel (playerNames);
+            this.controller.startController (game);
+        } else {
+            System.err.println("Error: Someone left during the wait.\n");
+            sendMessageToAll ("Disconnection error. There's not enough players.\n");
         }
-        this.game = new GameModel (playerNames);
-        this.controller.startController (game);
     }
 
     public Controller getController() {
@@ -55,17 +59,31 @@ public class Lobby implements TimerCallBack {
         return this.gameStarted;
     }
 
-    public synchronized void checkReady() {
-        if (this.players.size() > 2 && this.players.size() < 6) {
-            if (isFull ()) {
-                sendLobbyStatusToAll (true, "Your lobby is full, the game will begin shortly\n");
-                createGame ( );
+    public Account findPlayer(String nickname) {
+        return server.findClient (nickname);
+    }
+
+    public boolean thereIsEnoughPlayers() {
+        if (this.players.size() > 2 && this.players.size() < 6)
+            return true;
+        return false;
+    }
+
+    public synchronized void checkReady() throws GameStartedException {
+        if (!gameStarted) {
+            if (thereIsEnoughPlayers ()) {
+                if (isFull ()) {
+                    sendMessageToWaiting ("Your lobby is full, the game will begin shortly\n");
+                    createGame ( );
+                } else {
+                    sendMessageToWaiting ("Waiting for more players... (Current players: " + this.players.size () + ")\n");
+                    this.timerThread.startThread ();
+                }
             } else {
-                sendLobbyStatusToAll (false, "Waiting for more players... (Current players: " + this.players.size () + ")\n");
-                this.timerThread.startThread ();
+                sendMessageToWaiting ("Your lobby does not have enough players, waiting for more... (Current players: " + this.players.size () + ")\n");
             }
         } else {
-            sendLobbyStatusToAll (false, "Your lobby does not have enough players, waiting for more... (Current players: " + this.players.size () + ")\n");
+            throw new GameStartedException ("Error. The game has already started.\n");
         }
     }
 
@@ -74,45 +92,36 @@ public class Lobby implements TimerCallBack {
             //TODO
         } else {
             players.remove (disconnected);
-            for (Account connected : players) {
-                MessageForClient message = new MessageForClient (connected, disconnected.getNickName () + " left the lobby...\n");
-                message.sendToView ();
-            }
+            sendMessageToAll (disconnected.getNickName () + " left the lobby...\n");
         }
-        checkReady ();
     }
 
-    private void sendLobbyStatusToAll(boolean value, String message) {
+    private void sendMessageToWaiting(String content) {
+        for (Account a : players.subList (0, players.size ()-1)) {
+            MessageForClient message = new MessageForClient (a, content);
+            message.sendToView ();
+        }
+    }
+
+    private void sendMessageToAll(String content) {
         for (Account a : players) {
-            LobbyStatus data = new LobbyStatus (a, value, message);
-            data.sendToView ();
+            MessageForClient message = new MessageForClient (a, content);
+            message.sendToView ();
         }
-    }
-
-    private boolean checkFull() {
-        if (this.players.size () == 5)
-            full = true;
-        return full;
     }
 
     public boolean isFull() {
-        return checkFull ();
+        if (this.players.size () == 5) {
+            full = true;
+        } else {
+            full = false;
+        }
+        return full;
     }
 
-    public synchronized void setPlayers(Account a) {
-        checkFirst(a);
+    public synchronized void setPlayers(Account a) throws GameStartedException {
         this.players.add (a);
         checkReady();
-    }
-
-    private void checkFirst(Account a) {
-        if (players.isEmpty ()) {
-            FirstPlayerSetUp data = new FirstPlayerSetUp (true, a);
-            data.sendToView ();
-        } else {
-            FirstPlayerSetUp data = new FirstPlayerSetUp (false, a);
-            data.sendToView ();
-        }
     }
 
     public void updateMapData() {

@@ -2,7 +2,8 @@ package adrenaline.data.data_for_client.data_for_view;
 
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.network.Account;
-import adrenaline.view.UserInterface;
+import adrenaline.view.cli.CliUserInterface;
+import adrenaline.view.gui.GraphicUserInterface;
 
 public class ClientSetUp extends DataForClient {
     public ClientSetUp(Account account) {
@@ -10,7 +11,12 @@ public class ClientSetUp extends DataForClient {
     }
 
     @Override
-    public void updateView(UserInterface view) {
+    public void updateView(CliUserInterface view) {
         view.setNickname(super.getAccount ().getNickName ());
+    }
+
+    @Override
+    public void updateView(GraphicUserInterface view) {
+        //TODO
     }
 }

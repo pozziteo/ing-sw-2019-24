@@ -1,10 +1,12 @@
 package adrenaline.network;
 
 import adrenaline.data.data_for_client.DataForClient;
+import adrenaline.exceptions.GameStartedException;
 import adrenaline.model.GameModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class that stores the data of a client and differentiates it from other players
@@ -13,16 +15,18 @@ import java.util.ArrayList;
 
 public class Account implements Serializable {
     private static final long serialVersionUID = -663080251766657000L;
+
     private String nickname;
     private transient boolean online;
     private transient MainServer server;
     private transient Lobby currentLobby;
-    private ArrayList<GameModel> gameHistory;
+    private List<GameModel> gameHistory;
 
     public Account(String nick, MainServer server) {
         this.nickname = nick;
         this.server = server;
         this.online = false;
+        this.currentLobby = null;
         this.gameHistory = new ArrayList<> ();
     }
 
@@ -75,16 +79,16 @@ public class Account implements Serializable {
         return this.currentLobby;
     }
 
-    public void setCurrentLobby(Lobby lobby) {
+    public void setCurrentLobby(Lobby lobby) throws GameStartedException {
         this.currentLobby = lobby;
         addToLobby (lobby);
     }
 
-    public ArrayList<GameModel> getGameHistory() {
+    public List<GameModel> getGameHistory() {
         return this.gameHistory;
     }
 
-    public void setGameHistory(ArrayList<GameModel> gameHistory) {
+    public void setGameHistory(List<GameModel> gameHistory) {
         this.gameHistory = gameHistory;
     }
 
@@ -96,7 +100,7 @@ public class Account implements Serializable {
      * Method to add this account to the first open lobby in the main server
      */
 
-    public void addToLobby(Lobby lobby) {
+    public void addToLobby(Lobby lobby) throws GameStartedException {
         if (!lobby.isFull()) {
             lobby.setPlayers (this);
         }

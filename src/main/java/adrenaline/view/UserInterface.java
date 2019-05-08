@@ -2,7 +2,6 @@ package adrenaline.view;
 
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_server.DataForServer;
-import adrenaline.model.map.Square;
 
 /**
  * Interface implemented by two different classes in the view package based on the
@@ -21,26 +20,12 @@ public interface UserInterface {
      * Method that takes data created by a user's action and sends it to the controller.
      * @param data to send
      */
-    void sendToController(DataForServer data);
+    void sendToServer(DataForServer data);
+
 
     /**
-     * Method to set up a client's account
+     * Method to ask a client their nickname and send it to the server.
      */
+
     void setUpAccount();
-
-    /**
-     * Method to choose the player that sets up the match
-     * @param value true (if first), false (otherwise)
-     */
-    void setFirstPlayer(boolean value);
-
-    void loginStatus(boolean value, String message);
-
-    void printMap(Square[] arena);
-
-    void setNickname(String nickname);
-
-    void showMessageFromServer(String message);
-
-    void waitLobby(boolean ready, String message);
 }

@@ -2,7 +2,8 @@ package adrenaline.data.data_for_client.data_for_view;
 
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.network.Account;
-import adrenaline.view.UserInterface;
+import adrenaline.view.cli.CliUserInterface;
+import adrenaline.view.gui.GraphicUserInterface;
 
 public class MessageForClient extends DataForClient {
     private String message;
@@ -13,7 +14,12 @@ public class MessageForClient extends DataForClient {
     }
 
     @Override
-    public void updateView(UserInterface view) {
-        view.showMessageFromServer(message);
+    public void updateView(CliUserInterface view) {
+        view.getPrinter().print(message);
+    }
+
+    @Override
+    public void updateView(GraphicUserInterface view) {
+        //TODO
     }
 }
