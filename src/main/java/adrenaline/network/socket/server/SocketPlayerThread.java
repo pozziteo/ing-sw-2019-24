@@ -84,7 +84,6 @@ public class SocketPlayerThread extends Account implements Runnable {
     private void setUpAccount() {
         super.setOnline (true);
         super.logClient ();
-        super.setCurrentLobby(super.getServer().getOpenLobby());
     }
 
     private void setUpClient() {

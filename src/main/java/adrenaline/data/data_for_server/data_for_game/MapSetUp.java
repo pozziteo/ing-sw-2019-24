@@ -1,9 +1,9 @@
 package adrenaline.data.data_for_server.data_for_game;
 
 import adrenaline.data.data_for_server.DataForServer;
-import adrenaline.network.MainServer;
+import adrenaline.model.GameModel;
 
-public class MapSetUp extends DataForServer {
+public class MapSetUp extends DataForServer implements DataForController {
     private String filename;
 
     public MapSetUp(String nickname, String filename) {
@@ -12,7 +12,7 @@ public class MapSetUp extends DataForServer {
     }
 
     @Override
-    public void updateServer(MainServer server) {
-        server.findClient(super.getNickname ()).getCurrentLobby ().getGameModel ().getGame ().setArena (filename);
+    public void updateGame(GameModel game) {
+        game.getGame ().setArena (filename);
     }
 }

@@ -1,7 +1,7 @@
 package adrenaline.controller;
 
 import adrenaline.data.data_for_client.data_for_view.MessageForClient;
-import adrenaline.data.data_for_server.DataForServer;
+import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.model.GameModel;
 import adrenaline.network.MainServer;
 import adrenaline.misc.TimerCallBack;
@@ -24,12 +24,16 @@ public class Controller implements TimerCallBack {
         this.timer = new TimerThread (this, timeout);
     }
 
+    public void sendStartGame() {
+
+    }
+
     public GameModel getGameModel() {
         return this.gameModel;
     }
 
-    public void receiveData(DataForServer data) {
-        data.updateServer (server);
+    public void receiveData(DataForController data) {
+        data.updateGame (gameModel);
     }
 
     @Override

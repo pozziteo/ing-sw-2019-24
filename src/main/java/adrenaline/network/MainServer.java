@@ -2,6 +2,7 @@ package adrenaline.network;
 
 import adrenaline.data.data_for_client.data_for_view.AccountResponse;
 import adrenaline.data.data_for_server.DataForServer;
+import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.misc.RegistrationThread;
 import adrenaline.network.rmi.server.RmiServer;
 import adrenaline.network.socket.server.SocketServer;
@@ -120,7 +121,7 @@ public class MainServer {
         if (findClient (sender.getNickName ()).getCurrentLobby () == null) {
             data.updateServer (this);
         } else {
-            findClient (sender.getNickName ()).getCurrentLobby ().getController ().receiveData (data);
+            findClient (sender.getNickName ()).getCurrentLobby ().getController ().receiveData ((DataForController) data);
         }
     }
 
@@ -144,7 +145,7 @@ public class MainServer {
             }
             System.out.print ("]\n");
         } catch(EOFException e) {
-            System.err.println("File " + ACCOUNTS + " is empty. Registered accounts could not be loaded.");
+            System.err.println("File " + ACCOUNTS + " is empty.");
         }
         return list;
     }
@@ -194,6 +195,7 @@ public class MainServer {
                     System.out.println(storedAccount.getNickName () + " is back");
                     toRegister.setNickname (newNickname);
                     toRegister.setGameHistory(storedAccount.getGameHistory());
+                    toRegister.setCurrentLobby (getOpenLobby ());
                     sendLoginResponse (toRegister, true, "Welcome back, " + storedAccount.getNickName () + ".\nYou joined a lobby.\nPlease wait...");
                 }
                 return true;
@@ -208,6 +210,7 @@ public class MainServer {
             account.setNickname (newNickname);
             this.storedAccounts.add (account);
             storeAccounts ( );
+            account.setCurrentLobby (getOpenLobby ());
             sendLoginResponse (account, true, "Welcome, " + account.getNickName ( ) + ". Your registration was successful.\n You joined a lobby.\n Please wait...");
         } catch (IOException e) {
             System.err.println (e.getMessage ( ));
