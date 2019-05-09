@@ -1,7 +1,7 @@
 package adrenaline.network;
 
-import adrenaline.data.data_for_client.data_for_view.AccountResponse;
-import adrenaline.data.data_for_client.data_for_view.MessageForClient;
+import adrenaline.data.data_for_client.data_for_network.AccountResponse;
+import adrenaline.data.data_for_client.data_for_network.MessageForClient;
 import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.exceptions.GameStartedException;

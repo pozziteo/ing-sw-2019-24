@@ -1,6 +1,8 @@
 package adrenaline.model;
 
-import adrenaline.data.data_for_client.data_for_view.MapData;
+import adrenaline.data.data_for_client.data_for_game.InitialSpawnPointSetUp;
+import adrenaline.data.data_for_client.data_for_game.MapData;
+import adrenaline.model.player.Player;
 import adrenaline.network.Account;
 
 import java.io.Serializable;

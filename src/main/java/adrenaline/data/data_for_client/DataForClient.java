@@ -15,12 +15,20 @@ public abstract class DataForClient implements Serializable {
     private static final long serialVersionUID = -6366149212487254142L;
     private Account account;
 
+    public DataForClient() {
+
+    }
+
     public DataForClient(Account account) {
         this.account = account;
     }
 
     public Account getAccount() {
         return this.account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     /**

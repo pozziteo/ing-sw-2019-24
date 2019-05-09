@@ -1,7 +1,7 @@
 package adrenaline.network.socket.server;
 
 import adrenaline.data.data_for_client.DataForClient;
-import adrenaline.data.data_for_client.data_for_view.ClientSetUp;
+import adrenaline.data.data_for_client.data_for_network.ClientSetUp;
 import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.network.MainServer;
 import adrenaline.network.Account;

@@ -2,8 +2,10 @@ package adrenaline.view.cli;
 
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_server.DataForServer;
+import adrenaline.data.data_for_server.data_for_game.ChosenSpawnPointSetUp;
 import adrenaline.data.data_for_server.data_for_game.MapSetUp;
 import adrenaline.data.data_for_server.data_for_network.AccountSetUp;
+import adrenaline.model.deck.PowerUp;
 import adrenaline.model.map.Square;
 import adrenaline.network.ClientInterface;
 import adrenaline.network.rmi.client.RmiClient;
@@ -11,6 +13,7 @@ import adrenaline.network.socket.client.SocketClient;
 import adrenaline.view.UserInterface;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Class that implements the user interface using command line.
@@ -111,6 +114,12 @@ public class CliUserInterface implements UserInterface {
         AccountSetUp accountData = new AccountSetUp (nickname, newNickname);
         sendToServer (accountData);
         printer.print ("Account data sent to server. Waiting for response...\n");
+    }
+
+    public void chooseSpawnPoint(List<PowerUp> powerUps) {
+        printer.printInitialSpawnPointOptions (powerUps);
+        ChosenSpawnPointSetUp data = new ChosenSpawnPointSetUp (nickname, powerUps.get (parser.parseInt (1)).getAmmo ().getColor ());
+        sendToServer (data);
     }
 
     /**

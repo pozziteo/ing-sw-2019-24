@@ -1,4 +1,4 @@
-package adrenaline.data.data_for_client.data_for_view;
+package adrenaline.data.data_for_client.data_for_game;
 
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.model.map.Square;

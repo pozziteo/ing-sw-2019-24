@@ -1,8 +1,9 @@
 package adrenaline.network;
 
 import adrenaline.controller.Controller;
-import adrenaline.data.data_for_client.data_for_view.MapData;
-import adrenaline.data.data_for_client.data_for_view.MessageForClient;
+import adrenaline.data.data_for_client.DataForClient;
+import adrenaline.data.data_for_client.data_for_game.MapData;
+import adrenaline.data.data_for_client.data_for_network.MessageForClient;
 import adrenaline.exceptions.GameStartedException;
 import adrenaline.model.GameModel;
 import adrenaline.misc.TimerCallBack;
@@ -24,7 +25,7 @@ public class Lobby implements TimerCallBack {
         this.server = server;
         this.players = new ArrayList<> ();
         this.controller = new Controller(this);
-        this.timeout = (long) 60 * 1000;
+        this.timeout = (long) 15 * 1000;
         this.timerThread = new TimerThread (this, timeout);
         this.gameStarted = false;
         this.full = false;
@@ -47,6 +48,10 @@ public class Lobby implements TimerCallBack {
         }
     }
 
+    public ArrayList<Account> getPlayers() {
+        return this.players;
+    }
+
     public Controller getController() {
         return this.controller;
     }
@@ -61,6 +66,16 @@ public class Lobby implements TimerCallBack {
 
     public Account findPlayer(String nickname) {
         return server.findClient (nickname);
+    }
+
+    public void sendToSpecific(String nickname, DataForClient data) {
+        for (Account player : players) {
+            if (player.getNickName ().equals(nickname)) {
+                data.setAccount (player);
+                data.sendToView ();
+                break;
+            }
+        }
     }
 
     public boolean thereIsEnoughPlayers() {
