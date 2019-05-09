@@ -1,7 +1,7 @@
 package adrenaline.data.data_for_server.data_for_game;
 
-import adrenaline.model.GameModel;
+import adrenaline.controller.Controller;
 
 public interface DataForController {
-    void updateGame(GameModel model);
+    void updateGame(Controller controller);
 }

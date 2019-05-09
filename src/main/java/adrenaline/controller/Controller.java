@@ -1,6 +1,7 @@
 package adrenaline.controller;
 
 import adrenaline.data.data_for_client.data_for_game.InitialSpawnPointSetUp;
+import adrenaline.data.data_for_client.data_for_game.MapSetUp;
 import adrenaline.data.data_for_client.data_for_network.MessageForClient;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.model.GameModel;
@@ -24,7 +25,17 @@ public class Controller implements TimerCallBack {
     public void startController(GameModel model) {
         this.gameModel = model;
         this.timer = new TimerThread (this, timeout);
-        spawnPointSetUp ();
+        mapSetUp ();
+    }
+
+    private void mapSetUp() {
+        Player firstPlayer = gameModel.getGame ().getPlayers ().get (0);
+        MapSetUp data = new MapSetUp ();
+        lobby.sendToSpecific (firstPlayer.getPlayerName (), data);
+        int numberOfPlayers = gameModel.getGame ().getPlayers ().size ();
+        for (Player p : gameModel.getGame ().getPlayers ().subList (1, numberOfPlayers-1)) {
+            lobby.sendToSpecific (p.getPlayerName (), new MessageForClient ("The first player in your lobby is choosing the arena...\n"));
+        }
     }
 
     public void spawnPointSetUp() {
@@ -39,7 +50,7 @@ public class Controller implements TimerCallBack {
     }
 
     public void receiveData(DataForController data) {
-        data.updateGame (gameModel);
+        data.updateGame (this);
     }
 
     @Override

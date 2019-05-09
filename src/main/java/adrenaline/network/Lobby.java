@@ -12,6 +12,7 @@ import adrenaline.misc.TimerThread;
 import java.util.ArrayList;
 
 public class Lobby implements TimerCallBack {
+    private int id;
     private MainServer server;
     private ArrayList<Account> players;
     private GameModel game;
@@ -21,30 +22,37 @@ public class Lobby implements TimerCallBack {
     private boolean gameStarted;
     private boolean full;
 
-    public Lobby(MainServer server) {
+    public Lobby(int id, MainServer server) {
+        this.id = id;
         this.server = server;
         this.players = new ArrayList<> ();
         this.controller = new Controller(this);
-        this.timeout = (long) 15 * 1000;
+        this.timeout = (long) 25 * 1000;
         this.timerThread = new TimerThread (this, timeout);
         this.gameStarted = false;
         this.full = false;
     }
 
     private void createGame() {
-        if (thereIsEnoughPlayers()) {
-            this.gameStarted = true;
-            String[] playerNames = new String[players.size ( )];
-            int i = 0;
-            for (Account a : players) {
-                playerNames[i] = a.getNickName ( );
-                i++;
+        try {
+            System.out.println("Lobby " + id + ": Timer stopped\n");
+            timerThread.shutDownThread ( );
+            if (thereIsEnoughPlayers ( )) {
+                this.gameStarted = true;
+                String[] playerNames = new String[players.size ( )];
+                int i = 0;
+                for (Account a : players) {
+                    playerNames[i] = a.getNickName ( );
+                    i++;
+                }
+                this.game = new GameModel (playerNames);
+                this.controller.startController (game);
+            } else {
+                System.err.println ("Error: Someone left during the wait. (Lobby: " + id + ")\n");
+                sendMessageToAll ("Disconnection error. There's not enough players.\n");
             }
-            this.game = new GameModel (playerNames);
-            this.controller.startController (game);
-        } else {
-            System.err.println("Error: Someone left during the wait.\n");
-            sendMessageToAll ("Disconnection error. There's not enough players.\n");
+        } catch (InterruptedException e) {
+            System.err.println(e.getMessage ());
         }
     }
 
@@ -93,6 +101,7 @@ public class Lobby implements TimerCallBack {
                 } else {
                     sendMessageToWaiting ("Waiting for more players... (Current players: " + this.players.size () + ")\n");
                     this.timerThread.startThread ();
+                    System.out.println ("Lobby " + id + ": Timer started\n");
                 }
             } else {
                 sendMessageToWaiting ("Your lobby does not have enough players, waiting for more... (Current players: " + this.players.size () + ")\n");
@@ -149,7 +158,7 @@ public class Lobby implements TimerCallBack {
     @Override
     public void timerCallBack() {
         try {
-            System.err.println("Lobby timer is up... Creating new game\n");
+            System.err.println("Lobby " + id + ": timer is up... Creating new game\n");
             createGame ();
         } catch (Exception e) {
             System.err.println(e.getMessage ());

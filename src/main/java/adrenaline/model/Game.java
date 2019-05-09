@@ -51,7 +51,7 @@ public class Game implements Serializable {
 
     public Game(String[] playerNames) {
         this.gameID = new Random().nextInt() * 1000000;
-        this.currentTurn = 1;
+        this.currentTurn = 0;
         this.finalFrenzy = false;
         this.skullsRemaining = 8;
         this.players = new ArrayList<> ();

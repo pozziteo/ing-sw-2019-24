@@ -8,6 +8,10 @@ import adrenaline.view.gui.GraphicUserInterface;
 public class MessageForClient extends DataForClient {
     private String message;
 
+    public MessageForClient(String message) {
+        this.message = message;
+    }
+
     public MessageForClient(Account account, String message) {
         super(account);
         this.message = message;

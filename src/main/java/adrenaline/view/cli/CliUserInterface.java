@@ -2,8 +2,8 @@ package adrenaline.view.cli;
 
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_server.DataForServer;
+import adrenaline.data.data_for_server.data_for_game.ChosenMapSetUp;
 import adrenaline.data.data_for_server.data_for_game.ChosenSpawnPointSetUp;
-import adrenaline.data.data_for_server.data_for_game.MapSetUp;
 import adrenaline.data.data_for_server.data_for_network.AccountSetUp;
 import adrenaline.model.deck.PowerUp;
 import adrenaline.model.map.Square;
@@ -132,19 +132,19 @@ public class CliUserInterface implements UserInterface {
                 this.printer.printMapOptions ( );
                 if (this.parser.parseInt (3) == 0) {
                     valid = true;
-                    MapSetUp mapData = new MapSetUp (nickname, SMALL);
+                    ChosenMapSetUp mapData = new ChosenMapSetUp (nickname, SMALL);
                     sendToServer (mapData);
                 } else if (this.parser.parseInt (3) == 1) {
                     valid = true;
-                    MapSetUp mapData = new MapSetUp (nickname, MEDIUM_1);
+                    ChosenMapSetUp mapData = new ChosenMapSetUp (nickname, MEDIUM_1);
                     sendToServer (mapData);
                 } else if (this.parser.parseInt (3) == 2) {
                     valid = true;
-                    MapSetUp mapData = new MapSetUp (nickname, MEDIUM_2);
+                    ChosenMapSetUp mapData = new ChosenMapSetUp (nickname, MEDIUM_2);
                     sendToServer (mapData);
                 } else if (this.parser.parseInt (3) == 3) {
                     valid = true;
-                    MapSetUp mapData = new MapSetUp (nickname, LARGE);
+                    ChosenMapSetUp mapData = new ChosenMapSetUp (nickname, LARGE);
                     sendToServer (mapData);
                 } else this.printer.printInvalidInput ( );
             }

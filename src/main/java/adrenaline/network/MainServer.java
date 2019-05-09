@@ -238,7 +238,7 @@ public class MainServer {
 
     public Lobby getOpenLobby() {
         if (gameLobbies.isEmpty()) {
-            createLobby(new Lobby(this));
+            createLobby(new Lobby(0,this));
             return gameLobbies.getFirst();
         } else {
             for (Lobby lobby : gameLobbies) {
@@ -246,7 +246,7 @@ public class MainServer {
                     return lobby;
                 }
             }
-            createLobby(new Lobby(this));
+            createLobby(new Lobby(gameLobbies.size ()-1, this));
             return gameLobbies.getLast();
         }
     }
