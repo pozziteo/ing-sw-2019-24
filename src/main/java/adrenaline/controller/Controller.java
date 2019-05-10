@@ -10,30 +10,45 @@ import adrenaline.network.Lobby;
 import adrenaline.misc.TimerCallBack;
 import adrenaline.misc.TimerThread;
 
+import java.io.File;
+
 public class Controller implements TimerCallBack {
     private Lobby lobby;
     private GameModel gameModel;
     private long timeout;
     private TimerThread timer;
 
+    //path for default map
+    private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
+    private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
+
     public Controller(Lobby lobby) {
         this.lobby = lobby;
-        this.timeout = (long) 120 * 1000;
+        this.timeout = (long) 10 * 1000;
         this.timer = new TimerThread (this, timeout);
     }
 
+    public GameModel getGameModel() {
+        return this.gameModel;
+    }
+
+    public void receiveData(DataForController data) {
+        data.updateGame (this);
+    }
+
+
     public void startController(GameModel model) {
         this.gameModel = model;
-        this.timer = new TimerThread (this, timeout);
         mapSetUp ();
     }
 
     private void mapSetUp() {
-        Player firstPlayer = gameModel.getGame ().getPlayers ().get (0);
+        timer.startThread ();
+        int indexOfLast = gameModel.getGame ().getPlayers ().size ()-1;
+        Player firstPlayer = gameModel.getGame ().getPlayers ().get (indexOfLast); //clients are put into the list of players in reverse order
         MapSetUp data = new MapSetUp ();
         lobby.sendToSpecific (firstPlayer.getPlayerName (), data);
-        int numberOfPlayers = gameModel.getGame ().getPlayers ().size ();
-        for (Player p : gameModel.getGame ().getPlayers ().subList (1, numberOfPlayers-1)) {
+        for (Player p : gameModel.getGame ().getPlayers ().subList (0, indexOfLast)) {
             lobby.sendToSpecific (p.getPlayerName (), new MessageForClient ("The first player in your lobby is choosing the arena...\n"));
         }
     }
@@ -45,17 +60,17 @@ public class Controller implements TimerCallBack {
         }
     }
 
-    public GameModel getGameModel() {
-        return this.gameModel;
-    }
-
-    public void receiveData(DataForController data) {
-        data.updateGame (this);
+    public void playTurn(int n) {
+        timer.startThread (gameModel.getGame ().getPlayers ().get (n).getPlayerName ());
+        //turn
+        gameModel.getGame ().incrementTurn();
     }
 
     @Override
     public void timerCallBack() {
-        throw new UnsupportedOperationException();
+        gameModel.getGame ( ).setArena (SMALL);
+        lobby.sendMessageToAll ("Time is up. The arena has been set to the default one (small arena)\n");
+        spawnPointSetUp ();
     }
 
     @Override

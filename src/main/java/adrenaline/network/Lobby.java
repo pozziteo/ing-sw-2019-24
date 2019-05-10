@@ -10,6 +10,7 @@ import adrenaline.misc.TimerCallBack;
 import adrenaline.misc.TimerThread;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Lobby implements TimerCallBack {
     private int id;
@@ -96,15 +97,15 @@ public class Lobby implements TimerCallBack {
         if (!gameStarted) {
             if (thereIsEnoughPlayers ()) {
                 if (isFull ()) {
-                    sendMessageToWaiting ("Your lobby is full, the game will begin shortly\n");
+                    sendMessageToWaiting ("Your lobby is full, the game will begin shortly...\n");
                     createGame ( );
                 } else {
-                    sendMessageToWaiting ("Waiting for more players... (Current players: " + this.players.size () + ")\n");
+                    sendMessageToWaiting ("A new player joined your lobby. Starting countdown for the game...  (Current players: " + this.players.size () + ")\n");
                     this.timerThread.startThread ();
                     System.out.println ("Lobby " + id + ": Timer started\n");
                 }
             } else {
-                sendMessageToWaiting ("Your lobby does not have enough players, waiting for more... (Current players: " + this.players.size () + ")\n");
+                sendMessageToWaiting ("A new player joined. There's not enough participants, waiting for more... (Current players: " + this.players.size () + ")\n");
             }
         } else {
             throw new GameStartedException ("Error. The game has already started.\n");
@@ -120,14 +121,14 @@ public class Lobby implements TimerCallBack {
         }
     }
 
-    private void sendMessageToWaiting(String content) {
-        for (Account a : players.subList (0, players.size ()-1)) {
+    public void sendMessageToWaiting(String content) {
+        for (Account a : players.subList (0, players.size ())) {
             MessageForClient message = new MessageForClient (a, content);
             message.sendToView ();
         }
     }
 
-    private void sendMessageToAll(String content) {
+    public void sendMessageToAll(String content) {
         for (Account a : players) {
             MessageForClient message = new MessageForClient (a, content);
             message.sendToView ();

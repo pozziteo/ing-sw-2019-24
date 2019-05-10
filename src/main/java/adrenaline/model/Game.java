@@ -75,7 +75,6 @@ public class Game implements Serializable {
             n--;
         }
 
-        Collections.shuffle(this.players);
         this.ranking.addAll(players);
         this.firstPlayer = this.players.get (0);
     }
@@ -99,7 +98,15 @@ public class Game implements Serializable {
      */
 
     public int getCurrentTurn() {
-        return this.currentTurn;
+        if (currentTurn < players.size ())
+            return currentTurn;
+        else
+            currentTurn = 0;
+        return currentTurn;
+    }
+
+    public void incrementTurn() {
+        this.currentTurn++;
     }
 
     /**
