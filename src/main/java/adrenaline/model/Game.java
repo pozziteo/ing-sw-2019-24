@@ -253,4 +253,8 @@ public class Game implements Serializable {
         );
     }
 
+    public void turn(String nickname){
+
+    }
+
 }

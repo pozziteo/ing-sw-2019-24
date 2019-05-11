@@ -5,12 +5,14 @@ import adrenaline.data.data_for_client.data_for_game.MapSetUp;
 import adrenaline.data.data_for_client.data_for_network.MessageForClient;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.model.GameModel;
+import adrenaline.model.player.Action;
 import adrenaline.model.player.Player;
 import adrenaline.network.Lobby;
 import adrenaline.misc.TimerCallBack;
 import adrenaline.misc.TimerThread;
 
 import java.io.File;
+import java.util.List;
 
 public class Controller implements TimerCallBack {
     private Lobby lobby;
@@ -60,10 +62,23 @@ public class Controller implements TimerCallBack {
         }
     }
 
+    public void setSpawnPoint(String nickname, String color){
+        for (Player p : gameModel.getGame().getPlayers()){
+            if(p.getPlayerName().equals(nickname)){
+                p.chooseSpawnPoint(color);
+            }
+        }
+    }
+
     public void playTurn(int n) {
         timer.startThread (gameModel.getGame ().getPlayers ().get (n).getPlayerName ());
         //turn
         gameModel.getGame ().incrementTurn();
+    }
+
+
+    public void executeAction(String attacker, Action action){
+
     }
 
     @Override
