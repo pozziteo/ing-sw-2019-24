@@ -42,7 +42,7 @@
       },
       "effects": [
         {
-          "type": "moveToAttackerPosition"
+          "type": "moveToAttacker"
         },
         {
           "type": "damage",

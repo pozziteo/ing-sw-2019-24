@@ -9,8 +9,8 @@ public class RoomRequirement implements WeaponEffectRequirement {
 
     private enum RoomIdentifier {
 
-        SAME("Same"),
-        DIFFERENT("Different");
+        SAME("same"),
+        DIFFERENT("different");
 
         private String identifier;
 
@@ -25,8 +25,11 @@ public class RoomRequirement implements WeaponEffectRequirement {
 
     private RoomIdentifier roomIdentifier;
 
-    protected RoomRequirement(RoomIdentifier identifier) {
-        this.roomIdentifier = identifier;
+    protected RoomRequirement(String identifier) {
+        if (identifier.equals("same"))
+            this.roomIdentifier = RoomIdentifier.SAME;
+        else
+            this.roomIdentifier = RoomIdentifier.DIFFERENT;
     }
 
     @Override
@@ -45,7 +48,7 @@ public class RoomRequirement implements WeaponEffectRequirement {
             }
         }
 
-        if (roomIdentifier.getIdentifier().equals("Same"))
+        if (roomIdentifier.getIdentifier().equals("same"))
             return inSameRoom;
         else
             return inDifferentRoom;

@@ -3,7 +3,8 @@
     "type": "baseEffect",
     "effect": {
       "requirement": {
-        "type": "room"
+        "type": "room",
+        "identifier": "different"
       },
       "target": {
         "type": "multiple",
