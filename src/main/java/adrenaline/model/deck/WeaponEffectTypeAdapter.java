@@ -28,16 +28,18 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
                     effect = readBaseEffect(reader);
                     break;
                 case "optionalEffect":
-                    //TODO
-//                    effect = readOptionalEffect(reader);
+                case "chainEffect":
+                    effect = readOptionalEffect(reader, false);
                     break;
                 case "alternativeMode":
-                    //TODO
-//                    effect = readAlternativeMode(reader);
+                    effect = readOptionalEffect(reader, true);
                     break;
                 default: throw new IOException();
             }
         }
+        reader.endObject();
+        if (reader.peek() == JsonToken.END_ARRAY)
+            reader.endArray();
         return effect;
     }
 
@@ -49,8 +51,7 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
         WeaponEffectRequirement requirement = null;
         List<AtomicWeaponEffect> effects = null;
         while (reader.peek() != JsonToken.END_OBJECT) {
-            String name = reader.nextName();
-            switch (name) {
+            switch (reader.nextName()) {
                 case "requirement":
                     requirement = createRequirement(reader);
                     break;
@@ -66,6 +67,58 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
         reader.endObject();
         return new BaseEffect(requirement, effects);
     }
+
+    private OptionalEffect readOptionalEffect(JsonReader reader, boolean alternativeMode) throws IOException {
+        boolean usableBeforeBase;
+        boolean chainEffect;
+        String chainedTo = null;
+        if (reader.nextName().equals("usableBeforeBase")) {
+            usableBeforeBase = reader.nextBoolean();
+            chainEffect = false;
+        }
+        else {
+            chainEffect = true;
+            chainedTo = reader.nextString();
+            reader.nextName();
+            usableBeforeBase = reader.nextBoolean();
+        }
+
+        reader.beginObject();
+         List<Ammo> additionalCost = new ArrayList<>();
+         reader.nextName();
+         reader.beginArray();
+         while (reader.peek() != JsonToken.END_ARRAY) {
+             String ammoColor = reader.nextString();
+             for (Ammo ammo : Ammo.values())
+                 if (ammo.getColor().equals(ammoColor)) {
+                     additionalCost.add(ammo);
+                     break;
+                 }
+         }
+        reader.endArray();
+        WeaponEffectRequirement requirement = null;
+        List<AtomicWeaponEffect> effects = null;
+        while (reader.peek() != JsonToken.END_OBJECT) {
+            switch (reader.nextName()) {
+                case "target":
+                    //TODO
+                    break;
+                case "requirement":
+                    requirement = createRequirement(reader);
+                    break;
+                case "effects":
+                    effects = generateEffects(reader);
+                    break;
+                default: reader.skipValue();
+            }
+        }
+        reader.endObject();
+        if (!chainEffect)
+            return new OptionalEffect(requirement, effects, additionalCost, usableBeforeBase, alternativeMode);
+        else
+            return new ChainEffect(requirement, effects, additionalCost, usableBeforeBase, alternativeMode, chainedTo);
+    }
+
 
     private WeaponEffectRequirement createRequirement(JsonReader reader) throws IOException {
         WeaponEffectRequirement requirement = null;

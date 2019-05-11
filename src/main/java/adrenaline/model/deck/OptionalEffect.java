@@ -1,6 +1,5 @@
 package adrenaline.model.deck;
 
-import adrenaline.model.deck.Ammo;
 import adrenaline.model.player.Player;
 
 import java.util.ArrayList;
@@ -9,16 +8,18 @@ import java.util.List;
 public class OptionalEffect extends WeaponEffect {
 
     private List<Ammo> additionalCost;
+    private boolean usableBeforeBase;
     private boolean alternativeMode;
 
     protected OptionalEffect(WeaponEffectRequirement requirement, List<AtomicWeaponEffect> effects,
-                             List<Ammo> additionalCost, boolean alternativeMode) {
+                             List<Ammo> additionalCost, boolean usableBeforeBase, boolean alternativeMode) {
         super(requirement, effects);
         this.additionalCost = new ArrayList<>();
 
         if (!additionalCost.isEmpty())
             this.additionalCost.addAll(additionalCost);
 
+        this.usableBeforeBase = usableBeforeBase;
         this.alternativeMode = alternativeMode;
     }
 
@@ -28,6 +29,10 @@ public class OptionalEffect extends WeaponEffect {
 
     public boolean isAlternativeMode() {
         return this.alternativeMode;
+    }
+
+    public boolean isUsableBeforeBase() {
+        return this.usableBeforeBase;
     }
 
     public boolean isUsable(Player attacker) {

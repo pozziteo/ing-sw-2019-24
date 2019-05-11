@@ -4,11 +4,11 @@ import java.util.List;
 
 public class ChainEffect extends OptionalEffect {
 
-    private WeaponEffect chainedEffect;
+    private String chainedEffect;
 
     protected ChainEffect(WeaponEffectRequirement requirement, List<AtomicWeaponEffect> effects,
-                             List<Ammo> additionalCost, boolean alternativeMode, WeaponEffect chainedEffect) {
-        super(requirement, effects, additionalCost, alternativeMode);
+                             List<Ammo> additionalCost, boolean usableBeforeBase, boolean alternativeMode, String chainedEffect) {
+        super(requirement, effects, additionalCost, usableBeforeBase, alternativeMode);
         this.chainedEffect = chainedEffect;
     }
 }
