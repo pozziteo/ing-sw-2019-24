@@ -44,9 +44,8 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
     }
 
     private BaseEffect readBaseEffect(JsonReader reader) throws IOException {
-        if (reader.nextName().equals("effect"))
-            reader.beginObject();
-        else throw new IOException();
+        reader.nextName();
+        reader.beginObject();
 
         WeaponEffectRequirement requirement = null;
         List<AtomicWeaponEffect> effects = null;
@@ -82,19 +81,19 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
             reader.nextName();
             usableBeforeBase = reader.nextBoolean();
         }
-
+        reader.nextName();
         reader.beginObject();
-         List<Ammo> additionalCost = new ArrayList<>();
-         reader.nextName();
-         reader.beginArray();
-         while (reader.peek() != JsonToken.END_ARRAY) {
-             String ammoColor = reader.nextString();
-             for (Ammo ammo : Ammo.values())
-                 if (ammo.getColor().equals(ammoColor)) {
-                     additionalCost.add(ammo);
-                     break;
-                 }
-         }
+        List<Ammo> additionalCost = new ArrayList<>();
+        reader.nextName();
+        reader.beginArray();
+        while (reader.peek() != JsonToken.END_ARRAY) {
+            String ammoColor = reader.nextString();
+            for (Ammo ammo : Ammo.values())
+                if (ammo.getColor().equals(ammoColor)) {
+                    additionalCost.add(ammo);
+                    break;
+                }
+        }
         reader.endArray();
         WeaponEffectRequirement requirement = null;
         List<AtomicWeaponEffect> effects = null;
