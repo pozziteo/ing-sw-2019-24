@@ -56,6 +56,7 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
                     break;
                 case "target":
                     //TODO
+                    reader.skipValue();
                     break;
                 case "effects":
                     effects = generateEffects(reader);
@@ -101,6 +102,7 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
             switch (reader.nextName()) {
                 case "target":
                     //TODO
+                    reader.skipValue();
                     break;
                 case "requirement":
                     requirement = createRequirement(reader);
@@ -162,8 +164,7 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
                 requirement = new MoveToVisibleRequirement(maxMovements);
                 break;
 
-            default:
-                reader.skipValue();
+            default: reader.skipValue();
         }
 
         reader.endObject();
@@ -228,9 +229,7 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
                     String exec = reader.nextString();
                     effect = factory.createMoveToSquare(exec);
                     break;
-                default:
-                    while (reader.peek() != JsonToken.END_OBJECT)
-                        reader.skipValue();
+                default: reader.skipValue();
             }
 
             if (effect != null)

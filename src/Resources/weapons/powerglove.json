@@ -12,8 +12,7 @@
       },
       "effects": [
         {
-          "type": "moveToTarget",
-          "executor": "attacker"
+          "type": "moveToTarget"
         },
         {
           "type": "damage",
@@ -48,8 +47,7 @@
       },
       "effects": [
         {
-          "type": "moveToTarget",
-          "executor": "attacker"
+          "type": "moveToTarget"
         },
         {
           "type": "damage",

@@ -45,13 +45,11 @@
     "effects": [
       {
         "type": "squareBasedDamage",
-        "square": "distance: 1",
         "damage": 2,
         "marks": 0
       },
       {
         "type": "squareBasedDamage",
-        "square": "distance: 2",
         "damage": 1,
         "marls": 0
       }

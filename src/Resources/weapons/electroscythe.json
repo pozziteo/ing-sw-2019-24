@@ -14,7 +14,6 @@
       "effects": [
         {
           "type": "squareBasedDamage",
-          "square": "attacker",
           "damage": 1,
           "marks": 0
         }
@@ -43,7 +42,6 @@
       "effects": [
         {
           "type": "squareBasedDamage",
-          "square": "attacker",
           "damage": 2,
           "marks": 0
         }

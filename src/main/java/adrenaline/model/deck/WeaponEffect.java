@@ -20,4 +20,12 @@ public abstract class WeaponEffect {
         }
     }
 
+    public WeaponEffectRequirement getRequirement() {
+        return this.requirement;
+    }
+
+    public List<AtomicWeaponEffect> getEffects() {
+        return this.effects;
+    }
+
 }
