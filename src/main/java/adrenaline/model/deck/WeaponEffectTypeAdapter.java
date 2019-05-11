@@ -46,19 +46,25 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
             reader.beginObject();
         else throw new IOException();
 
-        WeaponEffectRequirement requirement;
-        List<AtomicWeaponEffect> effects;
-        if (reader.nextName().equals("requirement")) {
-            requirement = createRequirement(reader);
+        WeaponEffectRequirement requirement = null;
+        List<AtomicWeaponEffect> effects = null;
+        while (reader.peek() != JsonToken.END_OBJECT) {
+            String name = reader.nextName();
+            switch (name) {
+                case "requirement":
+                    requirement = createRequirement(reader);
+                    break;
+                case "target":
+                    //TODO
+                    break;
+                case "effects":
+                    effects = generateEffects(reader);
+                    break;
+                default: reader.skipValue();
+            }
         }
-        else if (reader.nextName().equals("target")) {
-            //TODO
-        }
-        else if (reader.nextName().equals("effects")) {
-            effects = generateEffects(reader);
-        }
-        //TODO
-        return null;
+        reader.endObject();
+        return new BaseEffect(requirement, effects);
     }
 
     private WeaponEffectRequirement createRequirement(JsonReader reader) throws IOException {
@@ -66,35 +72,46 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
         reader.beginObject();
         reader.nextName();
         String reqType = reader.nextString();
-        if (reqType.equals("distance")) {
-            reader.nextName();
-            int minDistance = reader.nextInt();
-            reader.nextName();
-            int maxDistance = reader.nextInt();
-            requirement = new DistanceRequirement(minDistance, maxDistance);
-        }
-        else if (reqType.equals("visibility")) {
-            reader.nextName();
-            boolean visible = reader.nextBoolean();
-            requirement = new VisibilityRequirement(visible);
-        }
-        else if (reqType.equals("room")) {
-            reader.nextName();
-            String roomIdentifier = reader.nextString();
-            requirement = new RoomRequirement(roomIdentifier);
-        }
-        else if (reqType.equals("direction")) {
-            requirement = new DirectionRequirement();
-        }
-        else if (reqType.equals("limitedDirection")) {
-            reader.nextName();
-            int maxDistance = reader.nextInt();
-            requirement = new LimitedDirectionRequirement(maxDistance);
-        }
-        else if (reqType.equals("moveToVisible")) {
-            reader.nextName();
-            int maxDistance = reader.nextInt();
-            requirement = new MoveToVisibleRequirement(maxDistance);
+        switch (reqType) {
+
+            case "distance":
+                reader.nextName();
+                int minDistance = reader.nextInt();
+                reader.nextName();
+                int maxDistance = reader.nextInt();
+                requirement = new DistanceRequirement(minDistance, maxDistance);
+                break;
+
+            case "visibility":
+                reader.nextName();
+                boolean visible = reader.nextBoolean();
+                requirement = new VisibilityRequirement(visible);
+                break;
+
+            case "room":
+                reader.nextName();
+                String roomIdentifier = reader.nextString();
+                requirement = new RoomRequirement(roomIdentifier);
+                break;
+
+            case "direction":
+                requirement = new DirectionRequirement();
+                break;
+
+            case "limitedDirection":
+                reader.nextName();
+                int maxDirDistance = reader.nextInt();
+                requirement = new LimitedDirectionRequirement(maxDirDistance);
+                break;
+
+            case "moveToVisible":
+                reader.nextName();
+                int maxMovements = reader.nextInt();
+                requirement = new MoveToVisibleRequirement(maxMovements);
+                break;
+
+            default:
+                reader.skipValue();
         }
 
         reader.endObject();
