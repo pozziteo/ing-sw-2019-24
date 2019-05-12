@@ -27,7 +27,7 @@ class WeaponEffectTypeAdapterTest {
         GRENADELAUNCHER(WEAPONS_PATH + "grenadelauncher.json"),
         HEATSEEKER(WEAPONS_PATH + "heatseeker.json"),
         HELLION(WEAPONS_PATH + "hellion.json"),
-        LOCKRIFLE(WEAPONS_PATH + "lockRifle.json"),
+        LOCKRIFLE(WEAPONS_PATH + "lockrifle.json"),
         MACHINEGUN(WEAPONS_PATH + "machinegun.json"),
         PLASMAGUN(WEAPONS_PATH + "plasmagun.json"),
         POWERGLOVE(WEAPONS_PATH + "powerglove.json"),

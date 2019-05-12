@@ -1,5 +1,6 @@
 package adrenaline.model.deck;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,27 +13,134 @@ import java.util.List;
 
 public enum WeaponType {
 
-    LOCK_RIFLE("Lock Rifle", Ammo.BLUE_AMMO, Ammo.BLUE_AMMO),
-    ELECTROSCYTHE("Electroscythe", Ammo.BLUE_AMMO),
-    MACHINE_GUN("Machine Gun", Ammo.BLUE_AMMO, Ammo.RED_AMMO),
-    TRACTOR_BEAM("Tractor Beam", Ammo.BLUE_AMMO),
-    THOR("T.H.O.R.", Ammo.BLUE_AMMO, Ammo.RED_AMMO),
-    VORTEX_CANNON("Vortex Cannon", Ammo.RED_AMMO, Ammo.BLUE_AMMO),
-    PLASMA_GUN("Plasma Gun", Ammo.BLUE_AMMO, Ammo.YELLOW_AMMO),
-    FURNACE("Furnace", Ammo.RED_AMMO, Ammo.BLUE_AMMO),
-    HEATSEEKER("Heatseeker", Ammo.RED_AMMO, Ammo.RED_AMMO, Ammo.YELLOW_AMMO),
-    WHISPER("Whisper", Ammo.BLUE_AMMO, Ammo.BLUE_AMMO, Ammo.YELLOW_AMMO),
-    HELLION("Hellion", Ammo.RED_AMMO, Ammo.YELLOW_AMMO),
-    FLAMETHROWER("Flamethrower", Ammo.RED_AMMO),
-    ZX_2("ZX-2", Ammo.YELLOW_AMMO, Ammo.RED_AMMO),
-    GRENADE_LAUNCHER("Grenade Launcher", Ammo.RED_AMMO),
-    SHOTGUN("Shotgun", Ammo.YELLOW_AMMO, Ammo.YELLOW_AMMO),
-    ROCKET_LAUNCHER("Rocket Launcher", Ammo.RED_AMMO, Ammo.RED_AMMO),
-    POWER_GLOVE("Power Glove", Ammo.YELLOW_AMMO, Ammo.BLUE_AMMO),
-    RAILGUN("Railgun", Ammo.YELLOW_AMMO, Ammo.YELLOW_AMMO, Ammo.BLUE_AMMO),
-    SHOCKWAVE("Shockwave", Ammo.YELLOW_AMMO),
-    CYBERBLADE("Cyberblade", Ammo.YELLOW_AMMO, Ammo.RED_AMMO),
-    SLEDGEHAMMER("Sledgehammer", Ammo.YELLOW_AMMO);
+    LOCK_RIFLE("Lock Rifle", Ammo.BLUE_AMMO, Ammo.BLUE_AMMO) {
+        @Override
+        public String getPath() {
+            return super.getPath() + "lockrifle.json";
+        }
+    },
+    ELECTROSCYTHE("Electroscythe", Ammo.BLUE_AMMO) {
+        @Override
+        public String getPath() {
+            return super.getPath() + "electroscythe.json";
+        }
+    },
+    MACHINE_GUN("Machine Gun", Ammo.BLUE_AMMO, Ammo.RED_AMMO) {
+        @Override
+        public String getPath() {
+            return super.getPath() + "machinegun.json";
+        }
+    },
+    TRACTOR_BEAM("Tractor Beam", Ammo.BLUE_AMMO) {
+        @Override
+        public String getPath() {
+            return super.getPath() + "tractorbeam.json";
+        }
+    },
+    THOR("T.H.O.R.", Ammo.BLUE_AMMO, Ammo.RED_AMMO) {
+        @Override
+        public String getPath() {
+            return super.getPath() + "thor.json";
+        }
+    },
+    VORTEX_CANNON("Vortex Cannon", Ammo.RED_AMMO, Ammo.BLUE_AMMO) {
+        @Override
+        public String getPath() {
+            return super.getPath() + "vortexcannon.json";
+        }
+    },
+    PLASMA_GUN("Plasma Gun", Ammo.BLUE_AMMO, Ammo.YELLOW_AMMO) {
+        @Override
+        public String getPath() {
+            return super.getPath() + "plasmagun.json";
+        }
+    },
+    FURNACE("Furnace", Ammo.RED_AMMO, Ammo.BLUE_AMMO) {
+        @Override
+        public String getPath() {
+            return super.getPath() + "furnace.json";
+        }
+    },
+    HEATSEEKER("Heatseeker", Ammo.RED_AMMO, Ammo.RED_AMMO, Ammo.YELLOW_AMMO) {
+        @Override
+        public String getPath() {
+            return super.getPath() + "heatseeker.json";
+        }
+    },
+    WHISPER("Whisper", Ammo.BLUE_AMMO, Ammo.BLUE_AMMO, Ammo.YELLOW_AMMO) {
+        @Override
+        public String getPath() {
+            return super.getPath() + "whisper.json";
+        }
+    },
+    HELLION("Hellion", Ammo.RED_AMMO, Ammo.YELLOW_AMMO) {
+        @Override
+        public String getPath() {
+            return super.getPath() + "hellion.json";
+        }
+    },
+    FLAMETHROWER("Flamethrower", Ammo.RED_AMMO) {
+        @Override
+        public String getPath() {
+            return super.getPath() + "flamethrower.json";
+        }
+    },
+    ZX_2("ZX-2", Ammo.YELLOW_AMMO, Ammo.RED_AMMO) {
+        @Override
+        public String getPath() {
+            return super.getPath() + "zx2.json";
+        }
+    },
+    GRENADE_LAUNCHER("Grenade Launcher", Ammo.RED_AMMO) {
+        @Override
+        public String getPath() {
+            return super.getPath() + "grenadelauncher.json";
+        }
+    },
+    SHOTGUN("Shotgun", Ammo.YELLOW_AMMO, Ammo.YELLOW_AMMO) {
+        @Override
+        public String getPath() {
+            return super.getPath() + "shotgun.json";
+        }
+    },
+    ROCKET_LAUNCHER("Rocket Launcher", Ammo.RED_AMMO, Ammo.RED_AMMO) {
+        @Override
+        public String getPath() {
+            return super.getPath() + "rocketlauncher.json";
+        }
+    },
+    POWER_GLOVE("Power Glove", Ammo.YELLOW_AMMO, Ammo.BLUE_AMMO) {
+        @Override
+        public String getPath() {
+            return super.getPath() + "powerglove.json";
+        }
+    },
+    RAILGUN("Railgun", Ammo.YELLOW_AMMO, Ammo.YELLOW_AMMO, Ammo.BLUE_AMMO) {
+        @Override
+        public String getPath() {
+            return super.getPath() + "railgun.json";
+        }
+    },
+    SHOCKWAVE("Shockwave", Ammo.YELLOW_AMMO) {
+        @Override
+        public String getPath() {
+            return super.getPath() + "shockwave.json";
+        }
+    },
+    CYBERBLADE("Cyberblade", Ammo.YELLOW_AMMO, Ammo.RED_AMMO) {
+        @Override
+        public String getPath() {
+            return super.getPath() + "cyberblade.json";
+        }
+    },
+    SLEDGEHAMMER("Sledgehammer", Ammo.YELLOW_AMMO) {
+        @Override
+        public String getPath() {
+            return super.getPath() + "sledgehammer.json";
+        }
+    };
+
+    private static final String WEAPONS_PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "weapons" + File.separatorChar;
 
     /**
      * description is the name of the weapon (add some nice description for each weapon?)
@@ -52,27 +160,13 @@ public enum WeaponType {
      * @param ammo which is the cost in ammo for reloading the weapon.
      */
     WeaponType(String desc, Ammo... ammo) {
-        setDescription(desc);
-        setReloadingAmmo(ammo);
-    }
-
-    /**
-     * Setter to initialize the description attribute.
-     *
-     * @param description which is the weapon's name
-     */
-    private void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
-     * Setter to initialize the cost in ammo to reload a weapon
-     *
-     * @param ammo which is the cost to reload the weapon
-     */
-    private void setReloadingAmmo(Ammo... ammo) {
+        this.description = desc;
         reloadingAmmo = new ArrayList<>();
         reloadingAmmo.addAll(Arrays.asList(ammo));
+    }
+
+    public String getPath() {
+        return WEAPONS_PATH;
     }
 
     /**

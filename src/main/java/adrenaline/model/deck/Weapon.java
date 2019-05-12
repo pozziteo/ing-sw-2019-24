@@ -1,5 +1,14 @@
 package adrenaline.model.deck;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +36,11 @@ public class Weapon extends Card {
      */
     public Weapon(WeaponType type) {
         this.type = type;
+        try {
+            buildEffects(type);
+        } catch (FileNotFoundException exc) {
+            exc.printStackTrace();
+        }
     }
 
     /**
@@ -35,5 +49,30 @@ public class Weapon extends Card {
      */
     public String getWeaponsName() {
         return this.type.getDescription ();
+    }
+
+    public BaseEffect getBaseEffect() {
+        return this.baseEffect;
+    }
+
+    public List<OptionalEffect> getOptionalEffects() {
+        return this.optionalEffects;
+    }
+
+    private void buildEffects(WeaponType type) throws FileNotFoundException {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(WeaponEffect.class, new WeaponEffectTypeAdapter());
+        Gson parser = builder.create();
+        JsonReader reader = new JsonReader(new FileReader(type.getPath()));
+        this.baseEffect = parser.fromJson(reader, WeaponEffect.class);
+        this.optionalEffects = new ArrayList<>();
+        try {
+            while (reader.peek() != JsonToken.END_DOCUMENT) {
+                OptionalEffect effect = parser.fromJson(reader, WeaponEffect.class);
+                optionalEffects.add(effect);
+            }
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
     }
 }
