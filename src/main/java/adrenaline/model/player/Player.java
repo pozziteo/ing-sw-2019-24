@@ -204,17 +204,21 @@ public class Player implements Serializable {
 
     /**
      * Method to set this player's spawn point based on the discarded power up
-     * @param powerUp is the discarded power up
+     * @param powerUpColor is the color of the discarded power up
      */
 
-    public void chooseSpawnPoint(PowerUp powerUp) {
+    public void chooseSpawnPoint(String powerUpColor) {
         for (int i = 0; i < this.game.getMap ().getDimension (); i++) {
             Square s = this.game.getMap ().getSquare (i);
-            if (s.getSquareColor ().equals(powerUp.getType ().getColor ()) && s.isSpawnPoint()) {
+            if (s.getSquareColor ().equals(powerUpColor) && s.isSpawnPoint()) {
                 this.setPosition (s);
             }
         }
-        this.game.getPowerUpsDeck ().discardCard (powerUp);
+        for (PowerUp pup : ownedPowerUps){
+            if (pup.getType().getColor().equals(powerUpColor)){
+                this.game.getPowerUpsDeck ().discardCard (pup);
+            }
+        }
     }
 
     /**

@@ -52,7 +52,7 @@ class PlayerTest {
     public void testPlayerChooseSpawn() {
         this.game.setArena (SMALL);
         PowerUp powerup = p1.getOwnedPowerUps ().get(0);
-        p1.chooseSpawnPoint (powerup);
+        p1.chooseSpawnPoint (powerup.getType().getColor());
         p1.getPosition ();
         assertTrue(p1.getPosition ().isSpawnPoint ());
         assertTrue(p1.getPosition ().getSquareColor ().equals(powerup.getType ().getColor ()));

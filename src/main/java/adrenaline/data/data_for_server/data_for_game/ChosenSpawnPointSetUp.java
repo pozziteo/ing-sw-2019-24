@@ -13,6 +13,6 @@ public class ChosenSpawnPointSetUp extends DataForServer implements DataForContr
 
     @Override
     public void updateGame(Controller controller) {
-        //TODO
+        controller.setSpawnPoint(super.getNickname(), spawnPointColor);
     }
 }
