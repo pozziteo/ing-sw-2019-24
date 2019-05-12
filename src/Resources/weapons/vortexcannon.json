@@ -35,11 +35,12 @@
 
   {
     "type": "optionalEffect",
+    "usableBeforeBase": false,
     "effect": {
-      "additionalCost": ["red"],
+      "additionalCost": ["Red"],
       "requirement": {
-        "type": "distanceFromSquare",
-        "value": 1
+        "type": "visibility",
+        "visible": true
       },
       "target": {
         "type": "multiple",

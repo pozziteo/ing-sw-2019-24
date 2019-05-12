@@ -69,18 +69,19 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
     }
 
     private OptionalEffect readOptionalEffect(JsonReader reader, boolean alternativeMode) throws IOException {
-        boolean usableBeforeBase;
-        boolean chainEffect;
+        boolean usableBeforeBase = false;
+        boolean chainEffect = false;
         String chainedTo = null;
-        if (reader.nextName().equals("usableBeforeBase")) {
-            usableBeforeBase = reader.nextBoolean();
-            chainEffect = false;
-        }
-        else {
-            chainEffect = true;
-            chainedTo = reader.nextString();
-            reader.nextName();
-            usableBeforeBase = reader.nextBoolean();
+        if (!alternativeMode) {
+            if (reader.nextName().equals("usableBeforeBase")) {
+                usableBeforeBase = reader.nextBoolean();
+                chainEffect = false;
+            } else {
+                chainEffect = true;
+                chainedTo = reader.nextString();
+                reader.nextName();
+                usableBeforeBase = reader.nextBoolean();
+            }
         }
         reader.nextName();
         reader.beginObject();

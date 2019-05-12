@@ -28,11 +28,13 @@
       ]
     }
   },
-
   {
     "type": "alternativeMode",
     "effect": {
-      "additionalCost": ["yellow", "yellow"],
+      "additionalCost": [
+        "Yellow",
+        "Yellow"
+      ],
       "requirement": {
         "type": "limitedDirection",
         "maxDistance": 2
@@ -40,24 +42,24 @@
       "target": {
         "type": "multiple",
         "value": "all"
-      }
-    },
-    "effects": [
-      {
-        "type": "squareBasedDamage",
-        "damage": 2,
-        "marks": 0
       },
-      {
-        "type": "squareBasedDamage",
-        "damage": 1,
-        "marls": 0
-      }
-    ],
-    "executionOrder": [
-      "requirement",
-      "targets",
-      "effects"
-    ]
+      "effects": [
+        {
+          "type": "squareBasedDamage",
+          "damage": 2,
+          "marks": 0
+        },
+        {
+          "type": "squareBasedDamage",
+          "damage": 1,
+          "marks": 0
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "targets",
+        "effects"
+      ]
+    }
   }
 ]

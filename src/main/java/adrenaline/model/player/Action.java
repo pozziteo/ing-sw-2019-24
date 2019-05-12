@@ -24,6 +24,11 @@ public interface Action extends Serializable {
 
         Map map = player.getGame().getMap();
         Square position = player.getPosition();
+
+        return findPaths(map, position, movements);
+    }
+
+    static List<Integer> findPaths(Map map, Square position, int movements) {
         List<Integer> toVisit = new ArrayList<>();
         toVisit.add(position.getSquareId());
         List<Integer> visited = new ArrayList<>();
@@ -34,7 +39,7 @@ public interface Action extends Serializable {
             while (currentNodes > 0) {
                 position = map.getSquare(toVisit.remove(0));
                 for (int squareId : position.getLinks()) {
-                    if (!visited.contains(squareId) && squareId != player.getPosition().getSquareId()) {
+                    if (!visited.contains(squareId)) {
 //                        System.out.print(" (" + squareId / 4 + ", " + squareId % 4 + ") ");
                         visited.add(squareId);
                         toVisit.add(squareId);

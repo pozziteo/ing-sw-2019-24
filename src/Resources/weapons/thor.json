@@ -29,7 +29,7 @@
     "chainedTo": "baseEffect",
     "usableBeforeBase": false,
     "effect": {
-      "additionalCost": ["blue"],
+      "additionalCost": ["Blue"],
       "requirement": {
         "type": "visibility",
         "visible": true
@@ -58,7 +58,7 @@
     "usableBeforeBase": false,
     "effect": {
       "additionalCost": [
-        "blue"
+        "Blue"
       ],
       "requirement": {
         "type": "visibility",

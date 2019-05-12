@@ -33,7 +33,7 @@
     "type": "optionalEffect",
     "usableBeforeBase": true,
     "effect": {
-      "additionalCost": ["red"],
+      "additionalCost": ["Red"],
       "requirement": {
         "type": "visibility",
         "visible": true
@@ -45,7 +45,6 @@
       "effects": [
         {
           "type": "squareBasedDamage",
-          "square": "target",
           "damage": 1,
           "marks": 0
         }

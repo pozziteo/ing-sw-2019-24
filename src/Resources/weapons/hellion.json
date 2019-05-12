@@ -33,7 +33,7 @@
   {
     "type": "alternativeMode",
     "effect": {
-      "additionalCost": ["red"],
+      "additionalCost": ["Red"],
       "requirement": {
         "type": "distance",
         "minDistance": 1,

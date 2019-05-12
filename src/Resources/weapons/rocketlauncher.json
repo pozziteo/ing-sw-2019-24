@@ -34,8 +34,7 @@
     "type": "optionalEffect",
     "usableBeforeBase": true,
     "effect": {
-      "additionalCost": ["blue"],
-      "requirement": null,
+      "additionalCost": ["Blue"],
       "target": null,
       "effects": [
         {
@@ -54,8 +53,7 @@
     "type": "optionalEffect",
     "usableBeforeBase": false,
     "effect": {
-      "additionalCost": ["yellow"],
-      "requirement": null,
+      "additionalCost": ["Yellow"],
       "target": {
         "type": "multiple",
         "value": "all",

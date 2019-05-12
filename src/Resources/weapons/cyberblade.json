@@ -30,7 +30,6 @@
     "usableBeforeBase": true,
     "effect": {
       "additionalCost": [],
-      "requirement": null,
       "target": null,
       "effects": [
         {
@@ -49,7 +48,7 @@
     "type": "optionalEffect",
     "usableBeforeBase": false,
     "effect": {
-      "additionalCost": ["yellow"],
+      "additionalCost": ["Yellow"],
       "requirement": {
         "type": "distance",
         "minDistance": 0,

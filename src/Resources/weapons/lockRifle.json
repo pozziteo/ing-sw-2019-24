@@ -30,31 +30,30 @@
     "type": "optionalEffect",
     "usableBeforeBase": false,
     "effect": {
-      "additionalCost": ["red"],
+      "additionalCost": [
+        "Red"
+      ],
       "requirement": {
         "type": "visibility",
         "visible": true
-      }
-    },
-
-    "target": {
-      "type": "single",
-      "constraints": [
-        "different from base target"
+      },
+      "target": {
+        "type": "single",
+        "constraints": [
+          "different from base target"
+        ]
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "damage": 0,
+          "marks": 1
+        }
+      ],
+      "executionOrder": [
+        "requirement",
+        "effects"
       ]
-    },
-
-    "effects": [
-      {
-        "type": "damage",
-        "damage": 0,
-        "marks": 1
-      }
-    ],
-
-    "executionOrder": [
-      "requirement",
-      "effects"
-    ]
+    }
   }
 ]
