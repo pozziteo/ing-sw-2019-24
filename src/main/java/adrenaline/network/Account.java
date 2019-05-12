@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Class that stores the data of a client and differentiates it from other players
- * based on the account's unique nickname
+ * based on the account's unique nickname.
  */
 
 public class Account implements Serializable {
@@ -102,7 +102,7 @@ public class Account implements Serializable {
 
     public void addToLobby(Lobby lobby) throws GameStartedException {
         if (!lobby.isFull()) {
-            lobby.setPlayers (this);
+            lobby.addPlayer (this);
         }
     }
 

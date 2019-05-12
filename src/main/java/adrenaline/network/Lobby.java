@@ -10,7 +10,6 @@ import adrenaline.misc.TimerCallBack;
 import adrenaline.misc.TimerThread;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Lobby implements TimerCallBack {
     private int id;
@@ -35,25 +34,20 @@ public class Lobby implements TimerCallBack {
     }
 
     private void createGame() {
-        try {
-            System.out.println("Lobby " + id + ": Timer stopped\n");
-            timerThread.shutDownThread ( );
-            if (thereIsEnoughPlayers ( )) {
-                this.gameStarted = true;
-                String[] playerNames = new String[players.size ( )];
-                int i = 0;
-                for (Account a : players) {
-                    playerNames[i] = a.getNickName ( );
-                    i++;
-                }
-                this.game = new GameModel (playerNames);
-                this.controller.startController (game);
-            } else {
-                System.err.println ("Error: Someone left during the wait. (Lobby: " + id + ")\n");
-                sendMessageToAll ("Disconnection error. There's not enough players.\n");
+        timerThread.shutDownThread ();
+        if (thereIsEnoughPlayers ( )) {
+            this.gameStarted = true;
+            String[] playerNames = new String[players.size ( )];
+            int i = 0;
+            for (Account a : players) {
+                playerNames[i] = a.getNickName ( );
+                i++;
             }
-        } catch (InterruptedException e) {
-            System.err.println(e.getMessage ());
+            this.game = new GameModel (playerNames);
+            this.controller.startController (game);
+        } else {
+            System.err.println ("Error: Someone left during the set up. (Lobby: " + id + ")\n");
+            sendMessageToAll ("Disconnection error. There's not enough players.\n");
         }
     }
 
@@ -87,13 +81,11 @@ public class Lobby implements TimerCallBack {
         }
     }
 
-    public boolean thereIsEnoughPlayers() {
-        if (this.players.size() > 2 && this.players.size() < 6)
-            return true;
-        return false;
+    private boolean thereIsEnoughPlayers() {
+        return (this.players.size() > 2 && this.players.size() < 6);
     }
 
-    public synchronized void checkReady() throws GameStartedException {
+    private synchronized void checkReady() throws GameStartedException {
         if (!gameStarted) {
             if (thereIsEnoughPlayers ()) {
                 if (isFull ()) {
@@ -101,8 +93,8 @@ public class Lobby implements TimerCallBack {
                     createGame ( );
                 } else {
                     sendMessageToWaiting ("A new player joined your lobby. Starting countdown for the game...  (Current players: " + this.players.size () + ")\n");
-                    this.timerThread.startThread ();
-                    System.out.println ("Lobby " + id + ": Timer started\n");
+                    if (players.size() == 3)
+                        this.timerThread.startThread ();
                 }
             } else {
                 sendMessageToWaiting ("A new player joined. There's not enough participants, waiting for more... (Current players: " + this.players.size () + ")\n");
@@ -122,9 +114,11 @@ public class Lobby implements TimerCallBack {
     }
 
     public void sendMessageToWaiting(String content) {
-        for (Account a : players.subList (0, players.size ())) {
-            MessageForClient message = new MessageForClient (a, content);
-            message.sendToView ();
+        if (players.size() != 1) {
+            for (Account a : players.subList (0, players.size ())) {
+                MessageForClient message = new MessageForClient (a, content);
+                message.sendToView ();
+            }
         }
     }
 
@@ -136,15 +130,19 @@ public class Lobby implements TimerCallBack {
     }
 
     public boolean isFull() {
+        setFull ();
+        return full;
+    }
+
+    private void setFull() {
         if (this.players.size () == 5) {
             full = true;
         } else {
             full = false;
         }
-        return full;
     }
 
-    public synchronized void setPlayers(Account a) throws GameStartedException {
+    public synchronized void addPlayer(Account a) throws GameStartedException {
         this.players.add (a);
         checkReady();
     }
@@ -159,7 +157,6 @@ public class Lobby implements TimerCallBack {
     @Override
     public void timerCallBack() {
         try {
-            System.err.println("Lobby " + id + ": timer is up... Creating new game\n");
             createGame ();
         } catch (Exception e) {
             System.err.println(e.getMessage ());

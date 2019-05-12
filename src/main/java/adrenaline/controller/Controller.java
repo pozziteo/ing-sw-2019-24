@@ -2,6 +2,7 @@ package adrenaline.controller;
 
 import adrenaline.data.data_for_client.data_for_game.InitialSpawnPointSetUp;
 import adrenaline.data.data_for_client.data_for_game.MapSetUp;
+import adrenaline.data.data_for_client.data_for_game.TimeOutNotice;
 import adrenaline.data.data_for_client.data_for_network.MessageForClient;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.model.GameModel;
@@ -37,7 +38,6 @@ public class Controller implements TimerCallBack {
     public void receiveData(DataForController data) {
         data.updateGame (this);
     }
-
 
     public void startController(GameModel model) {
         this.gameModel = model;
@@ -84,13 +84,15 @@ public class Controller implements TimerCallBack {
     @Override
     public void timerCallBack() {
         gameModel.getGame ( ).setArena (SMALL);
-        lobby.sendMessageToAll ("Time is up. The arena has been set to the default one (small arena)\n");
+        lobby.sendMessageToAll ("The arena has been set to the default one (small arena)\n");
+        TimeOutNotice notice = new TimeOutNotice (lobby.getPlayers ().get (0));
+        notice.sendToView ();
         spawnPointSetUp ();
     }
 
     @Override
     public void timerCallBack(String nickname) {
-        MessageForClient message = new MessageForClient (lobby.findPlayer(nickname), "Time is up. You took too long to make a choice.");
-        message.sendToView ();
+        TimeOutNotice notice = new TimeOutNotice (lobby.findPlayer(nickname));
+        notice.sendToView ();
     }
 }

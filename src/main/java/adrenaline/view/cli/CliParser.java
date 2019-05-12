@@ -105,6 +105,10 @@ public class CliParser {
 
     //ASYNC
 
+    public void setActive(boolean value) {
+        this.active.set (value);
+    }
+
     public int asyncParseInt(int maxInt) {
         boolean valid = false;
         int n;
