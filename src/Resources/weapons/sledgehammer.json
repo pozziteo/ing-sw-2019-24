@@ -16,11 +16,6 @@
           "damage": 2,
           "marks": 0
         }
-      ],
-      "executionOrder": [
-        "requirement",
-        "targets",
-        "effects"
       ]
     }
   },
@@ -48,11 +43,6 @@
           "executor": "target",
           "movements": 2
         }
-      ],
-      "executionOrder": [
-        "requirement",
-        "targets",
-        "effects"
       ]
     }
   }

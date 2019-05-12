@@ -14,11 +14,6 @@
           "damage": 3,
           "marks": 0
         }
-      ],
-      "executionOrder": [
-        "requirement",
-        "targets",
-        "effects"
       ]
     }
   },
@@ -43,11 +38,6 @@
           "damage": 2,
           "marks": 0
         }
-      ],
-      "executionOrder": [
-        "requirement",
-        "targets",
-        "effects"
       ]
     }
   }

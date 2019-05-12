@@ -16,14 +16,10 @@
           "damage": 1,
           "marks": 0
         }
-      ],
-      "executionOrder": [
-        "requirement",
-        "targets",
-        "effects"
       ]
     }
   },
+
   {
     "type": "optionalEffect",
     "usableBeforeBase": false,
@@ -42,10 +38,6 @@
           "type": "additionalDamage",
           "damage": 1
         }
-      ],
-      "executionOrder": [
-        "targets",
-        "effects"
       ]
     }
   },
@@ -77,12 +69,6 @@
           "damage": 1,
           "marks": 0
         }
-      ],
-
-      "executionOrder": [
-        "requirement",
-        "targets",
-        "effects"
       ]
     }
   }

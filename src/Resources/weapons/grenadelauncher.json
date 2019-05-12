@@ -20,11 +20,6 @@
           "executor": "target",
           "movements": 1
         }
-      ],
-      "executionOrder": [
-        "requirement",
-        "targets",
-        "effects"
       ]
     }
   },

@@ -16,11 +16,6 @@
           "damage": 3,
           "marks": 1
         }
-      ],
-      "executionOrder": [
-        "requirement",
-        "targets",
-        "effects"
       ]
     }
   }

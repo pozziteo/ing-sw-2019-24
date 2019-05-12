@@ -21,11 +21,6 @@
           "damage": 0,
           "marks": 1
         }
-      ],
-      "executionOrder": [
-        "requirement",
-        "targets",
-        "effects"
       ]
     }
   },
@@ -53,11 +48,6 @@
           "damage": 0,
           "marks": 2
         }
-      ],
-      "executionOrder": [
-        "requirement",
-        "targets",
-        "effects"
       ]
     }
   }

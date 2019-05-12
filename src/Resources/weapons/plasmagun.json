@@ -15,11 +15,6 @@
           "damage": 2,
           "marks": 0
         }
-      ],
-      "executionOrder": [
-        "requirement",
-        "targets",
-        "effects"
       ]
     }
   },
@@ -36,9 +31,6 @@
           "executor": "attacker",
           "movements": 2
         }
-      ],
-      "executionOrder": [
-        "effects"
       ]
     }
   },
@@ -59,10 +51,6 @@
           "type": "additionalDamage",
           "damage": 1
         }
-      ],
-      "executionOrder": [
-        "targets",
-        "effects"
       ]
     }
   }
