@@ -2,16 +2,31 @@ package adrenaline.view.cli;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Class to parse inputs from command line.
  */
 
 public class CliParser {
-    private CliPrinter printer;
+    private CliPrinter printer = new CliPrinter ();
+    private AtomicBoolean active = new AtomicBoolean ();
+
+    /**
+     * Default constructor.
+     */
 
     public CliParser() {
-        this.printer = new CliPrinter ();
+
+    }
+
+    /**
+     * Constructor for async parser.
+     * @param value initial boolean value for active input
+     */
+
+    public CliParser(boolean value) {
+        this.active.set(value);
     }
 
     /**
@@ -86,5 +101,25 @@ public class CliParser {
             }
         }
         return nickname;
+    }
+
+    //ASYNC
+
+    public int asyncParseInt(int maxInt) {
+        boolean valid = false;
+        int n;
+        do {
+            n = parseInt();
+            if (n == -1) {
+                return -1;
+            } else if (!(n < 0 || n > maxInt)) {
+                valid = true;
+            } else {
+                printer.printInvalidInput ();
+            }
+        } while (!valid && active.get());
+        if (!active.get()) //time out
+            return -1;
+        return n;
     }
 }

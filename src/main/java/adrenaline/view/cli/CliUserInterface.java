@@ -22,7 +22,7 @@ import java.util.List;
 public class CliUserInterface implements UserInterface {
     private static CliUserInterface instance;
     private CliPrinter printer;
-    private CliParser parser;
+    private CliParser[] parser = new CliParser [2];
     private ClientInterface client;
     private String nickname;
 
@@ -35,7 +35,8 @@ public class CliUserInterface implements UserInterface {
 
     public CliUserInterface() {
         this.printer = new CliPrinter ();
-        this.parser = new CliParser ();
+        this.parser[0] = new CliParser ();
+        this.parser[1] = new CliParser (true);
         this.nickname = null;
     }
 
@@ -60,7 +61,7 @@ public class CliUserInterface implements UserInterface {
     private void establishConnection() {
         launchTitleScreen ();
         this.printer.printConnectionOptions ();
-        if (this.parser.parseInt (1) == 0) {
+        if (this.parser[0].parseInt (1) == 0) {
             this.client = new RmiClient (this);
         } else {
             this.client = new SocketClient ("localhost", 6666, this);
@@ -74,7 +75,7 @@ public class CliUserInterface implements UserInterface {
 
     public void launchTitleScreen() {
         this.printer.printTitle ();
-        this.parser.parseEnter ();
+        this.parser[0].parseEnter ();
         this.printer.clearScreen ();
     }
 
@@ -110,7 +111,7 @@ public class CliUserInterface implements UserInterface {
 
     public void setUpAccount() {
         printer.printNickname ( );
-        String newNickname = this.parser.parseNickname ( );
+        String newNickname = this.parser[0].parseNickname ( );
         AccountSetUp accountData = new AccountSetUp (nickname, newNickname);
         sendToServer (accountData);
         printer.print ("Account data sent to server. Waiting for response...\n");
@@ -118,7 +119,7 @@ public class CliUserInterface implements UserInterface {
 
     public void chooseSpawnPoint(List<PowerUp> powerUps) {
         printer.printInitialSpawnPointOptions (powerUps);
-        ChosenSpawnPointSetUp data = new ChosenSpawnPointSetUp (nickname, powerUps.get (parser.parseInt (1)).getAmmo ().getColor ());
+        ChosenSpawnPointSetUp data = new ChosenSpawnPointSetUp (nickname, powerUps.get (parser[0].parseInt (1)).getAmmo ().getColor ());
         sendToServer (data);
     }
 
@@ -130,19 +131,19 @@ public class CliUserInterface implements UserInterface {
             boolean valid = false;
             while(!valid) {
                 this.printer.printMapOptions ( );
-                if (this.parser.parseInt (3) == 0) {
+                if (this.parser[1].parseInt (3) == 0) {
                     valid = true;
                     ChosenMapSetUp mapData = new ChosenMapSetUp (nickname, SMALL);
                     sendToServer (mapData);
-                } else if (this.parser.parseInt (3) == 1) {
+                } else if (this.parser[1].parseInt (3) == 1) {
                     valid = true;
                     ChosenMapSetUp mapData = new ChosenMapSetUp (nickname, MEDIUM_1);
                     sendToServer (mapData);
-                } else if (this.parser.parseInt (3) == 2) {
+                } else if (this.parser[1].parseInt (3) == 2) {
                     valid = true;
                     ChosenMapSetUp mapData = new ChosenMapSetUp (nickname, MEDIUM_2);
                     sendToServer (mapData);
-                } else if (this.parser.parseInt (3) == 3) {
+                } else if (this.parser[1].parseInt (3) == 3) {
                     valid = true;
                     ChosenMapSetUp mapData = new ChosenMapSetUp (nickname, LARGE);
                     sendToServer (mapData);
@@ -161,16 +162,16 @@ public class CliUserInterface implements UserInterface {
         boolean valid = false;
         while(!valid){
             this.printer.printActionOptions();
-            if (this.parser.parseInt(3)==0){
+            if (this.parser[1].parseInt(3)==0){
                 valid = true;
                 //TODO move
-            }else if(this.parser.parseInt(3)==1){
+            }else if(this.parser[1].parseInt(3)==1){
                 valid = true;
                 //TODO move and grab
-            } else if(this.parser.parseInt(3)==2){
+            } else if(this.parser[1].parseInt(3)==2){
                 valid = true;
                 //TODO shoot
-            } else if(this.parser.parseInt(3)==3){
+            } else if(this.parser[1].parseInt(3)==3){
                 valid = true;
                 //TODO pass
             } else this.printer.printInvalidInput();
