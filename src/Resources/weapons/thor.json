@@ -7,7 +7,9 @@
         "visible": true
       },
       "target": {
-        "type": "single"
+        "type": "single",
+        "value": "",
+        "constraints": []
       },
       "effects": [
         {
@@ -30,7 +32,9 @@
         "visible": true
       },
       "target": {
-        "type": "single"
+        "type": "single",
+        "value": "",
+        "constraints": []
       },
       "effects": [
         {
@@ -55,7 +59,9 @@
         "visible": true
       },
       "target": {
-        "type": "single"
+        "type": "single",
+        "value": "",
+        "constraints": []
       },
       "effects": [
         {

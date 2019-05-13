@@ -8,7 +8,9 @@
       },
 
       "target": {
-        "type": "single"
+        "type": "single",
+        "value": "",
+        "constraints": []
       },
 
       "effects": [
@@ -34,6 +36,7 @@
       },
       "target": {
         "type": "single",
+        "value": "",
         "constraints": [
           "different from base target"
         ]

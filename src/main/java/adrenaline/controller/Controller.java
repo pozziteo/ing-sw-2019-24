@@ -13,7 +13,6 @@ import adrenaline.misc.TimerCallBack;
 import adrenaline.misc.TimerThread;
 
 import java.io.File;
-import java.util.List;
 
 public class Controller implements TimerCallBack {
     private Lobby lobby;
@@ -81,6 +80,15 @@ public class Controller implements TimerCallBack {
 
     }
 
+    //******************************************************************************************************************
+    // CALLBACK
+    //******************************************************************************************************************
+
+    /**
+     * Callback function for map set up time out. If the first player doesn't select a map in the set amount
+     * of time, it gets initialized to the default one (small).
+     */
+
     @Override
     public void timerCallBack() {
         gameModel.getGame ( ).setArena (SMALL);
@@ -89,6 +97,11 @@ public class Controller implements TimerCallBack {
         notice.sendToView ();
         spawnPointSetUp ();
     }
+
+    /**
+     * Callback function for turn time out.
+     * @param nickname of the player that didn't make a move in the set amount of time.
+     */
 
     @Override
     public void timerCallBack(String nickname) {

@@ -6,9 +6,9 @@ public class ChainEffect extends OptionalEffect {
 
     private String chainedEffect;
 
-    protected ChainEffect(WeaponEffectRequirement requirement, List<AtomicWeaponEffect> effects,
+    protected ChainEffect(WeaponEffectRequirement requirement, TargetType targets, List<AtomicWeaponEffect> effects,
                              List<Ammo> additionalCost, boolean usableBeforeBase, boolean alternativeMode, String chainedEffect) {
-        super(requirement, effects, additionalCost, usableBeforeBase, alternativeMode);
+        super(requirement, targets, effects, additionalCost, usableBeforeBase, alternativeMode);
         this.chainedEffect = chainedEffect;
     }
 }

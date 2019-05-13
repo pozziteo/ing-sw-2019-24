@@ -4,7 +4,7 @@ import java.util.List;
 
 public class BaseEffect extends WeaponEffect {
 
-    protected BaseEffect(WeaponEffectRequirement requirement, List<AtomicWeaponEffect> effects) {
-        super(requirement, effects);
+    protected BaseEffect(WeaponEffectRequirement requirement, TargetType targets, List<AtomicWeaponEffect> effects) {
+        super(requirement, targets, effects);
     }
 }

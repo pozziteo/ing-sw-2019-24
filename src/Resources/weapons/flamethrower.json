@@ -8,10 +8,10 @@
       },
       "target": {
         "type": "multiple",
-        "value": 2,
+        "value": "2",
         "constraints": [
           "one target per square",
-          "squares in same direction"
+          "on same direction"
         ]
       },
       "effects": [
@@ -36,7 +36,8 @@
       },
       "target": {
         "type": "multiple",
-        "value": "all"
+        "value": "all",
+        "constraints": []
       },
       "effects": [
         {

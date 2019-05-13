@@ -8,7 +8,9 @@
         "maxDistance": 0
       },
       "target": {
-        "type": "single"
+        "type": "single",
+        "value": "",
+        "constraints": []
       },
       "effects": [
         {
@@ -30,7 +32,7 @@
     "usableBeforeBase": true,
     "effect": {
       "additionalCost": ["Blue"],
-      "target": null,
+      "target": {},
       "effects": [
         {
           "type": "movement",

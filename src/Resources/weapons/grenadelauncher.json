@@ -7,7 +7,9 @@
         "visible": true
       },
       "target": {
-        "type": "single"
+        "type": "single",
+        "value": "",
+        "constraints": []
       },
       "effects": [
         {
@@ -35,7 +37,8 @@
       },
       "target": {
         "type": "multiple",
-        "targets": "all"
+        "value": "all",
+        "constraints": []
       },
       "effects": [
         {

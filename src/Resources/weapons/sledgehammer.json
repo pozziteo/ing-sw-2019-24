@@ -8,7 +8,9 @@
         "maxDistance": 0
       },
       "target": {
-        "type": "single"
+        "type": "single",
+        "value": "",
+        "constraints": []
       },
       "effects": [
         {
@@ -30,7 +32,9 @@
         "maxDistance": 0
       },
       "target": {
-        "type": "single"
+        "type": "single",
+        "value": "",
+        "constraints": []
       },
       "effects": [
         {

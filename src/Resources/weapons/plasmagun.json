@@ -7,7 +7,9 @@
         "visible": true
       },
       "target": {
-        "type": "single"
+        "type": "single",
+        "value": "",
+        "constraints": []
       },
       "effects": [
         {
@@ -24,7 +26,7 @@
     "usableBeforeBase": true,
     "effect": {
       "additionalCost": [],
-      "target": null,
+      "target": {},
       "effects": [
         {
           "type": "movement",
@@ -42,8 +44,9 @@
       "additionalCost": ["Blue"],
       "target": {
         "type": "single",
+        "value": "",
         "constraints": [
-          "one of base target"
+          "one of base targets"
         ]
       },
       "effects": [

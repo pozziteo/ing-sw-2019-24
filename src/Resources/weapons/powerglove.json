@@ -8,7 +8,9 @@
         "maxDistance": 1
       },
       "target": {
-        "type": "single"
+        "type": "single",
+        "value": "",
+        "constraints": []
       },
       "effects": [
         {
@@ -34,7 +36,7 @@
       },
       "target": {
         "type": "multiple",
-        "value": 2,
+        "value": "2",
         "constraints": [
           "on same direction",
           "one target per square"

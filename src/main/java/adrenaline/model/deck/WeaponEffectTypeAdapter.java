@@ -48,6 +48,7 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
         reader.beginObject();
 
         WeaponEffectRequirement requirement = null;
+        TargetType targets = null;
         List<AtomicWeaponEffect> effects = null;
         while (reader.peek() != JsonToken.END_OBJECT) {
             switch (reader.nextName()) {
@@ -55,8 +56,7 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
                     requirement = createRequirement(reader);
                     break;
                 case "target":
-                    //TODO
-                    reader.skipValue();
+                    targets = findTargets (reader);
                     break;
                 case "effects":
                     effects = generateEffects(reader);
@@ -65,7 +65,7 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
             }
         }
         reader.endObject();
-        return new BaseEffect(requirement, effects);
+        return new BaseEffect(requirement, targets, effects);
     }
 
     private OptionalEffect readOptionalEffect(JsonReader reader, boolean alternativeMode) throws IOException {
@@ -98,12 +98,12 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
         }
         reader.endArray();
         WeaponEffectRequirement requirement = null;
+        TargetType targets = null;
         List<AtomicWeaponEffect> effects = null;
         while (reader.peek() != JsonToken.END_OBJECT) {
             switch (reader.nextName()) {
                 case "target":
-                    //TODO
-                    reader.skipValue();
+                    targets = findTargets (reader);
                     break;
                 case "requirement":
                     requirement = createRequirement(reader);
@@ -116,9 +116,9 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
         }
         reader.endObject();
         if (!chainEffect)
-            return new OptionalEffect(requirement, effects, additionalCost, usableBeforeBase, alternativeMode);
+            return new OptionalEffect(requirement, targets, effects, additionalCost, usableBeforeBase, alternativeMode);
         else
-            return new ChainEffect(requirement, effects, additionalCost, usableBeforeBase, alternativeMode, chainedTo);
+            return new ChainEffect(requirement, targets, effects, additionalCost, usableBeforeBase, alternativeMode, chainedTo);
     }
 
 
@@ -170,6 +170,32 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
 
         reader.endObject();
         return requirement;
+    }
+
+    private TargetType findTargets(JsonReader reader) throws IOException {
+        TargetType targets = null;
+        String targetType;
+        String targetValue;
+        ArrayList<String> constraints = new ArrayList<> ();
+        reader.beginObject ();
+        while (reader.peek() != JsonToken.END_OBJECT) {
+            reader.nextName ();
+            targetType = reader.nextString ();
+            reader.nextName();
+            targetValue = reader.nextString ();
+            reader.nextName ();
+            reader.beginArray ();
+            while (reader.peek() != JsonToken.END_ARRAY) {
+                constraints.add(reader.nextString ());
+            }
+            reader.endArray ();
+            targets = new TargetType (targetType, targetValue, constraints);
+        }
+        reader.endObject ();
+        if (targets == null) {
+            targets = new TargetType ();
+        }
+        return targets;
     }
 
     private List<AtomicWeaponEffect> generateEffects(JsonReader reader) throws IOException {

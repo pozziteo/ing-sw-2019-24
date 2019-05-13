@@ -8,9 +8,9 @@
       },
       "target": {
         "type": "area",
-        "targets": 1,
+        "value": "1",
         "constraints": [
-          "square different from actual position",
+          "square different from current position",
           "target at distance 1 from square"
         ]
       },
@@ -39,7 +39,7 @@
       },
       "target": {
         "type": "multiple",
-        "value": 2,
+        "value": "2",
         "constraints": [
           "different from base target"
         ]

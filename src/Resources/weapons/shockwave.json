@@ -9,7 +9,7 @@
       },
       "target": {
         "type": "multiple",
-        "value": 3,
+        "value": "3",
         "constraints": [
           "on different squares"
         ]
@@ -35,7 +35,8 @@
       },
       "target": {
         "type": "multiple",
-        "value": "all"
+        "value": "all",
+        "constraints": []
       },
       "effects": [
         {
