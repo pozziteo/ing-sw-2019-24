@@ -1,9 +1,9 @@
-package adrenaline.network.rmi;
+package adrenaline.network.rmi.server;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface CommonInterface extends Remote {
+public interface RmiServerIF extends Remote {
 
     //REMEMBER: EVERY METHOD MUST THROW RemoteException
     //callable methods must be written here
