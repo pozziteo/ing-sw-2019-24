@@ -15,9 +15,9 @@ public class MoveToVisibleRequirement implements WeaponEffectRequirement {
     }
 
     @Override
-    public List<Player> findTargets(Player attacker) {
+    public List<Player> findTargets(Player attacker, TargetType targetType) {
         List<Player> targets = new ArrayList<>();
-        List<Player> players = WeaponEffectRequirement.super.findTargets(attacker);
+        List<Player> players = WeaponEffectRequirement.super.findTargets(attacker, targetType);
 
         for (Player player : players) {
             List<Integer> playerPaths = Action.findPaths(player, movements);

@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface WeaponEffectRequirement {
-    default List<Player> findTargets(Player attacker) {
+    default List<Player> findTargets(Player attacker, TargetType targetType) {
 
-        List<Player> players = new ArrayList<>(attacker.getGame().getPlayers());
+        List<Player> players = targetType.findTargets ();
         players.remove(attacker);
 
         return players;

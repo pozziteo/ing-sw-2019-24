@@ -1,6 +1,9 @@
 package adrenaline.model.deck;
 
+import adrenaline.model.player.Player;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class TargetType {
 
@@ -66,5 +69,13 @@ public class TargetType {
 
     public ArrayList<String> getConstraints() {
         return this.constraints;
+    }
+
+    public List<Player> findTargets() {
+        List<Player> targets = new ArrayList<> ();
+        if (type.typeIdentifier.equals("")) {
+            return targets;
+        }
+        return targets;
     }
 }
