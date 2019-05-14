@@ -1,7 +1,7 @@
 package adrenaline.network.rmi.client;
 
 import adrenaline.data.data_for_server.DataForServer;
-import adrenaline.network.rmi.CommonInterface;
+import adrenaline.network.rmi.RmiInterface;
 import adrenaline.network.ClientInterface;
 import adrenaline.view.UserInterface;
 
@@ -16,7 +16,7 @@ import java.util.Scanner;
 public class RmiClient implements ClientInterface {
     private UserInterface view;
 
-    public RmiClient(UserInterface view) {
+    public RmiClient(UserInterface view){
         this.view = view;
     }
 
@@ -27,25 +27,17 @@ public class RmiClient implements ClientInterface {
 
     public void connectToServer() {
         try {
-            Scanner scanner =new Scanner(System.in);
-            Registry registry = LocateRegistry.getRegistry(10000);
-            CommonInterface stub = (CommonInterface) registry.lookup("CommonInterface");
-            int i = 1;
-            String newClient = stub.addedClient(i);
-            stub.send(newClient);
 
-            System.err.println("connected to the rmiServer!");
+            Registry registry= LocateRegistry.getRegistry(10000);
+            System.out.print("RMI registry bindings: ");
+            String[] e = registry.list();
+            for (int i=0; i<e.length; i++)
+                System.out.println(e[i]);
+            String remoteObjectName = "rmiObject";
+            RmiInterface stub = (RmiInterface) registry.lookup(remoteObjectName);
 
-           while (true) {
-               String msg = scanner.nextLine().trim();
-               if(msg.equals("quit")){break;}
-               stub.send("From Client"+i+": "+msg);
-           }
-           System.err.println("Disconnected from the rmiServer");
-           String goodbye = "A client left the room: Client";
-           stub.send(goodbye+i);
-            i++;
-            // DataType var = stub.METHOD(); //here you call the methods you need
+            //stub.method...
+
 
         }catch (Exception e){
             System.err.println("Client exception: " + e.toString());
