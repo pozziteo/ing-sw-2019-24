@@ -7,8 +7,8 @@
         "visible": true
       },
       "target": {
-        "type": "area",
-        "value": "1",
+        "type": "single",
+        "value": "",
         "constraints": [
           "square different from current position",
           "target at distance 1 from square"
