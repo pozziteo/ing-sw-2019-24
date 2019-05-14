@@ -1,7 +1,7 @@
 package adrenaline.data.data_for_client.data_for_game;
 
 import adrenaline.data.data_for_client.DataForClient;
-import adrenaline.model.deck.PowerUp;
+import adrenaline.model.deck.powerUp.PowerUp;
 import adrenaline.view.cli.CliUserInterface;
 
 import java.util.List;

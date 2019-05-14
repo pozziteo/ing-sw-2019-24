@@ -1,6 +1,9 @@
 package adrenaline.model;
 
 import adrenaline.model.deck.*;
+import adrenaline.model.deck.powerUp.PowerUp;
+import adrenaline.model.deck.PowerUpsDeck;
+import adrenaline.model.deck.PowerUpsDeckCreator;
 import adrenaline.model.map.ArenaBuilder;
 import adrenaline.model.map.NormalSquare;
 import adrenaline.model.player.Player;
@@ -59,7 +62,7 @@ public class Game implements Serializable {
         this.endGame = false;
 
         this.weaponsDeck = new WeaponsDeckCreator ().createDeck();
-        this.powerUpsDeck = new PowerUpsDeckCreator ().createDeck();
+        this.powerUpsDeck = new PowerUpsDeckCreator().createDeck();
         this.tilesDeck = new TilesDeckCreator ().createDeck();
 
         List<PlayerColor> colors = Arrays.asList(PlayerColor.values());

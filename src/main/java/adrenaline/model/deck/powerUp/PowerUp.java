@@ -1,4 +1,7 @@
-package adrenaline.model.deck;
+package adrenaline.model.deck.powerUp;
+
+import adrenaline.model.deck.Ammo;
+import adrenaline.model.deck.Card;
 
 /**
  * PowerUp is a Card which provides a bonus to the player who uses its
@@ -10,6 +13,7 @@ public class PowerUp extends Card {
      * Type describes the kind of power-up, which defines its effect
      */
     private PowerUpType type;
+    private Ammo ammoColor;
 
     protected PowerUp() {
         super();
@@ -19,8 +23,9 @@ public class PowerUp extends Card {
      * Constructor which initialize the kinds of a PowerUp
      * @param type is the kind of PowerUp
      */
-    public PowerUp(PowerUpType type) {
+    public PowerUp(PowerUpType type, Ammo ammoColor) {
         this.type = type;
+        this.ammoColor = ammoColor;
     }
 
     /**
@@ -45,6 +50,6 @@ public class PowerUp extends Card {
      * @return the ammo's color in the PowerUp card
      */
     public Ammo getAmmo() {
-        return this.getType().getBonusAmmo ();
+        return ammoColor;
     }
 }

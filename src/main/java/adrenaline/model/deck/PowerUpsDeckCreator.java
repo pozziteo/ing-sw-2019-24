@@ -1,5 +1,8 @@
 package adrenaline.model.deck;
 
+import adrenaline.model.deck.powerUp.PowerUp;
+import adrenaline.model.deck.powerUp.PowerUpType;
+
 public class PowerUpsDeckCreator extends DeckCreator {
 
     /**
@@ -17,9 +20,14 @@ public class PowerUpsDeckCreator extends DeckCreator {
 
         PowerUpsDeck powerUpsDeck = new PowerUpsDeck ();
 
+
         for (PowerUpType type : PowerUpType.values()){
-            PowerUp powerUp = new PowerUp(type);
-            powerUpsDeck.addCard(powerUp);
+            for (Ammo ammoColor: Ammo.values()) {
+                PowerUp powerUp = new PowerUp(type, ammoColor);
+                powerUpsDeck.addCard(powerUp);
+                powerUp = new PowerUp(type, ammoColor);
+                powerUpsDeck.addCard(powerUp);
+            }
         }
 
         powerUpsDeck.deckShuffle();

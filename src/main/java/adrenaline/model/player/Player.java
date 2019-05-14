@@ -1,7 +1,7 @@
 package adrenaline.model.player;
 
 import adrenaline.model.Game;
-import adrenaline.model.deck.PowerUp;
+import adrenaline.model.deck.powerUp.PowerUp;
 import adrenaline.model.deck.Weapon;
 import adrenaline.model.map.Square;
 
@@ -215,7 +215,7 @@ public class Player implements Serializable {
             }
         }
         for (PowerUp pup : ownedPowerUps){
-            if (pup.getType().getColor().equals(powerUpColor)){
+            if (pup.getAmmo().getColor().equals(powerUpColor)){
                 this.game.getPowerUpsDeck ().discardCard (pup);
             }
         }

@@ -1,8 +1,7 @@
 package adrenaline.view.cli;
 
-import adrenaline.model.deck.PowerUp;
-import adrenaline.model.deck.PowerUpType;
-import adrenaline.model.map.Square;
+import adrenaline.model.deck.powerUp.PowerUp;
+import adrenaline.model.deck.powerUp.PowerUpType;
 import adrenaline.model.player.Player;
 import org.fusesource.jansi.AnsiConsole;
 
@@ -121,11 +120,11 @@ public class CliPrinter {
      * @param powerUps is the couple of powerUps the player gets at the beginning of the game
      */
     synchronized void printInitialSpawnPointOptions(List<PowerUp> powerUps) {
-        PowerUpType powerUp1 = powerUps.get(0).getType ();
-        PowerUpType powerUp2 = powerUps.get(1).getType ();
+        PowerUp powerUp1 = powerUps.get(0);
+        PowerUp powerUp2 = powerUps.get(1);
         print("Pick your spawn point by discarding the power up card with the corresponding color:");
-        print("0 - " + powerUp1.getDescription () + " (spawn in " + powerUp1.getColor ().toLowerCase () + " room)");
-        print("1 - " + powerUp2.getDescription () + " (spawn in " + powerUp2.getColor ().toLowerCase () + " room)");
+        print("0 - " + powerUp1.getType().getDescription() + " (spawn in " + powerUp1.getAmmo().getColor().toLowerCase () + " room)");
+        print("1 - " + powerUp2.getType().getDescription() + " (spawn in " + powerUp2.getAmmo().getColor().toLowerCase()+ " room)");
     }
 
     /**

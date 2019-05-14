@@ -1,8 +1,7 @@
 package adrenaline.model.player;
 
 import adrenaline.model.Game;
-import adrenaline.model.deck.PowerUp;
-import adrenaline.model.player.Player;
+import adrenaline.model.deck.powerUp.PowerUp;
 
 import org.junit.jupiter.api.Test;
 
@@ -52,9 +51,9 @@ class PlayerTest {
     public void testPlayerChooseSpawn() {
         this.game.setArena (SMALL);
         PowerUp powerup = p1.getOwnedPowerUps ().get(0);
-        p1.chooseSpawnPoint (powerup.getType().getColor());
+        p1.chooseSpawnPoint (powerup.getAmmo().getColor());
         p1.getPosition ();
         assertTrue(p1.getPosition ().isSpawnPoint ());
-        assertTrue(p1.getPosition ().getSquareColor ().equals(powerup.getType ().getColor ()));
+        assertTrue(p1.getPosition ().getSquareColor ().equals(powerup.getAmmo().getColor ()));
     }
 }

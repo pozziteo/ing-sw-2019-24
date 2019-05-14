@@ -1,7 +1,7 @@
 package adrenaline.model.player;
 
 import adrenaline.model.deck.Ammo;
-import adrenaline.model.deck.PowerUp;
+import adrenaline.model.deck.powerUp.PowerUp;
 import adrenaline.model.deck.Tile;
 import adrenaline.model.deck.Weapon;
 import adrenaline.model.map.NormalSquare;

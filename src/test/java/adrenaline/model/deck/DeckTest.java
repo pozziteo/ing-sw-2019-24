@@ -2,7 +2,8 @@ package adrenaline.model.deck;
 
 import java.util.ArrayList;
 
-import adrenaline.model.deck.*;
+import adrenaline.model.deck.powerUp.PowerUp;
+import adrenaline.model.deck.powerUp.PowerUpType;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
