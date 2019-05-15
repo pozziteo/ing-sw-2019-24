@@ -54,7 +54,7 @@ class DeckTest {
         }
 
         assertTrue(powerups.containsAll(names));
-        assertEquals(12, d.getCards().size());
+        assertEquals(24, d.getCards().size());
     }
 
     @Test
