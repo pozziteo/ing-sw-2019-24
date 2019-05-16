@@ -1,7 +1,6 @@
 package adrenaline.view.cli;
 
-import adrenaline.model.deck.powerUp.PowerUp;
-import adrenaline.model.deck.powerUp.PowerUpType;
+import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.player.Player;
 import org.fusesource.jansi.AnsiConsole;
 

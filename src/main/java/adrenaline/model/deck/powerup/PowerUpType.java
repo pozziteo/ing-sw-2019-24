@@ -1,4 +1,4 @@
-package adrenaline.model.deck.powerUp;
+package adrenaline.model.deck.powerup;
 
 
 /** Enum which lists all the power-up cards available in the game.

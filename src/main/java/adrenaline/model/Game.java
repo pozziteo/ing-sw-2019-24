@@ -1,7 +1,7 @@
 package adrenaline.model;
 
 import adrenaline.model.deck.*;
-import adrenaline.model.deck.powerUp.PowerUp;
+import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.deck.PowerUpsDeck;
 import adrenaline.model.deck.PowerUpsDeckCreator;
 import adrenaline.model.map.ArenaBuilder;

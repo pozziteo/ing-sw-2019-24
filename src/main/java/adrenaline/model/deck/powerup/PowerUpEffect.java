@@ -1,30 +1,22 @@
-package adrenaline.model.deck.powerUp;
+package adrenaline.model.deck.powerup;
 
 import adrenaline.exceptions.IllegalUseOfPowerUpException;
 import adrenaline.exceptions.InvalidPositionException;
-import adrenaline.exceptions.ReachedMaxAmmoLimitException;
 import adrenaline.model.Game;
 import adrenaline.model.deck.Ammo;
 import adrenaline.model.deck.AtomicEffectsFactory;
-import adrenaline.model.deck.TargetType;
+import adrenaline.model.deck.AtomicWeaponEffect;
 import adrenaline.model.map.Square;
 import adrenaline.model.player.Player;
 
-import java.util.List;
-
 public class PowerUpEffect {
-    private PowerUpRequirement requirements;
-    private PowerUp pup;
-    private TargetType target;
-    private Player attacker;
-    private Player victim;
-    private Square positionToGo;
     private AtomicEffectsFactory factory = new AtomicEffectsFactory();
     private Game game;
     private Ammo ammo;
 
-    public PowerUpEffect(){
-
+    public PowerUpEffect(Game game, Ammo ammo){
+        this.game = game;
+        this.ammo = ammo;
     }
 
     /**
@@ -44,10 +36,20 @@ public class PowerUpEffect {
     /**
      * Method for Newton Power Up
      * @param attacker is the attacker
-     * @param movements is the number of squares the victim moves through
+     * @param victim is the player you want to move
+     * @param movements is the number of movements (1 or 2)
+     * @param id is the new victim's square
+     * @throws InvalidPositionException
      */
-    public void newton(String attacker, int movements){
-        factory.createGenericMovementEffect(attacker, movements);
+    public void newton(Player attacker, Player victim, int movements, int id) throws InvalidPositionException{
+        if (0 > id || id > 11){
+            throw new InvalidPositionException("The position you chose is outside the map");
+        }
+        if(game.getMap().getSquare(id).getSquareColor().equals("none")){
+            throw new InvalidPositionException("The position you chose doesn't exist in this map");
+        }
+        AtomicWeaponEffect effect = factory.createGenericMovementEffect("target", movements);
+        effect.applyEffect(attacker, victim, id);
     }
 
     /**
@@ -71,8 +73,8 @@ public class PowerUpEffect {
 
     /**
      * Method for Tagback Grenade Power Up
-     * @param attacker
-     * @param victim
+     * @param attacker is the attacker
+     * @param victim is the victim
      * @throws IllegalUseOfPowerUpException
      */
     public void tagbackGreade(Player attacker, Player victim) throws IllegalUseOfPowerUpException{
@@ -89,15 +91,13 @@ public class PowerUpEffect {
     }
 
     /**
-     * Method for using the ammo in the PowerUp card
-     * @param attacker is the attacker
-     * @param pup is the PowerUp
-     * @param cost is the reduction cost
+     * Method to use the ammo of the Power Up
+     * @param attacker is the player who uses the ammo
+     * @param pup is the Power Up
+     * @return a boolean
      */
-    public void usePupAmmo(Player attacker, PowerUp pup, List<Ammo> cost){
-        //TODO fix method with reduction cost
+    public boolean usePupAmmo(Player attacker, PowerUp pup){
         attacker.getBoard().setOwnedAmmo(pup.getAmmo());
+        return true;
     }
-
-
 }

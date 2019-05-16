@@ -1,4 +1,4 @@
-package adrenaline.model.deck.powerUp;
+package adrenaline.model.deck.powerup;
 
 import adrenaline.model.deck.Ammo;
 import adrenaline.model.deck.Card;

@@ -5,7 +5,7 @@ import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.ChosenMapSetUp;
 import adrenaline.data.data_for_server.data_for_game.ChosenSpawnPointSetUp;
 import adrenaline.data.data_for_server.data_for_network.AccountSetUp;
-import adrenaline.model.deck.powerUp.PowerUp;
+import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.map.Square;
 import adrenaline.network.ClientInterface;
 import adrenaline.network.rmi.client.RmiClient;

@@ -1,7 +1,7 @@
 package adrenaline.model.deck;
 
-import adrenaline.model.deck.powerUp.PowerUp;
-import adrenaline.model.deck.powerUp.PowerUpType;
+import adrenaline.model.deck.powerup.PowerUp;
+import adrenaline.model.deck.powerup.PowerUpType;
 
 public class PowerUpsDeckCreator extends DeckCreator {
 
