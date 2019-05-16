@@ -1,8 +1,6 @@
 package adrenaline.controller;
 
-import adrenaline.data.data_for_client.data_for_game.InitialSpawnPointSetUp;
-import adrenaline.data.data_for_client.data_for_game.MapSetUp;
-import adrenaline.data.data_for_client.data_for_game.TimeOutNotice;
+import adrenaline.data.data_for_client.data_for_game.*;
 import adrenaline.data.data_for_client.data_for_network.MessageForClient;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.model.GameModel;
@@ -70,14 +68,21 @@ public class Controller implements TimerCallBack {
     }
 
     public void playTurn(int n) {
-        timer.startThread (gameModel.getGame ().getPlayers ().get (n).getPlayerName ());
-        //turn
-        gameModel.getGame ().incrementTurn();
-    }
-
-
-    public void executeAction(String attacker, Action action){
-
+        if (! gameModel.getGame ().isEndGame()) {
+            if (! gameModel.getGame ().isFinalFrenzy ()) {
+                int indexOfLast = gameModel.getGame ().getPlayers ().size ()-1;
+                int currentTurn = gameModel.getGame ( ).getCurrentTurn ( );
+                String currentPlayer = lobby.getPlayers ().get (indexOfLast - currentTurn).getNickName ();
+                lobby.sendToSpecific (currentPlayer, new Turn(true, gameModel.getGame ().getMap ()));
+                lobby.sendToAllNonCurrent (currentPlayer, new Turn(false, gameModel.getGame ().getMap ()));
+                timer.startThread (currentPlayer);
+                gameModel.getGame ( ).incrementTurn ( );
+            } else {
+                //TODO
+            }
+        } else {
+            //TODO
+        }
     }
 
     //******************************************************************************************************************

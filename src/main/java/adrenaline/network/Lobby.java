@@ -2,7 +2,6 @@ package adrenaline.network;
 
 import adrenaline.controller.Controller;
 import adrenaline.data.data_for_client.DataForClient;
-import adrenaline.data.data_for_client.data_for_game.MapData;
 import adrenaline.data.data_for_client.data_for_network.MessageForClient;
 import adrenaline.exceptions.GameStartedException;
 import adrenaline.model.GameModel;
@@ -81,6 +80,15 @@ public class Lobby implements TimerCallBack {
         }
     }
 
+    public void sendToAllNonCurrent(String current, DataForClient data) {
+        for (Account a : players) {
+            if (! a.getNickName ().equals (current)) {
+                data.setAccount (a);
+                data.sendToView ();
+            }
+        }
+    }
+
     private boolean thereIsEnoughPlayers() {
         return (this.players.size() > 2 && this.players.size() < 6);
     }
@@ -145,13 +153,6 @@ public class Lobby implements TimerCallBack {
     public synchronized void addPlayer(Account a) throws GameStartedException {
         this.players.add (a);
         checkReady();
-    }
-
-    public void updateMapData() {
-        for (Account a : players) {
-            MapData data = this.game.updateMapData (a);
-            data.sendToView ();
-        }
     }
 
     @Override

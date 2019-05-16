@@ -195,6 +195,10 @@ public class Game implements Serializable {
         return this.finalFrenzy;
     }
 
+    public boolean isEndGame() {
+        return this.endGame;
+    }
+
     /**
      * Method to determine who made the most points and won the game
      * @return winner
@@ -255,9 +259,4 @@ public class Game implements Serializable {
             }
         );
     }
-
-    public void turn(String nickname){
-
-    }
-
 }

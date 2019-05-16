@@ -14,6 +14,6 @@ public class ActionToExecute extends DataForServer implements DataForController 
 
     @Override
     public void updateGame(Controller controller){
-        controller.executeAction(super.getNickname(), action);
+        //controller.executeAction(super.getNickname(), action);
     }
 }

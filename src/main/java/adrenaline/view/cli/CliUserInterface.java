@@ -96,9 +96,8 @@ public class CliUserInterface implements UserInterface {
      */
     public void updateView(DataForClient data) {
         synchronized (obj) {
-            Runnable thread = () -> {
+            Runnable thread = () ->
                 data.updateView(this);
-            };
             Thread receiverThread = new Thread(thread);
             receiverThread.start();
         }
