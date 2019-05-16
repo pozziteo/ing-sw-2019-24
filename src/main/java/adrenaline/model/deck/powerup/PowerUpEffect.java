@@ -45,9 +45,6 @@ public class PowerUpEffect {
         if (0 > id || id > 11){
             throw new InvalidPositionException("The position you chose is outside the map");
         }
-        if(game.getMap().getSquare(id).getSquareColor().equals("none")){
-            throw new InvalidPositionException("The position you chose doesn't exist in this map");
-        }
         AtomicWeaponEffect effect = factory.createGenericMovementEffect("target", movements);
         effect.applyEffect(attacker, victim, id);
     }
@@ -59,9 +56,6 @@ public class PowerUpEffect {
      * @throws IllegalUseOfPowerUpException
      */
     public void targetingScope(Player attacker, Player victim) throws IllegalUseOfPowerUpException {
-        if (game.getCurrentTurn() != attacker.getGame().getCurrentTurn()){
-            throw new IllegalUseOfPowerUpException("You must inflict damage to the victim in this turn to use the Targeting Scope");
-        }
         if (attacker.getBoard().getAmountOfAmmo(ammo) == 0){
             throw new IllegalUseOfPowerUpException("You don't have enough ammo to use the Targeting Scope");
         }
@@ -83,9 +77,6 @@ public class PowerUpEffect {
         }
         if (attacker.getBoard().getDamageAmountGivenByPlayer(victim)==0){
             throw new IllegalUseOfPowerUpException("You must receive damage from the target");
-        }
-        if (attacker.getGame().getCurrentTurn() != victim.getGame().getCurrentTurn()){
-            throw new IllegalUseOfPowerUpException("You must receive the damage in the same turn you use the Tagback Grenade");
         }
         victim.getBoard().gotMarked(1, attacker);
     }
