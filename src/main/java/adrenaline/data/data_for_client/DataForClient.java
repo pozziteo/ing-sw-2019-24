@@ -1,7 +1,6 @@
 package adrenaline.data.data_for_client;
 
 import adrenaline.network.Account;
-import adrenaline.view.UserInterface;
 import adrenaline.view.cli.CliUserInterface;
 import adrenaline.view.gui.GraphicUserInterface;
 

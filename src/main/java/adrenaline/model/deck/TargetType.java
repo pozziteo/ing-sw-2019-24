@@ -118,7 +118,7 @@ public class TargetType {
                 break;
 
             case "different from base target":
-                //TODO
+                attacker.getCurrentAction();
                 break;
 
             case "on different squares":
@@ -143,6 +143,9 @@ public class TargetType {
 
             case "one of base targets different from first optional targets":
                 //TODO
+                break;
+
+            default:
                 break;
         }
     }

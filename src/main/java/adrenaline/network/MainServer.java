@@ -192,7 +192,7 @@ public class MainServer {
                     toRegister.setNickname (newNickname);
                     toRegister.setGameHistory(storedAccount.getGameHistory());
                     tryInsertingIntoLobby (toRegister);
-                    sendLoginResponse (toRegister, true, "Welcome back, " + storedAccount.getNickName () + ".\nYou joined a lobby. Please wait...");
+                    sendLoginResponse (toRegister, true, "Welcome back, " + storedAccount.getNickName () + ".\nYou joined a lobby. Please wait...\n");
                 }
                 return true;
             }
@@ -207,7 +207,7 @@ public class MainServer {
             this.storedAccounts.add (account);
             storeAccounts ( );
             tryInsertingIntoLobby (account);
-            sendLoginResponse (account, true, "Welcome, " + account.getNickName ( ) + ". Your registration was successful.\nYou joined a lobby. Please wait...");
+            sendLoginResponse (account, true, "Welcome, " + account.getNickName ( ) + ". Your registration was successful.\nYou joined a lobby. Please wait...\n");
         } catch (IOException e) {
             System.err.println (e.getMessage ( ));
         }

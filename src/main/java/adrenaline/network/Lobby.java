@@ -5,8 +5,8 @@ import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_client.data_for_network.MessageForClient;
 import adrenaline.exceptions.GameStartedException;
 import adrenaline.model.GameModel;
-import adrenaline.misc.TimerCallBack;
-import adrenaline.misc.TimerThread;
+import adrenaline.utils.TimerCallBack;
+import adrenaline.utils.TimerThread;
 
 import java.util.ArrayList;
 
@@ -123,7 +123,7 @@ public class Lobby implements TimerCallBack {
 
     public void sendMessageToWaiting(String content) {
         if (players.size() != 1) {
-            for (Account a : players.subList (0, players.size ())) {
+            for (Account a : players.subList (0, players.size ()-1)) {
                 MessageForClient message = new MessageForClient (a, content);
                 message.sendToView ();
             }

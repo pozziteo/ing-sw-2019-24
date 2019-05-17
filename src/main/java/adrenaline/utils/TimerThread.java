@@ -1,4 +1,4 @@
-package adrenaline.misc;
+package adrenaline.utils;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

@@ -4,11 +4,10 @@ import adrenaline.data.data_for_client.data_for_game.*;
 import adrenaline.data.data_for_client.data_for_network.MessageForClient;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.model.GameModel;
-import adrenaline.model.player.Action;
 import adrenaline.model.player.Player;
 import adrenaline.network.Lobby;
-import adrenaline.misc.TimerCallBack;
-import adrenaline.misc.TimerThread;
+import adrenaline.utils.TimerCallBack;
+import adrenaline.utils.TimerThread;
 
 import java.io.File;
 
@@ -53,6 +52,7 @@ public class Controller implements TimerCallBack {
     }
 
     public void spawnPointSetUp() {
+        timer.shutDownThread ();
         for (Player p : gameModel.getGame ().getPlayers ()) {
             InitialSpawnPointSetUp data = new InitialSpawnPointSetUp(p.getOwnedPowerUps ());
             lobby.sendToSpecific (p.getPlayerName (), data);
@@ -61,13 +61,33 @@ public class Controller implements TimerCallBack {
 
     public void setSpawnPoint(String nickname, String color){
         for (Player p : gameModel.getGame().getPlayers()){
-            if(p.getPlayerName().equals(nickname)){
+            if (p.getPlayerName().equals(nickname)){
                 p.chooseSpawnPoint(color);
             }
         }
+        if (checkPlayersReady()) {
+            playTurn ();
+        } else {
+            lobby.sendMessageToAll ("Wait");
+        }
     }
 
-    public void playTurn(int n) {
+    //TODO fix
+    private boolean checkPlayersReady() {
+        boolean ready = false;
+        for (Player p : gameModel.getGame ().getPlayers ()) {
+            if (p.getPosition () == null) {
+                ready = false;
+                break;
+            } else {
+                ready = true;
+            }
+        }
+        return ready;
+    }
+
+    private void playTurn() {
+        timer.shutDownThread ();
         if (! gameModel.getGame ().isEndGame()) {
             if (! gameModel.getGame ().isFinalFrenzy ()) {
                 int indexOfLast = gameModel.getGame ().getPlayers ().size ()-1;
@@ -112,5 +132,6 @@ public class Controller implements TimerCallBack {
     public void timerCallBack(String nickname) {
         TimeOutNotice notice = new TimeOutNotice (lobby.findPlayer(nickname));
         notice.sendToView ();
+        playTurn ();
     }
 }
