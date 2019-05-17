@@ -56,7 +56,7 @@ class PowerUpEffectTest {
         //tagback grenade
         try {
             attacker.getBoard().gotHit(2, victim);
-            powerUpEffect.tagbackGreade(attacker, victim);
+            powerUpEffect.tagbackGrenade(attacker, victim);
         }catch (IllegalUseOfPowerUpException e){
             System.err.println(e.getMessage());
         }
@@ -64,7 +64,7 @@ class PowerUpEffectTest {
 
         //teleport
         try {
-            powerUpEffect.teleport(attacker, game.getMap().getSquare(9));
+            powerUpEffect.teleporter(attacker, game.getMap().getSquare(9));
         }catch (InvalidPositionException e){
             System.err.println(e.getMessage());
         }
@@ -94,15 +94,15 @@ class PowerUpEffectTest {
                                                                 powerUpEffect.targetingScope(attacker, victim);});
 
         //teleport in your position
-        assertThrows(InvalidPositionException.class, () -> powerUpEffect.teleport(attacker, game.getMap().getSquare(5)));
+        assertThrows(InvalidPositionException.class, () -> powerUpEffect.teleporter(attacker, game.getMap().getSquare(5)));
 
         //tagback grenade without damage
-        assertThrows(IllegalUseOfPowerUpException.class, () -> powerUpEffect.tagbackGreade(attacker, victim));
+        assertThrows(IllegalUseOfPowerUpException.class, () -> powerUpEffect.tagbackGrenade(attacker, victim));
 
         //tagback grenade without seeing the victim
         assertThrows(IllegalUseOfPowerUpException.class, () -> {attacker.setPosition(game.getMap().getSquare(1));
                                                                 attacker.getBoard().gotHit(5, victim);
-                                                                powerUpEffect.tagbackGreade(attacker, victim);});
+                                                                powerUpEffect.tagbackGrenade(attacker, victim);});
 
         //newton outside map > 12
         assertThrows(InvalidPositionException.class, () -> powerUpEffect.newton(attacker, victim, 1, 12));
