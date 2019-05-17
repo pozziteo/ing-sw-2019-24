@@ -3,7 +3,9 @@ package adrenaline.model.deck;
 import adrenaline.exceptions.IllegalUseOfPowerUpException;
 import adrenaline.exceptions.InvalidPositionException;
 import adrenaline.model.Game;
+import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.deck.powerup.PowerUpEffect;
+import adrenaline.model.deck.powerup.PowerUpType;
 import adrenaline.model.player.Player;
 import org.junit.jupiter.api.Test;
 
@@ -20,9 +22,20 @@ class PowerUpEffectTest {
     private Player p1 = game.getPlayers ().get(0);
     private Player p2 = game.getPlayers ().get(1);
     private Ammo ammo = Ammo.RED_AMMO;
+    private Ammo ammo1 = Ammo.BLUE_AMMO;
     private Player attacker = p1;
     private Player victim = p2;
     private PowerUpEffect powerUpEffect = new PowerUpEffect(game, ammo);
+    private PowerUpType powerUpType = PowerUpType.TAGBACK_GRENADE;
+    private PowerUp powerUp = new PowerUp(powerUpType, ammo1);
+
+    @Test
+    void ammoPowerUpTest(){
+        //ammo taken from PowerUp
+        attacker.getBoard().setOwnedAmmo(ammo1);
+        powerUpEffect.usePupAmmo(attacker, powerUp);
+        assertEquals(1, attacker.getBoard().getAmountOfAmmo(ammo));
+    }
 
     @Test
     void trueTestPup(){
