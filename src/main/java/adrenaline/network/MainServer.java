@@ -84,7 +84,7 @@ public class MainServer {
         ExecutorService executor = Executors.newCachedThreadPool ( );
         while(mainRunning && !rmiRunning) {
             try {
-                this.rmiServer = new RmiServer (rmiPort);
+                this.rmiServer = new RmiServer (getInstance(), rmiPort);
                 rmiRunning = true;
                 executor.submit(rmiServer);
             } catch (Exception e) {

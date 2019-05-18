@@ -9,8 +9,5 @@ public interface RmiInterface extends Remote {
 
     //REMEMBER: EVERY METHOD MUST THROW RemoteException
     //callable methods must be written here
-
-
-    void send(DataForServer data) throws RemoteException;
-    void setUpAccount() throws RemoteException;
+    void receiveData(DataForServer data) throws RemoteException;
 }
