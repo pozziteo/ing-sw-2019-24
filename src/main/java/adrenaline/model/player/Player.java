@@ -191,7 +191,6 @@ public class Player implements Serializable {
         setPointTokens (points);
     }
 
-
     /**
      * Method to set this player's spawn point based on the discarded power up
      * @param powerUpColor is the color of the discarded power up
