@@ -6,7 +6,7 @@ import adrenaline.data.data_for_server.data_for_game.ChosenMapSetUp;
 import adrenaline.data.data_for_server.data_for_game.ChosenSpawnPointSetUp;
 import adrenaline.data.data_for_server.data_for_network.AccountSetUp;
 import adrenaline.model.deck.powerup.PowerUp;
-import adrenaline.model.map.Square;
+import adrenaline.model.map.Map;
 import adrenaline.network.ClientInterface;
 import adrenaline.network.rmi.client.RmiClient;
 import adrenaline.network.socket.client.SocketClient;
@@ -125,17 +125,16 @@ public class CliUserInterface implements UserInterface {
         String newNickname = this.parser.parseNickname ( );
         AccountSetUp accountData = new AccountSetUp (nickname, newNickname);
         sendToServer (accountData);
-        printer.print ("Account data sent to server. Waiting for response...\n");
     }
 
     public void notifyTimeOut() {
-        printer.print("Time is up. You took too long to make a choice.");
+        printer.print("Time is up. You took too long to make a choice.\n");
         parser.setActive (false);
     }
 
     public void chooseSpawnPoint(List<PowerUp> powerUps) {
         printer.printInitialSpawnPointOptions (powerUps);
-        ChosenSpawnPointSetUp data = new ChosenSpawnPointSetUp (nickname, powerUps.get (parser.parseInt (1)).getAmmo ().getColor ());
+        ChosenSpawnPointSetUp data = new ChosenSpawnPointSetUp (nickname, powerUps.get (parser.asyncParseInt (1)).getAmmo ().getColor ());
         sendToServer (data);
     }
 
@@ -170,7 +169,7 @@ public class CliUserInterface implements UserInterface {
                 }
             }
         } else {
-            printer.print ("The first player in your lobby is choosing the arena. Please wait...");
+            printer.print ("The first player in your lobby is choosing the arena. Please wait...\n");
         }
     }
 
@@ -199,7 +198,10 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
-    public void printMap(Square[] arena) {
-        //TODO implement
+    public void printMap(Map map) {
+        printer.print(map.getActualMapName ());
+        printer.printArena(map.getArena ());
+        for (int i = 0; i < map.getDimension (); i++)
+            printer.printSquareDetails(map.getSquare (i));
     }
 }

@@ -32,6 +32,10 @@ public class TimerThread implements Runnable {
         this.thread.start();
     }
 
+    public boolean isRunning() {
+        return this.running.get ();
+    }
+
     @Override
     public void run() {
         Thread.currentThread().setName("Time Out Thread");

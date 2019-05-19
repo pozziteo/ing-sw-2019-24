@@ -1,6 +1,7 @@
 package adrenaline.view.cli;
 
 import adrenaline.model.deck.powerup.PowerUp;
+import adrenaline.model.map.Square;
 import adrenaline.model.player.Player;
 import org.fusesource.jansi.AnsiConsole;
 
@@ -18,14 +19,14 @@ public class CliPrinter {
      */
 
     public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
+    public static final String ANSI_BLACK = "\u001b[30m";
+    public static final String ANSI_RED = "\u001b[31;1m";
+    public static final String ANSI_GREEN = "\u001b[32;1m";
+    public static final String ANSI_YELLOW = "\u001b[33;1m";
+    public static final String ANSI_BLUE = "\u001b[34;1m";
+    public static final String ANSI_PURPLE = "\u001b[35;1m";
+    public static final String ANSI_CYAN = "\u001b[36;1m";
+    public static final String ANSI_WHITE = "\u001b[37;1m";
 
     /**
      * List of background colors for ANSI
@@ -161,4 +162,93 @@ public class CliPrinter {
         print("Enter your nickname: ");
     }
 
+    synchronized void printArena(Square[] arena) {
+        printRow(0, arena);
+        printRow(4, arena);
+        printRow(8, arena);
+    }
+
+    void printRow(int j, Square[] arena) {
+        String ansiColor1 = "";
+        String id1 = "";
+        String ansiColor2 = "";
+        String id2 = "";
+        String ansiColor3 = "";
+        String id3 = "";
+        String ansiColor4 = "";
+        String id4 = "";
+        for (int i = j; i < j + 4; i++) {
+            String squareColor = arena[i].getSquareColor ();
+            int k = i - j;
+            switch (k) {
+                case (0):
+                    ansiColor1 = findColor(squareColor);
+                    if (i < 10)
+                        id1 = i + " ";
+                    else
+                        id1 = Integer.toString (i);
+                    break;
+                case(1):
+                    ansiColor2 = findColor(squareColor);
+                    if (i < 10)
+                        id2 = i+ " ";
+                    else
+                        id2 = Integer.toString (i);
+                    break;
+                case(2):
+                    ansiColor3 = findColor(squareColor);
+                    if (i < 10)
+                        id3 = i + " ";
+                    else
+                        id3 = Integer.toString (i);
+                    break;
+                case(3):
+                    ansiColor4 = findColor(squareColor);
+                    if (i < 10)
+                        id4 = i + " ";
+                    else
+                        id4 = Integer.toString (i);
+                    break;
+            }
+        }
+        print(ansiColor1 + " ________ " + ANSI_RESET + ansiColor2 + " ________ " + ANSI_RESET + ansiColor3 + " ________ " + ANSI_RESET + ansiColor4 + " ________ " + ANSI_RESET);
+        print(ansiColor1 + "/        \\" + ANSI_RESET + ansiColor2 + "/        \\" + ANSI_RESET + ansiColor3 + "/        \\" + ANSI_RESET + ansiColor4 + "/        \\" + ANSI_RESET);
+        print(ansiColor1 + "|        |" + ANSI_RESET + ansiColor2 + "|        |" + ANSI_RESET + ansiColor3 + "|        |" + ANSI_RESET + ansiColor4 + "|        |" + ANSI_RESET);
+        print(ansiColor1 + "|   " + id1 + "   |" + ANSI_RESET + ansiColor2 + "|   " + id2 + "   |" + ANSI_RESET + ansiColor3 + "|   " + id3 + "   |" + ANSI_RESET + ansiColor4 + "|   " + id4 + "   |" + ANSI_RESET);
+        print(ansiColor1 + "|        |" + ANSI_RESET + ansiColor2 + "|        |" + ANSI_RESET + ansiColor3 + "|        |" + ANSI_RESET + ansiColor4 + "|        |" + ANSI_RESET);
+        print(ansiColor1 + "|        |" + ANSI_RESET + ansiColor2 + "|        |" + ANSI_RESET + ansiColor3 + "|        |" + ANSI_RESET + ansiColor4 + "|        |" + ANSI_RESET);
+        print(ansiColor1 + "\\________/" + ANSI_RESET + ansiColor2 + "\\________/" + ANSI_RESET + ansiColor3 + "\\________/" + ANSI_RESET + ansiColor4 + "\\________/" + ANSI_RESET);
+    }
+
+    String findColor(String squareColor) {
+        String ansiColor;
+        switch (squareColor) {
+            case "Red":
+                ansiColor = ANSI_RED;
+                break;
+            case "Blue":
+                ansiColor = ANSI_BLUE;
+                break;
+            case "Yellow":
+                ansiColor = ANSI_YELLOW;
+                break;
+            case "White":
+                ansiColor = ANSI_BLACK;
+                break;
+            case "Green":
+                ansiColor = ANSI_GREEN;
+                break;
+            case "Purple":
+                ansiColor = ANSI_PURPLE;
+                break;
+            default:
+                ansiColor = ANSI_WHITE;
+                break;
+        }
+        return ansiColor;
+    }
+
+    synchronized void printSquareDetails(Square square) {
+
+    }
 }

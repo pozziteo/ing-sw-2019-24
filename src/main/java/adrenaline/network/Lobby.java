@@ -34,20 +34,15 @@ public class Lobby implements TimerCallBack {
 
     private void createGame() {
         timerThread.shutDownThread ();
-        if (thereIsEnoughPlayers ( )) {
-            this.gameStarted = true;
-            String[] playerNames = new String[players.size ( )];
-            int i = 0;
-            for (Account a : players) {
-                playerNames[i] = a.getNickName ( );
-                i++;
-            }
-            this.game = new GameModel (playerNames);
-            this.controller.startController (game);
-        } else {
-            System.err.println ("Error: Someone left during the set up. (Lobby: " + id + ")\n");
-            sendMessageToAll ("Disconnection error. There's not enough players.\n");
+        this.gameStarted = true;
+        String[] playerNames = new String[players.size ( )];
+        int i = 0;
+        for (Account a : players) {
+            playerNames[i] = a.getNickName ( );
+            i++;
         }
+        this.game = new GameModel (playerNames);
+        this.controller.startController (game);
     }
 
     public ArrayList<Account> getPlayers() {
@@ -100,12 +95,12 @@ public class Lobby implements TimerCallBack {
                     sendMessageToWaiting ("Your lobby is full, the game will begin shortly...\n");
                     createGame ( );
                 } else {
-                    sendMessageToWaiting ("A new player joined your lobby. Starting countdown for the game...  (Current players: " + this.players.size () + ")\n");
+                    sendMessageToWaiting ("Starting countdown for the game...  (Current players: " + this.players.size () + ")\n");
                     if (players.size() == 3)
                         this.timerThread.startThread ();
                 }
             } else {
-                sendMessageToWaiting ("A new player joined. There's not enough participants, waiting for more... (Current players: " + this.players.size () + ")\n");
+                sendMessageToWaiting ("There's not enough participants, waiting for more... (Current players: " + this.players.size () + ")\n");
             }
         } else {
             throw new GameStartedException ("Error. The game has already started.\n");
@@ -118,6 +113,14 @@ public class Lobby implements TimerCallBack {
         } else {
             players.remove (disconnected);
             sendMessageToAll (disconnected.getNickName () + " left the lobby...\n");
+            if (timerThread.isRunning ()) {
+                timerThread.shutDownThread ();
+            }
+            try {
+                checkReady ( );
+            } catch(GameStartedException e) {
+                System.out.print(e.getMessage ());
+            }
         }
     }
 
@@ -152,6 +155,7 @@ public class Lobby implements TimerCallBack {
 
     public synchronized void addPlayer(Account a) throws GameStartedException {
         this.players.add (a);
+        sendMessageToWaiting (a.getNickName () + " joined the lobby...");
         checkReady();
     }
 
