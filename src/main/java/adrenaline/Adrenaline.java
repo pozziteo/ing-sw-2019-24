@@ -15,10 +15,9 @@ public class Adrenaline {
         System.out.print("0 - Cli\n");
         System.out.print("1 - GUI\n");
         if (parser.parseInt(1) == 0) {
-            CliUserInterface.getCliInstance (); }
-        else {
+            CliUserInterface.getCliInstance();
+        } else {
             //start gui
         }
     }
 }
-

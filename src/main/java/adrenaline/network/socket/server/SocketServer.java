@@ -37,25 +37,25 @@ public class SocketServer implements Runnable {
      */
     public void run() {
         running = true;
-        ExecutorService executor = Executors.newCachedThreadPool ( );
+        ExecutorService executor = Executors.newCachedThreadPool();
         try {
             serverSocket = new ServerSocket (port);
         } catch(IOException e) {
-            System.err.println (e.getMessage ());
+            System.err.println (e.getMessage());
             return;
         }
         System.out.println ("SocketServer is listening on port: " + port);
             while (running) {
                 try {
-                    Socket socket = serverSocket.accept ( );
+                    Socket socket = serverSocket.accept();
                     System.out.println ("A new client is here\n");
                     executor.submit(new SocketPlayerThread (server, socket, Integer.toString( new Random().nextInt (1000000000))));
                 } catch (IOException e) {
                     running = false;
-                    System.err.println (e.getMessage ( ));
+                    System.err.println (e.getMessage());
                 }
             }
-        executor.shutdown ();
+        executor.shutdown();
     }
 
     public boolean isRunning() {

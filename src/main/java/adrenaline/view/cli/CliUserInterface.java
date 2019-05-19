@@ -13,6 +13,7 @@ import adrenaline.network.socket.client.SocketClient;
 import adrenaline.view.UserInterface;
 
 import java.io.File;
+import java.rmi.RemoteException;
 import java.util.List;
 
 /**
@@ -63,7 +64,11 @@ public class CliUserInterface implements UserInterface {
         launchTitleScreen ();
         this.printer.printConnectionOptions ();
         if (this.parser.parseInt (1) == 0) {
-            this.client = new RmiClient(this);
+            try {
+                this.client = new RmiClient(this);
+            } catch (RemoteException exc) {
+                exc.printStackTrace();
+            }
         } else {
             this.client = new SocketClient ("localhost", 6666, this);
         }

@@ -23,9 +23,9 @@ public class RmiServer implements Runnable {
     public void run() {
         running = true;
         try {
-            RmiClientHandler handler = new RmiClientHandler();
+            RmiServerClientHandler handler = new RmiServerClientHandler(server);
             Registry registry = LocateRegistry.createRegistry(rmiPort);
-            registry.rebind("RmiClientHandler", handler);
+            registry.rebind("RmiServerClientHandler", handler);
             System.out.println("Rmi server running and waiting for invocations.");
         } catch (Exception exc) {
             System.err.println(exc.getMessage());
