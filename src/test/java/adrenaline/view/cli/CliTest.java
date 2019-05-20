@@ -28,16 +28,9 @@ public class CliTest {
         printer.printActionOptions ();
         printer.printRanking (g.getRanking());
 
-        g.setArena (SMALL);
-        printer.printArena(g.getMap ().getArena ());
+
+        printer.printSmallMap ();
         System.out.print("\n");
-        g.setArena (MEDIUM_1);
-        printer.printArena(g.getMap ().getArena ());
-        System.out.print("\n");
-        g.setArena (MEDIUM_2);
-        printer.printArena(g.getMap ().getArena ());
-        System.out.print("\n");
-        g.setArena (LARGE);
-        printer.printArena(g.getMap ().getArena ());
+
     }
 }

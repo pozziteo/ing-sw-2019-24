@@ -162,90 +162,40 @@ public class CliPrinter {
         print("Enter your nickname: ");
     }
 
-    synchronized void printArena(Square[] arena) {
-        printRow(0, arena);
-        printRow(4, arena);
-        printRow(8, arena);
+    synchronized void printSmallMap() {
+        //first row
+        print(ANSI_BLUE + " _________" + "__________" + "_________ " + ANSI_RESET + "          ");
+        print(ANSI_BLUE + "/        |" + "|        |" + "|        \\" + ANSI_RESET + "           ");
+        print(ANSI_BLUE + "|         " + "          " + "         |" + ANSI_RESET + "          ");
+        print(ANSI_BLUE + "|    0    " + "    1     " + "    2    |" + ANSI_RESET + "          ");
+        print(ANSI_BLUE + "|         " + "          " + "         |" + ANSI_RESET + "          ");
+        print(ANSI_BLUE + "\\__|  |__|" + "|________|" + "|__|  |__/" + ANSI_RESET + "          ");
+        //second row
+        print(ANSI_RED + " __|  |___" + "__________" + "___|  |__ " + ANSI_RESET + ANSI_YELLOW+ " ________ " + ANSI_RESET);
+        print(ANSI_RED + "/        |" + "|        |" + "|        \\" + ANSI_RESET + ANSI_YELLOW + "/        \\" + ANSI_RESET);
+        print(ANSI_RED + "|         " + "          " + "          " + ANSI_RESET + ANSI_YELLOW + "         |" + ANSI_RESET);
+        print(ANSI_RED + "|    4    " + "    5     " + "    6     " + ANSI_RESET + ANSI_YELLOW + "     7   |" + ANSI_RESET);
+        print(ANSI_RED + "|         " + "          " + "          " + ANSI_RESET + ANSI_YELLOW + "         |" + ANSI_RESET);
+        print(ANSI_RED + "\\________|" + "|__|  |__|" + "|________/" + ANSI_RESET + ANSI_YELLOW + "|_      _|" + ANSI_RESET);
+        //third row
+        print("          " + ANSI_WHITE + " __|  |___" + "_________ " + ANSI_RESET + ANSI_YELLOW + "|_      _|" + ANSI_RESET);
+        print("          " + ANSI_WHITE + "/        |" + "|        \\" + ANSI_RESET + ANSI_YELLOW + "|        |" + ANSI_RESET);
+        print("          " + ANSI_WHITE + "|         " + "          " + ANSI_RESET + ANSI_YELLOW + "         |" + ANSI_RESET);
+        print("          " + ANSI_WHITE + "|    9    " + "    10    " + ANSI_RESET + ANSI_YELLOW + "    11   |" + ANSI_RESET);
+        print("          " + ANSI_WHITE + "|         " + "          " + ANSI_RESET + ANSI_YELLOW + "         |" + ANSI_RESET);
+        print("          " + ANSI_WHITE + "\\________|" + "|________/" + ANSI_RESET + ANSI_YELLOW + "\\________/" + ANSI_RESET);
     }
 
-    void printRow(int j, Square[] arena) {
-        String ansiColor1 = "";
-        String id1 = "";
-        String ansiColor2 = "";
-        String id2 = "";
-        String ansiColor3 = "";
-        String id3 = "";
-        String ansiColor4 = "";
-        String id4 = "";
-        for (int i = j; i < j + 4; i++) {
-            String squareColor = arena[i].getSquareColor ();
-            int k = i - j;
-            switch (k) {
-                case (0):
-                    ansiColor1 = findColor(squareColor);
-                    if (i < 10)
-                        id1 = i + " ";
-                    else
-                        id1 = Integer.toString (i);
-                    break;
-                case(1):
-                    ansiColor2 = findColor(squareColor);
-                    if (i < 10)
-                        id2 = i+ " ";
-                    else
-                        id2 = Integer.toString (i);
-                    break;
-                case(2):
-                    ansiColor3 = findColor(squareColor);
-                    if (i < 10)
-                        id3 = i + " ";
-                    else
-                        id3 = Integer.toString (i);
-                    break;
-                case(3):
-                    ansiColor4 = findColor(squareColor);
-                    if (i < 10)
-                        id4 = i + " ";
-                    else
-                        id4 = Integer.toString (i);
-                    break;
-            }
-        }
-        print(ansiColor1 + " ________ " + ANSI_RESET + ansiColor2 + " ________ " + ANSI_RESET + ansiColor3 + " ________ " + ANSI_RESET + ansiColor4 + " ________ " + ANSI_RESET);
-        print(ansiColor1 + "/        \\" + ANSI_RESET + ansiColor2 + "/        \\" + ANSI_RESET + ansiColor3 + "/        \\" + ANSI_RESET + ansiColor4 + "/        \\" + ANSI_RESET);
-        print(ansiColor1 + "|        |" + ANSI_RESET + ansiColor2 + "|        |" + ANSI_RESET + ansiColor3 + "|        |" + ANSI_RESET + ansiColor4 + "|        |" + ANSI_RESET);
-        print(ansiColor1 + "|   " + id1 + "   |" + ANSI_RESET + ansiColor2 + "|   " + id2 + "   |" + ANSI_RESET + ansiColor3 + "|   " + id3 + "   |" + ANSI_RESET + ansiColor4 + "|   " + id4 + "   |" + ANSI_RESET);
-        print(ansiColor1 + "|        |" + ANSI_RESET + ansiColor2 + "|        |" + ANSI_RESET + ansiColor3 + "|        |" + ANSI_RESET + ansiColor4 + "|        |" + ANSI_RESET);
-        print(ansiColor1 + "|        |" + ANSI_RESET + ansiColor2 + "|        |" + ANSI_RESET + ansiColor3 + "|        |" + ANSI_RESET + ansiColor4 + "|        |" + ANSI_RESET);
-        print(ansiColor1 + "\\________/" + ANSI_RESET + ansiColor2 + "\\________/" + ANSI_RESET + ansiColor3 + "\\________/" + ANSI_RESET + ansiColor4 + "\\________/" + ANSI_RESET);
+    synchronized void printMedium1Map() {
+
     }
 
-    String findColor(String squareColor) {
-        String ansiColor;
-        switch (squareColor) {
-            case "Red":
-                ansiColor = ANSI_RED;
-                break;
-            case "Blue":
-                ansiColor = ANSI_BLUE;
-                break;
-            case "Yellow":
-                ansiColor = ANSI_YELLOW;
-                break;
-            case "White":
-                ansiColor = ANSI_BLACK;
-                break;
-            case "Green":
-                ansiColor = ANSI_GREEN;
-                break;
-            case "Purple":
-                ansiColor = ANSI_PURPLE;
-                break;
-            default:
-                ansiColor = ANSI_WHITE;
-                break;
-        }
-        return ansiColor;
+    synchronized void printMedium2Map() {
+
+    }
+
+    synchronized void printLargeMap() {
+
     }
 
     synchronized void printSquareDetails(Square square) {
