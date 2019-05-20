@@ -208,9 +208,9 @@ public class CliPrinter {
         print(ANSI_RED + "|        |" +ANSI_RESET + ANSI_PURPLE +"|        |" + ANSI_RESET +ANSI_YELLOW +"|         |" + "        |" + ANSI_RESET);
         print(ANSI_RED + "|    4   |" +ANSI_RESET + ANSI_PURPLE +"|   5    |" + ANSI_RESET +ANSI_YELLOW +"|   6     |" + "   7    |" + ANSI_RESET);
         print(ANSI_RED + "|        |" +ANSI_RESET + ANSI_PURPLE +"|        |" + ANSI_RESET +ANSI_YELLOW +"|         |" + "        |" + ANSI_RESET);
-        print(ANSI_RED + "\\__|  |__|" +ANSI_RESET + ANSI_PURPLE +"\\__|  |__/" +ANSI_RESET +ANSI_YELLOW +"|  ______ |"+  " _____  |" + ANSI_RESET);
+        print(ANSI_RED + "\\__|  |__|" +ANSI_RESET + ANSI_PURPLE +"\\__|  |__/" +ANSI_RESET +ANSI_YELLOW +"|  ________"+  "______  |" + ANSI_RESET);
         //third row
-        print(ANSI_WHITE + " __|  |___" + "___|  |__" + ANSI_RESET + ANSI_YELLOW + " |         |" + ANSI_RESET + ANSI_YELLOW + "        |" + ANSI_RESET);
+        print(ANSI_WHITE + " __|  |___" + "___|  |__" + ANSI_RESET + ANSI_YELLOW + " |          " + ANSI_RESET + ANSI_YELLOW + "        |" + ANSI_RESET);
         print(ANSI_WHITE + "/         " + "         \\" + ANSI_RESET + ANSI_YELLOW + "|         |" + ANSI_RESET + ANSI_YELLOW + "        |" + ANSI_RESET);
         print(ANSI_WHITE + "|        " + "|         |" + ANSI_RESET + ANSI_YELLOW + "|         |" + ANSI_RESET + ANSI_YELLOW + "        |" + ANSI_RESET);
         print(ANSI_WHITE + "|    8   " + "|    9     " + ANSI_RESET + ANSI_YELLOW + "    10    |" + ANSI_RESET + ANSI_YELLOW + "   11   |" + ANSI_RESET);

@@ -34,7 +34,6 @@ public class Lobby implements TimerCallBack {
 
     private void createGame() {
         timerThread.shutDownThread ();
-        sendMessageToAll ("Creating game...\n");
         this.gameStarted = true;
         String[] playerNames = new String[players.size ( )];
         int i = 0;
@@ -93,12 +92,15 @@ public class Lobby implements TimerCallBack {
         if (!gameStarted) {
             if (thereIsEnoughPlayers ()) {
                 if (isFull ()) {
+                    sendMessageToAll ("Your lobby is full, the game will begin shortly...\n");
                     createGame ( );
                 } else {
-                    if (players.size() == 3) {
-                        this.timerThread.startThread ( );
-                    }
+                    sendMessageToAll ("Starting countdown for the game...  (Current players: " + this.players.size () + ")\n");
+                    if (players.size() == 3)
+                        this.timerThread.startThread ();
                 }
+            } else {
+                sendMessageToAll ("There's not enough participants, waiting for more... (Current players: " + this.players.size () + ")\n");
             }
         } else {
             throw new GameStartedException ("Error. The game has already started.\n");
@@ -110,7 +112,7 @@ public class Lobby implements TimerCallBack {
             //TODO
         } else {
             players.remove (disconnected);
-            sendMessageToAll (disconnected.getNickName () + " left the lobby... (Current players: " + players.size() + ")\n");
+            sendMessageToAll (disconnected.getNickName () + " left the lobby...\n");
             if (timerThread.isRunning ()) {
                 timerThread.shutDownThread ();
             }
@@ -153,7 +155,7 @@ public class Lobby implements TimerCallBack {
 
     public synchronized void addPlayer(Account a) throws GameStartedException {
         this.players.add (a);
-        sendMessageToWaiting (a.getNickName () + " joined the lobby... (Current players: " + players.size() + ")\n");
+        sendMessageToWaiting (a.getNickName () + " joined the lobby...");
         checkReady();
     }
 
