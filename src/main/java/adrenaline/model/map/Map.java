@@ -15,7 +15,7 @@ public class Map implements Serializable {
     /**
      * attribute which represents the "file name" of the map
      */
-    private String actualMap;
+    private String name;
 
     /**
      * dimension is the number of squares which compose the map
@@ -35,8 +35,8 @@ public class Map implements Serializable {
 
     }
 
-    public String getActualMapName() {
-        return actualMap;
+    public String getMapName() {
+        return this.name;
     }
 
     /**

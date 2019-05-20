@@ -37,7 +37,7 @@ public class MainServer {
     private static final String PATH = "src" + File.separatorChar + "Resources";
     private static final String ACCOUNTS = PATH + File.separatorChar + "accounts.ser";
 
-    private MainServer() {
+    public MainServer() {
         this.onlineClients = new LinkedList<>();
         this.serverAddress = "localhost"; //change to get dynamically
         this.rmiPort = 10000;
@@ -189,9 +189,9 @@ public class MainServer {
                     sendLoginResponse (toRegister, false, "This nickname is already in use.\n");
                 } else {
                     System.out.println(storedAccount.getNickName () + " is back");
-                    sendLoginResponse (toRegister, true, "Welcome back, " + storedAccount.getNickName () + ".\nYou joined a lobby. Please wait...\n");
                     toRegister.setNickname (newNickname);
                     toRegister.setGameHistory(storedAccount.getGameHistory());
+                    sendLoginResponse (toRegister, true, "Welcome back, " + storedAccount.getNickName () + ".\nYou joined a lobby. Please wait...\n");
                     tryInsertingIntoLobby (toRegister);
                 }
                 return true;
@@ -203,10 +203,10 @@ public class MainServer {
     private void saveNewAccount(Account account, String oldNickname, String newNickname) {
         try {
             System.out.println ("New account registered by " + oldNickname + " -> " + newNickname);
-            sendLoginResponse (account, true, "Welcome, " + account.getNickName ( ) + ". Your registration was successful.\nYou joined a lobby. Please wait...\n");
             account.setNickname (newNickname);
             this.storedAccounts.add (account);
             storeAccounts ( );
+            sendLoginResponse (account, true, "Welcome, " + account.getNickName ( ) + ". Your registration was successful.\nYou joined a lobby. Please wait...\n");
             tryInsertingIntoLobby (account);
         } catch (IOException e) {
             System.err.println (e.getMessage ( ));

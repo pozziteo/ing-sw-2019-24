@@ -18,7 +18,7 @@ public class Player implements Serializable {
     private String playerColor;
     private Board playerBoard;
     private int pointTokens;
-    private Square position;
+    private Square position = null;
     private ArrayList<Weapon> ownedWeapons;
     private ArrayList<PowerUp> ownedPowerUps;
     private int givenMarks;

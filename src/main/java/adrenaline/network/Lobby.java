@@ -14,7 +14,6 @@ public class Lobby implements TimerCallBack {
     private int id;
     private MainServer server;
     private ArrayList<Account> players;
-    private GameModel game;
     private Controller controller;
     private TimerThread timerThread;
     private long timeout;
@@ -41,8 +40,7 @@ public class Lobby implements TimerCallBack {
             playerNames[i] = a.getNickName ( );
             i++;
         }
-        this.game = new GameModel (playerNames);
-        this.controller.startController (game);
+        this.controller.startController (new GameModel (playerNames));
     }
 
     public ArrayList<Account> getPlayers() {
@@ -51,10 +49,6 @@ public class Lobby implements TimerCallBack {
 
     public Controller getController() {
         return this.controller;
-    }
-
-    public GameModel getGameModel() {
-        return this.game;
     }
 
     public boolean isGameStarted() {
@@ -107,12 +101,16 @@ public class Lobby implements TimerCallBack {
         }
     }
 
-    public void removeDisconnected(Account disconnected) {
+    public synchronized void removeDisconnected(Account disconnected) {
+        players.remove (disconnected);
+        sendMessageToAll (disconnected.getNickName () + " disconnected...\n");
         if (gameStarted) {
-            //TODO
+            if (players.size() < 3) {
+                controller.endGame();
+            } else {
+                controller.informOfDisconnection(disconnected.getNickName ());
+            }
         } else {
-            players.remove (disconnected);
-            sendMessageToAll (disconnected.getNickName () + " left the lobby...\n");
             if (timerThread.isRunning ()) {
                 timerThread.shutDownThread ();
             }
@@ -125,7 +123,7 @@ public class Lobby implements TimerCallBack {
     }
 
     public void sendMessageToWaiting(String content) {
-        if (players.size() != 1) {
+        if (players.size() > 1) {
             for (Account a : players.subList (0, players.size ()-1)) {
                 MessageForClient message = new MessageForClient (a, content);
                 message.sendToView ();
@@ -159,6 +157,16 @@ public class Lobby implements TimerCallBack {
         checkReady();
     }
 
+    // *****************************************************************************************************************
+    // CALLBACK
+    // *****************************************************************************************************************
+
+    /**
+     * Callback function for game creation time out. If there's at least three players in this lobby
+     * the timer starts and gets interrupted upon reaching 5 players in total, otherwise it continues
+     * and after ending a new game gets created.
+     */
+
     @Override
     public void timerCallBack() {
         try {
@@ -167,6 +175,11 @@ public class Lobby implements TimerCallBack {
             System.err.println(e.getMessage ());
         }
     }
+
+    /**
+     * Method that implements utils.TimerCallBack interface. It is not used in this class.
+     * @param nickname of player
+     */
 
     @Override
     public void timerCallBack(String nickname) {

@@ -10,12 +10,14 @@ import adrenaline.utils.TimerCallBack;
 import adrenaline.utils.TimerThread;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class Controller implements TimerCallBack {
     private Lobby lobby;
     private GameModel gameModel;
     private long timeout;
     private TimerThread timer;
+    private ArrayList<Player> dummyPlayers;
 
     //path for default map
     private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
@@ -25,6 +27,7 @@ public class Controller implements TimerCallBack {
         this.lobby = lobby;
         this.timeout = (long) 10 * 1000;
         this.timer = new TimerThread (this, timeout);
+        this.dummyPlayers = new ArrayList<> ();
     }
 
     public GameModel getGameModel() {
@@ -59,28 +62,25 @@ public class Controller implements TimerCallBack {
         }
     }
 
-    public void setSpawnPoint(String nickname, String color){
+    public synchronized void setSpawnPoint(String nickname, String color){
         for (Player p : gameModel.getGame().getPlayers()){
             if (p.getPlayerName().equals(nickname)){
                 p.chooseSpawnPoint(color);
+                break;
             }
         }
         if (checkPlayersReady()) {
             playTurn ();
-        } else {
-            lobby.sendMessageToAll ("Wait");
         }
     }
 
     //TODO fix
     private boolean checkPlayersReady() {
-        boolean ready = false;
+        boolean ready = true;
         for (Player p : gameModel.getGame ().getPlayers ()) {
             if (p.getPosition () == null) {
                 ready = false;
                 break;
-            } else {
-                ready = true;
             }
         }
         return ready;
@@ -92,7 +92,12 @@ public class Controller implements TimerCallBack {
             if (! gameModel.getGame ().isFinalFrenzy ()) {
                 int indexOfLast = gameModel.getGame ().getPlayers ().size ()-1;
                 int currentTurn = gameModel.getGame ( ).getCurrentTurn ( );
-                String currentPlayer = lobby.getPlayers ().get (indexOfLast - currentTurn).getNickName ();
+                String currentPlayer;
+                if (dummyPlayers.contains(gameModel.getGame ().getPlayers ().get (indexOfLast - currentTurn))) {
+                    gameModel.getGame ().incrementTurn ();
+                    currentTurn = gameModel.getGame ( ).getCurrentTurn ( );
+                }
+                currentPlayer = gameModel.getGame ( ).getPlayers ( ).get (indexOfLast - currentTurn).getPlayerName ( );
                 lobby.sendToSpecific (currentPlayer, new Turn(true, gameModel.getGame ().getMap ()));
                 lobby.sendToAllNonCurrent (currentPlayer, new Turn(false, gameModel.getGame ().getMap ()));
                 timer.startThread (currentPlayer);
@@ -103,6 +108,28 @@ public class Controller implements TimerCallBack {
         } else {
             //TODO
         }
+    }
+
+    public void informOfDisconnection(String nickname) {
+        for (Player p : gameModel.getGame ().getPlayers ()) {
+            if (p.getPlayerName ().equals(nickname)) {
+                dummyPlayers.add (p);
+                break;
+            }
+        }
+    }
+
+    public void informOfReconnection(String nickname) {
+        for (Player p : dummyPlayers) {
+            if (p.getPlayerName ().equals (nickname)) {
+                dummyPlayers.remove (p);
+                break;
+            }
+        }
+    }
+
+    public synchronized void endGame() {
+        gameModel.getGame ().setEndGame (true);
     }
 
     //******************************************************************************************************************

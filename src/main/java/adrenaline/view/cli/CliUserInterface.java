@@ -26,7 +26,6 @@ public class CliUserInterface implements UserInterface {
     private CliParser parser;
     private ClientInterface client;
     private String nickname;
-    private String map;
 
     private final Object obj = new Object();
 
@@ -135,7 +134,8 @@ public class CliUserInterface implements UserInterface {
 
     public void chooseSpawnPoint(List<PowerUp> powerUps) {
         printer.printInitialSpawnPointOptions (powerUps);
-        ChosenSpawnPointSetUp data = new ChosenSpawnPointSetUp (nickname, powerUps.get (parser.asyncParseInt (1)).getAmmo ().getColor ());
+        int n = parser.asyncParseInt (1);
+        ChosenSpawnPointSetUp data = new ChosenSpawnPointSetUp (nickname, powerUps.get (n).getAmmo ().getColor ());
         sendToServer (data);
     }
 
@@ -152,22 +152,18 @@ public class CliUserInterface implements UserInterface {
                 if (parsed != -1) {
                     if (parsed == 0) {
                         valid = true;
-                        map = "small map";
                         ChosenMapSetUp mapData = new ChosenMapSetUp (nickname, SMALL);
                         sendToServer (mapData);
                     } else if (parsed == 1) {
                         valid = true;
-                        map = "medium (v1) map";
                         ChosenMapSetUp mapData = new ChosenMapSetUp (nickname, MEDIUM_1);
                         sendToServer (mapData);
                     } else if (parsed == 2) {
                         valid = true;
-                        map = "medium (v2) map";
                         ChosenMapSetUp mapData = new ChosenMapSetUp (nickname, MEDIUM_2);
                         sendToServer (mapData);
                     } else if (parsed == 3) {
                         valid = true;
-                        map = "large map";
                         ChosenMapSetUp mapData = new ChosenMapSetUp (nickname, LARGE);
                         sendToServer (mapData);
                     } else this.printer.printInvalidInput ( );
@@ -204,14 +200,14 @@ public class CliUserInterface implements UserInterface {
     }
 
     public void printMap(Map map) {
-        switch (this.map) {
+        switch (map.getMapName ()) {
             case "small map":
                 printer.printSmallMap();
                 break;
-            case "medium (v1) map":
+            case "medium map (v1)":
                 printer.printMedium1Map();
                 break;
-            case "medium (v2) map":
+            case "medium map (v2)":
                 printer.printMedium2Map();
                 break;
             case "large map":
