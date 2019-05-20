@@ -1,18 +1,9 @@
 package adrenaline.view.cli;
 
 import adrenaline.model.Game;
-import adrenaline.view.cli.CliPrinter;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-
 public class CliTest {
-    private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
-    private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
-    private static final String MEDIUM_1 = PATH + File.separatorChar + "mediummap_1.json";
-    private static final String MEDIUM_2 = PATH + File.separatorChar + "mediummap_2.json";
-    private static final String LARGE = PATH + File.separatorChar + "largemap.json";
-
     String[] playerNames = {"luca", "matteo", "sara"};
     private Game g = new Game (playerNames);
     private CliPrinter printer = new CliPrinter();
@@ -28,13 +19,10 @@ public class CliTest {
         printer.printActionOptions ();
         printer.printRanking (g.getRanking());
 
-
-
-
     }
 
     @Test
-    public void printMapTest(){
+    public void testPrintMap(){
         printer.printSmallMap ();
         System.out.print("\n");
         printer.printLargeMap();
