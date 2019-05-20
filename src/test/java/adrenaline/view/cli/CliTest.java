@@ -29,8 +29,14 @@ public class CliTest {
         printer.printRanking (g.getRanking());
 
 
+
+
+    }
+
+    @Test
+    public void printMapTest(){
         printer.printSmallMap ();
         System.out.print("\n");
-
+        printer.printLargeMap();
     }
 }
