@@ -195,6 +195,27 @@ public class CliPrinter {
     }
 
     synchronized void printLargeMap() {
+        //first row
+        print(ANSI_RED + " ________" + ANSI_RESET + ANSI_BLUE+"  ________" + "__________" + ANSI_RESET + ANSI_GREEN +"  ________");
+        print(ANSI_RED + "/        \\" + ANSI_RESET +ANSI_BLUE+"/         " + "         \\" + ANSI_RESET +ANSI_GREEN+"/        \\");
+        print(ANSI_RED + "|        |" + ANSI_RESET +ANSI_BLUE+"|        " + "|         |" + ANSI_RESET + ANSI_GREEN +"|        |");
+        print(ANSI_RED + "|    0    " + ANSI_RESET +ANSI_BLUE+"    1    " + "|    2     " + ANSI_RESET + ANSI_GREEN +"    3    |");
+        print(ANSI_RED + "|        |" + ANSI_RESET +ANSI_BLUE+"|        " + "|         |" + ANSI_RESET + ANSI_GREEN +"|        |");
+        print(ANSI_RED + "|        |" +ANSI_RESET +ANSI_BLUE+ "\\__|  |___" + "___|  |__/" + ANSI_RESET + ANSI_GREEN +"\\__|  |__/");
+        //second row
+        print(ANSI_RED + "|  ____  |" +ANSI_RESET + ANSI_PURPLE +" __|  |__ " +ANSI_RESET +ANSI_YELLOW + " __|  |___" + "___|  |__ " + ANSI_RESET);
+        print(ANSI_RED + "|        |" +ANSI_RESET + ANSI_PURPLE +"/        \\" +ANSI_RESET +ANSI_YELLOW + "/         "+ "         \\" + ANSI_RESET);
+        print(ANSI_RED + "|        |" +ANSI_RESET + ANSI_PURPLE +"|        |" + ANSI_RESET +ANSI_YELLOW +"|         " + "         |" + ANSI_RESET);
+        print(ANSI_RED + "|    4   |" +ANSI_RESET + ANSI_PURPLE +"|   5    |" + ANSI_RESET +ANSI_YELLOW +"|   6     " + "    7    |" + ANSI_RESET);
+        print(ANSI_RED + "|        |" +ANSI_RESET + ANSI_PURPLE +"|        |" + ANSI_RESET +ANSI_YELLOW +"|         " + "         |" + ANSI_RESET);
+        print(ANSI_RED + "\\__|  |__|" +ANSI_RESET + ANSI_PURPLE +"\\__|  |__/" +ANSI_RESET +ANSI_YELLOW +"|        /"+  "\\        |" + ANSI_RESET);
+        //third row
+        print(ANSI_WHITE + " __|  |___" + "___|  |__" + ANSI_RESET + ANSI_YELLOW + " |        \\" + ANSI_RESET + ANSI_YELLOW + "/        |" + ANSI_RESET);
+        print(ANSI_WHITE + "/         " + "         \\" + ANSI_RESET + ANSI_YELLOW + "|         " + ANSI_RESET + ANSI_YELLOW + "         |" + ANSI_RESET);
+        print(ANSI_WHITE + "|        " + "|         |" + ANSI_RESET + ANSI_YELLOW + "|         " + ANSI_RESET + ANSI_YELLOW + "         |" + ANSI_RESET);
+        print(ANSI_WHITE + "|    8   " + "|    9     " + ANSI_RESET + ANSI_YELLOW + "    10    " + ANSI_RESET + ANSI_YELLOW + "    11   |" + ANSI_RESET);
+        print(ANSI_WHITE + "|        " + "|         |" + ANSI_RESET + ANSI_YELLOW + "|         " + ANSI_RESET + ANSI_YELLOW + "         |" + ANSI_RESET);
+        print(ANSI_WHITE + "\\_________" + "_________/" + ANSI_RESET + ANSI_YELLOW + "\\_________" + ANSI_RESET + ANSI_YELLOW + "_________/" + ANSI_RESET);
 
     }
 
