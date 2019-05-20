@@ -16,8 +16,8 @@ public class RmiPlayer extends Account {
     }
 
     protected void setUpAccount() {
-        super.setOnline(true);
-        super.logClient();
+        setOnline(true);
+        logClient();
     }
 
     protected void setUpClient() {
@@ -26,6 +26,16 @@ public class RmiPlayer extends Account {
 
     public void receiveData(DataForServer data) {
         super.getServer().receiveData(this, data);
+    }
+
+    @Override
+    protected final void setOnline(boolean value) {
+        super.setOnline(value);
+    }
+
+    @Override
+    public final void logClient() {
+        super.logClient();
     }
 
     @Override

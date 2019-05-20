@@ -16,6 +16,35 @@ public class RmiServerClientHandler implements RmiServerInterface {
     private MainServer server;
     private Map<RmiClientCallbackInterface, RmiPlayer> rmiClients;
 
+    private class CheckConnection implements Runnable {
+
+        private RmiClientCallbackInterface client;
+        private RmiPlayer playerClient;
+
+        public CheckConnection(RmiClientCallbackInterface client, RmiPlayer player) {
+            this.client = client;
+            this.playerClient = player;
+        }
+
+        @Override
+        public void run() {
+            boolean connected = true;
+            try {
+                while (connected) {
+                    Thread.sleep(5000);
+                    connected = client.ping();;
+                }
+            } catch (InterruptedException exc) {
+                Thread.currentThread().interrupt();
+            } catch (RemoteException exc) {
+                System.out.println(exc.getMessage());
+            } finally {
+                playerClient.setOnline(false);
+                closeConnection(client, playerClient);
+            }
+         }
+    }
+
     public RmiServerClientHandler(MainServer server) throws RemoteException {
         this.server = server;
         this.rmiClients = new ConcurrentHashMap<>();
@@ -29,6 +58,7 @@ public class RmiServerClientHandler implements RmiServerInterface {
         rmiClients.put(client, newPlayer);
         newPlayer.setUpAccount();
         newPlayer.setUpClient();
+        new Thread(new CheckConnection(client, newPlayer)).start();
     }
 
     @Override
@@ -49,5 +79,12 @@ public class RmiServerClientHandler implements RmiServerInterface {
                 break;
             }
         }
+    }
+
+    public void closeConnection(RmiClientCallbackInterface remoteClient, RmiPlayer serverClient) {
+        System.out.println(serverClient.getNickName() + " disconnected");
+        serverClient.setOnline(false);
+        serverClient.getServer().notifyDisconnection(serverClient.getNickName());
+        rmiClients.remove(remoteClient);
     }
 }

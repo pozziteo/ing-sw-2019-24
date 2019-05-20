@@ -21,12 +21,13 @@ public class RmiClient extends UnicastRemoteObject implements ClientInterface, R
     private transient RmiServerInterface stub;
 
     public RmiClient(UserInterface view) throws RemoteException {
+        super();
         this.view = view;
     }
 
 
     public boolean isConnected() {
-        return this.stub == null;
+        return this.stub != null;
     }
 
     /**
@@ -64,6 +65,11 @@ public class RmiClient extends UnicastRemoteObject implements ClientInterface, R
     @Override
     public void notifyChanges(DataForClient data) throws RemoteException {
         view.updateView(data);
+    }
+
+    @Override
+    public boolean ping() throws RemoteException {
+        return isConnected();
     }
 
 }

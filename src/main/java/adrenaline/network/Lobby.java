@@ -125,8 +125,8 @@ public class Lobby implements TimerCallBack {
     }
 
     public void sendMessageToWaiting(String content) {
-        if (players.size() != 1) {
-            for (Account a : players.subList (0, players.size ()-1)) {
+        if (!players.isEmpty()) {
+            for (Account a : players) {
                 MessageForClient message = new MessageForClient (a, content);
                 message.sendToView ();
             }
