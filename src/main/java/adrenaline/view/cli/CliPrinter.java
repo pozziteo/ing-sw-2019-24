@@ -165,25 +165,25 @@ public class CliPrinter {
     synchronized void printSmallMap() {
         //first row
         print(ANSI_BLUE + " _________" + "__________" + "_________ " + ANSI_RESET + "          ");
-        print(ANSI_BLUE + "/        |" + "|        |" + "|        \\" + ANSI_RESET + "           ");
-        print(ANSI_BLUE + "|         " + "          " + "         |" + ANSI_RESET + "          ");
-        print(ANSI_BLUE + "|    0    " + "    1     " + "    2    |" + ANSI_RESET + "          ");
-        print(ANSI_BLUE + "|         " + "          " + "         |" + ANSI_RESET + "          ");
-        print(ANSI_BLUE + "\\__|  |__|" + "|________|" + "|__|  |__/" + ANSI_RESET + "          ");
+        print(ANSI_BLUE + "/         " + "          " + "         \\" + ANSI_RESET + "           ");
+        print(ANSI_BLUE + "|         |" + "        " + "|         |" + ANSI_RESET + "          ");
+        print(ANSI_BLUE + "|    0    |" + "   1    " + "|    2    |" + ANSI_RESET + "          ");
+        print(ANSI_BLUE + "|         |" + "        " + "|         |" + ANSI_RESET + "          ");
+        print(ANSI_BLUE + "\\__|  |___" + "__________" + "___|  |__/" + ANSI_RESET + "          ");
         //second row
         print(ANSI_RED + " __|  |___" + "__________" + "___|  |__ " + ANSI_RESET + ANSI_YELLOW+ " ________ " + ANSI_RESET);
-        print(ANSI_RED + "/        |" + "|        |" + "|        \\" + ANSI_RESET + ANSI_YELLOW + "/        \\" + ANSI_RESET);
-        print(ANSI_RED + "|         " + "          " + "          " + ANSI_RESET + ANSI_YELLOW + "         |" + ANSI_RESET);
-        print(ANSI_RED + "|    4    " + "    5     " + "    6     " + ANSI_RESET + ANSI_YELLOW + "     7   |" + ANSI_RESET);
-        print(ANSI_RED + "|         " + "          " + "          " + ANSI_RESET + ANSI_YELLOW + "         |" + ANSI_RESET);
-        print(ANSI_RED + "\\________|" + "|__|  |__|" + "|________/" + ANSI_RESET + ANSI_YELLOW + "|_      _|" + ANSI_RESET);
+        print(ANSI_RED + "/         " + "          " + "         \\" + ANSI_RESET + ANSI_YELLOW + "/        \\" + ANSI_RESET);
+        print(ANSI_RED + "|         |" + "        " + "|         |" + ANSI_RESET + ANSI_YELLOW + "|        |" + ANSI_RESET);
+        print(ANSI_RED + "|    4    |" + "   5    " + "|    6     " + ANSI_RESET + ANSI_YELLOW + "     7   |" + ANSI_RESET);
+        print(ANSI_RED + "|         |" + "        " + "|         |" + ANSI_RESET + ANSI_YELLOW + "|        |" + ANSI_RESET);
+        print(ANSI_RED + "\\_________" + "___|  |___" + "_________/" + ANSI_RESET + ANSI_YELLOW + "|  ____  |" + ANSI_RESET);
         //third row
-        print("          " + ANSI_WHITE + " __|  |___" + "_________ " + ANSI_RESET + ANSI_YELLOW + "|_      _|" + ANSI_RESET);
-        print("          " + ANSI_WHITE + "/        |" + "|        \\" + ANSI_RESET + ANSI_YELLOW + "|        |" + ANSI_RESET);
-        print("          " + ANSI_WHITE + "|         " + "          " + ANSI_RESET + ANSI_YELLOW + "         |" + ANSI_RESET);
-        print("          " + ANSI_WHITE + "|    9    " + "    10    " + ANSI_RESET + ANSI_YELLOW + "    11   |" + ANSI_RESET);
-        print("          " + ANSI_WHITE + "|         " + "          " + ANSI_RESET + ANSI_YELLOW + "         |" + ANSI_RESET);
-        print("          " + ANSI_WHITE + "\\________|" + "|________/" + ANSI_RESET + ANSI_YELLOW + "\\________/" + ANSI_RESET);
+        print("          " + ANSI_WHITE + " __|  |___" + "_________ " + ANSI_RESET + ANSI_YELLOW + "|        |" + ANSI_RESET);
+        print("          " + ANSI_WHITE + "/         " + "         \\" + ANSI_RESET + ANSI_YELLOW + "|        |" + ANSI_RESET);
+        print("          " + ANSI_WHITE + "|         |" + "        |" + ANSI_RESET + ANSI_YELLOW + "|        |" + ANSI_RESET);
+        print("          " + ANSI_WHITE + "|    9    |" + "   10    " + ANSI_RESET + ANSI_YELLOW + "    11   |" + ANSI_RESET);
+        print("          " + ANSI_WHITE + "|         |" + "        |" + ANSI_RESET + ANSI_YELLOW + "|        |" + ANSI_RESET);
+        print("          " + ANSI_WHITE + "\\_________" + "_________/" + ANSI_RESET + ANSI_YELLOW + "\\________/" + ANSI_RESET);
     }
 
     synchronized void printMedium1Map() {
