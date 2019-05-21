@@ -61,7 +61,7 @@ public class SocketPlayerThread extends Account implements Runnable {
     public void sendData(DataForClient data) {
         try {
             out.writeObject(data);
-            out.flush();
+            out.reset();
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }

@@ -17,4 +17,8 @@ public class GameModel implements Serializable {
         return this.game;
     }
 
+    public void updateMap() {
+
+    }
+
 }

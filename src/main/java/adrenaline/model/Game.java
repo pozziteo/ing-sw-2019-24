@@ -259,4 +259,12 @@ public class Game implements Serializable {
             }
         );
     }
+
+    public Player findByNickname(String nickname) {
+        for (Player p : players) {
+            if (p.getPlayerName ().equals(nickname))
+                return p;
+        }
+        return null;
+    }
 }
