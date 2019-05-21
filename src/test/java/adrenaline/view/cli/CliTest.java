@@ -23,10 +23,12 @@ public class CliTest {
 
     @Test
     public void testPrintMap(){
-        printer.printMedium2Map();
-        System.out.print("\n");
         printer.printSmallMap ();
         System.out.print("\n");
+        printer.printMedium2Map();
+        System.out.print("\n");
         printer.printLargeMap();
+        System.out.println("\n");
+        printer.printMedium1Map();
     }
 }
