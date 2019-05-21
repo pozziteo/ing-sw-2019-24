@@ -25,7 +25,7 @@ public class Controller implements TimerCallBack {
 
     public Controller(Lobby lobby) {
         this.lobby = lobby;
-        this.timeout = (long) 10 * 1000;
+        this.timeout = (long) 120 * 1000;
         this.timer = new TimerThread (this, timeout);
         this.dummyPlayers = new ArrayList<> ();
     }
@@ -72,6 +72,7 @@ public class Controller implements TimerCallBack {
         }
         if (checkPlayersReady()) {
             System.out.println("All players have spawned...\n");
+            gameModel.getGame ().startGame();
             playTurn ();
         }
     }

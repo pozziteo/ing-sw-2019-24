@@ -53,6 +53,7 @@ public class Square implements Serializable {
         this.spawn = sp;
         this.links = new ArrayList<>();
         this.links.addAll(links);
+        this.playersOnSquare = new ArrayList<> ();
     }
 
     /**
@@ -105,6 +106,10 @@ public class Square implements Serializable {
      */
     public List<Player> getPlayersOnSquare() {
         return this.playersOnSquare;
+    }
+
+    public void setPlayerOnSquare(Player p) {
+        this.playersOnSquare.add (p);
     }
 
     /**

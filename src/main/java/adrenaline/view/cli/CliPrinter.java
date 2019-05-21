@@ -1,10 +1,13 @@
 package adrenaline.view.cli;
 
 import adrenaline.model.deck.powerup.PowerUp;
+import adrenaline.model.map.NormalSquare;
+import adrenaline.model.map.SpawnPoint;
 import adrenaline.model.map.Square;
 import adrenaline.model.player.Player;
 import org.fusesource.jansi.AnsiConsole;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -263,6 +266,20 @@ public class CliPrinter {
     }
 
     synchronized void printSquareDetails(Square square) {
+        print("Square " + square.getSquareId () + ":");
+        print("Players on this square: ");
+        for (int i = 0; i < square.getPlayersOnSquare ().size (); i++) {
+            print ((i + 1) + ": " + square.getPlayersOnSquare ( ).get (i).getPlayerName ( ));
+        }
 
+        if (square.isSpawnPoint ()) {
+            print("Weapons you can grab: ");
+            for (int i = 0; i < ((SpawnPoint) square).getWeapons ().length; i++) {
+                print((i+1) + ": " + ((SpawnPoint) square).getWeapons ()[i].getWeaponsName ());
+            }
+            print("\n");
+        } else {
+            print("Tile details: " + ((NormalSquare) square).getPlacedTile ().getTileDescription () + "\n");
+        }
     }
 }
