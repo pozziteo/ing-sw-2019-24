@@ -16,8 +16,7 @@ public class Turn extends DataForClient {
     @Override
     public void updateView(CliUserInterface view) {
         if (isPlaying) {
-            view.printMap (map);
-            view.selectAction ();
+            view.selectAction (map);
         } else {
             //TODO
         }

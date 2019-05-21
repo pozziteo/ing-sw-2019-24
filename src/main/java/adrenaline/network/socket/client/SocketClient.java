@@ -81,7 +81,7 @@ public class SocketClient implements ClientInterface, Runnable {
     public void sendData(DataForServer data) {
         try {
             output.writeObject(data);
-            output.flush();
+            output.reset();
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
