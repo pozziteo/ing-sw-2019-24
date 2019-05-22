@@ -25,7 +25,7 @@ public class Lobby implements TimerCallBack {
         this.server = server;
         this.players = new ArrayList<> ();
         this.controller = new Controller(this);
-        this.timeout = (long) 25 * 1000;
+        this.timeout = (long) 5 * 1000;
         this.timerThread = new TimerThread (this, timeout);
         this.gameStarted = false;
         this.full = false;

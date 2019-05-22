@@ -99,6 +99,7 @@ public class Player implements Serializable {
 
     public void setPosition(Square square) {
         this.position = square;
+        square.setPlayerOnSquare (this);
     }
 
     /**

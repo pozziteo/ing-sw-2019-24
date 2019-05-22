@@ -147,8 +147,23 @@ public class MainServer {
             System.out.print ("]\n");
         } catch(EOFException e) {
             System.err.println("File " + ACCOUNTS + " is empty.");
+        } catch(FileNotFoundException e) {
+            if (createFile()) {
+                System.out.println ("File created successfully in " + ACCOUNTS);
+            } else
+                System.out.println ("File could not be created.");
         }
         return list;
+    }
+
+    private boolean createFile() {
+        try {
+            File f = new File (ACCOUNTS);
+            return f.createNewFile ( );
+        } catch (IOException e) {
+            System.out.println (e);
+            return false;
+        }
     }
 
     /**

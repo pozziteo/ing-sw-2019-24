@@ -25,7 +25,7 @@ public class Controller implements TimerCallBack {
 
     public Controller(Lobby lobby) {
         this.lobby = lobby;
-        this.timeout = (long) 10 * 1000;
+        this.timeout = (long) 120 * 1000;
         this.timer = new TimerThread (this, timeout);
         this.dummyPlayers = new ArrayList<> ();
     }
@@ -63,13 +63,16 @@ public class Controller implements TimerCallBack {
     }
 
     public synchronized void setSpawnPoint(String nickname, String color){
-        for (Player p : gameModel.getGame().getPlayers()){
-            if (p.getPlayerName().equals(nickname)){
-                p.chooseSpawnPoint(color);
-                break;
-            }
+        System.out.print ("Setting spawn point for " + nickname + "...\n");
+        Player p = gameModel.getGame ().findByNickname(nickname);
+        if (p == null) {
+            System.err.print("Player named " + nickname + " not found...\n");
+        } else {
+            p.chooseSpawnPoint (color);
         }
         if (checkPlayersReady()) {
+            System.out.println("All players have spawned...\n");
+            gameModel.getGame ().startGame();
             playTurn ();
         }
     }
@@ -130,6 +133,7 @@ public class Controller implements TimerCallBack {
 
     public synchronized void endGame() {
         gameModel.getGame ().setEndGame (true);
+        //TODO
     }
 
     //******************************************************************************************************************

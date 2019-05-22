@@ -134,9 +134,10 @@ public class CliUserInterface implements UserInterface {
 
     public void chooseSpawnPoint(List<PowerUp> powerUps) {
         printer.printInitialSpawnPointOptions (powerUps);
-        int n = parser.asyncParseInt (1);
-        ChosenSpawnPointSetUp data = new ChosenSpawnPointSetUp (nickname, powerUps.get (n).getAmmo ().getColor ());
+        int n = parser.parseInt (1);
+        ChosenSpawnPointSetUp data = new ChosenSpawnPointSetUp (nickname, powerUps.get (n).getAmmo ( ).getColor ( ));
         sendToServer (data);
+        printer.print("Your choice has been sent. Waiting for the other players...\n");
     }
 
     /**
@@ -178,7 +179,8 @@ public class CliUserInterface implements UserInterface {
     /**
      * This method asks the player the action he wants to perform
      */
-    public void selectAction(){
+    public void selectAction(Map map){
+        printMap(map);
         parser.setActive (true);
         boolean valid = false;
         while(!valid){

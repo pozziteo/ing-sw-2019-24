@@ -4,10 +4,9 @@ import adrenaline.model.deck.*;
 import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.deck.PowerUpsDeck;
 import adrenaline.model.deck.PowerUpsDeckCreator;
-import adrenaline.model.map.ArenaBuilder;
-import adrenaline.model.map.NormalSquare;
-import adrenaline.model.player.Player;
+import adrenaline.model.map.*;
 import adrenaline.model.map.Map;
+import adrenaline.model.player.Player;
 
 import java.io.FileNotFoundException;
 import java.io.Serializable;
@@ -80,6 +79,18 @@ public class Game implements Serializable {
 
         this.ranking.addAll(players);
         this.firstPlayer = this.players.get (0);
+    }
+
+    public void startGame() {
+        for (Square square : map.getArena ()) {
+            if (square.isSpawnPoint()) {
+                for (int i = 0; i < 3; i++) {
+                    ((SpawnPoint) square).setWeapons ((Weapon) weaponsDeck.drawCard ());
+                }
+            } else {
+                ((NormalSquare) square).setPlacedTile ((Tile) tilesDeck.drawCard ());
+            }
+        }
     }
 
     // *********************************************
@@ -258,5 +269,13 @@ public class Game implements Serializable {
                 return points2.compareTo(points1);
             }
         );
+    }
+
+    public Player findByNickname(String nickname) {
+        for (Player p : players) {
+            if (p.getPlayerName ().equals(nickname))
+                return p;
+        }
+        return null;
     }
 }

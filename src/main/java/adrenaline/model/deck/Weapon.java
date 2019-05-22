@@ -22,9 +22,9 @@ public class Weapon extends Card {
      */
     private WeaponType type;
 
-    private BaseEffect baseEffect;
+    private transient BaseEffect baseEffect;
 
-    private List<OptionalEffect> optionalEffects;
+    private transient List<OptionalEffect> optionalEffects;
 
     protected Weapon() {
         super();
