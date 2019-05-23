@@ -21,6 +21,9 @@ public class CliTest {
     private WeaponType wt1 = WeaponType.MACHINE_GUN;
     private Weapon w1 = new Weapon(wt1);
     private ArrayList<Weapon> wList = new ArrayList<>(Arrays.asList(w, w1));
+    private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
+    private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
+
 
     @Test
     public void testPrint() {
@@ -34,7 +37,7 @@ public class CliTest {
         printer.printSetUpComplete ();
         printer.printActionOptions ();
         printer.printRanking (g.getRanking());
-        printer.printWeaponList(p1);
+        printer.printWeaponList(p1.getOwnedWeapons());
     }
 
     @Test

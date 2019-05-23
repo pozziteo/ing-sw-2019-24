@@ -72,6 +72,7 @@ public class Controller implements TimerCallBack {
         }
         if (checkPlayersReady()) {
             System.out.println("All players have spawned...\n");
+            lobby.sendMessageToAll("All players have spawned.\n");
             gameModel.getGame ().startGame();
             playTurn ();
         }
@@ -101,8 +102,8 @@ public class Controller implements TimerCallBack {
                     currentTurn = gameModel.getGame ( ).getCurrentTurn ( );
                 }
                 currentPlayer = gameModel.getGame ( ).getPlayers ( ).get (indexOfLast - currentTurn).getPlayerName ( );
-                lobby.sendToSpecific (currentPlayer, new Turn(true, gameModel.getGame ().getMap ()));
-                lobby.sendToAllNonCurrent (currentPlayer, new Turn(false, gameModel.getGame ().getMap ()));
+                lobby.sendToSpecific (currentPlayer, new Turn(currentPlayer, gameModel.getGame ().getMap ()));
+                lobby.sendToAllNonCurrent (currentPlayer, new Turn(currentPlayer, gameModel.getGame ().getMap ()));
                 timer.startThread (currentPlayer);
                 gameModel.getGame ( ).incrementTurn ( );
             } else {

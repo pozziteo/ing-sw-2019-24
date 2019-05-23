@@ -179,25 +179,53 @@ public class CliUserInterface implements UserInterface {
     /**
      * This method asks the player the action he wants to perform
      */
-    public void selectAction(Map map){
-        printMap(map);
+    public void selectAction(){
         parser.setActive (true);
         boolean valid = false;
         while(!valid){
             this.printer.printActionOptions();
-            if (this.parser.parseInt(3)==0){
+            if (this.parser.parseInt(4)==0){
                 valid = true;
                 //TODO move
-            }else if(this.parser.parseInt(3)==1){
+            }else if(this.parser.parseInt(4)==1){
                 valid = true;
                 //TODO move and grab
-            } else if(this.parser.parseInt(3)==2){
+            } else if(this.parser.parseInt(4)==2){
                 valid = true;
                 //TODO shoot
-            } else if(this.parser.parseInt(3)==3){
+            } else if (this.parser.parseInt(4)==3) {
+                valid = true;
+            } else if(this.parser.parseInt(4)==4){
                 valid = true;
                 //TODO pass
             } else this.printer.printInvalidInput();
+        }
+    }
+
+    public void waitTurn(String nickname) {
+        printer.printWaitTurn(nickname);
+    }
+
+    public void showTurn(String nickname, Map map) {
+        parser.setActive(true);
+        boolean valid = false;
+        if (nickname.equals(this.nickname)) {
+            printMap(map);
+            selectAction();
+        } else {
+            waitTurn(nickname);
+            while (! valid) {
+                printer.print("Press 0 to view the map.\n");
+                int n = parser.asyncParseInt(0);
+                if (n != -1) {
+                    if (n == 0) {
+                        valid = true;
+                        printMap(map);
+                    } else {
+                        printer.printInvalidInput();
+                    }
+                }
+            }
         }
     }
 

@@ -5,20 +5,16 @@ import adrenaline.model.map.Map;
 import adrenaline.view.cli.CliUserInterface;
 
 public class Turn extends DataForClient {
-    private boolean isPlaying;
+    private String currentPlayer;
     private Map map;
 
-    public Turn(boolean isPlaying, Map map) {
-        this.isPlaying = isPlaying;
+    public Turn(String currentPlayer, Map map) {
+        this.currentPlayer = currentPlayer;
         this.map = map;
     }
 
     @Override
     public void updateView(CliUserInterface view) {
-        if (isPlaying) {
-            view.selectAction (map);
-        } else {
-            //TODO
-        }
+        view.showTurn(currentPlayer, map);
     }
 }

@@ -147,7 +147,7 @@ public class CliPrinter {
      * @param ranking is a sorted list
      */
     synchronized void printRanking(List<Player> ranking) {
-        print("Ranking:");
+        print("Current ranking:");
         for (int i = 0; i < ranking.size(); i++) {
             print ((i+1) + " - " + ranking.get(i).getPlayerColor () + " player");
         }
@@ -169,22 +169,22 @@ public class CliPrinter {
 
     synchronized void printSmallMap() {
         //first row
-        print(ANSI_BLUE + " ________"   +"  _______ " + " _________" + ANSI_RESET + "          ");
-        print(ANSI_BLUE + "/        \\" +"/       \\/" +"         \\ " + ANSI_RESET + "           ");
+        print(ANSI_BLUE + " ________"   +"  ________ " + " ________" + ANSI_RESET + "          ");
+        print(ANSI_BLUE + "/        \\" +"/        \\/" +"        \\ " + ANSI_RESET + "           ");
         print(ANSI_BLUE + "|         "  +"          " + "         |"+ ANSI_RESET + "          ");
         print(ANSI_BLUE + "|    0    "  +"    1     " + "    2 ╬  |" + ANSI_RESET + "          ");
         print(ANSI_BLUE +  "|         "  +"          " + "         |" + ANSI_RESET + "          ");
-        print(ANSI_BLUE + "\\__    __/"  +"\\_______/\\" + "___    __/" + ANSI_RESET + "          ");
+        print(ANSI_BLUE + "\\__    __/"  +"\\________/\\" + "__    __/" + ANSI_RESET + "          ");
         //second row
         print(ANSI_RED + " __"+ANSI_RESET+ANSI_BLUE+"║"+ANSI_RESET+ ANSI_RED+"  ║__ "  +" ________ " + " __"+ANSI_RESET+ANSI_BLUE+"║"+ANSI_RESET+ ANSI_RED+"  ║__ " + ANSI_RESET + ANSI_YELLOW+ "  ________ " + ANSI_RESET);
         print(ANSI_RED + "/        \\" + "/        \\"+  "/        \\" + ANSI_RESET + ANSI_YELLOW + " /        \\" + ANSI_RESET);
         print(ANSI_RED + "|          "  +"         " + "          ╩" + ANSI_RESET + ANSI_YELLOW + "         |" + ANSI_RESET);
         print(ANSI_RED + "| ╬  4    "  +"    5     " + "     6     " + ANSI_RESET + ANSI_YELLOW + "     7   |" + ANSI_RESET);
         print(ANSI_RED + "|         "  +"         " + "           " + ANSI_RESET + ANSI_YELLOW + "╦         |" + ANSI_RESET);
-        print(ANSI_RED + "\\________/" +"\\__    __/" +"\\________/" + ANSI_RESET + ANSI_YELLOW + " \\        /" + ANSI_RESET);
+        print(ANSI_RED + "\\________/" +"\\__    __/" +"\\________/" + ANSI_RESET + ANSI_YELLOW + " \\        |" + ANSI_RESET);
         //third row
-        print("          " + ANSI_WHITE + " __"+ANSI_RESET+ANSI_RED+"║"+ANSI_RESET+ ANSI_WHITE+"  ║__ " +" ________" + ANSI_RESET + ANSI_YELLOW + "  >        <" + ANSI_RESET);
-        print("          " + ANSI_WHITE + "/        \\"+ "/        \\" + ANSI_RESET + ANSI_YELLOW + " /        \\" + ANSI_RESET);
+        print("          " + ANSI_WHITE + " __"+ANSI_RESET+ANSI_RED+"║"+ANSI_RESET+ ANSI_WHITE+"  ║__ " +" ________" + ANSI_RESET + ANSI_YELLOW + "  |        |" + ANSI_RESET);
+        print("          " + ANSI_WHITE + "/        \\"+ "/        \\" + ANSI_RESET + ANSI_YELLOW + " /        |" + ANSI_RESET);
         print("          " + ANSI_WHITE + "|        " + "           ╩" + ANSI_RESET + ANSI_YELLOW + "         |" + ANSI_RESET);
         print("          " + ANSI_WHITE + "|   9     " + "    10   " + ANSI_RESET + ANSI_YELLOW + "      11 ╬ |" + ANSI_RESET);
         print("          " + ANSI_WHITE + "|         " + "          " + ANSI_RESET + ANSI_YELLOW + "╦         |" + ANSI_RESET);
@@ -198,17 +198,17 @@ public class CliPrinter {
         print(ANSI_RED + "|        ╩" + ANSI_RESET +ANSI_BLUE+"          " + "         |" + ANSI_RESET + "         ");
         print(ANSI_RED + "|    0    " + ANSI_RESET +ANSI_BLUE+"    1     " + "   2 ╬   |" + ANSI_RESET + "         ");
         print(ANSI_RED + "|        " + ANSI_RESET +ANSI_BLUE+"╦           " +  "        |" + ANSI_RESET + "          ");
-        print(ANSI_RED + " \\      / " +ANSI_RESET +ANSI_BLUE+ "\\__    __/" + "\\__    __/" + ANSI_RESET +"          ");
+        print(ANSI_RED + "|       / " +ANSI_RESET +ANSI_BLUE+ "\\__    __/" + "\\__    __/" + ANSI_RESET +"          ");
         //second row
-        print(ANSI_RED + " >      < " +ANSI_RESET + ANSI_PURPLE +" __" +ANSI_RESET+ANSI_BLUE+"║"+ANSI_RESET +ANSI_PURPLE +"  ║__ " +ANSI_RESET +ANSI_PURPLE +  " __"+ANSI_RESET+ANSI_BLUE+"║"+ANSI_RESET +ANSI_PURPLE + "  ║__ " + ANSI_RESET + ANSI_YELLOW+ "  ________ " + ANSI_RESET);
-        print(ANSI_RED + " /      \\ " +ANSI_RESET + ANSI_PURPLE +"/        \\" + "/        \\"+ ANSI_RESET + ANSI_YELLOW + " /        \\" + ANSI_RESET);
+        print(ANSI_RED + "|       | " +ANSI_RESET + ANSI_PURPLE +" __" +ANSI_RESET+ANSI_BLUE+"║"+ANSI_RESET +ANSI_PURPLE +"  ║__ " +ANSI_RESET +ANSI_PURPLE +  " __"+ANSI_RESET+ANSI_BLUE+"║"+ANSI_RESET +ANSI_PURPLE + "  ║__ " + ANSI_RESET + ANSI_YELLOW+ "  ________ " + ANSI_RESET);
+        print(ANSI_RED + "|       \\ " +ANSI_RESET + ANSI_PURPLE +"/        \\" + "/        \\"+ ANSI_RESET + ANSI_YELLOW + " /        \\" + ANSI_RESET);
         print(ANSI_RED + "|        |" +ANSI_RESET + ANSI_PURPLE +"|         " +"          ╩" + ANSI_RESET + ANSI_YELLOW + "         |" + ANSI_RESET);
         print(ANSI_RED + "| ╬  4   |" +ANSI_RESET + ANSI_PURPLE +"|   5     " + "    6      " + ANSI_RESET + ANSI_YELLOW + "    7    |" + ANSI_RESET);
         print(ANSI_RED + "|        |" +ANSI_RESET + ANSI_PURPLE +"|         " +"          " + ANSI_RESET + ANSI_YELLOW + "╦         |" + ANSI_RESET);
-        print(ANSI_RED + "\\__    __/" +ANSI_RESET + ANSI_PURPLE +"\\__    __/"+"\\________/" + ANSI_RESET + ANSI_YELLOW + " \\        /" + ANSI_RESET);
+        print(ANSI_RED + "\\__    __/" +ANSI_RESET + ANSI_PURPLE +"\\__    __/"+"\\________/" + ANSI_RESET + ANSI_YELLOW + " \\        |" + ANSI_RESET);
 //third row
-        print(ANSI_WHITE + " __"+ANSI_RESET+ANSI_RED+"║"+ANSI_RESET+ ANSI_WHITE+"  ║__ " + " __"+ANSI_RESET+ANSI_PURPLE+"║"+ANSI_RESET+ ANSI_WHITE+"  ║__" +"  ________ " + ANSI_RESET + ANSI_YELLOW + " >        <" + ANSI_RESET);
-        print(ANSI_WHITE + "/        \\" + "/        \\" + "/        \\" + ANSI_RESET + ANSI_YELLOW + " /        \\" + ANSI_RESET);
+        print(ANSI_WHITE + " __"+ANSI_RESET+ANSI_RED+"║"+ANSI_RESET+ ANSI_WHITE+"  ║__ " + " __"+ANSI_RESET+ANSI_PURPLE+"║"+ANSI_RESET+ ANSI_WHITE+"  ║__" +"  ________ " + ANSI_RESET + ANSI_YELLOW + " |        |" + ANSI_RESET);
+        print(ANSI_WHITE + "/        \\" + "/        \\" + "/        \\" + ANSI_RESET + ANSI_YELLOW + " /        |" + ANSI_RESET);
         print(ANSI_WHITE + "|        " + "           " + "          ╩" + ANSI_RESET + ANSI_YELLOW + "         |" + ANSI_RESET);
         print(ANSI_WHITE + "|    8   " + "     9      " + "   10    " + ANSI_RESET + ANSI_YELLOW + "     11 ╬ |" + ANSI_RESET);
         print(ANSI_WHITE + "|        " + "            " + "         " + ANSI_RESET + ANSI_YELLOW + "╦         |" + ANSI_RESET);
@@ -231,9 +231,9 @@ public class CliPrinter {
         print(ANSI_RED + "|          "  +"        |" + ANSI_RESET +ANSI_YELLOW +"|          " + "        |" + ANSI_RESET);
         print(ANSI_RED + "|  ╬ 4    "  +"    5    |" + ANSI_RESET +ANSI_YELLOW +"|   6      " + "   7    |" + ANSI_RESET);
         print(ANSI_RED + "|          "  +"        |" + ANSI_RESET +ANSI_YELLOW +"|          " + "        |" + ANSI_RESET);
-        print(ANSI_RED + "\\________/" +"\\__    __/" +ANSI_RESET +ANSI_YELLOW +" \\       /"+  "\\       /" + ANSI_RESET);
+        print(ANSI_RED + "\\________/" +"\\__    __/" +ANSI_RESET +ANSI_YELLOW +" \\       /"+  "\\        |" + ANSI_RESET);
         //third row
-        print("          " + ANSI_WHITE + " __"+ANSI_RESET+ANSI_RED+"║"+ANSI_RESET+ ANSI_WHITE+"  ║_ " +  ANSI_RESET + ANSI_YELLOW + "  /       \\" +"/       \\" + ANSI_RESET);
+        print("          " + ANSI_WHITE + " __"+ANSI_RESET+ANSI_RED+"║"+ANSI_RESET+ ANSI_WHITE+"  ║_ " +  ANSI_RESET + ANSI_YELLOW + "  /       \\" +"/        |" + ANSI_RESET);
         print("          " + ANSI_WHITE + "/       \\" +ANSI_RESET + ANSI_YELLOW + " |         " +"         |" + ANSI_RESET);
         print("          " + ANSI_WHITE + "|        " + ANSI_RESET + ANSI_YELLOW + "╩           " +"        |" + ANSI_RESET);
         print("          " + ANSI_WHITE + "|   9     " +  ANSI_RESET + ANSI_YELLOW + "    10     " +"   11 ╬ |" + ANSI_RESET);
@@ -249,16 +249,16 @@ public class CliPrinter {
         print(ANSI_RED + "|        ╩" + ANSI_RESET +ANSI_BLUE+"          " + "          ╩" + ANSI_RESET + ANSI_GREEN +"        |");
         print(ANSI_RED + "|    0    " + ANSI_RESET +ANSI_BLUE+"    1     " + "   2 ╬     " + ANSI_RESET + ANSI_GREEN +"   3    |");
         print(ANSI_RED + "|        " + ANSI_RESET +ANSI_BLUE+"╦           " +  "         " + ANSI_RESET + ANSI_GREEN +"╦        |");
-        print(ANSI_RED + " \\      / " +ANSI_RESET +ANSI_BLUE+ "\\__    __/" + "\\__    __/" + ANSI_RESET + ANSI_GREEN +" \\_    __/");
+        print(ANSI_RED + "|       / " +ANSI_RESET +ANSI_BLUE+ "\\__    __/" + "\\__    __/" + ANSI_RESET + ANSI_GREEN +" \\_    __/");
         //second row
-        print(ANSI_RED + " >      < " +ANSI_RESET + ANSI_PURPLE +" __" +ANSI_RESET+ANSI_BLUE+"║"+ANSI_RESET +ANSI_PURPLE +"  ║__ " +ANSI_RESET +ANSI_YELLOW +  " __"+ANSI_RESET+ANSI_BLUE+"║"+ANSI_RESET +ANSI_YELLOW + "  ║__ " + " __"+ANSI_RESET+ANSI_GREEN+"║"+ANSI_RESET +ANSI_YELLOW +"  ║__ " + ANSI_RESET);
-        print(ANSI_RED + " /      \\ " +ANSI_RESET + ANSI_PURPLE +"/        \\" +ANSI_RESET +ANSI_YELLOW + "/        \\"+ "/        \\" + ANSI_RESET);
+        print(ANSI_RED + "|       | " +ANSI_RESET + ANSI_PURPLE +" __" +ANSI_RESET+ANSI_BLUE+"║"+ANSI_RESET +ANSI_PURPLE +"  ║__ " +ANSI_RESET +ANSI_YELLOW +  " __"+ANSI_RESET+ANSI_BLUE+"║"+ANSI_RESET +ANSI_YELLOW + "  ║__ " + " __"+ANSI_RESET+ANSI_GREEN+"║"+ANSI_RESET +ANSI_YELLOW +"  ║__ " + ANSI_RESET);
+        print(ANSI_RED + "|       \\ " +ANSI_RESET + ANSI_PURPLE +"/        \\" +ANSI_RESET +ANSI_YELLOW + "/        \\"+ "/        \\" + ANSI_RESET);
         print(ANSI_RED + "|        |" +ANSI_RESET + ANSI_PURPLE +"|        |" + ANSI_RESET +ANSI_YELLOW +"|          " + "        |" + ANSI_RESET);
         print(ANSI_RED + "|  ╬ 4   |" +ANSI_RESET + ANSI_PURPLE +"|   5    |" + ANSI_RESET +ANSI_YELLOW +"|   6      " + "   7    |" + ANSI_RESET);
         print(ANSI_RED + "|        |" +ANSI_RESET + ANSI_PURPLE +"|        |" + ANSI_RESET +ANSI_YELLOW +"|          " + "        |" + ANSI_RESET);
-        print(ANSI_RED + "\\__    __/" +ANSI_RESET + ANSI_PURPLE +"\\__    __/" +ANSI_RESET +ANSI_YELLOW +" \\       /"+  "\\       /" + ANSI_RESET);
+        print(ANSI_RED + "\\__    __/" +ANSI_RESET + ANSI_PURPLE +"\\__    __/" +ANSI_RESET +ANSI_YELLOW +" \\       /"+  "\\        |" + ANSI_RESET);
         //third row
-        print(ANSI_WHITE + " __"+ANSI_RESET+ANSI_RED+"║"+ANSI_RESET+ ANSI_WHITE+"  ║__ " + " __"+ ANSI_RESET+ANSI_PURPLE+"║"+ANSI_RESET+ ANSI_WHITE +"  ║_ " + ANSI_RESET + ANSI_YELLOW + "  /       \\" +"/       \\" + ANSI_RESET);
+        print(ANSI_WHITE + " __"+ANSI_RESET+ANSI_RED+"║"+ANSI_RESET+ ANSI_WHITE+"  ║__ " + " __"+ ANSI_RESET+ANSI_PURPLE+"║"+ANSI_RESET+ ANSI_WHITE +"  ║_ " + ANSI_RESET + ANSI_YELLOW + "  /       \\" +"/        |" + ANSI_RESET);
         print(ANSI_WHITE + "/        \\" + "/       \\" + ANSI_RESET + ANSI_YELLOW + " |         " +"         |" + ANSI_RESET);
         print(ANSI_WHITE + "|        " + "          " + ANSI_RESET + ANSI_YELLOW + "╩           " +"        |" + ANSI_RESET);
         print(ANSI_WHITE + "|    8   " + "     9     " + ANSI_RESET + ANSI_YELLOW + "    10     " +"   11 ╬ |" + ANSI_RESET);
@@ -270,10 +270,13 @@ public class CliPrinter {
     synchronized void printSquareDetails(Square square) {
         print("Square " + square.getSquareId () + ":");
         print("Players on this square: ");
-        for (int i = 0; i < square.getPlayersOnSquare ().size (); i++) {
-            print ((i + 1) + ": " + square.getPlayersOnSquare ( ).get (i).getPlayerName ( ));
+        if (square.getPlayersOnSquare().isEmpty()) {
+            print("none");
+        } else {
+            for (int i = 0; i < square.getPlayersOnSquare().size(); i++) {
+                print((i + 1) + ": " + square.getPlayersOnSquare().get(i).getPlayerName());
+            }
         }
-
         if (square.isSpawnPoint ()) {
             print("Weapons you can grab: ");
             for (int i = 0; i < ((SpawnPoint) square).getWeapons ().length; i++) {
@@ -281,14 +284,18 @@ public class CliPrinter {
             }
             print("\n");
         } else {
-            print("Tile details: " + ((NormalSquare) square).getPlacedTile ().getTileDescription () + "\n");
+            print("Tile details: " + ((NormalSquare) square).getPlacedTile ().getTileDescription ().toUpperCase() + "\n");
         }
     }
 
-    synchronized void printWeaponList(Player player){
+    synchronized void printWeaponList(List<Weapon> weapons){
         print("These are your weapons: ");
-        for (int i=0; i<player.getOwnedWeapons().size(); i++){
-            print(i+1 + " - " + player.getOwnedWeapons().get(i).getWeaponsName());
+        for (int i = 0; i < weapons.size(); i++){
+            print((i+1) + " - " + weapons.get(i).getWeaponsName());
         }
+    }
+
+    synchronized void printWaitTurn(String nickname) {
+        print(nickname + " is playing. Please wait your turn...\n");
     }
 }
