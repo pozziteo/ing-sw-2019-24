@@ -5,15 +5,15 @@ import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.model.player.Action;
 
 public class ActionToExecute extends DataForServer implements DataForController {
-    private Action action;
+    private String actionType;
 
-    public ActionToExecute(String nickname, Action action){
+    public ActionToExecute(String nickname, String actionType){
         super(nickname);
-        this.action = action;
+        this.actionType = actionType;
     }
 
     @Override
     public void updateGame(Controller controller){
-        //controller.executeAction(super.getNickname(), action);
+        controller.buildAction(actionType, super.getNickname());
     }
 }

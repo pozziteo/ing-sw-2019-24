@@ -61,6 +61,7 @@ public class TimerThread implements Runnable {
             Thread.sleep(1);
         } catch (InterruptedException e) {
             System.out.print (e.getMessage ());
+            Thread.currentThread().interrupt();
         }
     }
 

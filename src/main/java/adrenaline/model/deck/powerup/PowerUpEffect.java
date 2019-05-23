@@ -34,7 +34,7 @@ public class PowerUpEffect {
      * @param positionToGo is the position where you want to teleport
      * @throws InvalidPositionException if the positionToGo is the same square
      */
-    public void teleporter(Player attacker, Square positionToGo) throws InvalidPositionException {
+    public void useTeleporter(Player attacker, Square positionToGo) throws InvalidPositionException {
         if (attacker.getPosition() == positionToGo){
             throw new InvalidPositionException("The position you want to teleport to is your starting position");
         }
@@ -51,7 +51,7 @@ public class PowerUpEffect {
      * @param id is the new victim's square
      * @throws InvalidPositionException if the square id is illegal
      */
-    public void newton(Player attacker, Player victim, int movements, int id) throws InvalidPositionException{
+    public void useNewton(Player attacker, Player victim, int movements, int id) throws InvalidPositionException{
         if (0 > id || id > 11){
             throw new InvalidPositionException("The position you chose is outside the map");
         }
@@ -68,7 +68,7 @@ public class PowerUpEffect {
      * @throws IllegalUseOfPowerUpException if the player doesn't have enough ammo or
      * if the players doesn't deal damage to the target
      */
-    public void targetingScope(Player attacker, Player victim) throws IllegalUseOfPowerUpException {
+    public void useTargetingScope(Player attacker, Player victim) throws IllegalUseOfPowerUpException {
         if (attacker.getBoard().getOwnedAmmo().isEmpty()){
             throw new IllegalUseOfPowerUpException("You don't have enough ammo to use the Targeting Scope");
         }
@@ -87,7 +87,7 @@ public class PowerUpEffect {
      * @throws IllegalUseOfPowerUpException if the player can't see the victim or
      * if the player doesn't receive damage from the target
      */
-    public void tagbackGrenade(Player attacker, Player victim) throws IllegalUseOfPowerUpException{
+    public void useTagbackGrenade(Player attacker, Player victim) throws IllegalUseOfPowerUpException{
         if (!attacker.canSee(victim)){
             throw new IllegalUseOfPowerUpException("You can't see the target");
         }

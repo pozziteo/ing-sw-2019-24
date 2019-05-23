@@ -137,6 +137,24 @@ public class Controller implements TimerCallBack {
         //TODO
     }
 
+    public void buildAction(String type, String nickname) {
+        switch (type) {
+            case "move":
+                break;
+            case "move and grab":
+                break;
+            case "shoot":
+                break;
+            case "power up":
+                break;
+            case "pass":
+                timer.shutDownThread();
+                lobby.sendMessageToAll(nickname + " passed the turn.\n");
+                playTurn();
+                break;
+        }
+    }
+
     //******************************************************************************************************************
     // CALLBACK
     //******************************************************************************************************************

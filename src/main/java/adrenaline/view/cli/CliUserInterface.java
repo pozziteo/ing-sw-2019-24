@@ -2,6 +2,7 @@ package adrenaline.view.cli;
 
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_server.DataForServer;
+import adrenaline.data.data_for_server.data_for_game.ActionToExecute;
 import adrenaline.data.data_for_server.data_for_game.ChosenMapSetUp;
 import adrenaline.data.data_for_server.data_for_game.ChosenSpawnPointSetUp;
 import adrenaline.data.data_for_server.data_for_network.AccountSetUp;
@@ -186,20 +187,26 @@ public class CliUserInterface implements UserInterface {
             this.printer.printActionOptions();
             if (this.parser.parseInt(4)==0){
                 valid = true;
-                //TODO move
+                sendAction("move");
             }else if(this.parser.parseInt(4)==1){
                 valid = true;
-                //TODO move and grab
+                sendAction("move and grab");
             } else if(this.parser.parseInt(4)==2){
                 valid = true;
-                //TODO shoot
+                sendAction("shoot");
             } else if (this.parser.parseInt(4)==3) {
                 valid = true;
+                sendAction("power up");
             } else if(this.parser.parseInt(4)==4){
                 valid = true;
-                //TODO pass
+                sendAction("pass");
             } else this.printer.printInvalidInput();
         }
+    }
+
+    private void sendAction(String actionType) {
+        ActionToExecute action = new ActionToExecute(nickname, actionType);
+        sendToServer(action);
     }
 
     public void waitTurn(String nickname) {

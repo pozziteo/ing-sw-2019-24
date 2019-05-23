@@ -63,7 +63,7 @@ class PowerUpEffectTest {
         try {
             victim.getBoard().gotHit(3, attacker);
             attacker.getBoard().setOwnedAmmo(ammo);
-            powerUpEffect.targetingScope(attacker, victim);
+            powerUpEffect.useTargetingScope(attacker, victim);
         } catch (IllegalUseOfPowerUpException e){
             System.err.println(e.getMessage());
         }
@@ -77,7 +77,7 @@ class PowerUpEffectTest {
         //tagback grenade
         try {
             attacker.getBoard().gotHit(2, victim);
-            powerUpEffect.tagbackGrenade(attacker, victim);
+            powerUpEffect.useTagbackGrenade(attacker, victim);
         }catch (IllegalUseOfPowerUpException e){
             System.err.println(e.getMessage());
         }
@@ -90,7 +90,7 @@ class PowerUpEffectTest {
 
         //teleporter
         try {
-            powerUpEffect.teleporter(attacker, game.getMap().getSquare(9));
+            powerUpEffect.useTeleporter(attacker, game.getMap().getSquare(9));
         }catch (InvalidPositionException e){
             System.err.println(e.getMessage());
         }
@@ -103,7 +103,7 @@ class PowerUpEffectTest {
 
         //newton
         try {
-            powerUpEffect.newton(attacker, victim, 1, 1);
+            powerUpEffect.useNewton(attacker, victim, 1, 1);
         }catch (InvalidPositionException e){
             System.err.println(e.getMessage());
         }
@@ -119,28 +119,28 @@ class PowerUpEffectTest {
 
         //targeting scope without dealing damage to the victim
         assertThrows(IllegalUseOfPowerUpException.class, () -> {
-            System.out.println(attacker.getBoard().getOwnedAmmo().size()); powerUpEffect.targetingScope(attacker, victim);});
+            System.out.println(attacker.getBoard().getOwnedAmmo().size()); powerUpEffect.useTargetingScope(attacker, victim);});
 
         //targeting scope without ammo
         assertThrows(IllegalUseOfPowerUpException.class, () -> {victim.getBoard().gotHit(3, attacker);
                                                                 attacker.getBoard().getOwnedAmmo().clear();
-                                                                powerUpEffect.targetingScope(attacker, victim);});
+                                                                powerUpEffect.useTargetingScope(attacker, victim);});
 
         //teleport in your position
-        assertThrows(InvalidPositionException.class, () -> powerUpEffect.teleporter(attacker, game.getMap().getSquare(5)));
+        assertThrows(InvalidPositionException.class, () -> powerUpEffect.useTeleporter(attacker, game.getMap().getSquare(5)));
 
         //tagback grenade without damage
-        assertThrows(IllegalUseOfPowerUpException.class, () -> powerUpEffect.tagbackGrenade(attacker, victim));
+        assertThrows(IllegalUseOfPowerUpException.class, () -> powerUpEffect.useTagbackGrenade(attacker, victim));
 
         //tagback grenade without seeing the victim
         assertThrows(IllegalUseOfPowerUpException.class, () -> {attacker.setPosition(game.getMap().getSquare(1));
                                                                 attacker.getBoard().gotHit(5, victim);
-                                                                powerUpEffect.tagbackGrenade(attacker, victim);});
+                                                                powerUpEffect.useTagbackGrenade(attacker, victim);});
 
         //newton outside map > 12
-        assertThrows(InvalidPositionException.class, () -> powerUpEffect.newton(attacker, victim, 1, 12));
+        assertThrows(InvalidPositionException.class, () -> powerUpEffect.useNewton(attacker, victim, 1, 12));
 
         //newton outside map <0
-        assertThrows(InvalidPositionException.class, () -> powerUpEffect.newton(attacker, victim, 1, -1));
+        assertThrows(InvalidPositionException.class, () -> powerUpEffect.useNewton(attacker, victim, 1, -1));
     }
 }
