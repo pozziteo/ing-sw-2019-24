@@ -1,5 +1,6 @@
 package adrenaline.view.cli;
 
+import adrenaline.model.deck.Weapon;
 import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.map.NormalSquare;
 import adrenaline.model.map.SpawnPoint;
@@ -137,7 +138,8 @@ public class CliPrinter {
         print("0 - Move");
         print("1 - Move and grab");
         print("2 - Shoot an opponent");
-        print("3 - Pass this turn");
+        print("3 - Use PowerUp");
+        print("4 - Pass this turn");
     }
 
     /**
@@ -280,6 +282,13 @@ public class CliPrinter {
             print("\n");
         } else {
             print("Tile details: " + ((NormalSquare) square).getPlacedTile ().getTileDescription () + "\n");
+        }
+    }
+
+    synchronized void printWeaponList(Player player){
+        print("These are your weapons: ");
+        for (int i=0; i<player.getOwnedWeapons().size(); i++){
+            print(i+1 + " - " + player.getOwnedWeapons().get(i).getWeaponsName());
         }
     }
 }
