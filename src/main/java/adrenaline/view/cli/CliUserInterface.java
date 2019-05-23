@@ -83,7 +83,6 @@ public class CliUserInterface implements UserInterface {
     public void launchTitleScreen() {
         this.printer.printTitle ();
         this.parser.parseEnter ();
-        this.printer.clearScreen ();
     }
 
     /**
@@ -183,24 +182,27 @@ public class CliUserInterface implements UserInterface {
     public void selectAction(){
         parser.setActive (true);
         boolean valid = false;
-        while(!valid){
-            this.printer.printActionOptions();
-            if (this.parser.parseInt(4)==0){
-                valid = true;
-                sendAction("move");
-            }else if(this.parser.parseInt(4)==1){
-                valid = true;
-                sendAction("move and grab");
-            } else if(this.parser.parseInt(4)==2){
-                valid = true;
-                sendAction("shoot");
-            } else if (this.parser.parseInt(4)==3) {
-                valid = true;
-                sendAction("power up");
-            } else if(this.parser.parseInt(4)==4){
-                valid = true;
-                sendAction("pass");
-            } else this.printer.printInvalidInput();
+        while(!valid) {
+            this.printer.printActionOptions ( );
+            int parsed = this.parser.asyncParseInt (4);
+            if (parsed != -1) {
+                if (parsed == 0){
+                    valid = true;
+                    sendAction("move");
+                }else if(parsed == 1){
+                    valid = true;
+                    sendAction("move and grab");
+                } else if(parsed == 2){
+                    valid = true;
+                    sendAction("shoot");
+                } else if (parsed == 3) {
+                    valid = true;
+                    sendAction("power up");
+                } else if(parsed == 4){
+                    valid = true;
+                    sendAction("pass");
+                } else this.printer.printInvalidInput();
+            }
         }
     }
 

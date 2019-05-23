@@ -13,7 +13,6 @@ public class ChosenMapSetUp extends DataForServer implements DataForController {
 
     @Override
     public void updateGame(Controller controller) {
-        controller.getGameModel ().getGame ().setArena (filename);
-        controller.spawnPointSetUp ();
+        controller.initializeMap(filename);
     }
 }

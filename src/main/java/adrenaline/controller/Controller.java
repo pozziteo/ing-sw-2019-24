@@ -54,7 +54,13 @@ public class Controller implements TimerCallBack {
         }
     }
 
-    public void spawnPointSetUp() {
+    public void initializeMap(String filepath) {
+        gameModel.getGame ().setArena (filepath);
+        lobby.sendMessageToAll ("Map has been initialized to " + gameModel.getGame ().getMap ().getMapName ());
+        spawnPointSetUp ();
+    }
+
+    private void spawnPointSetUp() {
         timer.shutDownThread ();
         for (Player p : gameModel.getGame ().getPlayers ()) {
             InitialSpawnPointSetUp data = new InitialSpawnPointSetUp(p.getOwnedPowerUps ());
@@ -78,7 +84,6 @@ public class Controller implements TimerCallBack {
         }
     }
 
-    //TODO fix
     private boolean checkPlayersReady() {
         boolean ready = true;
         for (Player p : gameModel.getGame ().getPlayers ()) {
