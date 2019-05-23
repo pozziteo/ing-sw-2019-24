@@ -1,5 +1,6 @@
 package adrenaline.view.cli;
 
+import adrenaline.model.deck.Ammo;
 import adrenaline.model.deck.Weapon;
 import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.map.NormalSquare;
@@ -167,6 +168,9 @@ public class CliPrinter {
         print("Enter your nickname: ");
     }
 
+    /**
+     * Method to print the Small Map
+     */
     synchronized void printSmallMap() {
         //first row
         print(ANSI_BLUE + " ________"   +"  ________ " + " ________" + ANSI_RESET + "          ");
@@ -191,6 +195,9 @@ public class CliPrinter {
         print("          " + ANSI_WHITE + "\\________/\\" + "________/ " + ANSI_RESET + ANSI_YELLOW + "\\________/" + ANSI_RESET);
     }
 
+    /**
+     * Method to print the Medium Map v1
+     */
     synchronized void printMedium1Map() {
         //first row
         print(ANSI_RED + " _______ " + ANSI_RESET + ANSI_BLUE+"  ________" +  "  ________" + ANSI_RESET +"          ");
@@ -217,6 +224,9 @@ public class CliPrinter {
 
     }
 
+    /**
+     * Method to print the Medium Map v2
+     */
     synchronized void printMedium2Map() {
 //first row
         print(ANSI_BLUE + " ________"   +"  _______ " + " _________" + ANSI_RESET + ANSI_GREEN +"   _______");
@@ -242,6 +252,9 @@ public class CliPrinter {
 
     }
 
+    /**
+     * Method to print the Large Map
+     */
     synchronized void printLargeMap() {
         //first row
         print(ANSI_RED + " _______ " + ANSI_RESET + ANSI_BLUE+"  ________" +  "  ________" + ANSI_RESET + ANSI_GREEN +"   _______");
@@ -267,6 +280,10 @@ public class CliPrinter {
 
     }
 
+    /**
+     * Method that prints the information about one square
+     * @param square is the square you need to know about
+     */
     synchronized void printSquareDetails(Square square) {
         print("Square " + square.getSquareId () + ":");
         print("Players on this square: ");
@@ -288,6 +305,10 @@ public class CliPrinter {
         }
     }
 
+    /**
+     * Method to print the player's Weapon List
+     * @param weapons is the ArrayList of weapons
+     */
     synchronized void printWeaponList(List<Weapon> weapons){
         print("These are your weapons: ");
         for (int i = 0; i < weapons.size(); i++){
@@ -295,6 +316,31 @@ public class CliPrinter {
         }
     }
 
+    /**
+     * Method to print the player's PowerUp List
+     * @param pups is the ArrayList of PowerUp
+     */
+    synchronized void printPowerUpList(List<PowerUp> pups){
+        print("These are your PowerUps: ");
+        for (int i=0; i< pups.size(); i++){
+            print((i+1) + " - " + pups.get(i).getPowerUpsName() + " ~ Ammo color: " + pups.get(i).getAmmo().getColor());
+        }
+    }
+
+    /**
+     * Method to print the player's Ammo List
+     * @param ammos is the ArrayList of ammos
+     */
+    synchronized void printAmmoList(List<Ammo> ammos){
+        print("These are your Ammos: ");
+        for (int i=0; i< ammos.size(); i++){
+            print((i+1) + " - " + ammos.get(i).getColor());
+        }
+    }
+
+    /**
+     * @param nickname is the player who is performing his actions now
+     */
     synchronized void printWaitTurn(String nickname) {
         print(nickname + " is playing. Please wait your turn...\n");
     }

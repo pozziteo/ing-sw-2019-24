@@ -1,8 +1,12 @@
 package adrenaline.view.cli;
 
 import adrenaline.model.Game;
+import adrenaline.model.deck.Ammo;
 import adrenaline.model.deck.Weapon;
 import adrenaline.model.deck.WeaponType;
+import adrenaline.model.deck.powerup.PowerUp;
+import adrenaline.model.deck.powerup.PowerUpEffect;
+import adrenaline.model.deck.powerup.PowerUpType;
 import adrenaline.model.player.Player;
 import org.junit.jupiter.api.Test;
 
@@ -24,11 +28,28 @@ public class CliTest {
     private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
     private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
 
+    private Ammo ammo = Ammo.RED_AMMO;
+    private Ammo ammo1 = Ammo.BLUE_AMMO;
+    private Ammo ammo2 = Ammo.YELLOW_AMMO;
+
+    private PowerUpEffect powerUpEffect = new PowerUpEffect(g, ammo);
+    private PowerUpType powerUpType = PowerUpType.TARGETING_SCOPE;
+    private PowerUp powerUp = new PowerUp(powerUpType, ammo1);
+    private PowerUpType powerUpType1 = PowerUpType.NEWTON;
+    private PowerUp powerUp1 = new PowerUp(powerUpType1, ammo);
+    private PowerUpType powerUpType2 = PowerUpType.TELEPORTER;
+    private PowerUp powerUp2 = new PowerUp(powerUpType2, ammo2);
+    private PowerUpType powerUpType3 = PowerUpType.TAGBACK_GRENADE;
+    private PowerUp powerUp3 = new PowerUp(powerUpType3, ammo1);
+    private ArrayList<PowerUp> pupList = new ArrayList<>(Arrays.asList(powerUp, powerUp1, powerUp2, powerUp3));
+
+
 
     @Test
     public void testPrint() {
 
         p1.setOwnedWeapons(wList);
+        p1.setOwnedPowerUps(pupList);
         printer.printTitle ();
         printer.clearScreen ();
         printer.printConnectionOptions ();
@@ -38,6 +59,7 @@ public class CliTest {
         printer.printActionOptions ();
         printer.printRanking (g.getRanking());
         printer.printWeaponList(p1.getOwnedWeapons());
+        printer.printPowerUpList(p1.getOwnedPowerUps());
     }
 
     @Test
