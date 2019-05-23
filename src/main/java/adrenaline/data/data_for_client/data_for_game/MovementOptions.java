@@ -1,0 +1,19 @@
+package adrenaline.data.data_for_client.data_for_game;
+
+import adrenaline.data.data_for_client.DataForClient;
+import adrenaline.view.cli.CliUserInterface;
+
+import java.util.List;
+
+public class MovementOptions extends DataForClient {
+    private List<Integer> possiblePaths;
+
+    public MovementOptions(List<Integer> possiblePaths) {
+        this.possiblePaths = possiblePaths;
+    }
+
+    @Override
+    public void updateView(CliUserInterface view) {
+        view.showPaths(possiblePaths);
+    }
+}

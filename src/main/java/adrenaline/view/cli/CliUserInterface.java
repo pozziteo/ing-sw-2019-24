@@ -80,7 +80,7 @@ public class CliUserInterface implements UserInterface {
      * Shows title screen on command line.
      */
 
-    public void launchTitleScreen() {
+    private void launchTitleScreen() {
         this.printer.printTitle ();
         this.parser.parseEnter ();
     }
@@ -179,7 +179,8 @@ public class CliUserInterface implements UserInterface {
     /**
      * This method asks the player the action he wants to perform
      */
-    public void selectAction(){
+
+    private void selectAction(){
         parser.setActive (true);
         boolean valid = false;
         while(!valid) {
@@ -211,7 +212,7 @@ public class CliUserInterface implements UserInterface {
         sendToServer(action);
     }
 
-    public void waitTurn(String nickname) {
+    private void waitTurn(String nickname) {
         printer.printWaitTurn(nickname);
     }
 
@@ -238,7 +239,7 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
-    public void printMap(Map map) {
+    private void printMap(Map map) {
         switch (map.getMapName ()) {
             case "small map":
                 printer.printSmallMap();
@@ -257,5 +258,9 @@ public class CliUserInterface implements UserInterface {
         }
         for (int i = 0; i < map.getDimension (); i++)
             printer.printSquareDetails(map.getSquare (i));
+    }
+
+    public void showPaths(List<Integer> paths) {
+        //TODO
     }
 }

@@ -4,6 +4,7 @@ import adrenaline.data.data_for_client.data_for_game.*;
 import adrenaline.data.data_for_client.data_for_network.MessageForClient;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.model.GameModel;
+import adrenaline.model.player.Move;
 import adrenaline.model.player.Player;
 import adrenaline.network.Lobby;
 import adrenaline.utils.TimerCallBack;
@@ -143,8 +144,12 @@ public class Controller implements TimerCallBack {
     }
 
     public void buildAction(String type, String nickname) {
+        Player p = gameModel.getGame ().findByNickname (nickname);
         switch (type) {
             case "move":
+                Move moveAction = new Move(p, gameModel.getGame ().isFinalFrenzy ());
+                MovementOptions options = new MovementOptions (moveAction.getPaths ());
+                lobby.sendToSpecific (nickname, options);
                 break;
             case "move and grab":
                 break;

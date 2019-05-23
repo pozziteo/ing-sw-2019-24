@@ -6,6 +6,7 @@ import adrenaline.model.deck.PowerUpsDeck;
 import adrenaline.model.deck.PowerUpsDeckCreator;
 import adrenaline.model.map.*;
 import adrenaline.model.map.Map;
+import adrenaline.model.player.Action;
 import adrenaline.model.player.Player;
 
 import java.io.FileNotFoundException;
