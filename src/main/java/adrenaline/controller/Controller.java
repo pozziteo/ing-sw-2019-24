@@ -4,8 +4,12 @@ import adrenaline.data.data_for_client.data_for_game.*;
 import adrenaline.data.data_for_client.data_for_network.MessageForClient;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.model.GameModel;
+import adrenaline.model.deck.powerup.PowerUp;
+import adrenaline.model.deck.powerup.PowerUpEffect;
 import adrenaline.model.player.Move;
+import adrenaline.model.player.MoveAndGrab;
 import adrenaline.model.player.Player;
+import adrenaline.model.player.UsePowerUp;
 import adrenaline.network.Lobby;
 import adrenaline.utils.TimerCallBack;
 import adrenaline.utils.TimerThread;
@@ -152,10 +156,15 @@ public class Controller implements TimerCallBack {
                 lobby.sendToSpecific (nickname, options);
                 break;
             case "move and grab":
+                MoveAndGrab moveAndGrabAction = new MoveAndGrab(p, gameModel.getGame().isFinalFrenzy());
+                MovementOptions options1 = new MovementOptions(moveAndGrabAction.getPaths());
+                lobby.sendToSpecific(nickname, options1);
                 break;
             case "shoot":
                 break;
             case "power up":
+                UsePowerUp usePowerUp = new UsePowerUp(nickname);
+            //    usePowerUp.usePowerUp();   to finish
                 break;
             case "pass":
                 timer.shutDownThread();

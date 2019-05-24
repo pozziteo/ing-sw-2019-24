@@ -39,6 +39,10 @@ public class MoveAndGrab implements Action {
         }
     }
 
+    public List<Integer> getPaths() {
+        return this.paths;
+    }
+
     public Square grabObject(Player player) {
         Square position = player.getPosition();
         if (position.isSpawnPoint()) {
