@@ -23,6 +23,10 @@ public class UsePowerUp {
     private int movements;
     private int id;
 
+    /**
+     * Constructor of the action UsePowerUp
+     * @param nickname is the player who performs the action
+     */
     public UsePowerUp(String nickname){
         for (int i=0; i<this.game.getPlayers().size(); i++){
             if (game.getPlayers().get(i).getPlayerName().equalsIgnoreCase(nickname)) {
@@ -41,6 +45,12 @@ public class UsePowerUp {
         }
     }
 
+    /**
+     * Method that lets the player use the PowerUp
+     * @param powerUp is the powerUp
+     * @throws InvalidPositionException if the player chooses illegal squares
+     * @throws IllegalUseOfPowerUpException if the player breaks the rules
+     */
     public void usePowerUp(PowerUp powerUp) throws InvalidPositionException, IllegalUseOfPowerUpException {
         switch (powerUp.getPowerUpsName()){
             case "Teleporter":
@@ -58,6 +68,11 @@ public class UsePowerUp {
         }
     }
 
+    /**
+     * Method to use the powerup's ammo
+     * @param powerUp is the powerUp
+     * @return a boolean.
+     */
     public boolean useAmmo(PowerUp powerUp){
         powerUpEffect.usePupAmmo(attacker, powerUp);
         return true;
