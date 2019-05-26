@@ -8,7 +8,11 @@ import adrenaline.model.GameModel;
 import adrenaline.utils.TimerCallBack;
 import adrenaline.utils.TimerThread;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class Lobby implements TimerCallBack {
     private int id;
@@ -19,13 +23,14 @@ public class Lobby implements TimerCallBack {
     private long timeout;
     private boolean gameStarted;
     private boolean full;
+    private static final String PATH1 = "src" + File.separatorChar + "Resources" + File.separatorChar + "config.properties";
 
     public Lobby(int id, MainServer server) {
         this.id = id;
         this.server = server;
         this.players = new ArrayList<> ();
         this.controller = new Controller(this);
-        this.timeout = (long) 5 * 1000;
+        this.timeout = readConfigFile("lobbyTimeout");
         this.timerThread = new TimerThread (this, timeout);
         this.gameStarted = false;
         this.full = false;
@@ -155,6 +160,24 @@ public class Lobby implements TimerCallBack {
         this.players.add (a);
         sendMessageToWaiting (a.getNickName () + " joined the lobby...");
         checkReady();
+    }
+
+    /**
+     * Method to read from the Configuration File
+     * @param key is the name of the value you want to read
+     * @return a long type
+     */
+    public long readConfigFile(String key) {
+        try {
+            Properties prop = new Properties();
+            FileInputStream in = new FileInputStream(PATH1);
+            prop.load(in);
+            int i = Integer.parseInt(prop.getProperty(key));
+            return (long)i;
+        }catch (IOException e){
+            System.err.println(e.getMessage());
+        }
+        return -1;
     }
 
     // *****************************************************************************************************************

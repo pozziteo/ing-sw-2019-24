@@ -48,10 +48,8 @@ public class UsePowerUp {
     /**
      * Method that lets the player use the PowerUp
      * @param powerUp is the powerUp
-     * @throws InvalidPositionException if the player chooses illegal squares
-     * @throws IllegalUseOfPowerUpException if the player breaks the rules
      */
-    public void usePowerUp(PowerUp powerUp) throws InvalidPositionException, IllegalUseOfPowerUpException {
+    public void usePowerUp(PowerUp powerUp) {
         switch (powerUp.getPowerUpsName()){
             case "Teleporter":
                 powerUpEffect.useTeleporter(attacker, square);
