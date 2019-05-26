@@ -1,0 +1,20 @@
+#grid {
+    -fx-alignment: center;
+    -fx-hgap: 20;
+    -fx-vgap: 20;
+    -fx-padding: 25 25 25 25;
+}
+
+#text {
+    -fx-text-fill: #4cff76;
+    -fx-font-family: "AR DARLING";
+    -fx-font-size: 40;
+    -fx-effect: dropShadow(gaussian , #499149, 1, 1, 1, 1);
+}
+
+#button-style {
+    -fx-font-family: "AR DARLING";
+    -fx-font-size: 20;
+    -fx-pref-width: 100;
+    -fx-pref-height: 50;
+}

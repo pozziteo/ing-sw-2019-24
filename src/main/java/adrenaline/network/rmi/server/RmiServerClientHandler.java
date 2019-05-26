@@ -31,8 +31,8 @@ public class RmiServerClientHandler implements RmiServerInterface {
             boolean connected = true;
             try {
                 while (connected) {
-                    Thread.sleep(5000);
-                    connected = client.ping();;
+                    Thread.sleep(200);
+                    connected = client.ping();
                 }
             } catch (InterruptedException exc) {
                 Thread.currentThread().interrupt();

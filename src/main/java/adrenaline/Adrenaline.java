@@ -2,6 +2,7 @@ package adrenaline;
 
 import adrenaline.view.cli.CliParser;
 import adrenaline.view.cli.CliUserInterface;
+import adrenaline.view.gui.GraphicUserInterface;
 
 /**
  * Class to launch a new client, it lets the client choose the user interface.
@@ -17,7 +18,7 @@ public class Adrenaline {
         if (parser.parseInt(1) == 0) {
             CliUserInterface.getCliInstance();
         } else {
-            //start gui
+            GraphicUserInterface.launchGUI();
         }
     }
 }
