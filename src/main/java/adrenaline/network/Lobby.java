@@ -34,7 +34,7 @@ public class Lobby implements TimerCallBack {
     private void createGame() {
         timerThread.shutDownThread ();
         this.gameStarted = true;
-        String[] playerNames = new String[players.size ( )];
+        String[] playerNames = new String[players.size ()];
         int i = 0;
         for (Account a : players) {
             playerNames[i] = a.getNickName ( );

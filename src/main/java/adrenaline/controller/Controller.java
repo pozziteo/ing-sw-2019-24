@@ -41,8 +41,18 @@ public class Controller implements TimerCallBack {
         return this.gameModel;
     }
 
+    public Lobby getLobby() {
+        return this.lobby;
+    }
+
     public void receiveData(DataForController data) {
-        data.updateGame (this);
+        Runnable thread = () -> {
+            Thread.currentThread ().setName ("Controller Receiver Thread");
+            System.out.println("Received " + data.getClass ());
+            data.updateGame (this);
+        };
+        Thread receiverThread = new Thread(thread);
+        receiverThread.start();
     }
 
     public void startController(GameModel model) {
@@ -111,13 +121,13 @@ public class Controller implements TimerCallBack {
                 String currentPlayer;
                 if (dummyPlayers.contains(gameModel.getGame ().getPlayers ().get (indexOfLast - currentTurn))) {
                     gameModel.getGame ().incrementTurn ();
-                    currentTurn = gameModel.getGame ( ).getCurrentTurn ( );
+                    currentTurn = gameModel.getGame ().getCurrentTurn ( );
                 }
-                currentPlayer = gameModel.getGame ( ).getPlayers ( ).get (indexOfLast - currentTurn).getPlayerName ( );
+                currentPlayer = gameModel.getGame ().getPlayers ().get (indexOfLast - currentTurn).getPlayerName ( );
                 lobby.sendToSpecific (currentPlayer, new Turn(currentPlayer, gameModel.getGame ().getMap ()));
                 lobby.sendToAllNonCurrent (currentPlayer, new Turn(currentPlayer, gameModel.getGame ().getMap ()));
                 timer.startThread (currentPlayer);
-                gameModel.getGame ( ).incrementTurn ( );
+                gameModel.getGame ().incrementTurn ( );
             } else {
                 //TODO
             }
