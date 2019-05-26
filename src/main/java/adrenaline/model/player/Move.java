@@ -13,25 +13,22 @@ public class Move implements Action {
         List<Player> players = player.getGame().getPlayers();
         Player firstPlayer = player.getGame().getFirstPlayer();
 
-        System.out.println("You can move into squares:");
         if (!frenzy)
             paths = Action.findPaths(player, 3);
         else if (!player.equals(firstPlayer) &&
                 players.indexOf(player) < players.indexOf(firstPlayer)){
-            System.out.println("( Final Frenzy turn! )");
             paths = Action.findPaths(player, 4);
         }
-        else System.out.println("None: you can't perform this action right now.");
     }
 
     public List<Integer> getPaths() {
         return this.paths;
     }
 
-    public Square takeMove(Player player, int xSquare, int ySquare) {
-        int squareId = xSquare*4 + ySquare;
+    public Square performMovement(Player player, int squareId) {
         if (paths.contains(squareId)) {
-            player.setPosition(player.getGame().getMap().getSquare(squareId));
+            player.getPosition ().removePlayerFromSquare(player);
+            player.setPosition (player.getGame ().getMap ().getSquare (squareId));
             executedAction(player);
         }
         else player.setPosition(player.getPosition());

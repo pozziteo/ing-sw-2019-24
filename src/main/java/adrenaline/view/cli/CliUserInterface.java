@@ -5,6 +5,7 @@ import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.ActionToExecute;
 import adrenaline.data.data_for_server.data_for_game.ChosenMapSetUp;
 import adrenaline.data.data_for_server.data_for_game.ChosenSpawnPointSetUp;
+import adrenaline.data.data_for_server.data_for_game.NewPosition;
 import adrenaline.data.data_for_server.data_for_network.AccountSetUp;
 import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.map.Map;
@@ -261,6 +262,29 @@ public class CliUserInterface implements UserInterface {
     }
 
     public void showPaths(List<Integer> paths) {
-        //TODO
+        printer.print("Choose the square you want to move to:\n");
+        System.out.print("[  ");
+        for (Integer i : paths) {
+            System.out.print(i.toString () + "  ");
+        }
+        System.out.print("]\n");
+        parser.setActive (true);
+        boolean valid = false;
+        while(!valid) {
+            int parsed = this.parser.asyncParseInt (11);
+            if (parsed != -1) {
+                for (Integer i : paths) {
+                    if (parsed == i) {
+                        valid = true;
+                        NewPosition newPosition = new NewPosition (nickname, parsed);
+                        sendToServer (newPosition);
+                        break;
+                    }
+                }
+                if (!valid) {
+                    this.printer.printInvalidInput ( );
+                }
+            }
+        }
     }
 }

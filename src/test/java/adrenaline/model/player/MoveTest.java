@@ -28,13 +28,13 @@ class MoveTest {
         //Testing an invalid move: asserting player hasn't changed position
         //newPosition should be equal to InitialPosition
         Square initialPosition = player.getPosition();
-        Square newPosition = move.takeMove(player, 2, 2);
-        assertFalse(move.getPaths().contains(10)); //10 is the squareId of (2, 2)
+        Square newPosition = move.performMovement (player, 10);
+        assertFalse(move.getPaths().contains(10));
         assertEquals(initialPosition, newPosition);
 
         //Now testing a valid move: player should get the new position
         Move anotherMove = new Move(player, player.getGame().isFinalFrenzy());
-        Square anotherPosition = move.takeMove(player, 0, 0);
+        Square anotherPosition = move.performMovement (player, 0);
         assertTrue(anotherMove.getPaths().contains(0));
         assertNotEquals(initialPosition, anotherPosition);
         assertEquals(0, player.getPosition().getSquareId());

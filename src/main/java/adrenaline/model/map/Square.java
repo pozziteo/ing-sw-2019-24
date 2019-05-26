@@ -112,6 +112,10 @@ public class Square implements Serializable {
         this.playersOnSquare.add (p);
     }
 
+    public void removePlayerFromSquare(Player p) {
+        this.playersOnSquare.remove(p);
+    }
+
     /**
      * Method to know if two squares are in the same room
      * @param s is the square compared to the present square

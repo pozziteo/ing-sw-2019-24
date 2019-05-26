@@ -6,10 +6,8 @@ import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.model.GameModel;
 import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.deck.powerup.PowerUpEffect;
-import adrenaline.model.player.Move;
-import adrenaline.model.player.MoveAndGrab;
-import adrenaline.model.player.Player;
-import adrenaline.model.player.UsePowerUp;
+import adrenaline.model.map.Square;
+import adrenaline.model.player.*;
 import adrenaline.network.Lobby;
 import adrenaline.utils.TimerCallBack;
 import adrenaline.utils.TimerThread;
@@ -23,6 +21,7 @@ public class Controller implements TimerCallBack {
     private long timeout;
     private TimerThread timer;
     private ArrayList<Player> dummyPlayers;
+    private Action currentAction;
 
     //path for default map
     private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
@@ -85,7 +84,7 @@ public class Controller implements TimerCallBack {
             System.out.println("All players have spawned...\n");
             lobby.sendMessageToAll("All players have spawned.\n");
             gameModel.getGame ().startGame();
-            playTurn ();
+            playNewTurn ();
         }
     }
 
@@ -100,7 +99,7 @@ public class Controller implements TimerCallBack {
         return ready;
     }
 
-    private void playTurn() {
+    private void playNewTurn() {
         timer.shutDownThread ();
         if (! gameModel.getGame ().isEndGame()) {
             if (! gameModel.getGame ().isFinalFrenzy ()) {
@@ -151,13 +150,15 @@ public class Controller implements TimerCallBack {
         Player p = gameModel.getGame ().findByNickname (nickname);
         switch (type) {
             case "move":
-                Move moveAction = new Move(p, gameModel.getGame ().isFinalFrenzy ());
-                MovementOptions options = new MovementOptions (moveAction.getPaths ());
+                this.currentAction = new Move(p, gameModel.getGame ().isFinalFrenzy ());
+                gameModel.getGame ().setCurrentAction(currentAction);
+                MovementOptions options = new MovementOptions (((Move) currentAction).getPaths ());
                 lobby.sendToSpecific (nickname, options);
                 break;
             case "move and grab":
-                MoveAndGrab moveAndGrabAction = new MoveAndGrab(p, gameModel.getGame().isFinalFrenzy());
-                MovementOptions options1 = new MovementOptions(moveAndGrabAction.getPaths());
+                this.currentAction = new MoveAndGrab(p, gameModel.getGame().isFinalFrenzy());
+                gameModel.getGame ().setCurrentAction(currentAction);
+                MovementOptions options1 = new MovementOptions(((MoveAndGrab) currentAction).getPaths());
                 lobby.sendToSpecific(nickname, options1);
                 break;
             case "shoot":
@@ -173,9 +174,25 @@ public class Controller implements TimerCallBack {
             case "pass":
                 timer.shutDownThread();
                 lobby.sendMessageToAll(nickname + " passed the turn.\n");
-                playTurn();
+                playNewTurn();
+                break;
+            default:
                 break;
         }
+    }
+
+    public void executeAction(String nickname, int squareId) {
+        Player p = gameModel.getGame ().findByNickname (nickname);
+        ((Move)currentAction).performMovement (p, squareId);
+        if (isFirstAction ()) {
+            lobby.sendToSpecific (nickname, new Turn(nickname, gameModel.getGame ().getMap ()));
+            lobby.sendToAllNonCurrent (nickname, new Turn(nickname, gameModel.getGame ().getMap ()));
+        } else
+            playNewTurn ();
+    }
+
+    private boolean isFirstAction() {
+        return (gameModel.getGame ().getCurrentTurnActionNumber () == 1);
     }
 
     //******************************************************************************************************************
@@ -205,6 +222,6 @@ public class Controller implements TimerCallBack {
     public void timerCallBack(String nickname) {
         TimeOutNotice notice = new TimeOutNotice (lobby.findPlayer(nickname));
         notice.sendToView ();
-        playTurn ();
+        playNewTurn ();
     }
 }

@@ -51,6 +51,7 @@ public class Game implements Serializable {
     private List<Player> ranking;
     private boolean finalFrenzy;
     private boolean endGame;
+    private List<Action> currentTurnActions;
 
     public Game(String[] playerNames) {
         this.gameID = new Random().nextInt() * 1000000;
@@ -60,6 +61,7 @@ public class Game implements Serializable {
         this.players = new ArrayList<> ();
         this.ranking = new ArrayList<> ();
         this.endGame = false;
+        this.currentTurnActions = new ArrayList<> ();
 
         this.weaponsDeck = new WeaponsDeckCreator ().createDeck();
         this.powerUpsDeck = new PowerUpsDeckCreator().createDeck();
@@ -121,6 +123,7 @@ public class Game implements Serializable {
     }
 
     public void incrementTurn() {
+        this.currentTurnActions = new ArrayList<> ();
         this.currentTurn++;
     }
 
@@ -218,6 +221,16 @@ public class Game implements Serializable {
 
     public Player getWinner() {
         return this.ranking.get(0);
+    }
+
+    public void setCurrentAction(Action a) {
+        if (currentTurnActions.size() < 2) {
+            currentTurnActions.add (a);
+        }
+    }
+
+    public int getCurrentTurnActionNumber() {
+        return this.currentTurnActions.size();
     }
 
     // **********************************************
