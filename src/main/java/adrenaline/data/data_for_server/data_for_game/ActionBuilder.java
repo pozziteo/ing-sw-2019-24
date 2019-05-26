@@ -2,12 +2,11 @@ package adrenaline.data.data_for_server.data_for_game;
 
 import adrenaline.controller.Controller;
 import adrenaline.data.data_for_server.DataForServer;
-import adrenaline.model.player.Action;
 
-public class ActionToExecute extends DataForServer implements DataForController {
+public class ActionBuilder extends DataForServer implements DataForController {
     private String actionType;
 
-    public ActionToExecute(String nickname, String actionType){
+    public ActionBuilder(String nickname, String actionType){
         super(nickname);
         this.actionType = actionType;
     }

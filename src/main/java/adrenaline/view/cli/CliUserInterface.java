@@ -2,7 +2,7 @@ package adrenaline.view.cli;
 
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_server.DataForServer;
-import adrenaline.data.data_for_server.data_for_game.ActionToExecute;
+import adrenaline.data.data_for_server.data_for_game.ActionBuilder;
 import adrenaline.data.data_for_server.data_for_game.ChosenMapSetUp;
 import adrenaline.data.data_for_server.data_for_game.ChosenSpawnPointSetUp;
 import adrenaline.data.data_for_server.data_for_game.NewPosition;
@@ -209,7 +209,7 @@ public class CliUserInterface implements UserInterface {
     }
 
     private void sendAction(String actionType) {
-        ActionToExecute action = new ActionToExecute(nickname, actionType);
+        ActionBuilder action = new ActionBuilder(nickname, actionType);
         sendToServer(action);
     }
 

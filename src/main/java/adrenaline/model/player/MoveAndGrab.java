@@ -20,16 +20,13 @@ public class MoveAndGrab implements Action {
         List<Player> players = player.getGame().getPlayers();
         Player firstPlayer = player.getGame().getFirstPlayer();
 
-        System.out.println("You can (optionally) move into squares:");
         if (!frenzy) {
             if (player.getBoard().getDamageTaken().size() >= 3) {
-                System.out.println("( Adrenaline Action! )");
                 paths = Action.findPaths(player, 2);
             } else
                 paths = Action.findPaths(player, 1);
         }
         else {
-            System.out.println("( Final Frenzy Turn! )");
             if (!player.equals(firstPlayer) &&
                     players.indexOf(player) < players.indexOf(firstPlayer)) {
                 paths = Action.findPaths(player, 2);
@@ -57,21 +54,19 @@ public class MoveAndGrab implements Action {
         return player.getPosition();
     }
 
-    public Square grabObject(Player player, int xSquare, int ySquare) {
-        int squareId = xSquare*4 + ySquare;
+    public Square grabObject(Player player, int squareId) {
         if (paths.contains(squareId)) {
-            player.setPosition(player.getGame().getMap().getSquare(squareId));
+            player.getPosition ().removePlayerFromSquare(player);
+            player.setPosition (player.getGame ().getMap ().getSquare (squareId));
             grabObject(player);
         }
         else {
-            System.out.println("Error: you can't reach the square!\n");
             player.setPosition(player.getPosition());
         }
         return player.getPosition();
     }
 
     private Weapon chooseWeapon(SpawnPoint position) {
-        System.out.println("Choose a weapon:");
         for (int i=0; i < position.getWeapons().length; i++)
             System.out.println(i + " - " + position.getWeapons()[i].getWeaponsName());
 //        int index = new Scanner(System.in).nextInt();
@@ -95,7 +90,7 @@ public class MoveAndGrab implements Action {
                 player.getBoard ( ).getOwnedAmmo ( ).add (ammo);
             }
         }
-        position.setPlacedTile(null);
+        position.setPlacedTile((Tile) player.getGame ().getTilesDeck ().drawCard ());
         player.getGame().getTilesDeck ().discardCard(tile);
     }
 

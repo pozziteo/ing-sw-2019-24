@@ -1,10 +1,18 @@
 package adrenaline.model.player;
 
+import adrenaline.model.deck.Weapon;
+
+import java.util.List;
+
 public class Shoot implements Action {
+    private List<Weapon> weapons;
 
     public Shoot(Player shooter) {
-        System.out.println("You can use the following weapons:\n");
-        getWeapons(shooter);
+        this.weapons = shooter.getOwnedWeapons ();
+    }
+
+    public void performAttack(Player attacker, List<Player> targets, Weapon weapon) {
+
     }
 
 }

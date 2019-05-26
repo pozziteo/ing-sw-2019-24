@@ -1,12 +1,13 @@
 package adrenaline.controller;
 
+import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_client.data_for_game.*;
 import adrenaline.data.data_for_client.data_for_network.MessageForClient;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.model.GameModel;
+import adrenaline.model.deck.Weapon;
 import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.deck.powerup.PowerUpEffect;
-import adrenaline.model.map.Square;
 import adrenaline.model.player.*;
 import adrenaline.network.Lobby;
 import adrenaline.utils.TimerCallBack;
@@ -14,6 +15,8 @@ import adrenaline.utils.TimerThread;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Controller implements TimerCallBack {
     private Lobby lobby;
@@ -148,20 +151,25 @@ public class Controller implements TimerCallBack {
 
     public void buildAction(String type, String nickname) {
         Player p = gameModel.getGame ().findByNickname (nickname);
+        DataForClient options;
         switch (type) {
             case "move":
                 this.currentAction = new Move(p, gameModel.getGame ().isFinalFrenzy ());
                 gameModel.getGame ().setCurrentAction(currentAction);
-                MovementOptions options = new MovementOptions (((Move) currentAction).getPaths ());
+                options = new MovementOptions (((Move) currentAction).getPaths ());
                 lobby.sendToSpecific (nickname, options);
                 break;
             case "move and grab":
                 this.currentAction = new MoveAndGrab(p, gameModel.getGame().isFinalFrenzy());
                 gameModel.getGame ().setCurrentAction(currentAction);
-                MovementOptions options1 = new MovementOptions(((MoveAndGrab) currentAction).getPaths());
-                lobby.sendToSpecific(nickname, options1);
+                options = new MovementOptions(((MoveAndGrab) currentAction).getPaths());
+                lobby.sendToSpecific(nickname, options);
                 break;
             case "shoot":
+                this.currentAction = new Shoot(p);
+                gameModel.getGame ().setCurrentAction(currentAction);
+                options = new ShootOptions();
+                lobby.sendToSpecific (nickname, options);
                 break;
             case "power up":
                 UsePowerUp usePup = new UsePowerUp(nickname);
@@ -183,7 +191,24 @@ public class Controller implements TimerCallBack {
 
     public void executeAction(String nickname, int squareId) {
         Player p = gameModel.getGame ().findByNickname (nickname);
-        ((Move)currentAction).performMovement (p, squareId);
+        if (currentAction instanceof  Move)
+            ((Move)currentAction).performMovement (p, squareId);
+        else if (currentAction instanceof MoveAndGrab)
+            ((MoveAndGrab)currentAction).grabObject(p, squareId);
+        checkNewTurn (nickname);
+    }
+
+    public void executeAction(String attackerName, List<String> targetsNames, Weapon weapon) {
+        Player attacker = gameModel.getGame ().findByNickname (attackerName);
+        List<Player> targets = new LinkedList<> ();
+        for (String nickname : targetsNames) {
+            targets.add(gameModel.getGame ().findByNickname (nickname));
+        }
+        ((Shoot)currentAction).performAttack (attacker, targets, weapon);
+        checkNewTurn (attackerName);
+    }
+
+    private void checkNewTurn(String nickname) {
         if (isFirstAction ()) {
             lobby.sendToSpecific (nickname, new Turn(nickname, gameModel.getGame ().getMap ()));
             lobby.sendToAllNonCurrent (nickname, new Turn(nickname, gameModel.getGame ().getMap ()));
