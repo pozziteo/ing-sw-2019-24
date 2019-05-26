@@ -32,15 +32,13 @@ public class PowerUpEffect {
      * If the player chooses to teleport himself into his starting square the method recalls itself
      * @param attacker is the player who uses the card
      * @param positionToGo is the position where you want to teleport
-     * @throws InvalidPositionException if the positionToGo is the same square
      */
-    public void useTeleporter(Player attacker, Square positionToGo) throws InvalidPositionException {
-        if (attacker.getPosition() == positionToGo){
-            throw new InvalidPositionException("The position you want to teleport to is your starting position");
-        }
-        attacker.setPosition(positionToGo);
-        removePowerUp(attacker, pup3);
-        this.game.getPowerUpsDeck().discardCard(pup3);
+    public void useTeleporter(Player attacker, Square positionToGo) {
+        if (attacker.getPosition() != positionToGo){
+            attacker.setPosition(positionToGo);
+            removePowerUp(attacker, pup3);
+            this.game.getPowerUpsDeck().discardCard(pup3);
+        }else System.err.println("You cannot use this PowerUp");
     }
 
     /**
@@ -49,54 +47,46 @@ public class PowerUpEffect {
      * @param victim is the player you want to move
      * @param movements is the number of movements (1 or 2)
      * @param id is the new victim's square
-     * @throws InvalidPositionException if the square id is illegal
      */
-    public void useNewton(Player attacker, Player victim, int movements, int id) throws InvalidPositionException{
-        if (0 > id || id > 11){
-            throw new InvalidPositionException("The position you chose is outside the map");
-        }
-        AtomicWeaponEffect effect = factory.createGenericMovementEffect("target", movements);
-        effect.applyEffect(attacker, victim, id);
-        removePowerUp(attacker, pup1);
-        this.game.getPowerUpsDeck().discardCard(pup1);
+    public void useNewton(Player attacker, Player victim, int movements, int id) {
+        if ((0 <= id) && (id <= 11)){
+            AtomicWeaponEffect effect = factory.createGenericMovementEffect("target", movements);
+            effect.applyEffect(attacker, victim, id);
+            removePowerUp(attacker, pup1);
+            this.game.getPowerUpsDeck().discardCard(pup1);
+        }else System.err.println("You cannot use this PowerUp");
     }
 
     /**
      * Method for Targeting Scope Power Up,
      * @param attacker is the attacker
      * @param victim is the victim
-     * @throws IllegalUseOfPowerUpException if the player doesn't have enough ammo or
-     * if the players doesn't deal damage to the target
      */
-    public void useTargetingScope(Player attacker, Player victim) throws IllegalUseOfPowerUpException {
-        if (attacker.getBoard().getOwnedAmmo().isEmpty()){
-            throw new IllegalUseOfPowerUpException("You don't have enough ammo to use the Targeting Scope");
-        }
-        if (victim.getBoard().getDamageAmountGivenByPlayer(attacker ) == 0) {
-            throw new IllegalUseOfPowerUpException("You can't use the Targeting Scope without inflicting damage to the target");
-        }
-        victim.getBoard().gotHit(1, attacker);
-        removePowerUp(attacker, pup2);
-        this.game.getPowerUpsDeck().discardCard(pup2);
+    public void useTargetingScope(Player attacker, Player victim) {
+        if (!attacker.getBoard().getOwnedAmmo().isEmpty()){
+            if (victim.getBoard().getDamageAmountGivenByPlayer(attacker ) > 0) {
+                victim.getBoard().gotHit(1, attacker);
+                removePowerUp(attacker, pup2);
+                this.game.getPowerUpsDeck().discardCard(pup2);
+            }else System.err.println("You cannot use this PowerUp");
+        }else System.err.println("You cannot use this PowerUp");
     }
 
     /**
      * Method for Tagback Grenade Power Up
      * @param attacker is the attacker
      * @param victim is the victim
-     * @throws IllegalUseOfPowerUpException if the player can't see the victim or
-     * if the player doesn't receive damage from the target
      */
-    public void useTagbackGrenade(Player attacker, Player victim) throws IllegalUseOfPowerUpException{
-        if (!attacker.canSee(victim)){
-            throw new IllegalUseOfPowerUpException("You can't see the target");
-        }
-        if (attacker.getBoard().getDamageAmountGivenByPlayer(victim)==0){
-            throw new IllegalUseOfPowerUpException("You must receive damage from the target");
-        }
-        victim.getBoard().gotMarked(1, attacker);
-        removePowerUp(attacker, pup0);
-        this.game.getPowerUpsDeck().discardCard(pup0);
+    public void useTagbackGrenade(Player attacker, Player victim) {
+        if (attacker.canSee(victim)){
+            if (attacker.getBoard().getDamageAmountGivenByPlayer(victim)>0){
+                victim.getBoard().gotMarked(1, attacker);
+                removePowerUp(attacker, pup0);
+                this.game.getPowerUpsDeck().discardCard(pup0);
+            }else System.err.println("You cannot use this PowerUp");
+        }else System.err.println("You cannot use this PowerUp");
+
+
     }
 
     /**

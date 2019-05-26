@@ -7,7 +7,6 @@ import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.model.GameModel;
 import adrenaline.model.deck.Weapon;
 import adrenaline.model.deck.powerup.PowerUp;
-import adrenaline.model.deck.powerup.PowerUpEffect;
 import adrenaline.model.player.*;
 import adrenaline.network.Lobby;
 import adrenaline.utils.TimerCallBack;
@@ -25,6 +24,7 @@ public class Controller implements TimerCallBack {
     private TimerThread timer;
     private ArrayList<Player> dummyPlayers;
     private Action currentAction;
+    private PowerUp powerUp;
 
     //path for default map
     private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
@@ -32,7 +32,7 @@ public class Controller implements TimerCallBack {
 
     public Controller(Lobby lobby) {
         this.lobby = lobby;
-        this.timeout = (long) 120 * 1000;
+        this.timeout = lobby.readConfigFile("controllerTimeout");
         this.timer = new TimerThread (this, timeout);
         this.dummyPlayers = new ArrayList<> ();
     }
@@ -183,7 +183,7 @@ public class Controller implements TimerCallBack {
                 break;
             case "power up":
                 UsePowerUp usePup = new UsePowerUp(nickname);
-               // usePup.usePowerUp(param); param <- powerUp ???
+//                usePup.usePowerUp(powerUp);
                 break;
 //            case "ammo":
 //                UsePowerUp useAmmoFromPup = new UsePowerUp(nickname);
