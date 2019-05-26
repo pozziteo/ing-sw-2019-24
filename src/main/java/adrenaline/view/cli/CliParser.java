@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class CliParser {
     private CliPrinter printer = new CliPrinter ();
     private AtomicBoolean active = new AtomicBoolean ();
+    private AtomicBoolean menuActive = new AtomicBoolean ();
 
     /**
      * Default constructor.
@@ -80,6 +81,12 @@ public class CliParser {
         } catch(Exception e) {
             printer.print(e.getMessage ());
         }
+    }
+
+    public String parseLine() {
+        Scanner in = new Scanner (System.in);
+        String string = in.nextLine ( );
+        return string;
     }
 
     /**

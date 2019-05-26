@@ -141,24 +141,18 @@ public class CliPrinter {
         print("2 - Shoot an opponent");
         print("3 - Use PowerUp");
         print("4 - Pass this turn");
+        print("5 - View game info");
     }
 
     /**
      * Method that prints the ranking
      * @param ranking is a sorted list
      */
-    synchronized void printRanking(List<Player> ranking) {
+    synchronized void printRanking(List<String> ranking) {
         print("Current ranking:");
         for (int i = 0; i < ranking.size(); i++) {
-            print ((i+1) + " - " + ranking.get(i).getPlayerColor () + " player");
+            print ((i+1) + " - " + ranking.get(i));
         }
-    }
-
-    /**
-     * Method that tells when the game is ready to start
-     */
-    synchronized void printSetUpComplete() {
-        print("You're all set up! The match will now begin");
     }
 
     /**

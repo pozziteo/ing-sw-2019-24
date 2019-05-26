@@ -37,7 +37,6 @@ class MoveAndGrabTest {
         Square newPosition = moveAndGrab.grabObject(player);
 
         assertEquals(initialSquare, newPosition);
-        assertNull(((NormalSquare) newPosition).getPlacedTile());
 
         ((SpawnPoint)map.getSquare(2)).setWeapons(new Weapon(WeaponType.MACHINE_GUN));
         ((SpawnPoint)map.getSquare(2)).setWeapons(new Weapon(WeaponType.GRENADE_LAUNCHER));
@@ -77,7 +76,6 @@ class MoveAndGrabTest {
         MoveAndGrab thisWillSucceed = new MoveAndGrab(adrenaline, adrenaline.getGame().isFinalFrenzy());
         Square newPosition = thisWillSucceed.grabObject(adrenaline, 6);
         assertEquals(squareToGet, newPosition);
-        assertNull(squareToGet.getPlacedTile());
 
     }
 

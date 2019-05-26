@@ -55,9 +55,7 @@ public class CliTest {
         printer.printConnectionOptions ();
         printer.printMapOptions ();
         printer.printInitialSpawnPointOptions (g.getPlayers ().get (0).getOwnedPowerUps ());
-        printer.printSetUpComplete ();
         printer.printActionOptions ();
-        printer.printRanking (g.getRanking());
         printer.printWeaponList(p1.getOwnedWeapons());
         printer.printPowerUpList(p1.getOwnedPowerUps());
     }
