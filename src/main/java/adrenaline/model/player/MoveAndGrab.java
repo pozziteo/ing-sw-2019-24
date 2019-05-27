@@ -45,6 +45,7 @@ public class MoveAndGrab implements Action {
         if (position.isSpawnPoint()) {
             Weapon weapon = chooseWeapon((SpawnPoint) position);
             ((SpawnPoint) player.getPosition ()).removeWeapon(weapon);
+            ((SpawnPoint) player.getPosition ()).setWeapons ((Weapon) player.getGame ().getWeaponsDeck ().drawCard ());
             player.getOwnedWeapons().add(weapon);
         }
         else

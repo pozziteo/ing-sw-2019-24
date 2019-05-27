@@ -60,10 +60,13 @@ class PowerUpEffectTest {
         }
 
         //targeting scope
+        try {
             victim.getBoard().gotHit(3, attacker);
             attacker.getBoard().setOwnedAmmo(ammo);
             powerUpEffect.useTargetingScope(attacker, victim);
-
+        } catch (IllegalUseOfPowerUpException e){
+            System.err.println(e.getMessage());
+        }
         assertEquals(3, attacker.getOwnedPowerUps().size());
         assertEquals(4, victim.getBoard().getDamageAmountGivenByPlayer(attacker));
 
@@ -72,9 +75,12 @@ class PowerUpEffectTest {
         }
 
         //tagback grenade
+        try {
             attacker.getBoard().gotHit(2, victim);
             powerUpEffect.useTagbackGrenade(attacker, victim);
-
+        }catch (IllegalUseOfPowerUpException e){
+            System.err.println(e.getMessage());
+        }
         assertEquals(2, attacker.getOwnedPowerUps().size());
         assertEquals(1, victim.getBoard().getMarksAmountGivenByPlayer(attacker));
 
@@ -83,8 +89,11 @@ class PowerUpEffectTest {
         }
 
         //teleporter
+        try {
             powerUpEffect.useTeleporter(attacker, game.getMap().getSquare(9));
-
+        }catch (InvalidPositionException e){
+            System.err.println(e.getMessage());
+        }
         assertEquals(1, attacker.getOwnedPowerUps().size());
         assertEquals(9, attacker.getPosition().getSquareId());
 
@@ -93,13 +102,16 @@ class PowerUpEffectTest {
         }
 
         //newton
+        try {
             powerUpEffect.useNewton(attacker, victim, 1, 1);
-
+        }catch (InvalidPositionException e){
+            System.err.println(e.getMessage());
+        }
         assertEquals(0, attacker.getOwnedPowerUps().size());
         assertEquals(1, victim.getPosition().getSquareId());
     }
 
-/*    @Test
+    @Test
     void falseTestPup(){
         this.game.setArena(SMALL);
         attacker.setPosition(game.getMap().getSquare(5));
@@ -130,5 +142,5 @@ class PowerUpEffectTest {
 
         //newton outside map <0
         assertThrows(InvalidPositionException.class, () -> powerUpEffect.useNewton(attacker, victim, 1, -1));
-    }*/
+    }
 }
