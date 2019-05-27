@@ -110,45 +110,6 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
-    private void requestModelData() {
-        System.out.print ("Menu info: to view specific game info, enter either 'map', 'square details', 'my board', 'all boards', 'ranking'. Press q to close...\n");
-        DataForServer request;
-        boolean valid = false;
-        while (!valid && parser.isActive()) {
-            String string = parser.parseLine ( );
-            switch (string) {
-                case "map":
-                    valid = true;
-                    request = new MapRequest (nickname);
-                    sendToServer (request);
-                    break;
-                case "square details":
-                    valid = true;
-                    request = new SquareDetailsRequest (nickname);
-                    sendToServer (request);
-                    break;
-                case "my board":
-                    valid = true;
-                    request = new MyBoardRequest (nickname);
-                    sendToServer (request);
-                    break;
-                case "all boards":
-                    valid = true;
-                    request = new BoardsRequest (nickname);
-                    sendToServer (request);
-                    break;
-                case "ranking":
-                    valid = true;
-                    request = new RankingRequest (nickname);
-                    sendToServer (request);
-                    break;
-                default:
-                    selectAction();
-                    break;
-            }
-        }
-    }
-
     public CliPrinter getPrinter() {
         return this.printer;
     }
@@ -221,41 +182,78 @@ public class CliUserInterface implements UserInterface {
      */
 
     private void selectAction(){
-        parser.setActive (false);
         parser.setActive (true);
+        DataForServer request;
         boolean valid = false;
         while(!valid) {
             this.printer.printActionOptions ( );
-            int parsed = this.parser.asyncParseInt (5);
+            int parsed = this.parser.asyncParseInt (9);
             if (parsed != -1) {
-                if (parsed == 0){
-                    valid = true;
-                    sendAction("move");
-                }else if(parsed == 1){
-                    valid = true;
-                    sendAction("move and grab");
-                } else if(parsed == 2){
-                    valid = true;
-                    sendAction("shoot");
-                } else if (parsed == 3) {
-                    valid = true;
-                    sendAction("power up");
-                } else if(parsed == 4){
-                    valid = true;
-                    sendAction("pass");
-                } else if (parsed == 5) {
-                    showMenuOptions();
-                } else this.printer.printInvalidInput();
+                switch (parsed) {
+                    case 0:
+                        valid = true;
+                        sendAction ("move");
+                        break;
+                    case 1:
+                        valid = true;
+                        sendAction ("move and grab");
+                        break;
+                    case 2:
+                        valid = true;
+                        sendAction ("shoot");
+                        break;
+                    case 3:
+                        valid = true;
+                        sendAction ("power up");
+                        break;
+                    case 4:
+                        valid = true;
+                        sendAction ("pass");
+                        break;
+                    case 5:
+                        request = new MapRequest (nickname);
+                        sendToServer (request);
+                        try {
+                            Thread.currentThread ( ).sleep (3000);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread ().interrupt ();
+                        }
+                        break;
+                    case 6:
+                        request = new SquareDetailsRequest (nickname);
+                        sendToServer (request);
+                        try {
+                            Thread.currentThread ( ).sleep (3000);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread ().interrupt ();
+                        }
+                        break;
+                    case 7:
+                        request = new MyBoardRequest (nickname);
+                        sendToServer (request);
+                        break;
+                    case 8:
+                        request = new BoardsRequest (nickname);
+                        sendToServer (request);
+                        try {
+                            Thread.currentThread ( ).sleep (3000);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread ().interrupt ();
+                        }
+                        break;
+                    case 9:
+                        request = new RankingRequest (nickname);
+                        sendToServer (request);
+                        try {
+                            Thread.currentThread ( ).sleep (3000);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread ().interrupt ();
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
-        }
-    }
-
-    private void showMenuOptions() {
-        requestModelData ();
-        try {
-            Thread.currentThread ( ).sleep (2000);
-        } catch (InterruptedException e) {
-            Thread.currentThread ().interrupt ();
         }
     }
 

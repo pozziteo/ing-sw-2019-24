@@ -154,7 +154,7 @@ public class Controller implements TimerCallBack {
         }
     }
 
-    public synchronized void endGame() {
+    public void endGame() {
         gameModel.getGame ().setEndGame (true);
         //TODO
     }

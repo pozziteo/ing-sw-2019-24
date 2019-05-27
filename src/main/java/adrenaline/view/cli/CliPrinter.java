@@ -139,7 +139,11 @@ public class CliPrinter {
         print("2 - Shoot an opponent");
         print("3 - Use PowerUp");
         print("4 - Pass this turn");
-        print("5 - View game info");
+        print("5 - View the map");
+        print("6 - View all the squares' details");
+        print("7 - View your player board");
+        print("8 - View your opponents' player boards");
+        print("9 - View the current ranking");
     }
 
     /**
