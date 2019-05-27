@@ -1,5 +1,7 @@
 package adrenaline.view.cli;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -11,6 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class CliParser {
     private CliPrinter printer = new CliPrinter ();
     private AtomicBoolean active = new AtomicBoolean ();
+    private AtomicBoolean menuActive = new AtomicBoolean ();
 
     /**
      * Default constructor.
@@ -82,6 +85,21 @@ public class CliParser {
         }
     }
 
+    public String parseLine() {
+        Scanner in = new Scanner (System.in);
+        String string = in.nextLine ( );
+        return string;
+    }
+
+    public String consumeLine() {
+        Scanner in = new Scanner (System.in);
+        String string = "-1";
+        while (in.hasNext ()) {
+            string = in.next();
+        }
+        return string;
+    }
+
     /**
      * Method to parse a player's nickname
      */
@@ -104,6 +122,10 @@ public class CliParser {
     }
 
     //ASYNC
+
+    public boolean isActive() {
+        return this.active.get();
+    }
 
     public void setActive(boolean value) {
         this.active.set (value);

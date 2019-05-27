@@ -124,6 +124,7 @@ public class Game implements Serializable {
 
     public void incrementTurn() {
         this.currentTurnActions = new ArrayList<> ();
+        replaceEmptySlots();
         this.currentTurn++;
     }
 
@@ -291,5 +292,21 @@ public class Game implements Serializable {
                 return p;
         }
         return null;
+    }
+
+    private void replaceEmptySlots() {
+        for (Square s : map.getArena ()) {
+            if (s instanceof SpawnPoint) {
+                for (int i = 0; i < ((SpawnPoint)s).getWeapons ().length; i++) {
+                    if (((SpawnPoint)s).getWeapons ()[i] == null) {
+                        ((SpawnPoint)s).setWeapons ((Weapon) weaponsDeck.drawCard ());
+                    }
+                }
+            } else {
+                Tile tile = ((NormalSquare)s).getPlacedTile ();
+                if (tile == null)
+                    ((NormalSquare) s).setPlacedTile ((Tile) tilesDeck.drawCard ());
+            }
+        }
     }
 }

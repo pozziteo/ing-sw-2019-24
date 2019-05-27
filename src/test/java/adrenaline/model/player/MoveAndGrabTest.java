@@ -9,8 +9,6 @@ import adrenaline.model.map.Map;
 import adrenaline.model.map.NormalSquare;
 import adrenaline.model.map.SpawnPoint;
 import adrenaline.model.map.Square;
-import adrenaline.model.player.MoveAndGrab;
-import adrenaline.model.player.Player;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -34,7 +32,7 @@ class MoveAndGrabTest {
         player.setPosition(initialSquare);
         MoveAndGrab moveAndGrab = new MoveAndGrab(player, player.getGame().isFinalFrenzy());
 
-        Square newPosition = moveAndGrab.grabObject(player);
+        Square newPosition = moveAndGrab.grabObject(player, null);
 
         assertEquals(initialSquare, newPosition);
         assertNull(((NormalSquare) newPosition).getPlacedTile());
@@ -46,7 +44,7 @@ class MoveAndGrabTest {
         Weapon toGrab = ((SpawnPoint) map.getSquare(2)).getWeapons()[0];
 
         MoveAndGrab anotherGrab = new MoveAndGrab(player, player.getGame().isFinalFrenzy());
-        Square anotherPosition = anotherGrab.grabObject(player, 2);
+        Square anotherPosition = anotherGrab.grabObject(player, 2, toGrab);
 
         assertNotEquals(initialSquare, anotherPosition);
         assertEquals(map.getSquare(2), anotherPosition);
@@ -70,12 +68,12 @@ class MoveAndGrabTest {
         squareToGet.setPlacedTile(new Tile(TileFormat.TILE_FORMAT_20));
 
         MoveAndGrab thisWillFail = new MoveAndGrab(notAdrenaline, notAdrenaline.getGame().isFinalFrenzy());
-        Square samePosition = thisWillFail.grabObject(notAdrenaline, 6);
+        Square samePosition = thisWillFail.grabObject(notAdrenaline, 6, null);
         assertNotNull(squareToGet.getPlacedTile());
         assertEquals(initialSquare, samePosition);
 
         MoveAndGrab thisWillSucceed = new MoveAndGrab(adrenaline, adrenaline.getGame().isFinalFrenzy());
-        Square newPosition = thisWillSucceed.grabObject(adrenaline, 6);
+        Square newPosition = thisWillSucceed.grabObject(adrenaline, 6, null);
         assertEquals(squareToGet, newPosition);
         assertNull(squareToGet.getPlacedTile());
 

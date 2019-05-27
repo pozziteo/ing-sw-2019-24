@@ -52,7 +52,7 @@ public class SpawnPoint extends Square {
      * @param i is the index of the weapon grabbed by the player
      */
     public void changeWeapon(Weapon w, int i) {
-        this.weapons[i] = w;
+        weapons[i] = w;
     }
 
     /**
@@ -61,7 +61,7 @@ public class SpawnPoint extends Square {
      */
     public void removeWeapon(Weapon w) {
         for (int i = 0; i < 3; i++) {
-            String name = this.getWeapons()[i].getWeaponsName ();
+            String name = weapons[i].getWeaponsName ();
             if (w.getWeaponsName ().equals(name)) {
                 changeWeapon(null, i);
             }

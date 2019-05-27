@@ -7,7 +7,6 @@ import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.model.GameModel;
 import adrenaline.model.deck.Weapon;
 import adrenaline.model.deck.powerup.PowerUp;
-import adrenaline.model.deck.powerup.PowerUpEffect;
 import adrenaline.model.player.*;
 import adrenaline.network.Lobby;
 import adrenaline.utils.TimerCallBack;
@@ -25,6 +24,7 @@ public class Controller implements TimerCallBack {
     private TimerThread timer;
     private ArrayList<Player> dummyPlayers;
     private Action currentAction;
+    private PowerUp powerUp;
 
     //path for default map
     private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
@@ -32,7 +32,7 @@ public class Controller implements TimerCallBack {
 
     public Controller(Lobby lobby) {
         this.lobby = lobby;
-        this.timeout = (long) 120 * 1000;
+        this.timeout = lobby.readConfigFile("controllerTimeout");
         this.timer = new TimerThread (this, timeout);
         this.dummyPlayers = new ArrayList<> ();
     }
@@ -41,8 +41,18 @@ public class Controller implements TimerCallBack {
         return this.gameModel;
     }
 
+    public Lobby getLobby() {
+        return this.lobby;
+    }
+
     public void receiveData(DataForController data) {
-        data.updateGame (this);
+        Runnable thread = () -> {
+            Thread.currentThread ().setName ("Controller Receiver Thread");
+            System.out.println("Received " + data.getClass ().getSimpleName ());
+            data.updateGame (this);
+        };
+        Thread receiverThread = new Thread(thread);
+        receiverThread.start();
     }
 
     public void startController(GameModel model) {
@@ -111,13 +121,13 @@ public class Controller implements TimerCallBack {
                 String currentPlayer;
                 if (dummyPlayers.contains(gameModel.getGame ().getPlayers ().get (indexOfLast - currentTurn))) {
                     gameModel.getGame ().incrementTurn ();
-                    currentTurn = gameModel.getGame ( ).getCurrentTurn ( );
+                    currentTurn = gameModel.getGame ().getCurrentTurn ( );
                 }
-                currentPlayer = gameModel.getGame ( ).getPlayers ( ).get (indexOfLast - currentTurn).getPlayerName ( );
-                lobby.sendToSpecific (currentPlayer, new Turn(currentPlayer, gameModel.getGame ().getMap ()));
-                lobby.sendToAllNonCurrent (currentPlayer, new Turn(currentPlayer, gameModel.getGame ().getMap ()));
+                currentPlayer = gameModel.getGame ().getPlayers ().get (indexOfLast - currentTurn).getPlayerName ( );
+                lobby.sendToSpecific (currentPlayer, new Turn(currentPlayer));
+                lobby.sendToAllNonCurrent (currentPlayer, new Turn(currentPlayer));
                 timer.startThread (currentPlayer);
-                gameModel.getGame ( ).incrementTurn ( );
+                gameModel.getGame ().incrementTurn ( );
             } else {
                 //TODO
             }
@@ -162,7 +172,7 @@ public class Controller implements TimerCallBack {
             case "move and grab":
                 this.currentAction = new MoveAndGrab(p, gameModel.getGame().isFinalFrenzy());
                 gameModel.getGame ().setCurrentAction(currentAction);
-                options = new MovementOptions(((MoveAndGrab) currentAction).getPaths());
+                options = new MovementAndGrabOptions(((MoveAndGrab) currentAction).getPaths(), gameModel.getGame ().getMap ());
                 lobby.sendToSpecific(nickname, options);
                 break;
             case "shoot":
@@ -173,7 +183,7 @@ public class Controller implements TimerCallBack {
                 break;
             case "power up":
                 UsePowerUp usePup = new UsePowerUp(nickname);
-               // usePup.usePowerUp(param); param <- powerUp ???
+//                usePup.usePowerUp(powerUp);
                 break;
 //            case "ammo":
 //                UsePowerUp useAmmoFromPup = new UsePowerUp(nickname);
@@ -194,7 +204,13 @@ public class Controller implements TimerCallBack {
         if (currentAction instanceof  Move)
             ((Move)currentAction).performMovement (p, squareId);
         else if (currentAction instanceof MoveAndGrab)
-            ((MoveAndGrab)currentAction).grabObject(p, squareId);
+            ((MoveAndGrab)currentAction).grabObject(p, squareId, null);
+        checkNewTurn (nickname);
+    }
+
+    public void executeAction(String nickname, int squareId, Weapon w) {
+        Player p = gameModel.getGame ().findByNickname (nickname);
+        ((MoveAndGrab)currentAction).grabObject(p, squareId, w);
         checkNewTurn (nickname);
     }
 
@@ -210,8 +226,8 @@ public class Controller implements TimerCallBack {
 
     private void checkNewTurn(String nickname) {
         if (isFirstAction ()) {
-            lobby.sendToSpecific (nickname, new Turn(nickname, gameModel.getGame ().getMap ()));
-            lobby.sendToAllNonCurrent (nickname, new Turn(nickname, gameModel.getGame ().getMap ()));
+            lobby.sendToSpecific (nickname, new Turn(nickname));
+            lobby.sendToAllNonCurrent (nickname, new Turn(nickname));
         } else
             playNewTurn ();
     }
