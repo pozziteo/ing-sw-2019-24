@@ -12,6 +12,10 @@ public class MovementOptions extends DataForClient {
         this.possiblePaths = possiblePaths;
     }
 
+    public List<Integer> getPossiblePaths() {
+        return this.possiblePaths;
+    }
+
     @Override
     public void updateView(CliUserInterface view) {
         view.showPaths(possiblePaths);

@@ -11,6 +11,10 @@ public class NewPosition extends DataForServer implements DataForController {
         this.squareId = squareId;
     }
 
+    public int getSquareId() {
+        return this.squareId;
+    }
+
     @Override
     public void updateGame(Controller controller) {
         controller.executeAction(super.getNickname (), squareId);
