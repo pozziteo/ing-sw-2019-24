@@ -48,7 +48,7 @@ public class Controller implements TimerCallBack {
     public void receiveData(DataForController data) {
         Runnable thread = () -> {
             Thread.currentThread ().setName ("Controller Receiver Thread");
-            System.out.println("Received " + data.getClass ());
+            System.out.println("Received " + data.getClass ().getSimpleName ());
             data.updateGame (this);
         };
         Thread receiverThread = new Thread(thread);
@@ -124,8 +124,8 @@ public class Controller implements TimerCallBack {
                     currentTurn = gameModel.getGame ().getCurrentTurn ( );
                 }
                 currentPlayer = gameModel.getGame ().getPlayers ().get (indexOfLast - currentTurn).getPlayerName ( );
-                lobby.sendToSpecific (currentPlayer, new Turn(currentPlayer, gameModel.getGame ().getMap ()));
-                lobby.sendToAllNonCurrent (currentPlayer, new Turn(currentPlayer, gameModel.getGame ().getMap ()));
+                lobby.sendToSpecific (currentPlayer, new Turn(currentPlayer));
+                lobby.sendToAllNonCurrent (currentPlayer, new Turn(currentPlayer));
                 timer.startThread (currentPlayer);
                 gameModel.getGame ().incrementTurn ( );
             } else {
@@ -172,7 +172,7 @@ public class Controller implements TimerCallBack {
             case "move and grab":
                 this.currentAction = new MoveAndGrab(p, gameModel.getGame().isFinalFrenzy());
                 gameModel.getGame ().setCurrentAction(currentAction);
-                options = new MovementOptions(((MoveAndGrab) currentAction).getPaths());
+                options = new MovementAndGrabOptions(((MoveAndGrab) currentAction).getPaths(), gameModel.getGame ().getMap ());
                 lobby.sendToSpecific(nickname, options);
                 break;
             case "shoot":
@@ -204,7 +204,13 @@ public class Controller implements TimerCallBack {
         if (currentAction instanceof  Move)
             ((Move)currentAction).performMovement (p, squareId);
         else if (currentAction instanceof MoveAndGrab)
-            ((MoveAndGrab)currentAction).grabObject(p, squareId);
+            ((MoveAndGrab)currentAction).grabObject(p, squareId, null);
+        checkNewTurn (nickname);
+    }
+
+    public void executeAction(String nickname, int squareId, Weapon w) {
+        Player p = gameModel.getGame ().findByNickname (nickname);
+        ((MoveAndGrab)currentAction).grabObject(p, squareId, w);
         checkNewTurn (nickname);
     }
 
@@ -220,8 +226,8 @@ public class Controller implements TimerCallBack {
 
     private void checkNewTurn(String nickname) {
         if (isFirstAction ()) {
-            lobby.sendToSpecific (nickname, new Turn(nickname, gameModel.getGame ().getMap ()));
-            lobby.sendToAllNonCurrent (nickname, new Turn(nickname, gameModel.getGame ().getMap ()));
+            lobby.sendToSpecific (nickname, new Turn(nickname));
+            lobby.sendToAllNonCurrent (nickname, new Turn(nickname));
         } else
             playNewTurn ();
     }

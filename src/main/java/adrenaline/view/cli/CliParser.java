@@ -1,5 +1,7 @@
 package adrenaline.view.cli;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -89,6 +91,15 @@ public class CliParser {
         return string;
     }
 
+    public String consumeLine() {
+        Scanner in = new Scanner (System.in);
+        String string = "-1";
+        while (in.hasNext ()) {
+            string = in.next();
+        }
+        return string;
+    }
+
     /**
      * Method to parse a player's nickname
      */
@@ -111,6 +122,10 @@ public class CliParser {
     }
 
     //ASYNC
+
+    public boolean isActive() {
+        return this.active.get();
+    }
 
     public void setActive(boolean value) {
         this.active.set (value);

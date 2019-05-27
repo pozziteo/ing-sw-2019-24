@@ -6,10 +6,8 @@ import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.map.NormalSquare;
 import adrenaline.model.map.SpawnPoint;
 import adrenaline.model.map.Square;
-import adrenaline.model.player.Player;
 import org.fusesource.jansi.AnsiConsole;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -279,8 +277,8 @@ public class CliPrinter {
      * @param square is the square you need to know about
      */
     synchronized void printSquareDetails(Square square) {
-        print("Square " + square.getSquareId () + ":");
-        print("Players on this square: ");
+        print(ANSI_CYAN + "Square " + square.getSquareId () + ":" + ANSI_RESET);
+        print(ANSI_RED + "Players on this square: " + ANSI_RESET);
         if (square.getPlayersOnSquare().isEmpty()) {
             print("none");
         } else {
@@ -289,13 +287,40 @@ public class CliPrinter {
             }
         }
         if (square.isSpawnPoint ()) {
-            print("Weapons you can grab: ");
+            print(ANSI_GREEN + "Weapons you can grab: " + ANSI_RESET);
             for (int i = 0; i < ((SpawnPoint) square).getWeapons ().length; i++) {
-                print((i+1) + ": " + ((SpawnPoint) square).getWeapons ()[i].getWeaponsName ());
+                try {
+                    print ((i + 1) + ": " + ((SpawnPoint) square).getWeapons ( )[i].getWeaponsName ( ));
+                } catch (NullPointerException e) {
+                    print ((i + 1) + ": empty");
+                }
             }
-            print("\n");
         } else {
-            print("Tile details: " + ((NormalSquare) square).getPlacedTile ().getTileDescription ().toUpperCase() + "\n");
+            try {
+                print (ANSI_YELLOW + "Tile details: " + ANSI_RESET + ((NormalSquare) square).getPlacedTile ( ).getTileDescription ( ).toUpperCase ( ));
+            } catch (NullPointerException e) {
+                print (ANSI_YELLOW + "Tile details:" + ANSI_RESET + " empty");
+            }
+        }
+    }
+
+    synchronized  void printPaths(List<Integer> paths) {
+        print("Choose the square you want to move to:\n");
+        System.out.print("[  ");
+        for (Integer i : paths) {
+            System.out.print(i.toString () + "  ");
+        }
+        System.out.print("]\n");
+    }
+
+    synchronized void printWeaponListToChoose(Weapon[] weapons){
+        print("These are the weapons you can grab from this square: ");
+        for (int i = 0; i < weapons.length; i++){
+            try {
+                print ((i + 1) + " - " + weapons[i].getWeaponsName ( ));
+            } catch (NullPointerException e) {
+                print ((i + 1) + " - empty");
+            }
         }
     }
 

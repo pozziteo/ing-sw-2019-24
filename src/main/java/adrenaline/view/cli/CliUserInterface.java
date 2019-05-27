@@ -7,6 +7,8 @@ import adrenaline.data.data_for_server.data_for_network.AccountSetUp;
 import adrenaline.data.data_for_server.requests_for_model.*;
 import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.map.Map;
+import adrenaline.model.map.SpawnPoint;
+import adrenaline.model.map.Square;
 import adrenaline.network.ClientInterface;
 import adrenaline.network.rmi.client.RmiClient;
 import adrenaline.network.socket.client.SocketClient;
@@ -14,6 +16,7 @@ import adrenaline.view.UserInterface;
 
 import java.io.File;
 import java.rmi.RemoteException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -108,10 +111,10 @@ public class CliUserInterface implements UserInterface {
     }
 
     private void requestModelData() {
-        System.out.print ("Menu info: to view specific game info, enter either 'map', 'square details', 'my board', 'all boards', 'ranking'\n");
+        System.out.print ("Menu info: to view specific game info, enter either 'map', 'square details', 'my board', 'all boards', 'ranking'. Press q to close...\n");
         DataForServer request;
         boolean valid = false;
-        while (!valid) {
+        while (!valid && parser.isActive()) {
             String string = parser.parseLine ( );
             switch (string) {
                 case "map":
@@ -140,7 +143,7 @@ public class CliUserInterface implements UserInterface {
                     sendToServer (request);
                     break;
                 default:
-                    printer.printInvalidInput ();
+                    selectAction();
                     break;
             }
         }
@@ -218,6 +221,7 @@ public class CliUserInterface implements UserInterface {
      */
 
     private void selectAction(){
+        parser.setActive (false);
         parser.setActive (true);
         boolean valid = false;
         while(!valid) {
@@ -240,9 +244,18 @@ public class CliUserInterface implements UserInterface {
                     valid = true;
                     sendAction("pass");
                 } else if (parsed == 5) {
-                    requestModelData ();
+                    showMenuOptions();
                 } else this.printer.printInvalidInput();
             }
+        }
+    }
+
+    private void showMenuOptions() {
+        requestModelData ();
+        try {
+            Thread.currentThread ( ).sleep (2000);
+        } catch (InterruptedException e) {
+            Thread.currentThread ().interrupt ();
         }
     }
 
@@ -255,7 +268,7 @@ public class CliUserInterface implements UserInterface {
         printer.printWaitTurn(nickname);
     }
 
-    public void showTurn(String nickname, Map map) {
+    public void showTurn(String nickname) {
         parser.setActive(true);
         if (nickname.equals(this.nickname)) {
             selectAction();
@@ -301,13 +314,7 @@ public class CliUserInterface implements UserInterface {
     }
 
     public void showPaths(List<Integer> paths) {
-        printer.print("Choose the square you want to move to:\n");
-        System.out.print("[  ");
-        for (Integer i : paths) {
-            System.out.print(i.toString () + "  ");
-        }
-        System.out.print("]\n");
-        parser.setActive (true);
+        printer.printPaths (paths);
         boolean valid = false;
         while(!valid) {
             int parsed = this.parser.asyncParseInt (11);
@@ -323,6 +330,48 @@ public class CliUserInterface implements UserInterface {
                 if (!valid) {
                     this.printer.printInvalidInput ( );
                 }
+            }
+        }
+    }
+
+    public void showPathsAndGrabOptions(List<Integer> paths, Map map) {
+        printer.printPaths (paths);
+        boolean valid = false;
+        while(!valid) {
+            int parsed = this.parser.asyncParseInt (11);
+            if (parsed != -1) {
+                for (Integer i : paths) {
+                    if (parsed == i) {
+                        Square s = map.getSquare (i);
+                        if (s.isSpawnPoint ()) {
+                            chooseWeapon ((SpawnPoint) s);
+                        } else {
+                            NewPosition newPosition = new NewPosition (nickname, i);
+                            sendToServer(newPosition);
+                        }
+                        valid = true;
+                        break;
+                    }
+                }
+                if (!valid) {
+                    this.printer.printInvalidInput ( );
+                }
+            }
+        }
+    }
+
+    private void chooseWeapon(SpawnPoint square) {
+        boolean valid = false;
+        while (!valid) {
+            NewPositionAndGrabbed newPositionAndGrabbed;
+            this.printer.printWeaponListToChoose (square.getWeapons ());
+            int parsed = this.parser.asyncParseInt (3);
+            if (parsed != -1) {
+                if (parsed == 1 || parsed == 2 || parsed == 3) {
+                    valid = true;
+                    newPositionAndGrabbed = new NewPositionAndGrabbed (nickname, square.getSquareId (), square.getWeapons ()[parsed-1]);
+                    sendToServer (newPositionAndGrabbed);
+                } else this.printer.printInvalidInput ( );
             }
         }
     }

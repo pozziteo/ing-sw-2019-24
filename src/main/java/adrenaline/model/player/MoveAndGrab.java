@@ -40,26 +40,22 @@ public class MoveAndGrab implements Action {
         return this.paths;
     }
 
-    public Square grabObject(Player player) {
-        Square position = player.getPosition();
-        if (position.isSpawnPoint()) {
-            Weapon weapon = chooseWeapon((SpawnPoint) position);
+    public Square grabObject(Player player, Weapon weapon) {
+        if (weapon != null) {
             ((SpawnPoint) player.getPosition ()).removeWeapon(weapon);
-            ((SpawnPoint) player.getPosition ()).setWeapons ((Weapon) player.getGame ().getWeaponsDeck ().drawCard ());
             player.getOwnedWeapons().add(weapon);
-        }
-        else
-           grabTileContent(player, (NormalSquare) position);
+        } else
+           grabTileContent(player, (NormalSquare) player.getPosition ());
 
         Action.super.executedAction(player);
         return player.getPosition();
     }
 
-    public Square grabObject(Player player, int squareId) {
+    public Square grabObject(Player player, int squareId, Weapon weapon) {
         if (paths.contains(squareId)) {
             player.getPosition ().removePlayerFromSquare(player);
             player.setPosition (player.getGame ().getMap ().getSquare (squareId));
-            grabObject(player);
+            grabObject(player, weapon);
         }
         else {
             player.setPosition(player.getPosition());
@@ -67,21 +63,9 @@ public class MoveAndGrab implements Action {
         return player.getPosition();
     }
 
-    private Weapon chooseWeapon(SpawnPoint position) {
-        for (int i=0; i < position.getWeapons().length; i++)
-            System.out.println(i + " - " + position.getWeapons()[i].getWeaponsName());
-//        int index = new Scanner(System.in).nextInt();
-        int index = 0;
-        Weapon weapon = position.getWeapons()[index];
-        System.out.println("Grabbing weapon from square " + position.getSquareId() + ": " + weapon.getWeaponsName());
-        return weapon;
-    }
-
     private void grabTileContent(Player player, NormalSquare position) {
         Ammo ammo;
         Tile tile = position.getPlacedTile();
-        System.out.println("Grabbing tile content from square " + position.getSquareId() + ": "
-                + tile.getTileDescription());
         if (tile.getFormat ().isPowerUpIsPresent ()) {
             player.getOwnedPowerUps ().add((PowerUp) player.getGame().getPowerUpsDeck ().drawCard ());
         }
@@ -91,7 +75,7 @@ public class MoveAndGrab implements Action {
                 player.getBoard ( ).getOwnedAmmo ( ).add (ammo);
             }
         }
-        position.setPlacedTile((Tile) player.getGame ().getTilesDeck ().drawCard ());
+        position.setPlacedTile(null);
         player.getGame().getTilesDeck ().discardCard(tile);
     }
 
