@@ -49,7 +49,6 @@ class MoveAndGrabTest {
 
         assertNotEquals(initialSquare, anotherPosition);
         assertEquals(map.getSquare(2), anotherPosition);
-        assertNull(((SpawnPoint) anotherPosition).getWeapons()[0]);
         assertEquals(toGrab, player.getOwnedWeapons().get(0));
     }
 
