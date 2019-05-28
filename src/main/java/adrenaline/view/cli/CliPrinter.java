@@ -335,7 +335,7 @@ public class CliPrinter {
     synchronized void printWeaponList(List<Weapon> weapons){
         print("These are your weapons: ");
         for (int i = 0; i < weapons.size(); i++){
-            print((i+1) + " - " + weapons.get(i).getWeaponsName());
+            print((i+1) + " - " + weapons.get(i).getWeaponsName ());
         }
     }
 

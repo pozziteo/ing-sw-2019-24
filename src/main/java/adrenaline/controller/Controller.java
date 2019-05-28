@@ -178,7 +178,7 @@ public class Controller implements TimerCallBack {
             case "shoot":
                 this.currentAction = new Shoot(p);
                 gameModel.getGame ().setCurrentAction(currentAction);
-                options = new ShootOptions();
+                options = new ShootOptions(p.getOwnedWeapons ());
                 lobby.sendToSpecific (nickname, options);
                 break;
             case "power up":
@@ -234,6 +234,16 @@ public class Controller implements TimerCallBack {
 
     private boolean isFirstAction() {
         return (gameModel.getGame ().getCurrentTurnActionNumber () == 1);
+    }
+
+    public void sendPossibleTargets(String nickname, Weapon weapon) {
+        Player player = gameModel.getGame ().findByNickname (nickname);
+        List<Player> possibleTargets = weapon.getBaseEffect ().getRequirement ().findTargets (player, weapon.getBaseEffect ().getTargets ());
+        int maxNumberOfTargets = weapon.getBaseEffect ().getTargets ().getValue ();
+        List<String> possibleTargetsNames = new ArrayList<> ();
+        for (Player p : possibleTargets)
+            possibleTargetsNames.add (p.getPlayerName ());
+        lobby.sendToSpecific (nickname, new TargetOptions(possibleTargetsNames, maxNumberOfTargets));
     }
 
     //******************************************************************************************************************

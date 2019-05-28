@@ -5,6 +5,7 @@ import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.*;
 import adrenaline.data.data_for_server.data_for_network.AccountSetUp;
 import adrenaline.data.data_for_server.requests_for_model.*;
+import adrenaline.model.deck.Weapon;
 import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.map.Map;
 import adrenaline.model.map.SpawnPoint;
@@ -369,6 +370,22 @@ public class CliUserInterface implements UserInterface {
                     valid = true;
                     newPositionAndGrabbed = new NewPositionAndGrabbed (nickname, square.getSquareId (), square.getWeapons ()[parsed-1]);
                     sendToServer (newPositionAndGrabbed);
+                } else this.printer.printInvalidInput ( );
+            }
+        }
+    }
+
+    public void chooseWeapon(List<Weapon> weapons) {
+        boolean valid = false;
+        while (!valid) {
+            DataForServer weapon;
+            printer.printWeaponList (weapons);
+            int parsed = this.parser.asyncParseInt (3);
+            if (parsed != -1) {
+                if (parsed == 1 || parsed == 2 || parsed == 3) {
+                    valid = true;
+                    weapon = new ChosenWeapon (nickname, weapons.get(parsed-1));
+                    sendToServer (weapon);
                 } else this.printer.printInvalidInput ( );
             }
         }
