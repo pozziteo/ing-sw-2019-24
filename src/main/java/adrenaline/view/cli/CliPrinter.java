@@ -335,7 +335,7 @@ public class CliPrinter {
     synchronized void printWeaponList(List<Weapon> weapons){
         print("These are your weapons: ");
         for (int i = 0; i < weapons.size(); i++){
-            print((i+1) + " - " + weapons.get(i).getWeaponsName ());
+            print((i+1) + " - " + weapons.get(i).getWeaponsName () + ": " + weapons.get(i).getWeaponsDescription ());
         }
     }
 
@@ -366,5 +366,12 @@ public class CliPrinter {
      */
     synchronized void printWaitTurn(String nickname) {
         print(nickname + " is playing. Please wait your turn...\n");
+    }
+
+    synchronized void printChooseTargets(List<String> nicknames) {
+        print("Who will you choose as targets?");
+        for (int i = 0; i < nicknames.size (); i++) {
+            print(i + " - " + nicknames.get (i));
+        }
     }
 }

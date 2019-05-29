@@ -48,6 +48,10 @@ public class Weapon extends Card {
      * @return the type of a weapon
      */
     public String getWeaponsName() {
+        return this.type.getName ();
+    }
+
+    public String getWeaponsDescription() {
         return this.type.getDescription ();
     }
 

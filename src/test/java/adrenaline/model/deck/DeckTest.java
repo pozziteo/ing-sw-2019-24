@@ -18,7 +18,7 @@ class DeckTest {
         String weaponsName;
 
         for (WeaponType w : WeaponType.values ()) {
-            weaponsName = w.getDescription ();
+            weaponsName = w.getName ();
             weapons.add(weaponsName);
         }
 
