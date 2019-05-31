@@ -54,10 +54,10 @@ public class CliTest {
         printer.clearScreen ();
         printer.printConnectionOptions ();
         printer.printMapOptions ();
-        printer.printInitialSpawnPointOptions (g.getPlayers ().get (0).getOwnedPowerUps ());
+       /* printer.printInitialSpawnPointOptions (g.getPlayers ().get (0).getOwnedPowerUps ());
         printer.printActionOptions ();
         printer.printWeaponList(p1.getOwnedWeapons());
-        printer.printPowerUpList(p1.getOwnedPowerUps());
+        printer.printPowerUpList(p1.getOwnedPowerUps());*/
     }
 
     @Test

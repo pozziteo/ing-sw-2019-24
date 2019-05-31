@@ -2,8 +2,6 @@ package adrenaline.network;
 
 import adrenaline.data.data_for_server.DataForServer;
 
-import java.rmi.RemoteException;
-
 /**
  * Interface that represents a generic client.
  */

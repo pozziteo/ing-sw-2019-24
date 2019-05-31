@@ -3,10 +3,12 @@ package adrenaline.controller;
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_client.data_for_game.*;
 import adrenaline.data.data_for_client.data_for_network.MessageForClient;
+import adrenaline.data.data_for_client.responses_for_view.WeaponDetails;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.model.GameModel;
 import adrenaline.model.deck.Weapon;
 import adrenaline.model.deck.powerup.PowerUp;
+import adrenaline.model.map.SpawnPoint;
 import adrenaline.model.player.*;
 import adrenaline.network.Lobby;
 import adrenaline.utils.TimerCallBack;
@@ -32,7 +34,7 @@ public class Controller implements TimerCallBack {
 
     public Controller(Lobby lobby) {
         this.lobby = lobby;
-        this.timeout = lobby.readConfigFile("controllerTimeout");
+        this.timeout = lobby.getServer().readConfigFile("controllerTimeout");
         this.timer = new TimerThread (this, timeout);
         this.dummyPlayers = new ArrayList<> ();
     }
@@ -80,7 +82,7 @@ public class Controller implements TimerCallBack {
     private void spawnPointSetUp() {
         timer.shutDownThread ();
         for (Player p : gameModel.getGame ().getPlayers ()) {
-            InitialSpawnPointSetUp data = new InitialSpawnPointSetUp(p.getOwnedPowerUps ());
+            InitialSpawnPointSetUp data = new InitialSpawnPointSetUp(gameModel.createPowerUpDetails (p));
             lobby.sendToSpecific (p.getPlayerName (), data);
         }
     }
@@ -154,7 +156,7 @@ public class Controller implements TimerCallBack {
         }
     }
 
-    public synchronized void endGame() {
+    public void endGame() {
         gameModel.getGame ().setEndGame (true);
         //TODO
     }
@@ -172,13 +174,16 @@ public class Controller implements TimerCallBack {
             case "move and grab":
                 this.currentAction = new MoveAndGrab(p, gameModel.getGame().isFinalFrenzy());
                 gameModel.getGame ().setCurrentAction(currentAction);
-                options = new MovementAndGrabOptions(((MoveAndGrab) currentAction).getPaths(), gameModel.getGame ().getMap ());
+                options = new MovementAndGrabOptions(((MoveAndGrab) currentAction).getPaths(), gameModel.createSquareDetails ());
                 lobby.sendToSpecific(nickname, options);
                 break;
             case "shoot":
-                this.currentAction = new Shoot(p);
+                this.currentAction = new Shoot();
                 gameModel.getGame ().setCurrentAction(currentAction);
-                options = new ShootOptions();
+                List<WeaponDetails> weaponDetails = new ArrayList<> ();
+                for (Weapon w : gameModel.getGame ().findByNickname (nickname).getOwnedWeapons ())
+                    weaponDetails.add(gameModel.createWeaponDetail (w));
+                options = new ShootOptions(weaponDetails);
                 lobby.sendToSpecific (nickname, options);
                 break;
             case "power up":
@@ -208,17 +213,31 @@ public class Controller implements TimerCallBack {
         checkNewTurn (nickname);
     }
 
-    public void executeAction(String nickname, int squareId, Weapon w) {
+    public void executeAction(String nickname, int squareId, String weaponName) {
         Player p = gameModel.getGame ().findByNickname (nickname);
-        ((MoveAndGrab)currentAction).grabObject(p, squareId, w);
+        Weapon weapon = null;
+        for (Weapon w : ((SpawnPoint) gameModel.getGame ().getMap ().getSquare (squareId)).getWeapons ()) {
+            if (w.getWeaponsName ().equals(weaponName)) {
+                weapon = w;
+                break;
+            }
+        }
+        ((MoveAndGrab)currentAction).grabObject(p, squareId, weapon);
         checkNewTurn (nickname);
     }
 
-    public void executeAction(String attackerName, List<String> targetsNames, Weapon weapon) {
+    public void executeAction(String attackerName, List<String> targetsNames, String weaponName) {
         Player attacker = gameModel.getGame ().findByNickname (attackerName);
         List<Player> targets = new LinkedList<> ();
         for (String nickname : targetsNames) {
             targets.add(gameModel.getGame ().findByNickname (nickname));
+        }
+        Weapon weapon = null;
+        for (Weapon w : gameModel.getGame ().findByNickname (attackerName).getOwnedWeapons ()) {
+            if (w.getWeaponsName ().equals(weaponName)) {
+                weapon = w;
+                break;
+            }
         }
         ((Shoot)currentAction).performAttack (attacker, targets, weapon);
         checkNewTurn (attackerName);
@@ -234,6 +253,22 @@ public class Controller implements TimerCallBack {
 
     private boolean isFirstAction() {
         return (gameModel.getGame ().getCurrentTurnActionNumber () == 1);
+    }
+
+    public void sendPossibleTargets(String nickname, String weaponName) {
+        boolean initialized = false;
+        Weapon weapon = null;
+        for (Weapon w : gameModel.getGame ().findByNickname (nickname).getOwnedWeapons ()) {
+            if (w.getWeaponsName ().equals(weaponName)) {
+                initialized = true;
+                weapon = w;
+                break;
+            }
+        }
+        if (initialized) {
+            int maxNumberOfTargets = weapon.getBaseEffect ( ).getTargets ( ).getValue ( );
+            lobby.sendToSpecific (nickname, new TargetOptions (gameModel.createSquareDetails ( ), maxNumberOfTargets));
+        }
     }
 
     //******************************************************************************************************************

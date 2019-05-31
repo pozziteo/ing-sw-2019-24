@@ -122,7 +122,13 @@ public class TargetType {
                 break;
 
             case "on different squares":
-
+                int attackerPosition = attacker.getPosition().getSquareId();
+                for (Player p : players) {
+                    int playerPos = p.getPosition ().getSquareId ();
+                    if (attackerPosition == playerPos) {
+                        players.remove (p);
+                    }
+                }
                 break;
 
             case "on base target position":
@@ -130,7 +136,15 @@ public class TargetType {
                 break;
 
             case "on same direction":
-                //TODO
+                int attackerPositionX = attacker.getPosition().getX();
+                int attackerPositionY = attacker.getPosition().getY();
+                for (Player p: players){
+                    int playerPosX = p.getPosition().getX();
+                    int playerPosY = p.getPosition().getY();
+                    if (attackerPositionX!=playerPosX && attackerPositionY!=playerPosY){
+                        players.remove(p);
+                    }
+                }
                 break;
 
             case "one target per square":

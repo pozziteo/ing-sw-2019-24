@@ -3,16 +3,16 @@ package adrenaline.model.player;
 import adrenaline.model.Game;
 import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.deck.Weapon;
+import adrenaline.model.deck.powerup.PowerUpType;
 import adrenaline.model.map.Square;
 
-import java.io.Serializable;
 import java.util.*;
 
 /**
  * Player is the class that represents every client taking part in the game.
  */
 
-public class Player implements Serializable {
+public class Player {
     private Game game;
     private String playerName;
     private String playerColor;
@@ -233,6 +233,19 @@ public class Player implements Serializable {
     public boolean canSee(Player player) {
         return this.canSee(player.getPosition());
 
+    }
+
+    /**
+     * Method to check if a player has the Tagback Grenade
+     * @return true if the player does have it
+     */
+    public boolean hasGrenade(){
+        for (PowerUp p: ownedPowerUps){
+            if(p.getType()== PowerUpType.TAGBACK_GRENADE){
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean canSee(Square square) {

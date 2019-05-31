@@ -11,6 +11,7 @@ import adrenaline.network.socket.server.SocketServer;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -32,6 +33,8 @@ public class MainServer {
     private int rmiPort;
     private int socketPort;
     private LinkedList<Lobby> gameLobbies;
+    private static final String PATH1 = "src" + File.separatorChar + "Resources" + File.separatorChar + "config.properties";
+
 
     //attributes that represent the path of the file with all the accounts
     private static final String PATH = "src" + File.separatorChar + "Resources";
@@ -40,8 +43,8 @@ public class MainServer {
     public MainServer() {
         this.onlineClients = new LinkedList<>();
         this.serverAddress = "localhost"; //change to get dynamically
-        this.rmiPort = 10000;
-        this.socketPort = 6666;
+        this.rmiPort = readConfigFile("rmiPort");
+        this.socketPort = readConfigFile("socketPort");
         this.mainRunning = false;
         this.socketRunning = false;
         this.rmiRunning = false;
@@ -275,6 +278,24 @@ public class MainServer {
         Lobby toNotify = disconnected.getCurrentLobby ();
         toNotify.removeDisconnected(disconnected);
         this.onlineClients.remove(disconnected);
+    }
+
+    /**
+     * Method to read from the Configuration File
+     * @param key is the name of the value you want to read
+     * @return a long type
+     */
+    public int readConfigFile(String key) {
+        try {
+            Properties prop = new Properties();
+            FileInputStream in = new FileInputStream(PATH1);
+            prop.load(in);
+            int i = Integer.parseInt(prop.getProperty(key));
+            return i;
+        }catch (IOException e){
+            System.err.println(e.getMessage());
+        }
+        return -1;
     }
 
 }

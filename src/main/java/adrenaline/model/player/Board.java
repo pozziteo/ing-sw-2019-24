@@ -3,7 +3,6 @@ package adrenaline.model.player;
 import adrenaline.model.deck.Ammo;
 import adrenaline.model.deck.Weapon;
 
-import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -12,7 +11,7 @@ import java.util.*;
  * and his weapon currently unloaded
  */
 
-public class Board implements Serializable {
+public class Board {
     private ArrayList<String> damageTaken;
     private ArrayList<String> receivedMarks;
     private ArrayList<Weapon> unloadedWeapons;

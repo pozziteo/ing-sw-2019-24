@@ -9,10 +9,7 @@ import adrenaline.utils.TimerCallBack;
 import adrenaline.utils.TimerThread;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Properties;
 
 public class Lobby implements TimerCallBack {
     private int id;
@@ -30,12 +27,15 @@ public class Lobby implements TimerCallBack {
         this.server = server;
         this.players = new ArrayList<> ();
         this.controller = new Controller(this);
-        this.timeout = readConfigFile("lobbyTimeout");
+        this.timeout = (long)server.readConfigFile("lobbyTimeout");
         this.timerThread = new TimerThread (this, timeout);
         this.gameStarted = false;
         this.full = false;
     }
 
+    /**
+     * Method that creates a new game
+     */
     private void createGame() {
         timerThread.shutDownThread ();
         this.gameStarted = true;
@@ -48,22 +48,42 @@ public class Lobby implements TimerCallBack {
         this.controller.startController (new GameModel (playerNames));
     }
 
+    /**
+     * Getter method
+     * @return the list of players
+     */
     public ArrayList<Account> getPlayers() {
         return this.players;
     }
 
+    /**
+     * Getter method
+     * @return the controller
+     */
     public Controller getController() {
         return this.controller;
     }
 
+    /**
+     * @return true if the Game has started
+     */
     public boolean isGameStarted() {
         return this.gameStarted;
     }
 
+    /**
+     * @param nickname is the player's nickname
+     * @return the nickname of the client
+     */
     public Account findPlayer(String nickname) {
         return server.findClient (nickname);
     }
 
+    /**
+     * Method that sends data to a specific player
+     * @param nickname is the player's nickname
+     * @param data is the data
+     */
     public void sendToSpecific(String nickname, DataForClient data) {
         for (Account player : players) {
             if (player.getNickName ().equals(nickname)) {
@@ -74,6 +94,11 @@ public class Lobby implements TimerCallBack {
         }
     }
 
+    /**
+     * Method that sends data to every waiting players
+     * @param current is the current player
+     * @param data is the data
+     */
     public void sendToAllNonCurrent(String current, DataForClient data) {
         for (Account a : players) {
             if (! a.getNickName ().equals (current)) {
@@ -83,10 +108,17 @@ public class Lobby implements TimerCallBack {
         }
     }
 
+    /**
+     * @return true if the number of players is between 3 and 5
+     */
     private boolean thereIsEnoughPlayers() {
         return (this.players.size() > 2 && this.players.size() < 6);
     }
 
+    /**
+     * Method that checks if the number of players is enough to begin the timer
+     * @throws GameStartedException
+     */
     private synchronized void checkReady() throws GameStartedException {
         if (!gameStarted) {
             if (thereIsEnoughPlayers ()) {
@@ -106,6 +138,10 @@ public class Lobby implements TimerCallBack {
         }
     }
 
+    /**
+     * Method that removes from the players list the one who disconnected
+     * @param disconnected is the account of the player
+     */
     public synchronized void removeDisconnected(Account disconnected) {
         players.remove (disconnected);
         sendMessageToAll (disconnected.getNickName () + " disconnected...\n");
@@ -127,6 +163,10 @@ public class Lobby implements TimerCallBack {
         }
     }
 
+    /**
+     * Method that sends a message to every player waiting
+     * @param content is the message
+     */
     public void sendMessageToWaiting(String content) {
         if (players.size() > 1) {
             for (Account a : players.subList (0, players.size ()-1)) {
@@ -136,6 +176,10 @@ public class Lobby implements TimerCallBack {
         }
     }
 
+    /**
+     * Method that sends a message to every player
+     * @param content is the message
+     */
     public void sendMessageToAll(String content) {
         for (Account a : players) {
             MessageForClient message = new MessageForClient (a, content);
@@ -143,11 +187,17 @@ public class Lobby implements TimerCallBack {
         }
     }
 
+    /**
+     * @return true if the lobby is full
+     */
     public boolean isFull() {
         setFull ();
         return full;
     }
 
+    /**
+     * Setter method for "full" boolean
+     */
     private void setFull() {
         if (this.players.size () == 5) {
             full = true;
@@ -156,6 +206,11 @@ public class Lobby implements TimerCallBack {
         }
     }
 
+    /**
+     * Method that adds one player to the lobby
+     * @param a is the account of the player
+     * @throws GameStartedException
+     */
     public synchronized void addPlayer(Account a) throws GameStartedException {
         this.players.add (a);
         sendMessageToWaiting (a.getNickName () + " joined the lobby...");
@@ -163,21 +218,11 @@ public class Lobby implements TimerCallBack {
     }
 
     /**
-     * Method to read from the Configuration File
-     * @param key is the name of the value you want to read
-     * @return a long type
+     * Getter method to get the mainserver
+     * @return the mainserver
      */
-    public long readConfigFile(String key) {
-        try {
-            Properties prop = new Properties();
-            FileInputStream in = new FileInputStream(PATH1);
-            prop.load(in);
-            int i = Integer.parseInt(prop.getProperty(key));
-            return (long)i;
-        }catch (IOException e){
-            System.err.println(e.getMessage());
-        }
-        return -1;
+    public MainServer getServer(){
+        return this.server;
     }
 
     // *****************************************************************************************************************

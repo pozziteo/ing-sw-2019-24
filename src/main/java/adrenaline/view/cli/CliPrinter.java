@@ -1,11 +1,6 @@
 package adrenaline.view.cli;
 
-import adrenaline.model.deck.Ammo;
-import adrenaline.model.deck.Weapon;
-import adrenaline.model.deck.powerup.PowerUp;
-import adrenaline.model.map.NormalSquare;
-import adrenaline.model.map.SpawnPoint;
-import adrenaline.model.map.Square;
+import adrenaline.data.data_for_client.responses_for_view.*;
 import org.fusesource.jansi.AnsiConsole;
 
 import java.util.List;
@@ -121,12 +116,12 @@ public class CliPrinter {
      * after he keeps a PowerUp
      * @param powerUps is the couple of powerUps the player gets at the beginning of the game
      */
-    synchronized void printInitialSpawnPointOptions(List<PowerUp> powerUps) {
-        PowerUp powerUp1 = powerUps.get(0);
-        PowerUp powerUp2 = powerUps.get(1);
+    synchronized void printInitialSpawnPointOptions(List<PowerUpDetails> powerUps) {
+        PowerUpDetails powerUp1 = powerUps.get(0);
+        PowerUpDetails powerUp2 = powerUps.get(1);
         print("Pick your spawn point by discarding the power up card with the corresponding color:");
-        print("0 - " + powerUp1.getType().getDescription() + " (spawn in " + powerUp1.getAmmo().getColor().toLowerCase () + " room)");
-        print("1 - " + powerUp2.getType().getDescription() + " (spawn in " + powerUp2.getAmmo().getColor().toLowerCase()+ " room)");
+        print("0 - " + powerUp1.getType () + "(spawn in " + powerUp1.getColor ().toLowerCase () + " room)");
+        print("1 - " + powerUp2.getType () + "(spawn in " + powerUp2.getColor ().toLowerCase () + " room)");
     }
 
     /**
@@ -139,7 +134,11 @@ public class CliPrinter {
         print("2 - Shoot an opponent");
         print("3 - Use PowerUp");
         print("4 - Pass this turn");
-        print("5 - View game info");
+        print("5 - View the map");
+        print("6 - View all the squares' details");
+        print("7 - View your player board");
+        print("8 - View your opponents' player boards");
+        print("9 - View the current ranking");
     }
 
     /**
@@ -276,31 +275,23 @@ public class CliPrinter {
      * Method that prints the information about one square
      * @param square is the square you need to know about
      */
-    synchronized void printSquareDetails(Square square) {
-        print(ANSI_CYAN + "Square " + square.getSquareId () + ":" + ANSI_RESET);
-        print(ANSI_RED + "Players on this square: " + ANSI_RESET);
+    synchronized void printSquareDetails(SquareDetails square) {
+        print(ANSI_CYAN + "Square " + square.getId () + ":" + ANSI_RESET);
+        print("Players on this square: ");
         if (square.getPlayersOnSquare().isEmpty()) {
             print("none");
         } else {
             for (int i = 0; i < square.getPlayersOnSquare().size(); i++) {
-                print((i + 1) + ": " + square.getPlayersOnSquare().get(i).getPlayerName());
+                print((i + 1) + ": " + square.getPlayersOnSquare().get(i));
             }
         }
         if (square.isSpawnPoint ()) {
-            print(ANSI_GREEN + "Weapons you can grab: " + ANSI_RESET);
-            for (int i = 0; i < ((SpawnPoint) square).getWeapons ().length; i++) {
-                try {
-                    print ((i + 1) + ": " + ((SpawnPoint) square).getWeapons ( )[i].getWeaponsName ( ));
-                } catch (NullPointerException e) {
-                    print ((i + 1) + ": empty");
-                }
+            print("Weapons you can grab: ");
+            for (int i = 0; i < ((SpawnPointDetails) square).getWeaponsOnSquare ().length; i++) {
+                print ((i + 1) + ": " + ((SpawnPointDetails) square).getWeaponsOnSquare ()[i]);
             }
         } else {
-            try {
-                print (ANSI_YELLOW + "Tile details: " + ANSI_RESET + ((NormalSquare) square).getPlacedTile ( ).getTileDescription ( ).toUpperCase ( ));
-            } catch (NullPointerException e) {
-                print (ANSI_YELLOW + "Tile details:" + ANSI_RESET + " empty");
-            }
+            print ("Tile details: " + ((NormalSquareDetails) square).getTileOnSquare ( ).toUpperCase ( ));
         }
     }
 
@@ -313,14 +304,10 @@ public class CliPrinter {
         System.out.print("]\n");
     }
 
-    synchronized void printWeaponListToChoose(Weapon[] weapons){
+    synchronized void printWeaponListToChoose(String[] weapons){
         print("These are the weapons you can grab from this square: ");
         for (int i = 0; i < weapons.length; i++){
-            try {
-                print ((i + 1) + " - " + weapons[i].getWeaponsName ( ));
-            } catch (NullPointerException e) {
-                print ((i + 1) + " - empty");
-            }
+            print ((i + 1) + " - " + weapons[i]);
         }
     }
 
@@ -328,10 +315,14 @@ public class CliPrinter {
      * Method to print the player's Weapon List
      * @param weapons is the ArrayList of weapons
      */
-    synchronized void printWeaponList(List<Weapon> weapons){
+    synchronized void printWeaponList(List<WeaponDetails> weapons){
         print("These are your weapons: ");
-        for (int i = 0; i < weapons.size(); i++){
-            print((i+1) + " - " + weapons.get(i).getWeaponsName());
+        if (weapons.isEmpty ())
+            print("You have no loaded weapons");
+        else {
+            for (int i = 0; i < weapons.size ( ); i++) {
+                print ((i + 1) + " - " + weapons.get (i).getName ( ) + ": " + weapons.get (i).getDescription ( ) + " (cost :" + weapons.get (i).getAmmoCost ( ) + ")");
+            }
         }
     }
 
@@ -339,10 +330,10 @@ public class CliPrinter {
      * Method to print the player's PowerUp List
      * @param pups is the ArrayList of PowerUp
      */
-    synchronized void printPowerUpList(List<PowerUp> pups){
+    synchronized void printPowerUpList(List<String> pups){
         print("These are your PowerUps: ");
         for (int i=0; i< pups.size(); i++){
-            print((i+1) + " - " + pups.get(i).getPowerUpsName() + " ~ Ammo color: " + pups.get(i).getAmmo().getColor());
+            print((i+1) + " - " + pups.get(i) + " ~ Ammo color: " );
         }
     }
 
@@ -350,10 +341,10 @@ public class CliPrinter {
      * Method to print the player's Ammo List
      * @param ammos is the ArrayList of ammos
      */
-    synchronized void printAmmoList(List<Ammo> ammos){
+    synchronized void printAmmoList(List<String> ammos){
         print("These are your Ammos: ");
         for (int i=0; i< ammos.size(); i++){
-            print((i+1) + " - " + ammos.get(i).getColor());
+            print((i+1) + " - " + ammos.get(i));
         }
     }
 
@@ -362,5 +353,16 @@ public class CliPrinter {
      */
     synchronized void printWaitTurn(String nickname) {
         print(nickname + " is playing. Please wait your turn...\n");
+    }
+
+    synchronized void printChooseTargets(List<String> nicknames) {
+        print("Who will you choose as targets?");
+        for (int i = 0; i < nicknames.size (); i++) {
+            print(i + " - " + nicknames.get (i));
+        }
+    }
+
+    synchronized void printPlayerPositions() {
+
     }
 }

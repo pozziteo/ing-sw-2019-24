@@ -296,7 +296,7 @@ public class Game implements Serializable {
 
     private void replaceEmptySlots() {
         for (Square s : map.getArena ()) {
-            if (s instanceof SpawnPoint) {
+            if (s.isSpawnPoint()) {
                 for (int i = 0; i < ((SpawnPoint)s).getWeapons ().length; i++) {
                     if (((SpawnPoint)s).getWeapons ()[i] == null) {
                         ((SpawnPoint)s).setWeapons ((Weapon) weaponsDeck.drawCard ());

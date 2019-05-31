@@ -51,7 +51,7 @@ public class SpawnPoint extends Square {
      * @param w is a Weapon card which substitutes the old one
      * @param i is the index of the weapon grabbed by the player
      */
-    public void changeWeapon(Weapon w, int i) {
+    private void changeWeapon(Weapon w, int i) {
         weapons[i] = w;
     }
 
