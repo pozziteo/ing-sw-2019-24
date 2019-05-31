@@ -43,7 +43,7 @@ class PowerUpEffectTest {
         attacker.getBoard().setOwnedAmmo(ammo1);
         System.out.println("num of initial ammo: "+attacker.getBoard().getOwnedAmmo().size());
         attacker.setOwnedPowerUps(pupList);
-       // powerUpEffect.usePupAmmo(attacker, powerUp);
+        powerUpEffect.usePupAmmo(attacker, powerUp);
         System.out.println("amount of ammo: "+attacker.getBoard().getOwnedAmmo().size());
         assertEquals(3, attacker.getOwnedPowerUps().size());
         assertEquals(1, attacker.getBoard().getAmountOfAmmo(ammo));

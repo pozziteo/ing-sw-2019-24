@@ -15,6 +15,6 @@ public class ShootTest {
     public void testPlayerShoot() {
         p.getOwnedWeapons ().add((Weapon) g.getWeaponsDeck ().drawCard ());
         p.getOwnedWeapons ().add((Weapon) g.getWeaponsDeck ().drawCard ());
-        Shoot shoot = new Shoot(p);
+       // Shoot shoot = new Shoot(p);
     }
 }
