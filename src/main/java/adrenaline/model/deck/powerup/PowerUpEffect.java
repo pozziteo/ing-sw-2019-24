@@ -1,7 +1,5 @@
 package adrenaline.model.deck.powerup;
 
-import adrenaline.exceptions.IllegalUseOfPowerUpException;
-import adrenaline.exceptions.InvalidPositionException;
 import adrenaline.model.Game;
 import adrenaline.model.deck.Ammo;
 import adrenaline.model.deck.AtomicEffectsFactory;
@@ -95,10 +93,9 @@ public class PowerUpEffect {
      * @param pup is the Power Up
      * @return a boolean
      */
-    public boolean usePupAmmo(Player attacker, PowerUp pup){
+    public void usePupAmmo(Player attacker, PowerUp pup){
         attacker.getBoard().setOwnedAmmo(pup.getAmmo());
         removePowerUp(attacker, pup);
-        return true;
     }
 
     /**

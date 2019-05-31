@@ -3,6 +3,7 @@ package adrenaline.model.player;
 import adrenaline.model.Game;
 import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.deck.Weapon;
+import adrenaline.model.deck.powerup.PowerUpType;
 import adrenaline.model.map.Square;
 
 import java.util.*;
@@ -232,6 +233,19 @@ public class Player {
     public boolean canSee(Player player) {
         return this.canSee(player.getPosition());
 
+    }
+
+    /**
+     * Method to check if a player has the Tagback Grenade
+     * @return true if the player does have it
+     */
+    public boolean hasGrenade(){
+        for (PowerUp p: ownedPowerUps){
+            if(p.getType()== PowerUpType.TAGBACK_GRENADE){
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean canSee(Square square) {
