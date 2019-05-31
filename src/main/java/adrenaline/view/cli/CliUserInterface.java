@@ -12,6 +12,7 @@ import adrenaline.data.data_for_server.requests_for_model.*;
 import adrenaline.network.ClientInterface;
 import adrenaline.network.rmi.client.RmiClient;
 import adrenaline.network.socket.client.SocketClient;
+import adrenaline.utils.ReadConfigFile;
 import adrenaline.view.UserInterface;
 
 import java.io.File;
@@ -72,7 +73,7 @@ public class CliUserInterface implements UserInterface {
                 exc.printStackTrace();
             }
         } else {
-            this.client = new SocketClient ("localhost", 6666, this);
+            this.client = new SocketClient ("localhost", ReadConfigFile.readConfigFile("socketPort"), this);
         }
         client.connectToServer ();
     }
@@ -213,7 +214,7 @@ public class CliUserInterface implements UserInterface {
                         request = new MapRequest (nickname);
                         sendToServer (request);
                         try {
-                            Thread.currentThread ( ).sleep (3000);
+                            Thread.currentThread ( ).sleep ((long)ReadConfigFile.readConfigFile("cliThread"));
                         } catch (InterruptedException e) {
                             Thread.currentThread ().interrupt ();
                         }
@@ -222,7 +223,7 @@ public class CliUserInterface implements UserInterface {
                         request = new SquareDetailsRequest (nickname);
                         sendToServer (request);
                         try {
-                            Thread.currentThread ( ).sleep (3000);
+                            Thread.currentThread ( ).sleep ((long)ReadConfigFile.readConfigFile("cliThread"));
                         } catch (InterruptedException e) {
                             Thread.currentThread ().interrupt ();
                         }
@@ -235,7 +236,7 @@ public class CliUserInterface implements UserInterface {
                         request = new BoardsRequest (nickname);
                         sendToServer (request);
                         try {
-                            Thread.currentThread ( ).sleep (3000);
+                            Thread.currentThread ( ).sleep ((long)ReadConfigFile.readConfigFile("cliThread"));
                         } catch (InterruptedException e) {
                             Thread.currentThread ().interrupt ();
                         }
@@ -244,7 +245,7 @@ public class CliUserInterface implements UserInterface {
                         request = new RankingRequest (nickname);
                         sendToServer (request);
                         try {
-                            Thread.currentThread ( ).sleep (3000);
+                            Thread.currentThread ( ).sleep ((long)ReadConfigFile.readConfigFile("cliThread"));
                         } catch (InterruptedException e) {
                             Thread.currentThread ().interrupt ();
                         }

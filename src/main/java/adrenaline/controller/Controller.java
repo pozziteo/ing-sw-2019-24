@@ -11,6 +11,7 @@ import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.map.SpawnPoint;
 import adrenaline.model.player.*;
 import adrenaline.network.Lobby;
+import adrenaline.utils.ReadConfigFile;
 import adrenaline.utils.TimerCallBack;
 import adrenaline.utils.TimerThread;
 
@@ -34,7 +35,7 @@ public class Controller implements TimerCallBack {
 
     public Controller(Lobby lobby) {
         this.lobby = lobby;
-        this.timeout = lobby.getServer().readConfigFile("controllerTimeout");
+        this.timeout = ReadConfigFile.readConfigFile("controllerTimeout");
         this.timer = new TimerThread (this, timeout);
         this.dummyPlayers = new ArrayList<> ();
     }

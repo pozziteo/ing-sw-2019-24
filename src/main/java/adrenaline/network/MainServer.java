@@ -7,6 +7,7 @@ import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.exceptions.GameStartedException;
 import adrenaline.network.rmi.server.RmiServer;
 import adrenaline.network.socket.server.SocketServer;
+import adrenaline.utils.ReadConfigFile;
 
 import java.io.*;
 import java.util.LinkedList;
@@ -43,8 +44,8 @@ public class MainServer {
     public MainServer() {
         this.onlineClients = new LinkedList<>();
         this.serverAddress = "localhost"; //change to get dynamically
-        this.rmiPort = readConfigFile("rmiPort");
-        this.socketPort = readConfigFile("socketPort");
+        this.rmiPort = ReadConfigFile.readConfigFile("rmiPort");
+        this.socketPort = ReadConfigFile.readConfigFile("socketPort");
         this.mainRunning = false;
         this.socketRunning = false;
         this.rmiRunning = false;
@@ -280,22 +281,6 @@ public class MainServer {
         this.onlineClients.remove(disconnected);
     }
 
-    /**
-     * Method to read from the Configuration File
-     * @param key is the name of the value you want to read
-     * @return a long type
-     */
-    public int readConfigFile(String key) {
-        try {
-            Properties prop = new Properties();
-            FileInputStream in = new FileInputStream(PATH1);
-            prop.load(in);
-            int i = Integer.parseInt(prop.getProperty(key));
-            return i;
-        }catch (IOException e){
-            System.err.println(e.getMessage());
-        }
-        return -1;
-    }
+
 
 }
