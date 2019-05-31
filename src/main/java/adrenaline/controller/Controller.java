@@ -178,7 +178,7 @@ public class Controller implements TimerCallBack {
                 lobby.sendToSpecific(nickname, options);
                 break;
             case "shoot":
-                this.currentAction = new Shoot(p);
+                this.currentAction = new Shoot();
                 gameModel.getGame ().setCurrentAction(currentAction);
                 List<WeaponDetails> weaponDetails = new ArrayList<> ();
                 for (Weapon w : gameModel.getGame ().findByNickname (nickname).getOwnedWeapons ())
