@@ -1,14 +1,13 @@
 package adrenaline.data.data_for_server.data_for_game;
 
 import adrenaline.controller.Controller;
-import adrenaline.model.deck.Weapon;
 
 public class NewPositionAndGrabbed extends NewPosition {
-    private Weapon weapon;
+    private String weapon;
 
-    public NewPositionAndGrabbed(String nickname, int squareId, Weapon w) {
+    public NewPositionAndGrabbed(String nickname, int squareId, String weapon) {
         super(nickname, squareId);
-        this.weapon = w;
+        this.weapon = weapon;
     }
 
     @Override

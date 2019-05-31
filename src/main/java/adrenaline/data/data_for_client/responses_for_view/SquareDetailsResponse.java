@@ -1,13 +1,14 @@
 package adrenaline.data.data_for_client.responses_for_view;
 
 import adrenaline.data.data_for_client.DataForClient;
-import adrenaline.model.map.Map;
 import adrenaline.view.cli.CliUserInterface;
 
-public class SquareDetailsResponse extends DataForClient {
-    private Map map;
+import java.util.List;
 
-    public SquareDetailsResponse(Map map) {
+public class SquareDetailsResponse extends DataForClient {
+    private List<SquareDetails> map;
+
+    public SquareDetailsResponse(List<SquareDetails> map) {
         this.map = map;
     }
 

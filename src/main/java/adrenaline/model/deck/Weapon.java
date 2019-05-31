@@ -43,6 +43,10 @@ public class Weapon extends Card {
         }
     }
 
+    public WeaponType getType() {
+        return this.type;
+    }
+
     /**
      * Getter to obtain the kind of weapon to know its effects
      * @return the type of a weapon
