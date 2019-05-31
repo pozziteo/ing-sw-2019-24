@@ -256,15 +256,19 @@ public class Controller implements TimerCallBack {
     }
 
     public void sendPossibleTargets(String nickname, String weaponName) {
+        boolean initialized = false;
         Weapon weapon = null;
         for (Weapon w : gameModel.getGame ().findByNickname (nickname).getOwnedWeapons ()) {
             if (w.getWeaponsName ().equals(weaponName)) {
+                initialized = true;
                 weapon = w;
                 break;
             }
         }
-        int maxNumberOfTargets = weapon.getBaseEffect ( ).getTargets ( ).getValue ( );
-        lobby.sendToSpecific (nickname, new TargetOptions(gameModel.createSquareDetails (), maxNumberOfTargets));
+        if (initialized) {
+            int maxNumberOfTargets = weapon.getBaseEffect ( ).getTargets ( ).getValue ( );
+            lobby.sendToSpecific (nickname, new TargetOptions (gameModel.createSquareDetails ( ), maxNumberOfTargets));
+        }
     }
 
     //******************************************************************************************************************

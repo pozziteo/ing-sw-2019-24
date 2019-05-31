@@ -9,9 +9,8 @@ import java.util.*;
  * Map is a Singleton class which contains the description about the map currently
  * used in a game. There can be only one instance of Map in a single game
  */
-public class Map implements Serializable {
+public class Map {
 
-    private static final long serialVersionUID = 4605842846381645032L;
     /**
      * attribute which represents the "file name" of the map
      */

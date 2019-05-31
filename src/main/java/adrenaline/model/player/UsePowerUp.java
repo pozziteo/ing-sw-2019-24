@@ -1,7 +1,5 @@
 package adrenaline.model.player;
 
-import adrenaline.exceptions.IllegalUseOfPowerUpException;
-import adrenaline.exceptions.InvalidPositionException;
 import adrenaline.model.Game;
 import adrenaline.model.deck.Ammo;
 import adrenaline.model.deck.powerup.PowerUp;

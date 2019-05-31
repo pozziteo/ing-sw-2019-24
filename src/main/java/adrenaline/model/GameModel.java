@@ -6,19 +6,16 @@ import adrenaline.model.deck.Weapon;
 import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.map.NormalSquare;
 import adrenaline.model.map.SpawnPoint;
-import adrenaline.model.map.Square;
 import adrenaline.model.player.Player;
 import adrenaline.network.Account;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 //TODO javadoc
 
-public class GameModel implements Serializable {
-    private static final long serialVersionUID = 5055517717183645074L;
+public class GameModel {
 
     private Game game;
 

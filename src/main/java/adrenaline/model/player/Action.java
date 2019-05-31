@@ -4,11 +4,10 @@ import adrenaline.model.deck.Weapon;
 import adrenaline.model.map.Map;
 import adrenaline.model.map.Square;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface Action extends Serializable {
+public interface Action {
 
     default void executedAction(Player player) {
         Action[] actions = player.getPerformedActions();

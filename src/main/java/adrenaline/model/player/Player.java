@@ -5,14 +5,13 @@ import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.deck.Weapon;
 import adrenaline.model.map.Square;
 
-import java.io.Serializable;
 import java.util.*;
 
 /**
  * Player is the class that represents every client taking part in the game.
  */
 
-public class Player implements Serializable {
+public class Player {
     private Game game;
     private String playerName;
     private String playerColor;
