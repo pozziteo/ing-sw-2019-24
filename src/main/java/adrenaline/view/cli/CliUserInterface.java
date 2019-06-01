@@ -14,6 +14,8 @@ import adrenaline.view.UserInterface;
 
 import java.io.File;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -389,6 +391,35 @@ public class CliUserInterface implements UserInterface {
     }
 
     public void chooseTargets(int maxAmount, List<SquareDetails> map) {
-        //printer.printPlayerPositions();
+        List<String> players = new ArrayList<> ();
+        for (SquareDetails s : map) {
+            if (! s.getPlayersOnSquare ().isEmpty ()) {
+                for (String nick : s.getPlayersOnSquare ()) {
+                    players.add(nick);
+                    printer.printPlayerPositions (players.size(), nick, s.getId ( ));
+                }
+            }
+        }
+        printer.print("Choose your targets (please keep in mind to make your choice in the same order as the target descriptions for each weapon)");
+        boolean valid = false;
+        List<String> targets = new LinkedList<> ();
+        int amountChosen = 0;
+        while (amountChosen <= maxAmount) {
+            printer.printChooseTargets (maxAmount - amountChosen);
+            int parsed = this.parser.asyncParseInt (players.size ());
+            if (parsed != -1) {
+                if (parsed > 0 && parsed <= players.size()) {
+                    valid = true;
+                    amountChosen++;
+                    targets.add(players.get (parsed-1));
+                } else {
+                    printer.printInvalidInput ( );
+                }
+            }
+        }
+        if (valid) {
+            DataForServer chosenTargets = new ChosenTargets (nickname, targets);
+            sendToServer (chosenTargets);
+        }
     }
 }

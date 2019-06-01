@@ -65,11 +65,17 @@ public class GameModel {
         List<String> ammoList = new ArrayList<> ();
         List<String> grabList = new ArrayList<> ();
 
-        for (Ammo a : w.getType ().getReloadingAmmo ())
-            ammoList.add(a.getColor ());
+        if (w == null) {
+            ammoList.add("empty");
+            grabList.add("empty");
+            return new WeaponDetails ("empty", "none", ammoList, grabList);
+        }
 
-        for (Ammo a : w.getType ().getGrabbingCost ())
-            grabList.add(a.getColor ());
+        for (Ammo a : w.getType ( ).getReloadingAmmo ( ))
+            ammoList.add (a.getColor ( ));
+
+        for (Ammo a : w.getType ( ).getGrabbingCost ( ))
+            grabList.add (a.getColor ( ));
 
         return new WeaponDetails (w.getWeaponsName (), w.getWeaponsDescription (), ammoList, grabList);
     }

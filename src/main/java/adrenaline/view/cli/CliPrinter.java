@@ -353,15 +353,12 @@ public class CliPrinter {
         print(nickname + " is playing. Please wait your turn...\n");
     }
 
-    synchronized void printChooseTargets(List<String> nicknames) {
-        print("Who will you choose as targets?");
-        for (int i = 0; i < nicknames.size (); i++) {
-            print(i + " - " + nicknames.get (i));
-        }
+    synchronized void printChooseTargets(int n) {
+        print("You can choose up to " + n + " targets:");
     }
 
-    synchronized void printPlayerPositions() {
-
+    synchronized void printPlayerPositions(int n, String nickname, int squareId) {
+        print(n + " - " + nickname + " is on square " + squareId);
     }
 
     synchronized void printBoard(BoardDetails board) {
