@@ -24,29 +24,31 @@ public interface Action {
         Map map = player.getGame().getMap();
         Square position = player.getPosition();
 
-        return findPaths(map, position, movements);
+        if (movements == 1) {
+            List<Integer> paths = findPaths (map, position, movements);
+            paths.add (player.getPosition ( ).getSquareId ( ));
+
+            return paths;
+        } else
+            return findPaths (map, position, movements);
     }
 
     static List<Integer> findPaths(Map map, Square position, int movements) {
         List<Integer> toVisit = new ArrayList<>();
         toVisit.add(position.getSquareId());
         List<Integer> visited = new ArrayList<>();
-//        System.out.println("[ " + position.getSquareId() + " ] (0 movements)");
         for (int moves = 1; moves <= movements; moves++) {
-//            System.out.print("[");
             int currentNodes = toVisit.size();
             while (currentNodes > 0) {
                 position = map.getSquare(toVisit.remove(0));
                 for (int squareId : position.getLinks()) {
                     if (!visited.contains(squareId)) {
-//                        System.out.print(" (" + squareId / 4 + ", " + squareId % 4 + ") ");
                         visited.add(squareId);
                         toVisit.add(squareId);
                     }
                 }
                 currentNodes--;
             }
-//            System.out.println(" ] (" + moves + " movements)");
         }
         return visited;
     }

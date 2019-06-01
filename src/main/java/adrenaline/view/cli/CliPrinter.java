@@ -3,6 +3,7 @@ package adrenaline.view.cli;
 import adrenaline.data.data_for_client.responses_for_view.*;
 import org.fusesource.jansi.AnsiConsole;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -137,7 +138,7 @@ public class CliPrinter {
         print("5 - View the map");
         print("6 - View all the squares' details");
         print("7 - View your player board");
-        print("8 - View your opponents' player boards");
+        print("8 - View your and your opponents' player boards");
         print("9 - View the current ranking");
     }
 
@@ -288,7 +289,7 @@ public class CliPrinter {
         if (square.isSpawnPoint ()) {
             print("Weapons you can grab: ");
             for (int i = 0; i < ((SpawnPointDetails) square).getWeaponsOnSquare ().length; i++) {
-                print ((i + 1) + ": " + ((SpawnPointDetails) square).getWeaponsOnSquare ()[i]);
+                print ((i + 1) + ": " + ((SpawnPointDetails) square).getWeaponsOnSquare ()[i].getName ());
             }
         } else {
             print ("Tile details: " + ((NormalSquareDetails) square).getTileOnSquare ( ).toUpperCase ( ));
@@ -304,10 +305,10 @@ public class CliPrinter {
         System.out.print("]\n");
     }
 
-    synchronized void printWeaponListToChoose(String[] weapons){
+    synchronized void printWeaponListToChoose(WeaponDetails[] weapons){
         print("These are the weapons you can grab from this square: ");
         for (int i = 0; i < weapons.length; i++){
-            print ((i + 1) + " - " + weapons[i]);
+            print ((i + 1) + " - " + weapons[i].getName () + ": " + weapons[i].getDescription () + "(cost to grab: " + weapons[i].getGrabCost () + ")\n");
         }
     }
 
@@ -316,12 +317,12 @@ public class CliPrinter {
      * @param weapons is the ArrayList of weapons
      */
     synchronized void printWeaponList(List<WeaponDetails> weapons){
-        print("These are your weapons: ");
+        print("These are your loaded weapons: ");
         if (weapons.isEmpty ())
             print("You have no loaded weapons");
         else {
             for (int i = 0; i < weapons.size ( ); i++) {
-                print ((i + 1) + " - " + weapons.get (i).getName ( ) + ": " + weapons.get (i).getDescription ( ) + " (cost :" + weapons.get (i).getAmmoCost ( ) + ")");
+                print ((i + 1) + " - " + ANSI_RED + weapons.get (i).getName ( ) + ANSI_RESET + ": " + weapons.get (i).getDescription ( ) + "(cost to reload :" + weapons.get (i).getAmmoCost ( ) + ")\n");
             }
         }
     }
@@ -342,10 +343,7 @@ public class CliPrinter {
      * @param ammos is the ArrayList of ammos
      */
     synchronized void printAmmoList(List<String> ammos){
-        print("These are your Ammos: ");
-        for (int i=0; i< ammos.size(); i++){
-            print((i+1) + " - " + ammos.get(i));
-        }
+        print("These are your ammos: " + ammos);
     }
 
     /**
@@ -364,5 +362,14 @@ public class CliPrinter {
 
     synchronized void printPlayerPositions() {
 
+    }
+
+    synchronized void printBoard(BoardDetails board) {
+        print(board.getNickname () + "'s board: ");
+        print("- damage taken: " + board.getDamageTaken ());
+        print("- marks received: " + board.getReceivedMarks ());
+        print("- unloaded weapons: " + board.getUnloadedWeapons ());
+        print("- owned ammo: " + board.getOwnedAmmo ());
+        //print("- points: " + board.getPointsForKill ());
     }
 }

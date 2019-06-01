@@ -1,10 +1,7 @@
 package adrenaline.view.cli;
 
 import adrenaline.data.data_for_client.DataForClient;
-import adrenaline.data.data_for_client.responses_for_view.PowerUpDetails;
-import adrenaline.data.data_for_client.responses_for_view.SpawnPointDetails;
-import adrenaline.data.data_for_client.responses_for_view.SquareDetails;
-import adrenaline.data.data_for_client.responses_for_view.WeaponDetails;
+import adrenaline.data.data_for_client.responses_for_view.*;
 import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.*;
 import adrenaline.data.data_for_server.data_for_network.AccountSetUp;
@@ -303,12 +300,13 @@ public class CliUserInterface implements UserInterface {
         printer.printRanking (ranking);
     }
 
-    public void printAllBoards() {
-
+    public void printAllBoards(List<BoardDetails> boards) {
+        for (BoardDetails board : boards)
+            printBoard (board);
     }
 
-    public void printMyBoard() {
-
+    public void printBoard(BoardDetails board) {
+        printer.printBoard(board);
     }
 
     public void showPaths(List<Integer> paths) {
@@ -367,7 +365,7 @@ public class CliUserInterface implements UserInterface {
             if (parsed != -1) {
                 if (parsed == 1 || parsed == 2 || parsed == 3) {
                     valid = true;
-                    newPositionAndGrabbed = new NewPositionAndGrabbed (nickname, square.getId (), square.getWeaponsOnSquare ()[parsed-1]);
+                    newPositionAndGrabbed = new NewPositionAndGrabbed (nickname, square.getId (), square.getWeaponsOnSquare ()[parsed-1].getName ());
                     sendToServer (newPositionAndGrabbed);
                 } else this.printer.printInvalidInput ( );
             }

@@ -4,14 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 
 public class SpawnPointDetails extends SquareDetails implements Serializable {
-    private String[] weaponsOnSquare;
+    private WeaponDetails[] weaponsOnSquare;
 
-    public SpawnPointDetails(int id, List<String> players, String[] weapons) {
+    public SpawnPointDetails(int id, List<String> players, WeaponDetails[] weapons) {
         super(id, players, true);
         this.weaponsOnSquare = weapons;
     }
 
-    public String[] getWeaponsOnSquare() {
+    public WeaponDetails[] getWeaponsOnSquare() {
         return this.weaponsOnSquare;
     }
 }

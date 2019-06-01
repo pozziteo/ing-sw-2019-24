@@ -27,4 +27,8 @@ public class WeaponDetails implements Serializable {
     public List<String> getAmmoCost() {
         return this.ammoCost;
     }
+
+    public List<String> getGrabCost() {
+        return this.grabCost;
+    }
 }
