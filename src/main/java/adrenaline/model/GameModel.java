@@ -46,7 +46,12 @@ public class GameModel {
                 square = new SpawnPointDetails (i, playersNames, weapons);
 
             } else {
-                String tile = ((NormalSquare)game.getMap ().getSquare (i)).getPlacedTile ().getTileDescription ();
+                String tile;
+                try {
+                    tile = ((NormalSquare) game.getMap ( ).getSquare (i)).getPlacedTile ( ).getTileDescription ( );
+                } catch (NullPointerException e ) {
+                    tile = null;
+                }
                 square = new NormalSquareDetails (i, playersNames, tile);
             }
             map.add(square);

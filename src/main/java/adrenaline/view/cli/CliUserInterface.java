@@ -378,6 +378,7 @@ public class CliUserInterface implements UserInterface {
         boolean valid = false;
         while (!valid) {
             DataForServer weapon;
+            printer.print("These are your loaded weapons: ");
             printer.printWeaponList (weapons);
             int parsed = this.parser.asyncParseInt (3);
             if (parsed != -1) {
@@ -431,6 +432,8 @@ public class CliUserInterface implements UserInterface {
                 DataForServer response = new ReloadResponse(nickname, false, "");
                 sendToServer (response);
             } else if (parsed == 1) {
+                printer.print ("Owned ammo: " + ammo);
+                printer.print ("These are your unloaded weapons: ");
                 printer.printWeaponList (weapons);
                 int parsed1 = this.parser.asyncParseInt (weapons.size ());
                 if (parsed1 != -1) {
@@ -440,6 +443,11 @@ public class CliUserInterface implements UserInterface {
             }
         }
 
+    }
+
+    public void discardWeapon(List<WeaponDetails> weapons) {
+        printer.print ("You reached the max amount of weapons you can hold. Please discard one of the following: ");
+        printer.printWeaponList (weapons);
     }
 
     public void showEndGameScreen(List<String> ranking) {

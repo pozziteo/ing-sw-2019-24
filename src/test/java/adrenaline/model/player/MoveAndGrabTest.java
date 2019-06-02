@@ -1,5 +1,6 @@
 package adrenaline.model.player;
 
+import adrenaline.exceptions.MustDiscardWeaponException;
 import adrenaline.exceptions.NotEnoughAmmoException;
 import adrenaline.model.Game;
 import adrenaline.model.deck.Tile;
@@ -37,7 +38,7 @@ class MoveAndGrabTest {
             Square newPosition = moveAndGrab.grabObject (player, null);
             assertEquals(initialSquare, newPosition);
             assertNull(((NormalSquare) newPosition).getPlacedTile());
-        } catch (NotEnoughAmmoException e){
+        } catch (NotEnoughAmmoException | MustDiscardWeaponException e){
             System.out.print (e.getMessage ());
         }
 
@@ -56,7 +57,7 @@ class MoveAndGrabTest {
             assertEquals (map.getSquare (2), anotherPosition);
             assertNull (((SpawnPoint) anotherPosition).getWeapons ( )[0]);
             assertEquals (toGrab, player.getOwnedWeapons ( ).get (0));
-        } catch (NotEnoughAmmoException e) {
+        } catch (NotEnoughAmmoException | MustDiscardWeaponException e) {
             System.out.print(e.getMessage ());
         }
     }
@@ -81,7 +82,7 @@ class MoveAndGrabTest {
             Square samePosition = thisWillFail.grabObject (notAdrenaline, 6, null);
             assertNotNull (squareToGet.getPlacedTile ( ));
             assertEquals (initialSquare, samePosition);
-        } catch (NotEnoughAmmoException e) {
+        } catch (NotEnoughAmmoException | MustDiscardWeaponException e) {
             System.out.print (e.getMessage ());
         }
 
@@ -90,7 +91,7 @@ class MoveAndGrabTest {
             Square newPosition = thisWillSucceed.grabObject (adrenaline, 6, null);
             assertEquals (squareToGet, newPosition);
             assertNull (squareToGet.getPlacedTile ( ));
-        } catch (NotEnoughAmmoException e) {
+        } catch (NotEnoughAmmoException | MustDiscardWeaponException e) {
             System.out.print (e.getMessage ());
         }
 

@@ -5,6 +5,7 @@ import adrenaline.data.data_for_client.data_for_game.*;
 import adrenaline.data.data_for_client.data_for_network.MessageForClient;
 import adrenaline.data.data_for_client.responses_for_view.WeaponDetails;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
+import adrenaline.exceptions.MustDiscardWeaponException;
 import adrenaline.exceptions.NotEnoughAmmoException;
 import adrenaline.model.GameModel;
 import adrenaline.model.deck.Ammo;
@@ -239,8 +240,8 @@ public class Controller implements TimerCallBack {
         else if (currentAction instanceof MoveAndGrab) {
             try {
                 ((MoveAndGrab) currentAction).grabObject (p, squareId, null);
-            } catch (NotEnoughAmmoException e) {
-                lobby.sendToSpecific (nickname, new MessageForClient (e.getMessage()));
+            } catch (NotEnoughAmmoException | MustDiscardWeaponException e) {
+                System.err.print (e.getMessage ());
             }
         }
         checkNewTurn (nickname);
@@ -250,15 +251,27 @@ public class Controller implements TimerCallBack {
         Player p = gameModel.getGame ().findByNickname (nickname);
         Weapon weapon = null;
         for (Weapon w : ((SpawnPoint) gameModel.getGame ().getMap ().getSquare (squareId)).getWeapons ()) {
-            if (w.getWeaponsName ().equals(weaponName)) {
-                weapon = w;
-                break;
+            try {
+                if (w.getWeaponsName ( ).equals (weaponName)) {
+                    weapon = w;
+                    break;
+                }
+            } catch (NullPointerException e) {
+                //empty weapon slot
             }
         }
         try {
             ((MoveAndGrab) currentAction).grabObject (p, squareId, weapon);
         } catch (NotEnoughAmmoException e) {
             lobby.sendToSpecific (nickname, new MessageForClient (e.getMessage()));
+        } catch (MustDiscardWeaponException e) {
+            List<WeaponDetails> weapons = new ArrayList<> ();
+            for (Weapon w : gameModel.getGame ().findByNickname (nickname).getOwnedWeapons ())
+                weapons.add(gameModel.createWeaponDetail (w));
+            for (Weapon w : gameModel.getGame ().findByNickname (nickname).getBoard ().getUnloadedWeapons ())
+                weapons.add(gameModel.createWeaponDetail (w));
+
+            lobby.sendToSpecific (nickname, new WeaponsToDiscard(weapons));
         }
         checkNewTurn (nickname);
     }
