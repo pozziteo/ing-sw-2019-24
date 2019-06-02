@@ -191,10 +191,6 @@ public class Controller implements TimerCallBack {
                 UsePowerUp usePup = new UsePowerUp(nickname);
 //                usePup.usePowerUp(powerUp);
                 break;
-//            case "ammo":
-//                UsePowerUp useAmmoFromPup = new UsePowerUp(nickname);
-//                useAmmoFromPup.useAmmo();
-//
             case "pass":
                 timer.shutDownThread();
                 lobby.sendMessageToAll(nickname + " passed the turn.\n");

@@ -1,10 +1,7 @@
 package adrenaline.view.cli;
 
 import adrenaline.data.data_for_client.DataForClient;
-import adrenaline.data.data_for_client.responses_for_view.PowerUpDetails;
-import adrenaline.data.data_for_client.responses_for_view.SpawnPointDetails;
-import adrenaline.data.data_for_client.responses_for_view.SquareDetails;
-import adrenaline.data.data_for_client.responses_for_view.WeaponDetails;
+import adrenaline.data.data_for_client.responses_for_view.*;
 import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.*;
 import adrenaline.data.data_for_server.data_for_network.AccountSetUp;
@@ -17,6 +14,8 @@ import adrenaline.view.UserInterface;
 
 import java.io.File;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -303,12 +302,13 @@ public class CliUserInterface implements UserInterface {
         printer.printRanking (ranking);
     }
 
-    public void printAllBoards() {
-
+    public void printAllBoards(List<BoardDetails> boards) {
+        for (BoardDetails board : boards)
+            printBoard (board);
     }
 
-    public void printMyBoard() {
-
+    public void printBoard(BoardDetails board) {
+        printer.printBoard(board);
     }
 
     public void showPaths(List<Integer> paths) {
@@ -367,7 +367,7 @@ public class CliUserInterface implements UserInterface {
             if (parsed != -1) {
                 if (parsed == 1 || parsed == 2 || parsed == 3) {
                     valid = true;
-                    newPositionAndGrabbed = new NewPositionAndGrabbed (nickname, square.getId (), square.getWeaponsOnSquare ()[parsed-1]);
+                    newPositionAndGrabbed = new NewPositionAndGrabbed (nickname, square.getId (), square.getWeaponsOnSquare ()[parsed-1].getName ());
                     sendToServer (newPositionAndGrabbed);
                 } else this.printer.printInvalidInput ( );
             }
@@ -391,6 +391,35 @@ public class CliUserInterface implements UserInterface {
     }
 
     public void chooseTargets(int maxAmount, List<SquareDetails> map) {
-        //printer.printPlayerPositions();
+        List<String> players = new ArrayList<> ();
+        for (SquareDetails s : map) {
+            if (! s.getPlayersOnSquare ().isEmpty ()) {
+                for (String nick : s.getPlayersOnSquare ()) {
+                    players.add(nick);
+                    printer.printPlayerPositions (players.size(), nick, s.getId ( ));
+                }
+            }
+        }
+        printer.print("Choose your targets (please keep in mind to make your choice in the same order as the target descriptions for each weapon)");
+        boolean valid = false;
+        List<String> targets = new LinkedList<> ();
+        int amountChosen = 0;
+        while (amountChosen <= maxAmount) {
+            printer.printChooseTargets (maxAmount - amountChosen);
+            int parsed = this.parser.asyncParseInt (players.size ());
+            if (parsed != -1) {
+                if (parsed > 0 && parsed <= players.size()) {
+                    valid = true;
+                    amountChosen++;
+                    targets.add(players.get (parsed-1));
+                } else {
+                    printer.printInvalidInput ( );
+                }
+            }
+        }
+        if (valid) {
+            DataForServer chosenTargets = new ChosenTargets (nickname, targets);
+            sendToServer (chosenTargets);
+        }
     }
 }

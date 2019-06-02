@@ -37,9 +37,9 @@ public class GameModel {
             for (Player p : game.getMap ().getSquare (i).getPlayersOnSquare ())
                 playersNames.add(p.getPlayerName ());
             if (game.getMap ().getSquare (i).isSpawnPoint ()) {
-                String[] weapons = new String[3];
+                WeaponDetails[] weapons = new WeaponDetails[3];
                 for (int j = 0; j < 3; j++) {
-                    weapons[j] = ((SpawnPoint) game.getMap ().getSquare (i)).getWeapons ()[j].getWeaponsName ();
+                    weapons[j] = createWeaponDetail (((SpawnPoint) game.getMap ().getSquare (i)).getWeapons ()[j]);
                 }
                 square = new SpawnPointDetails (i, playersNames, weapons);
 
@@ -65,11 +65,17 @@ public class GameModel {
         List<String> ammoList = new ArrayList<> ();
         List<String> grabList = new ArrayList<> ();
 
-        for (Ammo a : w.getType ().getReloadingAmmo ())
-            ammoList.add(a.getColor ());
+        if (w == null) {
+            ammoList.add("empty");
+            grabList.add("empty");
+            return new WeaponDetails ("empty", "none", ammoList, grabList);
+        }
 
-        for (Ammo a : w.getType ().getGrabbingCost ())
-            grabList.add(a.getColor ());
+        for (Ammo a : w.getType ( ).getReloadingAmmo ( ))
+            ammoList.add (a.getColor ( ));
+
+        for (Ammo a : w.getType ( ).getGrabbingCost ( ))
+            grabList.add (a.getColor ( ));
 
         return new WeaponDetails (w.getWeaponsName (), w.getWeaponsDescription (), ammoList, grabList);
     }
@@ -96,11 +102,36 @@ public class GameModel {
     }
 
     public void updateBoards(Account account) {
-        //TODO
+        List<BoardDetails> boards = new ArrayList<> ();
+        for (Player p : game.getPlayers ()) {
+            boards.add(createBoardDetails (p));
+        }
+        BoardsResponse response = new BoardsResponse (boards);
+        response.setAccount (account);
+        response.sendToView ();
     }
 
     public void updatePlayerBoard(Account account) {
-        //TODO
+        List<BoardDetails> boards = new ArrayList<> ();
+        boards.add (createBoardDetails (game.findByNickname (account.getNickName ())));
+        BoardsResponse response = new BoardsResponse (boards);
+        response.setAccount (account);
+        response.sendToView ();
+    }
+
+    private BoardDetails createBoardDetails(Player p) {
+        String nickname = p.getPlayerName ();
+        List<String> damageTaken = p.getBoard ().getDamageTaken ();
+        List<String> receivedMarks = p.getBoard ().getReceivedMarks ();
+        List<WeaponDetails> unloadedWeapons = new ArrayList<> ();
+        for (Weapon w : p.getBoard ().getUnloadedWeapons ()) {
+            unloadedWeapons.add(createWeaponDetail (w));
+        }
+        List<String> ownedAmmo = new ArrayList<> ();
+        for (Ammo a : p.getBoard ().getOwnedAmmo ())
+            ownedAmmo.add(a.getColor ());
+        int[] pointsForKill = p.getBoard ().getPointsForKill ();
+        return new BoardDetails (nickname, damageTaken, receivedMarks, unloadedWeapons, ownedAmmo, pointsForKill);
     }
 
 }

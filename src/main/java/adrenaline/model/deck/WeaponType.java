@@ -13,21 +13,21 @@ import java.util.List;
 
 public enum WeaponType {
 
-    LOCK_RIFLE("Lock Rifle", "LOCK RIFLE: basic effect: Deal 2 damage and 1 mark to 1 target you can see.\n" +
+    LOCK_RIFLE("Lock Rifle", "basic effect: Deal 2 damage and 1 mark to 1 target you can see.\n" +
             "with second lock: Deal 1 mark to a different target you can see.\n", Ammo.BLUE_AMMO, Ammo.BLUE_AMMO) {
         @Override
         public String getPath() {
             return super.getPath() + "lockrifle.json";
         }
     },
-    ELECTROSCYTHE("Electroscythe", "ELECTROSCYTHE: basic mode: Deal 1 damage to every other player on your square.\n" +
+    ELECTROSCYTHE("Electroscythe", "basic mode: Deal 1 damage to every other player on your square.\n" +
             "in reaper mode: Deal 2 damage to every other player on your square.\n",  Ammo.BLUE_AMMO) {
         @Override
         public String getPath() {
             return super.getPath() + "electroscythe.json";
         }
     },
-    MACHINE_GUN("Machine Gun", "MACHINE GUN: basic effect: Choose 1 or 2 targets you can see and deal\n" +
+    MACHINE_GUN("Machine Gun", "basic effect: Choose 1 or 2 targets you can see and deal\n" +
             "1 damage to each.\n" +
             "with focus shot: Deal 1 additional damage to one of those\n" +
             "targets.\n" +
@@ -44,7 +44,7 @@ public enum WeaponType {
             return super.getPath() + "machinegun.json";
         }
     },
-    TRACTOR_BEAM("Tractor Beam", "TRACTOR BEAM: basic mode: Move a target 0, 1, or 2 squares to a square\n" +
+    TRACTOR_BEAM("Tractor Beam", "basic mode: Move a target 0, 1, or 2 squares to a square\n" +
             "you can see, and give it 1 damage.\n" +
             "in punisher mode: Choose a target 0, 1, or 2 moves away\n" +
             "from you. Move the target to your square\n" +
@@ -57,7 +57,7 @@ public enum WeaponType {
             return super.getPath() + "tractorbeam.json";
         }
     },
-    THOR("T.H.O.R.", "T.H.O.R: basic effect: Deal 2 damage to 1 target you can see.\n" +
+    THOR("T.H.O.R.", "basic effect: Deal 2 damage to 1 target you can see.\n" +
             "with chain reaction: Deal 1 damage to a second target that\n" +
             "your first target can see.\n" +
             "with high voltage: Deal 2 damage to a third target that\n" +
@@ -70,7 +70,7 @@ public enum WeaponType {
             return super.getPath() + "thor.json";
         }
     },
-    VORTEX_CANNON("Vortex Cannon", "VORTEX CANNON: basic effect: Choose a square you can see, but not your\n" +
+    VORTEX_CANNON("Vortex Cannon", "basic effect: Choose a square you can see, but not your\n" +
             "square. Call it \"the vortex\". Choose a target on the vortex\n" +
             "or 1 move away from it. Move it onto the vortex and give it\n" +
             "2 damage.\n" +
@@ -86,7 +86,7 @@ public enum WeaponType {
             return super.getPath() + "vortexcannon.json";
         }
     },
-    PLASMA_GUN("Plasma Gun", "PLASMA GUN: basic effect: Deal 2 damage to 1 target you can see.\n" +
+    PLASMA_GUN("Plasma Gun", "basic effect: Deal 2 damage to 1 target you can see.\n" +
             "with phase glide: Move 1 or 2 squares. This effect can be\n" +
             "used either before or after the basic effect.\n" +
             "with charged shot: Deal 1 additional damage to your\n" +
@@ -100,7 +100,7 @@ public enum WeaponType {
             return super.getPath() + "plasmagun.json";
         }
     },
-    FURNACE("Furnace", "FURNACE: basic mode: Choose a room you can see, but not the room\n" +
+    FURNACE("Furnace", "basic mode: Choose a room you can see, but not the room\n" +
             "you are in. Deal 1 damage to everyone in that room.\n" +
             "in cozy fire mode: Choose a square exactly one move\n" +
             "away. Deal 1 damage and 1 mark to everyone on that square.\n", Ammo.RED_AMMO, Ammo.BLUE_AMMO) {
@@ -109,7 +109,7 @@ public enum WeaponType {
             return super.getPath() + "furnace.json";
         }
     },
-    HEATSEEKER("Heatseeker", "HEATSEEKER: effect: Choose 1 target you cannot see and deal 3 damage\n" +
+    HEATSEEKER("Heatseeker", "effect: Choose 1 target you cannot see and deal 3 damage\n" +
             "to it.\n" +
             "Notes: Yes, this can only hit targets you cannot see.\n", Ammo.RED_AMMO, Ammo.RED_AMMO, Ammo.YELLOW_AMMO) {
         @Override
@@ -117,7 +117,7 @@ public enum WeaponType {
             return super.getPath() + "heatseeker.json";
         }
     },
-    WHISPER("Whisper", "WHISPER: effect: Deal 3 damage and 1 mark to 1 target you can see.\n" +
+    WHISPER("Whisper", "effect: Deal 3 damage and 1 mark to 1 target you can see.\n" +
             "Your target must be at least 2 moves away from you.\n" +
             "Notes: For example, in the 2-by-2 room, you cannot shoot\n" +
             "a target on an adjacent square, but you can shoot a target\n" +
@@ -129,7 +129,7 @@ public enum WeaponType {
             return super.getPath() + "whisper.json";
         }
     },
-    HELLION("Hellion", "HELLION: basic mode: Deal 1 damage to 1 target you can see at least\n" +
+    HELLION("Hellion", "basic mode: Deal 1 damage to 1 target you can see at least\n" +
             "1 move away. Then give 1 mark to that target and everyone\n" +
             "else on that square.\n" +
             "in nano-tracer mode: Deal 1 damage to 1 target you can\n" +
@@ -140,7 +140,7 @@ public enum WeaponType {
             return super.getPath() + "hellion.json";
         }
     },
-    FLAMETHROWER("Flamethrower", "FLAMETHROWER: basic mode: Choose a square 1 move away and possibly a second square\n" +
+    FLAMETHROWER("Flamethrower", "basic mode: Choose a square 1 move away and possibly a second square\n" +
             "1 more move away in the same direction. On each square, you may\n" +
             "choose 1 target and give it 1 damage.\n" +
             "in barbecue mode: Choose 2 squares as above. Deal 2 damage to\n" +
@@ -155,7 +155,7 @@ public enum WeaponType {
             return super.getPath() + "flamethrower.json";
         }
     },
-    ZX_2("ZX-2", "ZX_2: basic mode: Deal 1 damage and 2 marks to\n" +
+    ZX_2("ZX-2", "basic mode: Deal 1 damage and 2 marks to\n" +
             "1 target you can see.\n" +
             "in scanner mode: Choose up to 3 targets you\n" +
             "can see and deal 1 mark to each.\n" +
@@ -165,7 +165,7 @@ public enum WeaponType {
             return super.getPath() + "zx2.json";
         }
     },
-    GRENADE_LAUNCHER("Grenade Launcher", "GRENADE LAUNCHER: basic effect: Deal 1 damage to 1 target you can see. Then you may move\n" +
+    GRENADE_LAUNCHER("Grenade Launcher", "basic effect: Deal 1 damage to 1 target you can see. Then you may move\n" +
             "the target 1 square.\n" +
             "with extra grenade: Deal 1 damage to every player on a square you can\n" +
             "see. You can use this before or after the basic effect's move.\n" +
@@ -180,7 +180,7 @@ public enum WeaponType {
             return super.getPath() + "grenadelauncher.json";
         }
     },
-    SHOTGUN("Shotgun", "SHOTGUN: basic mode: Deal 3 damage to 1 target on\n" +
+    SHOTGUN("Shotgun", "basic mode: Deal 3 damage to 1 target on\n" +
             "your square. If you want, you may then move the target 1 square.\n" +
             "in long barrel mode: Deal 2 damage to\n" +
             "1 target on any square exactly one move away.\n", Ammo.YELLOW_AMMO, Ammo.YELLOW_AMMO) {
@@ -189,7 +189,7 @@ public enum WeaponType {
             return super.getPath() + "shotgun.json";
         }
     },
-    ROCKET_LAUNCHER("Rocket Launcher", "ROCKET LAUNCHER: basic effect: Deal 2 damage to 1 target you can see that is not on your\n" +
+    ROCKET_LAUNCHER("Rocket Launcher", "basic effect: Deal 2 damage to 1 target you can see that is not on your\n" +
             "square. Then you may move the target 1 square.\n" +
             "with rocket jump: Move 1 or 2 squares. This effect can be used either\n" +
             "before or after the basic effect.\n" +
@@ -206,7 +206,7 @@ public enum WeaponType {
             return super.getPath() + "rocketlauncher.json";
         }
     },
-    POWER_GLOVE("Power Glove", "POWER GLOVE: basic mode: Choose 1 target on any square\n" +
+    POWER_GLOVE("Power Glove", "basic mode: Choose 1 target on any square\n" +
             "exactly 1 move away. Move onto that square\n" +
             "and give the target 1 damage and 2 marks.\n" +
             "in rocket fist mode: Choose a square\n" +
@@ -224,7 +224,7 @@ public enum WeaponType {
             return super.getPath() + "powerglove.json";
         }
     },
-    RAILGUN("Railgun", "RAILGUN: basic mode: Choose a cardinal direction and 1 target in that direction.\n" +
+    RAILGUN("Railgun", "basic mode: Choose a cardinal direction and 1 target in that direction.\n" +
             "Deal 3 damage to it.\n" +
             "in piercing mode: Choose a cardinal direction and 1 or 2 targets in that\n" +
             "direction. Deal 2 damage to each.\n" +
@@ -240,7 +240,7 @@ public enum WeaponType {
             return super.getPath() + "railgun.json";
         }
     },
-    SHOCKWAVE("Shockwave", "SHOCKWAVE: basic mode: Choose up to 3 targets on\n" +
+    SHOCKWAVE("Shockwave", "basic mode: Choose up to 3 targets on\n" +
             "different squares, each exactly 1 move away.\n" +
             "Deal 1 damage to each target.\n" +
             "in tsunami mode: Deal 1 damage to all\n" +
@@ -250,7 +250,7 @@ public enum WeaponType {
             return super.getPath() + "shockwave.json";
         }
     },
-    CYBERBLADE("Cyberblade", "CYBERBLADE: basic effect: Deal 2 damage to 1 target on your square.\n" +
+    CYBERBLADE("Cyberblade", "basic effect: Deal 2 damage to 1 target on your square.\n" +
             "with shadowstep: Move 1 square before or after the basic effect.\n" +
             "with slice and dice: Deal 2 damage to a different target on your square.\n" +
             "The shadowstep may be used before or after this effect.\n" +
@@ -262,7 +262,7 @@ public enum WeaponType {
             return super.getPath() + "cyberblade.json";
         }
     },
-    SLEDGEHAMMER("Sledgehammer", "SLEDGEHAMMER: basic mode: Deal 2 damage to 1 target on\n" +
+    SLEDGEHAMMER("Sledgehammer", "basic mode: Deal 2 damage to 1 target on\n" +
             "your square.\n" +
             "in pulverize mode: Deal 3 damage to 1 target\n" +
             "on your square, then move that target 0, 1,\n" +

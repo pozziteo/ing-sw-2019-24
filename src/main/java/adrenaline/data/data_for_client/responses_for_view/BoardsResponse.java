@@ -3,14 +3,20 @@ package adrenaline.data.data_for_client.responses_for_view;
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.view.cli.CliUserInterface;
 
+import java.util.List;
+
 public class BoardsResponse extends DataForClient {
+    private List<BoardDetails> boards;
 
-    public BoardsResponse() {
-
+    public BoardsResponse(List<BoardDetails> boards) {
+        this.boards = boards;
     }
 
     @Override
     public void updateView(CliUserInterface view) {
-        view.printAllBoards ();
+        if (boards.size() == 1)
+            view.printBoard (boards.get(0));
+        else
+            view.printAllBoards (boards);
     }
 }
