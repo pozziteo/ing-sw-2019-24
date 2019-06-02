@@ -118,7 +118,7 @@ public class TargetType {
                 break;
 
             case "different from base target":
-                attacker.getCurrentAction();
+                //attacker.getCurrentAction();
                 break;
 
             case "on different squares":

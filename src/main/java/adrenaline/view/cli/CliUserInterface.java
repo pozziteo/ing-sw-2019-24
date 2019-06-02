@@ -423,6 +423,25 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
+    public void askReload(List<String> ammo, List<WeaponDetails> weapons) {
+        printer.printReload();
+        int parsed = this.parser.asyncParseInt (1);
+        if (parsed != -1) {
+            if (parsed == 0) {
+                DataForServer response = new ReloadResponse(nickname, false, "");
+                sendToServer (response);
+            } else if (parsed == 1) {
+                printer.printWeaponList (weapons);
+                int parsed1 = this.parser.asyncParseInt (weapons.size ());
+                if (parsed1 != -1) {
+                    DataForServer response = new ReloadResponse (nickname, true, weapons.get(parsed1-1).getName ());
+                    sendToServer (response);
+                }
+            }
+        }
+
+    }
+
     public void showEndGameScreen(List<String> ranking) {
         printer.printRanking (ranking);
         System.exit (0);

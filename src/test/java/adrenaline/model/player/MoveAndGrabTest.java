@@ -1,5 +1,6 @@
 package adrenaline.model.player;
 
+import adrenaline.exceptions.NotEnoughAmmoException;
 import adrenaline.model.Game;
 import adrenaline.model.deck.Tile;
 import adrenaline.model.deck.TileFormat;
@@ -32,10 +33,13 @@ class MoveAndGrabTest {
         player.setPosition(initialSquare);
         MoveAndGrab moveAndGrab = new MoveAndGrab(player, player.getGame().isFinalFrenzy());
 
-        Square newPosition = moveAndGrab.grabObject(player, null);
-
-        assertEquals(initialSquare, newPosition);
-        assertNull(((NormalSquare) newPosition).getPlacedTile());
+        try {
+            Square newPosition = moveAndGrab.grabObject (player, null);
+            assertEquals(initialSquare, newPosition);
+            assertNull(((NormalSquare) newPosition).getPlacedTile());
+        } catch (NotEnoughAmmoException e){
+            System.out.print (e.getMessage ());
+        }
 
         ((SpawnPoint)map.getSquare(2)).setWeapons(new Weapon(WeaponType.MACHINE_GUN));
         ((SpawnPoint)map.getSquare(2)).setWeapons(new Weapon(WeaponType.GRENADE_LAUNCHER));
@@ -44,12 +48,17 @@ class MoveAndGrabTest {
         Weapon toGrab = ((SpawnPoint) map.getSquare(2)).getWeapons()[0];
 
         MoveAndGrab anotherGrab = new MoveAndGrab(player, player.getGame().isFinalFrenzy());
-        Square anotherPosition = anotherGrab.grabObject(player, 2, toGrab);
 
-        assertNotEquals(initialSquare, anotherPosition);
-        assertEquals(map.getSquare(2), anotherPosition);
-        assertNull(((SpawnPoint) anotherPosition).getWeapons()[0]);
-        assertEquals(toGrab, player.getOwnedWeapons().get(0));
+        try {
+            Square anotherPosition = anotherGrab.grabObject (player, 2, toGrab);
+
+            assertNotEquals (initialSquare, anotherPosition);
+            assertEquals (map.getSquare (2), anotherPosition);
+            assertNull (((SpawnPoint) anotherPosition).getWeapons ( )[0]);
+            assertEquals (toGrab, player.getOwnedWeapons ( ).get (0));
+        } catch (NotEnoughAmmoException e) {
+            System.out.print(e.getMessage ());
+        }
     }
 
     @Test
@@ -67,15 +76,23 @@ class MoveAndGrabTest {
         NormalSquare squareToGet = (NormalSquare) map.getSquare(6);
         squareToGet.setPlacedTile(new Tile(TileFormat.TILE_FORMAT_20));
 
-        MoveAndGrab thisWillFail = new MoveAndGrab(notAdrenaline, notAdrenaline.getGame().isFinalFrenzy());
-        Square samePosition = thisWillFail.grabObject(notAdrenaline, 6, null);
-        assertNotNull(squareToGet.getPlacedTile());
-        assertEquals(initialSquare, samePosition);
+        try {
+            MoveAndGrab thisWillFail = new MoveAndGrab (notAdrenaline, notAdrenaline.getGame ( ).isFinalFrenzy ( ));
+            Square samePosition = thisWillFail.grabObject (notAdrenaline, 6, null);
+            assertNotNull (squareToGet.getPlacedTile ( ));
+            assertEquals (initialSquare, samePosition);
+        } catch (NotEnoughAmmoException e) {
+            System.out.print (e.getMessage ());
+        }
 
-        MoveAndGrab thisWillSucceed = new MoveAndGrab(adrenaline, adrenaline.getGame().isFinalFrenzy());
-        Square newPosition = thisWillSucceed.grabObject(adrenaline, 6, null);
-        assertEquals(squareToGet, newPosition);
-        assertNull(squareToGet.getPlacedTile());
+        try {
+            MoveAndGrab thisWillSucceed = new MoveAndGrab (adrenaline, adrenaline.getGame ( ).isFinalFrenzy ( ));
+            Square newPosition = thisWillSucceed.grabObject (adrenaline, 6, null);
+            assertEquals (squareToGet, newPosition);
+            assertNull (squareToGet.getPlacedTile ( ));
+        } catch (NotEnoughAmmoException e) {
+            System.out.print (e.getMessage ());
+        }
 
     }
 

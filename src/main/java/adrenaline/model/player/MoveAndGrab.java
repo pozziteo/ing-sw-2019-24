@@ -1,5 +1,6 @@
 package adrenaline.model.player;
 
+import adrenaline.exceptions.NotEnoughAmmoException;
 import adrenaline.model.deck.Ammo;
 import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.deck.Tile;
@@ -40,10 +41,14 @@ public class MoveAndGrab implements Action {
         return this.paths;
     }
 
-    public Square grabObject(Player player, Weapon weapon) {
+    public Square grabObject(Player player, Weapon weapon) throws NotEnoughAmmoException {
         if (weapon != null) {
             ((SpawnPoint) player.getPosition ()).removeWeapon(weapon);
             player.getOwnedWeapons().add(weapon);
+            if (player.getBoard ().getOwnedAmmo ().containsAll (weapon.getType ().getGrabbingCost ()))
+                player.getBoard ().getOwnedAmmo ().removeAll(weapon.getType ().getGrabbingCost ());
+            else
+                throw new NotEnoughAmmoException();
         } else
            grabTileContent(player, (NormalSquare) player.getPosition ());
 
@@ -51,7 +56,7 @@ public class MoveAndGrab implements Action {
         return player.getPosition();
     }
 
-    public Square grabObject(Player player, int squareId, Weapon weapon) {
+    public Square grabObject(Player player, int squareId, Weapon weapon) throws NotEnoughAmmoException {
         if (paths.contains(squareId)) {
             player.getPosition ().removePlayerFromSquare(player);
             player.setPosition (player.getGame ().getMap ().getSquare (squareId));
