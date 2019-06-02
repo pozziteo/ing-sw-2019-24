@@ -3,20 +3,17 @@ package adrenaline.view.gui.stages;
 import adrenaline.network.ClientInterface;
 import adrenaline.network.rmi.client.RmiClient;
 import adrenaline.network.socket.client.SocketClient;
+import adrenaline.utils.ReadConfigFile;
 import adrenaline.view.gui.GUIController;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.rmi.RemoteException;
 
@@ -31,11 +28,7 @@ public class ConnectionStage {
         grid.setId("grid");
 
         StackPane pane = new StackPane();
-        Image image = new Image(new FileInputStream("src" + File.separatorChar + "Resources" + File.separatorChar + "images"
-                + File.separatorChar + "Adrenaline.jpg"), 1360, 768, false, true);
-        BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT ,
-                BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
-        pane.setBackground(new Background(backgroundImage));
+        pane.setId("launcher");
 
         Text label = new Text("Choose your connection");
         label.setId("text");
@@ -54,7 +47,7 @@ public class ConnectionStage {
         GridPane.setValignment(rmiButton, VPos.BASELINE);
 
         socketButton.setOnMouseClicked(mouseEvent -> {
-            client = new SocketClient("localhost", 6666, GUIController.getController());
+            client = new SocketClient("localhost", ReadConfigFile.readConfigFile("socketPort"), GUIController.getController());
             stage.close();
         });
 
@@ -69,18 +62,18 @@ public class ConnectionStage {
 
         pane.getChildren().add(grid);
         this.connectionScene = new Scene(pane, 1360, 768);
-        connectionScene.getStylesheets().add(getClass().getResource("/assets/launchScene.css").toExternalForm());
-
+        connectionScene.getStylesheets().addAll(getClass().getResource("/assets/launch_scene.css").toExternalForm(),
+                getClass().getResource("/assets/background.css").toExternalForm());
         pane.requestFocus();
     }
 
     public ClientInterface getConnection(Stage owner) {
-        stage = new Stage(StageStyle.UTILITY);
-        stage.initOwner(owner);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(connectionScene);
+        owner.setScene(connectionScene);
+        stage = new Stage(StageStyle.TRANSPARENT);
         stage.sizeToScene();
+        stage.toBack();
         stage.showAndWait();
+
         return client;
     }
 }

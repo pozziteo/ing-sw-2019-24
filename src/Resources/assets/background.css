@@ -1,0 +1,6 @@
+#launcher {
+    -fx-background-image: url("/images/Adrenaline.jpg");
+    -fx-background-size: 1360 768;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+}
