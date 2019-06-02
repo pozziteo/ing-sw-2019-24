@@ -1,5 +1,6 @@
 package adrenaline.model.player;
 
+import adrenaline.exceptions.NotEnoughAmmoException;
 import adrenaline.model.Game;
 import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.deck.Weapon;
@@ -279,9 +280,12 @@ public class Player {
         return false;
     }
 
-    public Action getCurrentAction() {
-        Action action = null;
-        //TODO
-        return action;
+    public void reloadWeapon(Weapon toReload) throws NotEnoughAmmoException {
+        if (playerBoard.getOwnedAmmo ().containsAll (toReload.getType ().getReloadingAmmo ())) {
+            ownedWeapons.add(toReload);
+            playerBoard.getUnloadedWeapons ().remove(toReload);
+            playerBoard.getOwnedAmmo ().removeAll (toReload.getType ().getReloadingAmmo ());
+        } else
+            throw new NotEnoughAmmoException ();
     }
 }

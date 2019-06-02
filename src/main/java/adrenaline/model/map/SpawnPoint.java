@@ -61,9 +61,13 @@ public class SpawnPoint extends Square {
      */
     public void removeWeapon(Weapon w) {
         for (int i = 0; i < 3; i++) {
-            String name = weapons[i].getWeaponsName ();
-            if (w.getWeaponsName ().equals(name)) {
-                changeWeapon(null, i);
+            try {
+                String name = weapons[i].getWeaponsName ( );
+                if (w.getWeaponsName ( ).equals (name)) {
+                    changeWeapon (null, i);
+                }
+            } catch (NullPointerException e) {
+                //empty weapon slot
             }
         }
     }

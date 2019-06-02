@@ -5,7 +5,10 @@ import adrenaline.data.data_for_client.data_for_game.*;
 import adrenaline.data.data_for_client.data_for_network.MessageForClient;
 import adrenaline.data.data_for_client.responses_for_view.WeaponDetails;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
+import adrenaline.exceptions.MustDiscardWeaponException;
+import adrenaline.exceptions.NotEnoughAmmoException;
 import adrenaline.model.GameModel;
+import adrenaline.model.deck.Ammo;
 import adrenaline.model.deck.Weapon;
 import adrenaline.model.map.SpawnPoint;
 import adrenaline.model.player.*;
@@ -234,8 +237,13 @@ public class Controller implements TimerCallBack {
         Player p = gameModel.getGame ().findByNickname (nickname);
         if (currentAction instanceof  Move)
             ((Move)currentAction).performMovement (p, squareId);
-        else if (currentAction instanceof MoveAndGrab)
-            ((MoveAndGrab)currentAction).grabObject(p, squareId, null);
+        else if (currentAction instanceof MoveAndGrab) {
+            try {
+                ((MoveAndGrab) currentAction).grabObject (p, squareId, null);
+            } catch (NotEnoughAmmoException | MustDiscardWeaponException e) {
+                System.err.print (e.getMessage ());
+            }
+        }
         checkNewTurn (nickname);
     }
 
@@ -243,12 +251,28 @@ public class Controller implements TimerCallBack {
         Player p = gameModel.getGame ().findByNickname (nickname);
         Weapon weapon = null;
         for (Weapon w : ((SpawnPoint) gameModel.getGame ().getMap ().getSquare (squareId)).getWeapons ()) {
-            if (w.getWeaponsName ().equals(weaponName)) {
-                weapon = w;
-                break;
+            try {
+                if (w.getWeaponsName ( ).equals (weaponName)) {
+                    weapon = w;
+                    break;
+                }
+            } catch (NullPointerException e) {
+                //empty weapon slot
             }
         }
-        ((MoveAndGrab)currentAction).grabObject(p, squareId, weapon);
+        try {
+            ((MoveAndGrab) currentAction).grabObject (p, squareId, weapon);
+        } catch (NotEnoughAmmoException e) {
+            lobby.sendToSpecific (nickname, new MessageForClient (e.getMessage()));
+        } catch (MustDiscardWeaponException e) {
+            List<WeaponDetails> weapons = new ArrayList<> ();
+            for (Weapon w : gameModel.getGame ().findByNickname (nickname).getOwnedWeapons ())
+                weapons.add(gameModel.createWeaponDetail (w));
+            for (Weapon w : gameModel.getGame ().findByNickname (nickname).getBoard ().getUnloadedWeapons ())
+                weapons.add(gameModel.createWeaponDetail (w));
+
+            lobby.sendToSpecific (nickname, new WeaponsToDiscard(weapons));
+        }
         checkNewTurn (nickname);
     }
 
@@ -273,6 +297,41 @@ public class Controller implements TimerCallBack {
         if (isFirstAction ()) {
             lobby.sendToSpecific (nickname, new Turn(nickname));
             lobby.sendToAllNonCurrent (nickname, new Turn(nickname));
+        } else if (! gameModel.getGame ().findByNickname (nickname).getBoard ().getUnloadedWeapons ().isEmpty ()){
+            askReload (nickname);
+        } else {
+            playNewTurn ();
+        }
+    }
+
+    private void askReload(String nickname) {
+        List<String> ammo = new ArrayList<> ();
+        List<WeaponDetails> weapons = new ArrayList<> ();
+        Player p = gameModel.getGame ().findByNickname (nickname);
+
+        for (Ammo a : p.getBoard ().getOwnedAmmo ())
+            ammo.add(a.getColor ());
+
+        for (Weapon w : p.getBoard ().getUnloadedWeapons ()) {
+            weapons.add(gameModel.createWeaponDetail (w));
+        }
+
+        lobby.sendToSpecific (nickname, new ReloadRequest(ammo, weapons));
+    }
+
+    public void reloadWeapon(String nickname, boolean positive, String weaponName) {
+        if (positive) {
+            try {
+                for (Weapon w : gameModel.getGame ().findByNickname (nickname).getBoard().getUnloadedWeapons ()) {
+                    if (w.getWeaponsName ().equals(weaponName)) {
+                        gameModel.getGame ().findByNickname (nickname).reloadWeapon(w);
+                        break;
+                    }
+                }
+            } catch (NotEnoughAmmoException e) {
+                lobby.sendToSpecific (nickname, new MessageForClient (e.getMessage ()));
+            }
+            askReload(nickname);
         } else
             playNewTurn ();
     }

@@ -317,9 +317,8 @@ public class CliPrinter {
      * @param weapons is the ArrayList of weapons
      */
     synchronized void printWeaponList(List<WeaponDetails> weapons){
-        print("These are your loaded weapons: ");
         if (weapons.isEmpty ())
-            print("You have no loaded weapons");
+            print("You have no weapons");
         else {
             for (int i = 0; i < weapons.size ( ); i++) {
                 print ((i + 1) + " - " + ANSI_RED + weapons.get (i).getName ( ) + ANSI_RESET + ": " + weapons.get (i).getDescription ( ) + "(cost to reload :" + weapons.get (i).getAmmoCost ( ) + ")\n");
@@ -368,6 +367,10 @@ public class CliPrinter {
         print("- unloaded weapons: " + board.getUnloadedWeapons ());
         print("- owned ammo: " + board.getOwnedAmmo ());
         //print("- points: " + board.getPointsForKill ());
+    }
+
+    synchronized void printReload() {
+        print("Do you want to reload any of your weapons?\n");
     }
 
     synchronized void printEndGame() {
