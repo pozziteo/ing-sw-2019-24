@@ -161,8 +161,6 @@ public class Board {
      * @param player
      * @return amount of marks given by player
      */
-
-
     public int getMarksAmountGivenByPlayer(Player player) {
         String playerColor = player.getPlayerColor ();
         int amount = 0;
@@ -173,5 +171,14 @@ public class Board {
             }
         }
         return amount;
+    }
+
+    /**
+     * Method that tells who is the first blood
+     * @param player is the player who might have dealt damage first
+     * @return true if that's the case
+     */
+    public boolean isFirstBlood(Player player){
+        return this.getDamageTaken().get(0).equalsIgnoreCase(player.getPlayerColor());
     }
 }

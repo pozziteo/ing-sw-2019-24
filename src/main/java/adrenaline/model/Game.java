@@ -309,4 +309,42 @@ public class Game implements Serializable {
             }
         }
     }
+
+    /**
+     * Method that assigns points
+     * @param deadPlayer is the one who died
+     */
+    public void givePoints(Player deadPlayer){
+        List<Integer> points = new ArrayList<>();
+        int point;
+        switch (deadPlayer.getDeaths()){
+            case 0:
+                point=8;
+                break;
+            case 1:
+                point=6;
+                break;
+            default:
+                point = 4;
+                break;
+        }
+        for (Player p: players){
+            points.add(deadPlayer.getBoard().getDamageAmountGivenByPlayer(p));
+        }
+        points.sort(Collections.reverseOrder());
+        for (Player p: players){
+            if (deadPlayer.getBoard().isFirstBlood(p)){
+                p.addPointTokens(1);
+            }
+            if (deadPlayer.getBoard().getDamageAmountGivenByPlayer(p)==Collections.max(points) && !points.isEmpty()){
+                p.addPointTokens(point);
+                points.remove(0);
+                if(point == 2)
+                    point -= 1;
+                else
+                    point -= 2;
+            }
+        }
+        deadPlayer.addDeaths();
+    }
 }
