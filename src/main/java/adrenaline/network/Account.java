@@ -84,6 +84,11 @@ public class Account implements Serializable {
         addToLobby (lobby);
     }
 
+    public void insertBackIntoLobby(Lobby lobby) {
+        this.currentLobby = lobby;
+        lobby.addPlayerBack(this);
+    }
+
     public List<GameModel> getGameHistory() {
         return this.gameHistory;
     }

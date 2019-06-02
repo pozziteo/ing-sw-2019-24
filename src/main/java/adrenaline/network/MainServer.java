@@ -238,11 +238,23 @@ public class MainServer {
     }
 
     private void tryInsertingIntoLobby(Account toRegister) {
-        try {
-            toRegister.setCurrentLobby (getOpenLobby ());
-        } catch (GameStartedException e) {
-            MessageForClient message = new MessageForClient (toRegister, e.getMessage ());
-            message.sendToView ();
+        boolean disconnectedDuringGame = false;
+
+        for (Lobby l : gameLobbies) {
+            if (l.getDisconnected ().contains(toRegister.getNickName ())) {
+                disconnectedDuringGame = true;
+                toRegister.insertBackIntoLobby (l);
+                break;
+            }
+        }
+
+        if (! disconnectedDuringGame) {
+            try {
+                toRegister.setCurrentLobby (getOpenLobby ( ));
+            } catch (GameStartedException e) {
+                MessageForClient message = new MessageForClient (toRegister, e.getMessage ( ));
+                message.sendToView ( );
+            }
         }
     }
 

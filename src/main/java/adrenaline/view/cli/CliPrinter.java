@@ -147,7 +147,7 @@ public class CliPrinter {
      * @param ranking is a sorted list
      */
     synchronized void printRanking(List<String> ranking) {
-        print("Current ranking:");
+        print("Ranking:");
         for (int i = 0; i < ranking.size(); i++) {
             print ((i+1) + " - " + ranking.get(i));
         }
@@ -368,5 +368,9 @@ public class CliPrinter {
         print("- unloaded weapons: " + board.getUnloadedWeapons ());
         print("- owned ammo: " + board.getOwnedAmmo ());
         //print("- points: " + board.getPointsForKill ());
+    }
+
+    synchronized void printEndGame() {
+        print(ANSI_PURPLE + "Thanks for playing!" + ANSI_RESET);
     }
 }

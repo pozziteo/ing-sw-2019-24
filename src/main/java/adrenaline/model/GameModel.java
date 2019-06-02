@@ -1,7 +1,9 @@
 package adrenaline.model;
 
+import adrenaline.data.data_for_client.data_for_game.EffectDetails;
 import adrenaline.data.data_for_client.responses_for_view.*;
 import adrenaline.model.deck.Ammo;
+import adrenaline.model.deck.OptionalEffect;
 import adrenaline.model.deck.Weapon;
 import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.map.NormalSquare;
@@ -132,6 +134,23 @@ public class GameModel {
             ownedAmmo.add(a.getColor ());
         int[] pointsForKill = p.getBoard ().getPointsForKill ();
         return new BoardDetails (nickname, damageTaken, receivedMarks, unloadedWeapons, ownedAmmo, pointsForKill);
+    }
+
+    public List<EffectDetails> createWeaponEffects(Weapon weapon) {
+        List<EffectDetails> effects = new ArrayList<> ();
+        String type = weapon.getBaseEffect ().getTargets ().getType ();
+        int n = -1;
+        String area = "";
+        if (type.equals("multiple") && weapon.getBaseEffect ().getTargets ().isAll ()){
+        } else if (type.equals("multiple") && !weapon.getBaseEffect ().getTargets ().isAll ()) {
+
+        }
+        EffectDetails effect = new EffectDetails ("baseEffect", false, type, n, area);
+        effects.add(effect);
+        for (OptionalEffect optEffect : weapon.getOptionalEffects ()) {
+
+        }
+        return effects;
     }
 
 }

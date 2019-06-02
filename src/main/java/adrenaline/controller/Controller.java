@@ -7,7 +7,6 @@ import adrenaline.data.data_for_client.responses_for_view.WeaponDetails;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.model.GameModel;
 import adrenaline.model.deck.Weapon;
-import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.map.SpawnPoint;
 import adrenaline.model.player.*;
 import adrenaline.network.Lobby;
@@ -27,7 +26,6 @@ public class Controller implements TimerCallBack {
     private TimerThread timer;
     private ArrayList<Player> dummyPlayers;
     private Action currentAction;
-    private PowerUp powerUp;
 
     //path for default map
     private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
@@ -117,33 +115,52 @@ public class Controller implements TimerCallBack {
 
     private void playNewTurn() {
         timer.shutDownThread ();
-        if (! gameModel.getGame ().isEndGame()) {
-            if (! gameModel.getGame ().isFinalFrenzy ()) {
-                int indexOfLast = gameModel.getGame ().getPlayers ().size ()-1;
-                int currentTurn = gameModel.getGame ( ).getCurrentTurn ( );
-                String currentPlayer;
-                if (dummyPlayers.contains(gameModel.getGame ().getPlayers ().get (indexOfLast - currentTurn))) {
-                    gameModel.getGame ().incrementTurn ();
-                    currentTurn = gameModel.getGame ().getCurrentTurn ( );
-                }
-                currentPlayer = gameModel.getGame ().getPlayers ().get (indexOfLast - currentTurn).getPlayerName ( );
-                lobby.sendToSpecific (currentPlayer, new Turn(currentPlayer));
-                lobby.sendToAllNonCurrent (currentPlayer, new Turn(currentPlayer));
-                timer.startThread (currentPlayer);
-                gameModel.getGame ().incrementTurn ( );
-            } else {
-                //TODO
-            }
-        } else {
-            //TODO
+        int indexOfLast = gameModel.getGame ().getPlayers ().size ()-1;
+        int currentTurn = gameModel.getGame ( ).getCurrentTurn ( );
+        String currentPlayer;
+        if (dummyPlayers.contains(gameModel.getGame ().getPlayers ().get (indexOfLast - currentTurn))) {
+            gameModel.getGame ().incrementTurn ();
+            currentTurn = gameModel.getGame ().getCurrentTurn ( );
         }
+        currentPlayer = gameModel.getGame ().getPlayers ().get (indexOfLast - currentTurn).getPlayerName ( );
+        lobby.sendToSpecific (currentPlayer, new Turn(currentPlayer));
+        lobby.sendToAllNonCurrent (currentPlayer, new Turn(currentPlayer));
+        timer.startThread (currentPlayer);
+        gameModel.getGame ().incrementTurn ( );
     }
 
     public void informOfDisconnection(String nickname) {
-        for (Player p : gameModel.getGame ().getPlayers ()) {
-            if (p.getPlayerName ().equals(nickname)) {
-                dummyPlayers.add (p);
-                break;
+        if (!gameModel.getGame ().isEndGame ()) {
+            if (gameModel.getGame ().getCurrentTurn () == 0) {
+                gameModel.getGame ().getPlayers ().remove(gameModel.getGame ().findByNickname (nickname));
+                if (checkPlayersReady()) {
+                    System.out.println("All players have spawned...\n");
+                    lobby.sendMessageToAll("All players have spawned.\n");
+                    gameModel.getGame ().startGame();
+                    playNewTurn ();
+                }
+            } else {
+                int indexOfLast = gameModel.getGame ( ).getPlayers ( ).size ( ) - 1;
+                int currentTurn = gameModel.getGame ( ).getCurrentTurn ( ) - 1;
+                String currentPlayer = gameModel.getGame ( ).getPlayers ( ).get (indexOfLast - currentTurn).getPlayerName ( );
+                if (nickname.equals (currentPlayer)) {
+                    timer.shutDownThread ( );
+                    for (Player p : gameModel.getGame ( ).getPlayers ( )) {
+                        if (p.getPlayerName ( ).equals (nickname)) {
+                            dummyPlayers.add (p);
+                            break;
+                        }
+                    }
+                    gameModel.getGame ( ).incrementTurn ( );
+                    playNewTurn ( );
+                } else {
+                    for (Player p : gameModel.getGame ( ).getPlayers ( )) {
+                        if (p.getPlayerName ( ).equals (nickname)) {
+                            dummyPlayers.add (p);
+                            break;
+                        }
+                    }
+                }
             }
         }
     }
@@ -155,11 +172,23 @@ public class Controller implements TimerCallBack {
                 break;
             }
         }
+        lobby.sendMessageToAll (nickname + " has been added back to the game...\n");
     }
 
-    public void endGame() {
+    public void endGameBecauseOfDisconnection() {
         gameModel.getGame ().setEndGame (true);
-        //TODO
+        timer.shutDownThread ();
+        lobby.sendMessageToAll ("Ending the game because of lack of players...");
+
+        List<String> ranking = new ArrayList<> ();
+        for (Player p : gameModel.getGame ().getRanking ())
+            ranking.add(p.getPlayerName ());
+
+        for (Player p : gameModel.getGame ().getPlayers ()) {
+            if (! dummyPlayers.contains(p)) {
+                lobby.sendToSpecific (p.getPlayerName (), new EndGameStatus (ranking));
+            }
+        }
     }
 
     public void buildAction(String type, String nickname) {
@@ -252,7 +281,7 @@ public class Controller implements TimerCallBack {
         return (gameModel.getGame ().getCurrentTurnActionNumber () == 1);
     }
 
-    public void sendPossibleTargets(String nickname, String weaponName) {
+    public void sendModeOptions(String nickname, String weaponName) {
         boolean initialized = false;
         Weapon weapon = null;
         for (Weapon w : gameModel.getGame ().findByNickname (nickname).getOwnedWeapons ()) {
@@ -263,9 +292,12 @@ public class Controller implements TimerCallBack {
             }
         }
         if (initialized) {
-            int maxNumberOfTargets = weapon.getBaseEffect ( ).getTargets ( ).getValue ( );
-            lobby.sendToSpecific (nickname, new TargetOptions (gameModel.createSquareDetails ( ), maxNumberOfTargets));
+            lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (weapon)));
         }
+    }
+
+    public void sendPossibleTargets(String nickname, String weaponName) {
+
     }
 
     //******************************************************************************************************************

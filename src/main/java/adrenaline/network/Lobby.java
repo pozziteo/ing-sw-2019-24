@@ -9,13 +9,14 @@ import adrenaline.utils.ReadConfigFile;
 import adrenaline.utils.TimerCallBack;
 import adrenaline.utils.TimerThread;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Lobby implements TimerCallBack {
     private int id;
     private MainServer server;
     private ArrayList<Account> players;
+    private ArrayList<String> disconnected;
     private Controller controller;
     private TimerThread timerThread;
     private long timeout;
@@ -26,6 +27,7 @@ public class Lobby implements TimerCallBack {
         this.id = id;
         this.server = server;
         this.players = new ArrayList<> ();
+        this.disconnected = new ArrayList<> ();
         this.controller = new Controller(this);
         this.timeout = (long) ReadConfigFile.readConfigFile("lobbyTimeout");
         this.timerThread = new TimerThread (this, timeout);
@@ -52,8 +54,12 @@ public class Lobby implements TimerCallBack {
      * Getter method
      * @return the list of players
      */
-    public ArrayList<Account> getPlayers() {
+    public List<Account> getPlayers() {
         return this.players;
+    }
+
+    public List<String> getDisconnected() {
+        return this.disconnected;
     }
 
     /**
@@ -144,11 +150,12 @@ public class Lobby implements TimerCallBack {
      */
     public synchronized void removeDisconnected(Account disconnected) {
         players.remove (disconnected);
+        this.disconnected.add(disconnected.getNickName ());
         sendMessageToAll (disconnected.getNickName () + " disconnected...\n");
         if (gameStarted) {
-            if (players.size() < 3) {
-                controller.endGame();
-            } else {
+            if (players.size() < 3 && !controller.getGameModel ().getGame ().isEndGame ()) {
+                controller.endGameBecauseOfDisconnection ();
+            } else if (players.size () > 2) {
                 controller.informOfDisconnection(disconnected.getNickName ());
             }
         } else {
@@ -215,6 +222,12 @@ public class Lobby implements TimerCallBack {
         this.players.add (a);
         sendMessageToWaiting (a.getNickName () + " joined the lobby...");
         checkReady();
+    }
+
+    public void addPlayerBack(Account a) {
+        this.players.add(a);
+        this.disconnected.remove (a.getNickName ());
+        controller.informOfReconnection (a.getNickName ());
     }
 
     /**

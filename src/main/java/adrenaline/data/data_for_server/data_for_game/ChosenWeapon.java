@@ -14,6 +14,6 @@ public class ChosenWeapon extends DataForServer implements DataForController {
 
     @Override
     public void updateGame(Controller controller) {
-        controller.sendPossibleTargets(super.getNickname (), weapon);
+        controller.sendModeOptions(super.getNickname (), weapon);
     }
 }

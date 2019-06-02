@@ -422,4 +422,9 @@ public class CliUserInterface implements UserInterface {
             sendToServer (chosenTargets);
         }
     }
+
+    public void showEndGameScreen(List<String> ranking) {
+        printer.printRanking (ranking);
+        System.exit (0);
+    }
 }
