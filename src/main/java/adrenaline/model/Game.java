@@ -311,6 +311,19 @@ public class Game implements Serializable {
         }
     }
 
+    public void replaceWeapon(Weapon weapon) {
+        for (Square s : map.getArena ()) {
+            if (s.isSpawnPoint()) {
+                for (int i = 0; i < ((SpawnPoint)s).getWeapons ().length; i++) {
+                    if (((SpawnPoint)s).getWeapons ()[i] == null) {
+                        ((SpawnPoint)s).setWeapons (weapon);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * Method that assigns points
      * @param deadPlayer is the one who died
