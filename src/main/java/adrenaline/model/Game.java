@@ -325,6 +325,19 @@ public class Game implements Serializable {
     }
 
     /**
+     * Method for the OverKill
+     * @param deadPlayer is the player who died
+     */
+    public void overKill(Player deadPlayer){
+        if(deadPlayer.getBoard().getDamageTaken().size()==12) {
+            for (Player p : players) {
+                if(p.getPlayerColor().equalsIgnoreCase(deadPlayer.getBoard().getDamageTaken().get(11)))
+                    p.getBoard().gotMarked(1, deadPlayer);
+            }
+        }
+    }
+
+    /**
      * Method that assigns points
      * @param deadPlayer is the one who died
      */
