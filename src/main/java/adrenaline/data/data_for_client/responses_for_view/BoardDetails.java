@@ -5,23 +5,35 @@ import java.util.List;
 
 public class BoardDetails implements Serializable {
     private String nickname;
+    private int position;
+    private List<WeaponDetails> loadedWeapons;
     private List<String> damageTaken;
     private List<String> receivedMarks;
     private List<WeaponDetails> unloadedWeapons;
     private List<String> ownedAmmo;
     private int[] pointsForKill;
 
-    public BoardDetails(String nickname, List<String> damage, List<String> marks, List<WeaponDetails> weapons, List<String> ammo, int[] points) {
+    public BoardDetails(String nickname, int pos, List<WeaponDetails> loadedWeapons, List<String> damage, List<String> marks, List<WeaponDetails> unloadedWeapons, List<String> ammo, int[] points) {
         this.nickname = nickname;
+        this.position = pos;
+        this.loadedWeapons = loadedWeapons;
         this.damageTaken = damage;
         this.receivedMarks = marks;
-        this.unloadedWeapons = weapons;
+        this.unloadedWeapons = unloadedWeapons;
         this.ownedAmmo = ammo;
         this.pointsForKill = points;
     }
 
     public String getNickname() {
         return this.nickname;
+    }
+
+    public int getPosition() {
+        return this.position;
+    }
+
+    public List<WeaponDetails> getLoadedWeapons() {
+        return this.loadedWeapons;
     }
 
     public List<String> getDamageTaken() {

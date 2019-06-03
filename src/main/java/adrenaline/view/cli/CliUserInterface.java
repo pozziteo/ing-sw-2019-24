@@ -360,52 +360,37 @@ public class CliUserInterface implements UserInterface {
     }
 
     private void chooseWeapon(SpawnPointDetails square) {
-        boolean valid = false;
-        while (!valid) {
-            NewPositionAndGrabbed newPositionAndGrabbed;
-            this.printer.printWeaponListToChoose (square.getWeaponsOnSquare ());
-            int parsed = this.parser.asyncParseInt (3);
-            if (parsed != -1) {
-                if (parsed == 1 || parsed == 2 || parsed == 3) {
-                    valid = true;
-                    newPositionAndGrabbed = new NewPositionAndGrabbed (nickname, square.getId (), square.getWeaponsOnSquare ()[parsed-1].getName ());
-                    sendToServer (newPositionAndGrabbed);
-                } else this.printer.printInvalidInput ( );
-            }
+        NewPositionAndGrabbed newPositionAndGrabbed;
+        this.printer.printWeaponListToChoose (square.getWeaponsOnSquare ());
+        int parsed = this.parser.asyncParseInt (3);
+        if (parsed != -1) {
+            newPositionAndGrabbed = new NewPositionAndGrabbed (nickname, square.getId (), square.getWeaponsOnSquare ()[parsed-1].getName ());
+            sendToServer (newPositionAndGrabbed);
         }
     }
 
     public void chooseWeapon(List<WeaponDetails> weapons) {
-        boolean valid = false;
-        while (!valid) {
-            DataForServer weapon;
-            printer.print("These are your loaded weapons: ");
-            printer.printWeaponList (weapons);
-            int parsed = this.parser.asyncParseInt (3);
-            if (parsed != -1) {
-                if (parsed == 1 || parsed == 2 || parsed == 3) {
-                    valid = true;
-                    weapon = new ChosenWeapon (nickname, weapons.get(parsed-1).getName ());
-                    sendToServer (weapon);
-                } else this.printer.printInvalidInput ( );
-            }
+        DataForServer weapon;
+        printer.print("These are your loaded weapons: ");
+        printer.printWeaponList (weapons);
+        int parsed = this.parser.asyncParseInt (3);
+        if (parsed != -1) {
+            weapon = new ChosenWeapon (nickname, weapons.get(parsed-1).getName ());
+            sendToServer (weapon);
         }
     }
 
     public void chooseWeaponEffect(List<EffectDetails> effects) {
+        printer.print("Choose the effect you want to perform: ");
         printer.printWeaponEffects(effects);
         int parsed = this.parser.asyncParseInt (effects.size()-1);
         if (parsed != -1) {
-            DataForServer response = new EffectChosen(nickname, parsed);
+            DataForServer response = new ChosenEffect (nickname, parsed);
             sendToServer (response);
         }
     }
 
-    public void chooseSingleTarget(List<SquareDetails> map) {
-
-    }
-
-    public void chooseMultipleTargets(int maxAmount, List<SquareDetails> map) {
+    private List<String> printPlayersPositions(List<SquareDetails> map) {
         List<String> players = new ArrayList<> ();
         for (SquareDetails s : map) {
             if (! s.getPlayersOnSquare ().isEmpty ()) {
@@ -415,34 +400,50 @@ public class CliUserInterface implements UserInterface {
                 }
             }
         }
-        printer.print("Choose your targets (please keep in mind to make your choice in the same order as the target descriptions for each weapon)");
-        boolean valid = false;
-        List<String> targets = new LinkedList<> ();
-        int amountChosen = 0;
-        while (amountChosen <= maxAmount) {
-            printer.printChooseTargets (maxAmount - amountChosen);
-            int parsed = this.parser.asyncParseInt (players.size ());
-            if (parsed != -1) {
-                if (parsed > 0 && parsed <= players.size()) {
-                    valid = true;
-                    amountChosen++;
-                    targets.add(players.get (parsed-1));
-                } else {
-                    printer.printInvalidInput ( );
-                }
+        return players;
+    }
+
+    public void chooseSingleTarget(List<SquareDetails> map) {
+        List<String> players = printPlayersPositions (map);
+        printer.print("Choose your target: \n(press " + (players.size ()+1) + " to finish)");
+        int parsed = parser.asyncParseInt (players.size () + 1);
+        if (parsed != -1) {
+            if (parsed != players.size () + 1) {
+
             }
         }
-        if (valid) {
+    }
+
+    public void chooseMultipleTargets(int maxAmount, List<SquareDetails> map) {
+        List<String> players = printPlayersPositions (map);
+        printer.print("Choose your targets (please keep in mind to make your choice in the same order as the targets' descriptions | press " + (players.size ()+1) + " to finish beforehand): ");
+        List<String> targets = new LinkedList<> ();
+        int amountChosen = 0;
+        while (amountChosen < maxAmount) {
+            printer.printChooseTargets (maxAmount - amountChosen);
+            int parsed = this.parser.asyncParseInt (players.size ()+1);
+            if (parsed != -1) {
+                if (parsed != players.size ()+1) {
+                    amountChosen++;
+                    targets.add (players.get (parsed - 1));
+                } else
+                    break;
+            }
+        }
+        if (amountChosen > 0) {
             DataForServer chosenTargets = new ChosenTargets (nickname, targets);
             sendToServer (chosenTargets);
         }
     }
 
     public void chooseAreaToTarget(String area, List<SquareDetails> map) {
-        if (area.equals("room")) {
-            //TODO
-        } else {
-            //TODO
+        printPlayersPositions (map);
+        DataForServer response;
+        printer.print("Type the id of the square you want to target/the id of a square in the room you want to target: ");
+        int parsed = parser.asyncParseInt (map.size()-1);
+        if (parsed != -1) {
+            response = new ChosenTargets (nickname, parsed, area);
+            sendToServer (response);
         }
     }
 

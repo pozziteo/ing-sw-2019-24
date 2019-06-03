@@ -213,7 +213,7 @@ public class Controller implements TimerCallBack {
                 lobby.sendToSpecific(nickname, options);
                 break;
             case "shoot":
-                this.currentAction = new Shoot();
+                this.currentAction = new Shoot(gameModel.getGame ().findByNickname (nickname));
                 gameModel.getGame ().setCurrentAction(currentAction);
                 List<WeaponDetails> weaponDetails = new ArrayList<> ();
                 for (Weapon w : gameModel.getGame ().findByNickname (nickname).getOwnedWeapons ())
@@ -243,7 +243,7 @@ public class Controller implements TimerCallBack {
             try {
                 ((MoveAndGrab) currentAction).grabObject (p, squareId, null);
             } catch (NotEnoughAmmoException | MustDiscardWeaponException e) {
-                System.err.print (e.getMessage ());
+                //should not be thrown
             }
         }
         checkNewTurn (nickname);
@@ -276,17 +276,6 @@ public class Controller implements TimerCallBack {
             lobby.sendToSpecific (nickname, new WeaponsToDiscard(weapons));
         }
         checkNewTurn (nickname);
-    }
-
-    public void executeAction(String attackerName, List<String> targetsNames, String weaponName) {
-        Player attacker = gameModel.getGame ().findByNickname (attackerName);
-        List<Player> targets = new LinkedList<> ();
-        for (String nickname : targetsNames) {
-            targets.add(gameModel.getGame ().findByNickname (nickname));
-        }
-        Weapon weapon = gameModel.getGame ().findByNickname (attackerName).findLoadedWeapon (weaponName);
-        ((Shoot)currentAction).performAttack (attacker, targets, weapon);
-        checkNewTurn (attackerName);
     }
 
     private void checkNewTurn(String nickname) {
@@ -353,14 +342,19 @@ public class Controller implements TimerCallBack {
         List<SquareDetails> map = gameModel.createSquareDetails ();
         TargetOptions options = null;
         if (effectId == 0) {
-            ((Shoot) currentAction).addEffectToApply (((Shoot) currentAction).getChosenWeapon ( ).getBaseEffect ( ), true);
+            ((Shoot) currentAction).addEffectToApply (((Shoot) currentAction).getChosenWeapon ( ).getBaseEffect ( ));
+            ((Shoot)currentAction).setBaseUsed (true);
             options = new TargetOptions (gameModel.createEffectDetails (((Shoot) currentAction).getChosenWeapon ( ).getBaseEffect ( )), map);
         } else {
             for (OptionalEffect e : ((Shoot)currentAction).getChosenWeapon ().getOptionalEffects ()) {
                 effectId--;
                 if (effectId == 0) {
-                    ((Shoot) currentAction).addEffectToApply (e, false);
-                    options = new TargetOptions (gameModel.createEffectDetails (e), map);
+                    if (e.isUsableBeforeBase () || (!e.isUsableBeforeBase () && ((Shoot)currentAction).isBaseUsed())) {
+                        ((Shoot) currentAction).addEffectToApply (e);
+                        options = new TargetOptions (gameModel.createEffectDetails (e), map);
+                    } else {
+                        //TODO choose different effect
+                    }
                 }
             }
         }
@@ -368,6 +362,33 @@ public class Controller implements TimerCallBack {
             ((Shoot)currentAction).setEndAction(true);
         }
         lobby.sendToSpecific (nickname, options);
+    }
+
+    public void setSquareBasedTargets(String nickname, int id) {
+        ((Shoot) currentAction).setEffectTargets ();
+
+        if (((Shoot) currentAction).isEndAction ())
+            checkNewTurn (nickname);
+        else
+            lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (((Shoot) currentAction).getChosenWeapon ())));
+    }
+
+    public void setRoomBasedTargets(String nickname, int id) {
+        ((Shoot) currentAction).setEffectTargets ();
+
+        if (((Shoot) currentAction).isEndAction ())
+            checkNewTurn (nickname);
+        else
+            lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (((Shoot) currentAction).getChosenWeapon ())));
+    }
+
+    public void setTargets(String nickname) {
+        ((Shoot)currentAction).setEffectTargets();
+
+        if (((Shoot) currentAction).isEndAction ())
+            checkNewTurn (nickname);
+        else
+            lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (((Shoot) currentAction).getChosenWeapon ())));
     }
 
     //******************************************************************************************************************

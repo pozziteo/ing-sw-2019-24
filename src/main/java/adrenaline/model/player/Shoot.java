@@ -1,24 +1,31 @@
 package adrenaline.model.player;
 
-import adrenaline.model.deck.BaseEffect;
 import adrenaline.model.deck.Weapon;
 import adrenaline.model.deck.WeaponEffect;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Shoot implements Action {
+    private Player attacker;
     private boolean baseUsed;
     private Weapon chosenWeapon;
-    private List<WeaponEffect> effects;
+    private LinkedList<WeaponEffect> effects;
     private boolean endAction;
 
-    public Shoot() {
+    public Shoot(Player attacker) {
+        this.attacker = attacker;
         this.baseUsed = false;
         this.endAction = false;
+        this.effects = new LinkedList<> ();
     }
 
     public void setBaseUsed(boolean value) {
         this.baseUsed = value;
+    }
+
+    public boolean isBaseUsed() {
+        return this.baseUsed;
     }
 
     public Weapon getChosenWeapon() {
@@ -29,9 +36,16 @@ public class Shoot implements Action {
         this.chosenWeapon = weapon;
     }
 
-    public void addEffectToApply(WeaponEffect effect, boolean isBase) {
+    public void addEffectToApply(WeaponEffect effect) {
         this.effects.add(effect);
-        this.baseUsed = isBase;
+    }
+
+    public void setEffectTargets() {
+
+    }
+
+    public void setEffectTargets(List<String> targetNames) {
+        //this.effects.getLast().useEffect (attacker, );
     }
 
     public boolean isEndAction() {

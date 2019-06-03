@@ -377,6 +377,8 @@ public class CliPrinter {
 
     synchronized void printBoard(BoardDetails board) {
         print(board.getNickname () + "'s board: ");
+        print("- on square: " + board.getPosition ());
+        print("- loaded weapons: " + board.getLoadedWeapons ());
         print("- damage taken: " + board.getDamageTaken ());
         print("- marks received: " + board.getReceivedMarks ());
         print("- unloaded weapons: " + board.getUnloadedWeapons ());
