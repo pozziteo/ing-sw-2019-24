@@ -282,13 +282,7 @@ public class Controller implements TimerCallBack {
         for (String nickname : targetsNames) {
             targets.add(gameModel.getGame ().findByNickname (nickname));
         }
-        Weapon weapon = null;
-        for (Weapon w : gameModel.getGame ().findByNickname (attackerName).getOwnedWeapons ()) {
-            if (w.getWeaponsName ().equals(weaponName)) {
-                weapon = w;
-                break;
-            }
-        }
+        Weapon weapon = gameModel.getGame ().findByNickname (attackerName).findLoadedWeapon (weaponName);
         ((Shoot)currentAction).performAttack (attacker, targets, weapon);
         checkNewTurn (attackerName);
     }
@@ -322,12 +316,7 @@ public class Controller implements TimerCallBack {
     public void reloadWeapon(String nickname, boolean positive, String weaponName) {
         if (positive) {
             try {
-                for (Weapon w : gameModel.getGame ().findByNickname (nickname).getBoard().getUnloadedWeapons ()) {
-                    if (w.getWeaponsName ().equals(weaponName)) {
-                        gameModel.getGame ().findByNickname (nickname).reloadWeapon(w);
-                        break;
-                    }
-                }
+                gameModel.getGame ().findByNickname (nickname).reloadWeapon (gameModel.getGame ().findByNickname (nickname).findUnloadedWeapon (weaponName));
             } catch (NotEnoughAmmoException e) {
                 lobby.sendToSpecific (nickname, new MessageForClient (e.getMessage ()));
             }
@@ -336,27 +325,25 @@ public class Controller implements TimerCallBack {
             playNewTurn ();
     }
 
+    public void discardWeapon(String nickname, String weaponName) {
+        Weapon weapon = gameModel.getGame ().findByNickname (nickname).findLoadedWeapon (weaponName);
+        if (weapon == null) {
+            weapon = gameModel.getGame ().findByNickname (nickname).findUnloadedWeapon (weaponName);
+        }
+        if (weapon != null) {
+            gameModel.getGame ().replaceWeapon(weapon);
+        }
+    }
+
     private boolean isFirstAction() {
         return (gameModel.getGame ().getCurrentTurnActionNumber () == 1);
     }
 
     public void sendModeOptions(String nickname, String weaponName) {
-        boolean initialized = false;
-        Weapon weapon = null;
-        for (Weapon w : gameModel.getGame ().findByNickname (nickname).getOwnedWeapons ()) {
-            if (w.getWeaponsName ().equals(weaponName)) {
-                initialized = true;
-                weapon = w;
-                break;
-            }
-        }
-        if (initialized) {
+        Weapon weapon = gameModel.getGame ().findByNickname (nickname).findLoadedWeapon (weaponName);
+        if (weapon != null) {
             lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (weapon)));
         }
-    }
-
-    public void sendPossibleTargets(String nickname, String weaponName) {
-
     }
 
     //******************************************************************************************************************

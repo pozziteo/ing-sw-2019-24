@@ -271,4 +271,26 @@ public class Player {
         } else
             throw new NotEnoughAmmoException ();
     }
+
+    public Weapon findLoadedWeapon(String name) {
+        Weapon weapon = null;
+        for (Weapon w : ownedWeapons) {
+            if (w.getWeaponsName ().equals(name)) {
+                weapon = w;
+                break;
+            }
+        }
+        return weapon;
+    }
+
+    public Weapon findUnloadedWeapon(String name) {
+        Weapon weapon = null;
+        for (Weapon w : playerBoard.getUnloadedWeapons ()) {
+            if (w.getWeaponsName ().equals(name)) {
+                weapon = w;
+                break;
+            }
+        }
+        return weapon;
+    }
 }
