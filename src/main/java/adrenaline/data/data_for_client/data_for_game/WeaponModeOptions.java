@@ -14,6 +14,6 @@ public class WeaponModeOptions extends DataForClient {
 
     @Override
     public void updateView(CliUserInterface view) {
-
+        view.chooseWeaponEffect(effects);
     }
 }

@@ -1,6 +1,7 @@
 package adrenaline.view.cli;
 
 import adrenaline.data.data_for_client.DataForClient;
+import adrenaline.data.data_for_client.data_for_game.EffectDetails;
 import adrenaline.data.data_for_client.responses_for_view.*;
 import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.*;
@@ -9,7 +10,7 @@ import adrenaline.data.data_for_server.requests_for_model.*;
 import adrenaline.network.ClientInterface;
 import adrenaline.network.rmi.client.RmiClient;
 import adrenaline.network.socket.client.SocketClient;
-import adrenaline.utils.ReadConfigFile;
+import adrenaline.utils.ConfigFileReader;
 import adrenaline.view.UserInterface;
 
 import java.io.File;
@@ -72,7 +73,7 @@ public class CliUserInterface implements UserInterface {
                 exc.printStackTrace();
             }
         } else {
-            this.client = new SocketClient ("localhost", ReadConfigFile.readConfigFile("socketPort"), this);
+            this.client = new SocketClient ("localhost", ConfigFileReader.readConfigFile("socketPort"), this);
         }
         client.connectToServer ();
     }
@@ -213,7 +214,7 @@ public class CliUserInterface implements UserInterface {
                         request = new MapRequest (nickname);
                         sendToServer (request);
                         try {
-                            Thread.currentThread ( ).sleep ((long)ReadConfigFile.readConfigFile("cliThread"));
+                            Thread.currentThread ( ).sleep ((long) ConfigFileReader.readConfigFile("cliThread"));
                         } catch (InterruptedException e) {
                             Thread.currentThread ().interrupt ();
                         }
@@ -222,7 +223,7 @@ public class CliUserInterface implements UserInterface {
                         request = new SquareDetailsRequest (nickname);
                         sendToServer (request);
                         try {
-                            Thread.currentThread ( ).sleep ((long)ReadConfigFile.readConfigFile("cliThread"));
+                            Thread.currentThread ( ).sleep ((long) ConfigFileReader.readConfigFile("cliThread"));
                         } catch (InterruptedException e) {
                             Thread.currentThread ().interrupt ();
                         }
@@ -235,7 +236,7 @@ public class CliUserInterface implements UserInterface {
                         request = new BoardsRequest (nickname);
                         sendToServer (request);
                         try {
-                            Thread.currentThread ( ).sleep ((long)ReadConfigFile.readConfigFile("cliThread"));
+                            Thread.currentThread ( ).sleep ((long) ConfigFileReader.readConfigFile("cliThread"));
                         } catch (InterruptedException e) {
                             Thread.currentThread ().interrupt ();
                         }
@@ -244,7 +245,7 @@ public class CliUserInterface implements UserInterface {
                         request = new RankingRequest (nickname);
                         sendToServer (request);
                         try {
-                            Thread.currentThread ( ).sleep ((long)ReadConfigFile.readConfigFile("cliThread"));
+                            Thread.currentThread ( ).sleep ((long) ConfigFileReader.readConfigFile("cliThread"));
                         } catch (InterruptedException e) {
                             Thread.currentThread ().interrupt ();
                         }
@@ -391,6 +392,15 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
+    public void chooseWeaponEffect(List<EffectDetails> effects) {
+        printer.printWeaponEffects(effects);
+        int parsed = this.parser.asyncParseInt (effects.size()-1);
+        if (parsed != -1) {
+            DataForServer response = new EffectChosen(nickname, parsed);
+            sendToServer (response);
+        }
+    }
+
     public void chooseTargets(int maxAmount, List<SquareDetails> map) {
         List<String> players = new ArrayList<> ();
         for (SquareDetails s : map) {
@@ -424,6 +434,10 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
+    public void chooseAreaToTarget(String area) {
+
+    }
+
     public void askReload(List<String> ammo, List<WeaponDetails> weapons) {
         printer.printReload();
         int parsed = this.parser.asyncParseInt (1);
@@ -436,7 +450,7 @@ public class CliUserInterface implements UserInterface {
                 printer.print ("These are your unloaded weapons: ");
                 printer.printWeaponList (weapons);
                 int parsed1 = this.parser.asyncParseInt (weapons.size ());
-                if (parsed1 != -1) {
+                if (parsed != -1) {
                     DataForServer response = new ReloadResponse (nickname, true, weapons.get(parsed1-1).getName ());
                     sendToServer (response);
                 }
@@ -448,6 +462,11 @@ public class CliUserInterface implements UserInterface {
     public void discardWeapon(List<WeaponDetails> weapons) {
         printer.print ("You reached the max amount of weapons you can hold. Please discard one of the following: ");
         printer.printWeaponList (weapons);
+        int parsed = this.parser.asyncParseInt (weapons.size ());
+        if (parsed != -1) {
+            DataForServer response = new DiscardedWeapon(nickname, weapons.get(parsed-1).getName ());
+            sendToServer (response);
+        }
     }
 
     public void showEndGameScreen(List<String> ranking) {

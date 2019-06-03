@@ -1,5 +1,6 @@
 package adrenaline.view.cli;
 
+import adrenaline.data.data_for_client.data_for_game.EffectDetails;
 import adrenaline.data.data_for_client.responses_for_view.*;
 import org.fusesource.jansi.AnsiConsole;
 
@@ -323,6 +324,20 @@ public class CliPrinter {
             for (int i = 0; i < weapons.size ( ); i++) {
                 print ((i + 1) + " - " + ANSI_RED + weapons.get (i).getName ( ) + ANSI_RESET + ": " + weapons.get (i).getDescription ( ) + "(cost to reload :" + weapons.get (i).getAmmoCost ( ) + ")\n");
             }
+        }
+    }
+
+    synchronized void printWeaponEffects(List<EffectDetails> effects) {
+        int i = 0;
+        for (EffectDetails e : effects) {
+            if (e.getEffectType ().equals("base effect")) {
+                print(i + " - weapon's base effect (usable always and without spending additional ammo)");
+            } else if (e.getEffectType ().equals("optional effect") && e.isAlternativeMode ()) {
+                print(i + " - weapon's alternative fire mode (usable only instead of base mode, may cost additional ammo)");
+            } else if (e.getEffectType ().equals ("optional effect")) {
+                print(i + " - weapon's optional effect (usable only in addition of base mode, may cost additional ammo, usable before base effect: " + e.isUsableBeforeBase () + ")");
+            }
+            i++;
         }
     }
 

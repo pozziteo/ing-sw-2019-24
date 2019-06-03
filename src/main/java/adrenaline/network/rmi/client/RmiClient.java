@@ -5,7 +5,7 @@ import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.network.ClientInterface;
 import adrenaline.network.rmi.RmiClientCallbackInterface;
 import adrenaline.network.rmi.RmiServerInterface;
-import adrenaline.utils.ReadConfigFile;
+import adrenaline.utils.ConfigFileReader;
 import adrenaline.view.UserInterface;
 
 import java.rmi.RemoteException;
@@ -37,7 +37,7 @@ public class RmiClient extends UnicastRemoteObject implements ClientInterface, R
 
     public void connectToServer() {
         try {
-            Registry registry = LocateRegistry.getRegistry(ReadConfigFile.readConfigFile("rmiPort"));
+            Registry registry = LocateRegistry.getRegistry(ConfigFileReader.readConfigFile("rmiPort"));
             this.stub = (RmiServerInterface) registry.lookup("RmiServerClientHandler");
             stub.registerClient(this);
 

@@ -5,7 +5,7 @@ import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_client.data_for_network.MessageForClient;
 import adrenaline.exceptions.GameStartedException;
 import adrenaline.model.GameModel;
-import adrenaline.utils.ReadConfigFile;
+import adrenaline.utils.ConfigFileReader;
 import adrenaline.utils.TimerCallBack;
 import adrenaline.utils.TimerThread;
 
@@ -29,7 +29,7 @@ public class Lobby implements TimerCallBack {
         this.players = new ArrayList<> ();
         this.disconnected = new ArrayList<> ();
         this.controller = new Controller(this);
-        this.timeout = (long) ReadConfigFile.readConfigFile("lobbyTimeout");
+        this.timeout = (long) ConfigFileReader.readConfigFile("lobbyTimeout");
         this.timerThread = new TimerThread (this, timeout);
         this.gameStarted = false;
         this.full = false;

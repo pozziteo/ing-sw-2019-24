@@ -9,6 +9,7 @@
       "target": {
         "type": "multiple",
         "value": "2",
+        "areaType": "",
         "constraints": []
       },
       "effects": [
@@ -31,6 +32,7 @@
       "target": {
         "type": "single",
         "value": "",
+        "areaType": "",
         "constraints": [
           "one of base targets"
         ]
@@ -56,6 +58,7 @@
       "target": {
         "type": "multiple",
         "value": "2",
+        "areaType": "",
         "constraints": [
           "one of base targets different from first optional target",
           "different from base target"

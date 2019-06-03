@@ -9,11 +9,12 @@ import adrenaline.exceptions.MustDiscardWeaponException;
 import adrenaline.exceptions.NotEnoughAmmoException;
 import adrenaline.model.GameModel;
 import adrenaline.model.deck.Ammo;
+import adrenaline.model.deck.OptionalEffect;
 import adrenaline.model.deck.Weapon;
 import adrenaline.model.map.SpawnPoint;
 import adrenaline.model.player.*;
 import adrenaline.network.Lobby;
-import adrenaline.utils.ReadConfigFile;
+import adrenaline.utils.ConfigFileReader;
 import adrenaline.utils.TimerCallBack;
 import adrenaline.utils.TimerThread;
 
@@ -36,7 +37,7 @@ public class Controller implements TimerCallBack {
 
     public Controller(Lobby lobby) {
         this.lobby = lobby;
-        this.timeout = ReadConfigFile.readConfigFile("controllerTimeout");
+        this.timeout = ConfigFileReader.readConfigFile("controllerTimeout");
         this.timer = new TimerThread (this, timeout);
         this.dummyPlayers = new ArrayList<> ();
     }
@@ -282,13 +283,7 @@ public class Controller implements TimerCallBack {
         for (String nickname : targetsNames) {
             targets.add(gameModel.getGame ().findByNickname (nickname));
         }
-        Weapon weapon = null;
-        for (Weapon w : gameModel.getGame ().findByNickname (attackerName).getOwnedWeapons ()) {
-            if (w.getWeaponsName ().equals(weaponName)) {
-                weapon = w;
-                break;
-            }
-        }
+        Weapon weapon = gameModel.getGame ().findByNickname (attackerName).findLoadedWeapon (weaponName);
         ((Shoot)currentAction).performAttack (attacker, targets, weapon);
         checkNewTurn (attackerName);
     }
@@ -322,12 +317,7 @@ public class Controller implements TimerCallBack {
     public void reloadWeapon(String nickname, boolean positive, String weaponName) {
         if (positive) {
             try {
-                for (Weapon w : gameModel.getGame ().findByNickname (nickname).getBoard().getUnloadedWeapons ()) {
-                    if (w.getWeaponsName ().equals(weaponName)) {
-                        gameModel.getGame ().findByNickname (nickname).reloadWeapon(w);
-                        break;
-                    }
-                }
+                gameModel.getGame ().findByNickname (nickname).reloadWeapon (gameModel.getGame ().findByNickname (nickname).findUnloadedWeapon (weaponName));
             } catch (NotEnoughAmmoException e) {
                 lobby.sendToSpecific (nickname, new MessageForClient (e.getMessage ()));
             }
@@ -336,27 +326,46 @@ public class Controller implements TimerCallBack {
             playNewTurn ();
     }
 
+    public void discardWeapon(String nickname, String weaponName) {
+        Weapon weapon = gameModel.getGame ().findByNickname (nickname).findLoadedWeapon (weaponName);
+        if (weapon == null) {
+            weapon = gameModel.getGame ().findByNickname (nickname).findUnloadedWeapon (weaponName);
+        }
+        if (weapon != null) {
+            gameModel.getGame ().replaceWeapon(weapon);
+        }
+    }
+
     private boolean isFirstAction() {
         return (gameModel.getGame ().getCurrentTurnActionNumber () == 1);
     }
 
     public void sendModeOptions(String nickname, String weaponName) {
-        boolean initialized = false;
-        Weapon weapon = null;
-        for (Weapon w : gameModel.getGame ().findByNickname (nickname).getOwnedWeapons ()) {
-            if (w.getWeaponsName ().equals(weaponName)) {
-                initialized = true;
-                weapon = w;
-                break;
-            }
-        }
-        if (initialized) {
+        Weapon weapon = gameModel.getGame ().findByNickname (nickname).findLoadedWeapon (weaponName);
+        ((Shoot) currentAction).setChosenWeapon (weapon);
+        if (weapon != null) {
             lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (weapon)));
         }
     }
 
-    public void sendPossibleTargets(String nickname, String weaponName) {
-
+    public void askTargets(String nickname, int effectId) {
+        TargetOptions options = null;
+        if (effectId == 0) {
+            ((Shoot) currentAction).addEffectToApply (((Shoot) currentAction).getChosenWeapon ( ).getBaseEffect ( ), true);
+            options = new TargetOptions (gameModel.createEffectDetails (((Shoot) currentAction).getChosenWeapon ( ).getBaseEffect ( )));
+        } else {
+            for (OptionalEffect e : ((Shoot)currentAction).getChosenWeapon ().getOptionalEffects ()) {
+                effectId--;
+                if (effectId == 0) {
+                    ((Shoot) currentAction).addEffectToApply (e, false);
+                    options = new TargetOptions (gameModel.createEffectDetails (e));
+                }
+            }
+        }
+        if (((Shoot)currentAction).getChosenWeapon ().getOptionalEffects ().get(0).isAlternativeMode ()) {
+            ((Shoot)currentAction).setEndAction(true);
+        }
+        lobby.sendToSpecific (nickname, options);
     }
 
     //******************************************************************************************************************

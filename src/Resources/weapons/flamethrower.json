@@ -9,6 +9,7 @@
       "target": {
         "type": "multiple",
         "value": "2",
+        "areaType": "",
         "constraints": [
           "one target per square",
           "on same direction"
@@ -37,6 +38,7 @@
       "target": {
         "type": "multiple",
         "value": "all",
+        "areaType": "square",
         "constraints": []
       },
       "effects": [

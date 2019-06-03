@@ -10,6 +10,7 @@
       "target": {
         "type": "multiple",
         "value": "3",
+        "areaType": "",
         "constraints": [
           "on different squares"
         ]
@@ -36,6 +37,7 @@
       "target": {
         "type": "multiple",
         "value": "all",
+        "areaType": "",
         "constraints": []
       },
       "effects": [
