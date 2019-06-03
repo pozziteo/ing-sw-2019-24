@@ -401,7 +401,11 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
-    public void chooseTargets(int maxAmount, List<SquareDetails> map) {
+    public void chooseSingleTarget(List<SquareDetails> map) {
+
+    }
+
+    public void chooseMultipleTargets(int maxAmount, List<SquareDetails> map) {
         List<String> players = new ArrayList<> ();
         for (SquareDetails s : map) {
             if (! s.getPlayersOnSquare ().isEmpty ()) {
@@ -434,8 +438,12 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
-    public void chooseAreaToTarget(String area) {
-
+    public void chooseAreaToTarget(String area, List<SquareDetails> map) {
+        if (area.equals("room")) {
+            //TODO
+        } else {
+            //TODO
+        }
     }
 
     public void askReload(List<String> ammo, List<WeaponDetails> weapons) {
@@ -450,7 +458,7 @@ public class CliUserInterface implements UserInterface {
                 printer.print ("These are your unloaded weapons: ");
                 printer.printWeaponList (weapons);
                 int parsed1 = this.parser.asyncParseInt (weapons.size ());
-                if (parsed != -1) {
+                if (parsed1 != -1) {
                     DataForServer response = new ReloadResponse (nickname, true, weapons.get(parsed1-1).getName ());
                     sendToServer (response);
                 }
@@ -462,9 +470,9 @@ public class CliUserInterface implements UserInterface {
     public void discardWeapon(List<WeaponDetails> weapons) {
         printer.print ("You reached the max amount of weapons you can hold. Please discard one of the following: ");
         printer.printWeaponList (weapons);
-        int parsed = this.parser.asyncParseInt (weapons.size ());
+        int parsed = this.parser.asyncParseInt (weapons.size ( ));
         if (parsed != -1) {
-            DataForServer response = new DiscardedWeapon(nickname, weapons.get(parsed-1).getName ());
+            DataForServer response = new DiscardedWeapon (nickname, weapons.get (parsed - 1).getName ( ));
             sendToServer (response);
         }
     }

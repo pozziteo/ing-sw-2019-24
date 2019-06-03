@@ -3,6 +3,7 @@ package adrenaline.controller;
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_client.data_for_game.*;
 import adrenaline.data.data_for_client.data_for_network.MessageForClient;
+import adrenaline.data.data_for_client.responses_for_view.SquareDetails;
 import adrenaline.data.data_for_client.responses_for_view.WeaponDetails;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.exceptions.MustDiscardWeaponException;
@@ -349,16 +350,17 @@ public class Controller implements TimerCallBack {
     }
 
     public void askTargets(String nickname, int effectId) {
+        List<SquareDetails> map = gameModel.createSquareDetails ();
         TargetOptions options = null;
         if (effectId == 0) {
             ((Shoot) currentAction).addEffectToApply (((Shoot) currentAction).getChosenWeapon ( ).getBaseEffect ( ), true);
-            options = new TargetOptions (gameModel.createEffectDetails (((Shoot) currentAction).getChosenWeapon ( ).getBaseEffect ( )));
+            options = new TargetOptions (gameModel.createEffectDetails (((Shoot) currentAction).getChosenWeapon ( ).getBaseEffect ( )), map);
         } else {
             for (OptionalEffect e : ((Shoot)currentAction).getChosenWeapon ().getOptionalEffects ()) {
                 effectId--;
                 if (effectId == 0) {
                     ((Shoot) currentAction).addEffectToApply (e, false);
-                    options = new TargetOptions (gameModel.createEffectDetails (e));
+                    options = new TargetOptions (gameModel.createEffectDetails (e), map);
                 }
             }
         }
