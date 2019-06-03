@@ -6,13 +6,15 @@ import java.io.Serializable;
 
 public class EffectDetails extends DataForClient implements Serializable {
     private String effectType;
+    private boolean alternativeMode;
     private boolean usableBeforeBase;
     private String targetType;
     private int targetsAmount;
     private String areaType;
 
-    public EffectDetails(String effect, boolean usable, String target, int amount, String area) {
+    public EffectDetails(String effect, boolean alternative, boolean usable, String target, int amount, String area) {
         this.effectType = effect;
+        this.alternativeMode = alternative;
         this.usableBeforeBase = usable;
         this.targetType = target;
         this.targetsAmount = amount;
@@ -21,6 +23,10 @@ public class EffectDetails extends DataForClient implements Serializable {
 
     public String getEffectType() {
         return this.effectType;
+    }
+
+    public boolean isAlternativeMode() {
+        return this.alternativeMode;
     }
 
     public boolean isUsableBeforeBase() {

@@ -7,12 +7,11 @@ import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.exceptions.GameStartedException;
 import adrenaline.network.rmi.server.RmiServer;
 import adrenaline.network.socket.server.SocketServer;
-import adrenaline.utils.ReadConfigFile;
+import adrenaline.utils.ConfigFileReader;
 
 import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -44,8 +43,8 @@ public class MainServer {
     public MainServer() {
         this.onlineClients = new LinkedList<>();
         this.serverAddress = "localhost"; //change to get dynamically
-        this.rmiPort = ReadConfigFile.readConfigFile("rmiPort");
-        this.socketPort = ReadConfigFile.readConfigFile("socketPort");
+        this.rmiPort = ConfigFileReader.readConfigFile("rmiPort");
+        this.socketPort = ConfigFileReader.readConfigFile("socketPort");
         this.mainRunning = false;
         this.socketRunning = false;
         this.rmiRunning = false;

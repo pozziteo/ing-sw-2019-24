@@ -144,16 +144,18 @@ public class GameModel {
     public List<EffectDetails> createWeaponEffects(Weapon weapon) {
         List<EffectDetails> effects = new ArrayList<> ();
         String type = weapon.getBaseEffect ().getTargets ().getType ();
-        int n = -1;
-        String area = "";
-        if (type.equals("multiple") && weapon.getBaseEffect ().getTargets ().isAll ()){
-        } else if (type.equals("multiple") && !weapon.getBaseEffect ().getTargets ().isAll ()) {
-
-        }
-        EffectDetails effect = new EffectDetails ("baseEffect", false, type, n, area);
+        String area = weapon.getBaseEffect ().getTargets ().getAreaType ();
+        int n = weapon.getBaseEffect ().getTargets ().getValue ();
+        EffectDetails effect = new EffectDetails ("base effect", false, false, type, n, area);
         effects.add(effect);
         for (OptionalEffect optEffect : weapon.getOptionalEffects ()) {
-
+            type = optEffect.getTargets ().getType ();
+            area = optEffect.getTargets ().getAreaType ();
+            n = optEffect.getTargets ().getValue ();
+            boolean alternative = optEffect.isAlternativeMode ();
+            boolean usable = optEffect.isUsableBeforeBase ();
+            effect = new EffectDetails ("optional effect", alternative, usable, type, n, area);
+            effects.add(effect);
         }
         return effects;
     }

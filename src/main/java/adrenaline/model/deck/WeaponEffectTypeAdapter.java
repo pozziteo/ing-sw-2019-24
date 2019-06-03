@@ -176,6 +176,7 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
         TargetType targets = null;
         String targetType;
         String targetValue;
+        String areaType;
         ArrayList<String> constraints = new ArrayList<> ();
         reader.beginObject ();
         while (reader.peek() != JsonToken.END_OBJECT) {
@@ -183,13 +184,15 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
             targetType = reader.nextString ();
             reader.nextName();
             targetValue = reader.nextString ();
+            reader.nextName();
+            areaType = reader.nextString ();
             reader.nextName ();
             reader.beginArray ();
             while (reader.peek() != JsonToken.END_ARRAY) {
                 constraints.add(reader.nextString ());
             }
             reader.endArray ();
-            targets = new TargetType (targetType, targetValue, constraints);
+            targets = new TargetType (targetType, targetValue, areaType, constraints);
         }
         reader.endObject ();
         if (targets == null) {

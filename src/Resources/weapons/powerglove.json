@@ -10,6 +10,7 @@
       "target": {
         "type": "single",
         "value": "",
+        "areaType": "",
         "constraints": []
       },
       "effects": [
@@ -37,6 +38,7 @@
       "target": {
         "type": "multiple",
         "value": "2",
+        "areaType": "",
         "constraints": [
           "on same direction",
           "one target per square"

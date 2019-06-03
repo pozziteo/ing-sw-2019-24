@@ -3,7 +3,7 @@ package adrenaline.view.gui.stages;
 import adrenaline.network.ClientInterface;
 import adrenaline.network.rmi.client.RmiClient;
 import adrenaline.network.socket.client.SocketClient;
-import adrenaline.utils.ReadConfigFile;
+import adrenaline.utils.ConfigFileReader;
 import adrenaline.view.gui.GUIController;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
@@ -47,7 +47,7 @@ public class ConnectionStage {
         GridPane.setValignment(rmiButton, VPos.BASELINE);
 
         socketButton.setOnMouseClicked(mouseEvent -> {
-            client = new SocketClient("localhost", ReadConfigFile.readConfigFile("socketPort"), GUIController.getController());
+            client = new SocketClient("localhost", ConfigFileReader.readConfigFile("socketPort"), GUIController.getController());
             stage.close();
         });
 

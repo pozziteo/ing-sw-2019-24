@@ -10,6 +10,7 @@
       "target": {
         "type": "single",
         "value": "",
+        "areaType": "",
         "constraints": []
       },
       "effects": [
@@ -34,6 +35,7 @@
       "target": {
         "type": "single",
         "value": "",
+        "areaType": "",
         "constraints": []
       },
       "effects": [

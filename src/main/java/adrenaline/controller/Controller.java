@@ -13,7 +13,7 @@ import adrenaline.model.deck.Weapon;
 import adrenaline.model.map.SpawnPoint;
 import adrenaline.model.player.*;
 import adrenaline.network.Lobby;
-import adrenaline.utils.ReadConfigFile;
+import adrenaline.utils.ConfigFileReader;
 import adrenaline.utils.TimerCallBack;
 import adrenaline.utils.TimerThread;
 
@@ -36,7 +36,7 @@ public class Controller implements TimerCallBack {
 
     public Controller(Lobby lobby) {
         this.lobby = lobby;
-        this.timeout = ReadConfigFile.readConfigFile("controllerTimeout");
+        this.timeout = ConfigFileReader.readConfigFile("controllerTimeout");
         this.timer = new TimerThread (this, timeout);
         this.dummyPlayers = new ArrayList<> ();
     }
