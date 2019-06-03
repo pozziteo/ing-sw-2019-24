@@ -12,6 +12,7 @@ import adrenaline.model.player.Player;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Class used to access the entire model package
@@ -310,41 +311,125 @@ public class Game implements Serializable {
         }
     }
 
+    // **********************************************************************************
+    //                          GROUP OF METHOD TO GIVE POINTS
+    // **********************************************************************************
+
     /**
      * Method that assigns points
      * @param deadPlayer is the one who died
      */
     public void givePoints(Player deadPlayer){
-        List<Integer> points = new ArrayList<>();
+        List<Player> toCompute = new ArrayList<>();
+        List<Player> sortedPlayers;
         int point;
+
+        //assegno punteggio a point(punteggio max guadagnabile) in base a quante morti ha il giocatore morto
         switch (deadPlayer.getDeaths()){
             case 0:
-                point=8;
+                point = 8;
                 break;
             case 1:
-                point=6;
+                point = 6;
                 break;
             default:
                 point = 4;
                 break;
         }
+        if(isFinalFrenzy()) point = 2;
+
+        //aggiungo in giocatori che fanno almeno un danno in 'toCompute'
         for (Player p: players){
-            points.add(deadPlayer.getBoard().getDamageAmountGivenByPlayer(p));
+            if(deadPlayer.getBoard().getDamageAmountGivenByPlayer(p) > 0) {
+                toCompute.add(p);
+            }
         }
-        points.sort(Collections.reverseOrder());
-        for (Player p: players){
-            if (deadPlayer.getBoard().isFirstBlood(p)){
+        //ordino tutti i giocatori in base al numero di danni inflitti
+        sortedPlayers = sortPlayerByHits(toCompute, deadPlayer);
+
+        //al primo giocatore assegno il massimo, al secondo 2 in meno e cosi` via
+        for(Player p: sortedPlayers){
+            if (deadPlayer.getBoard().isFirstBlood(p)) {
                 p.addPointTokens(1);
             }
-            if (deadPlayer.getBoard().getDamageAmountGivenByPlayer(p)==Collections.max(points) && !points.isEmpty()){
-                p.addPointTokens(point);
-                points.remove(0);
-                if(point == 2)
-                    point -= 1;
-                else
-                    point -= 2;
+            p.addPointTokens(point);
+            if (point == 2)
+                point -= 1;
+            else if (point == 1)
+                point = point;
+            else
+                point -= 2;
+        }
+        //aggiunge una morte al 'deadPlayer'
+        deadPlayer.addDeaths();
+    }
+
+    /**
+     * Method that divides the players in two different lists: 'tiedPlayers' and 'list'(non-tying players)
+     * @param toCompute is the list of all players who dealed damage to the 'deadPlayer'
+     * @param deadPlayer is the player who died
+     * @return a final list, sorted by the order required to give points
+     */
+    private List<Player> sortPlayerByHits(List<Player> toCompute, Player deadPlayer){
+        List<Player> list = new ArrayList<>();
+        List<Player> tiedPlayers = new ArrayList<>();
+        List<Player> finalList;
+        for (int i =0; i<toCompute.size(); i++){
+            for (Player p: toCompute){
+                for(Player p1: toCompute.subList(toCompute.indexOf(p)+1, toCompute.size())){
+                    if(deadPlayer.getBoard().getDamageAmountGivenByPlayer(p)==deadPlayer.getBoard().getDamageAmountGivenByPlayer(p1)){
+                        tiedPlayers.add(p);
+                        tiedPlayers.add(p1);
+                    }else if(deadPlayer.getBoard().getDamageAmountGivenByPlayer(p)>deadPlayer.getBoard().getDamageAmountGivenByPlayer(p1)) {
+                        list.set(i, p);
+                    }else {
+                        list.set(i, p1);
+                    }
+                }
             }
         }
-        deadPlayer.addDeaths();
+        tiedPlayers = tiedPlayers.stream().distinct().collect(Collectors.toList());
+        List<Player> tiedPlayersFinal = compareTiedPlayers(tiedPlayers, deadPlayer);
+        finalList = mergeArrays(tiedPlayersFinal, list, deadPlayer);
+        return finalList;
+    }
+
+    /**
+     * Method that sorts a list of tying players
+     * @param tiedPlayers is the list
+     * @param deadPlayer is the player who died
+     * @return a sorted list
+     */
+    private List<Player> compareTiedPlayers(List<Player> tiedPlayers, Player deadPlayer){
+        List<Integer> position = new ArrayList<>();
+        for (Player p: tiedPlayers){
+            position.add(deadPlayer.getBoard().getDamageTaken().indexOf(p.getPlayerColor()));
+        }
+        Collections.sort(position);
+        for (int i=0; i<position.size(); i++){
+            for (Player p: tiedPlayers){
+                if(p.getPlayerColor().equalsIgnoreCase(deadPlayer.getBoard().getDamageTaken().get(i)))
+                    tiedPlayers.set(i, p);
+            }
+        }
+        return tiedPlayers;
+    }
+
+    /**
+     * Method that merges the list of tying and non-tying players
+     * @param tiedPlayers is the list of tying players
+     * @param list is the list of non-tying players
+     * @param deadPlayer is the player who died
+     * @return a sorted list of 'tiedPlayers' and 'list'
+     */
+    private List<Player> mergeArrays(List<Player> tiedPlayers, List<Player> list, Player deadPlayer) {
+            for(Player p: tiedPlayers)
+                for (Player p1 : list)
+                    if (deadPlayer.getBoard().getDamageAmountGivenByPlayer(p) > deadPlayer.getBoard().getDamageAmountGivenByPlayer(p1)) {
+                        //dentro list in posizione p1 concateno tiedPlayers
+                        list.addAll(list.indexOf(p1), tiedPlayers);
+                        break;
+                    }
+        return list;
     }
 }
