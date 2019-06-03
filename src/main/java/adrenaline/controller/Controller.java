@@ -9,6 +9,7 @@ import adrenaline.exceptions.MustDiscardWeaponException;
 import adrenaline.exceptions.NotEnoughAmmoException;
 import adrenaline.model.GameModel;
 import adrenaline.model.deck.Ammo;
+import adrenaline.model.deck.OptionalEffect;
 import adrenaline.model.deck.Weapon;
 import adrenaline.model.map.SpawnPoint;
 import adrenaline.model.player.*;
@@ -341,9 +342,30 @@ public class Controller implements TimerCallBack {
 
     public void sendModeOptions(String nickname, String weaponName) {
         Weapon weapon = gameModel.getGame ().findByNickname (nickname).findLoadedWeapon (weaponName);
+        ((Shoot) currentAction).setChosenWeapon (weapon);
         if (weapon != null) {
             lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (weapon)));
         }
+    }
+
+    public void askTargets(String nickname, int effectId) {
+        TargetOptions options = null;
+        if (effectId == 0) {
+            ((Shoot) currentAction).addEffectToApply (((Shoot) currentAction).getChosenWeapon ( ).getBaseEffect ( ), true);
+            options = new TargetOptions (gameModel.createEffectDetails (((Shoot) currentAction).getChosenWeapon ( ).getBaseEffect ( )));
+        } else {
+            for (OptionalEffect e : ((Shoot)currentAction).getChosenWeapon ().getOptionalEffects ()) {
+                effectId--;
+                if (effectId == 0) {
+                    ((Shoot) currentAction).addEffectToApply (e, false);
+                    options = new TargetOptions (gameModel.createEffectDetails (e));
+                }
+            }
+        }
+        if (((Shoot)currentAction).getChosenWeapon ().getOptionalEffects ().get(0).isAlternativeMode ()) {
+            ((Shoot)currentAction).setEndAction(true);
+        }
+        lobby.sendToSpecific (nickname, options);
     }
 
     //******************************************************************************************************************

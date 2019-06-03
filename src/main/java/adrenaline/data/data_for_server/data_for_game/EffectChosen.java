@@ -13,6 +13,6 @@ public class EffectChosen extends DataForServer implements DataForController {
 
     @Override
     public void updateGame(Controller controller) {
-        //TODO
+        controller.askTargets (super.getNickname (), effectNumber);
     }
 }

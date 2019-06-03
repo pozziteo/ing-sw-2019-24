@@ -434,6 +434,10 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
+    public void chooseAreaToTarget(String area) {
+
+    }
+
     public void askReload(List<String> ammo, List<WeaponDetails> weapons) {
         printer.printReload();
         int parsed = this.parser.asyncParseInt (1);

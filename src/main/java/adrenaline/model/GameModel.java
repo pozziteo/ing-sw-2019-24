@@ -5,6 +5,7 @@ import adrenaline.data.data_for_client.responses_for_view.*;
 import adrenaline.model.deck.Ammo;
 import adrenaline.model.deck.OptionalEffect;
 import adrenaline.model.deck.Weapon;
+import adrenaline.model.deck.WeaponEffect;
 import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.map.NormalSquare;
 import adrenaline.model.map.SpawnPoint;
@@ -143,21 +144,24 @@ public class GameModel {
 
     public List<EffectDetails> createWeaponEffects(Weapon weapon) {
         List<EffectDetails> effects = new ArrayList<> ();
-        String type = weapon.getBaseEffect ().getTargets ().getType ();
-        String area = weapon.getBaseEffect ().getTargets ().getAreaType ();
-        int n = weapon.getBaseEffect ().getTargets ().getValue ();
-        EffectDetails effect = new EffectDetails ("base effect", false, false, type, n, area);
+        EffectDetails effect = new EffectDetails ("base effect", false, false, "", -1, "");
         effects.add(effect);
         for (OptionalEffect optEffect : weapon.getOptionalEffects ()) {
-            type = optEffect.getTargets ().getType ();
-            area = optEffect.getTargets ().getAreaType ();
-            n = optEffect.getTargets ().getValue ();
             boolean alternative = optEffect.isAlternativeMode ();
             boolean usable = optEffect.isUsableBeforeBase ();
-            effect = new EffectDetails ("optional effect", alternative, usable, type, n, area);
+            effect = new EffectDetails ("optional effect", alternative, usable, "", -1, "");
             effects.add(effect);
         }
         return effects;
+    }
+
+    public EffectDetails createEffectDetails(WeaponEffect effect) {
+        EffectDetails effectDetails;
+        String type = effect.getTargets ().getType ();
+        String area = effect.getTargets ().getAreaType ();
+        int n = effect.getTargets ().getValue ();
+        effectDetails = new EffectDetails ("", false, false, type, n, area);
+        return effectDetails;
     }
 
 }
