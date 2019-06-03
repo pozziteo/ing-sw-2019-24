@@ -24,6 +24,7 @@ public class Player {
     private ArrayList<PowerUp> ownedPowerUps;
     private int givenMarks;
     private Action[] performedActions;
+    private int deaths;
 
     public Player() {
 
@@ -35,6 +36,7 @@ public class Player {
         this.playerColor = color;
         this.playerBoard = new Board();
         this.pointTokens = 0;
+        this.deaths = 0;
         this.ownedWeapons = new ArrayList<>();
         this.ownedPowerUps = new ArrayList<>();
         this.performedActions = new Action[2];
@@ -65,6 +67,14 @@ public class Player {
 
     public String getPlayerColor() {
         return this.playerColor;
+    }
+
+    /**
+     *Getter method for player's deaths
+     * @return the number of deaths
+     */
+    public int getDeaths(){
+        return this.deaths;
     }
 
     /**
@@ -169,6 +179,13 @@ public class Player {
 
     public void setOwnedPowerUps(ArrayList<PowerUp> powerUpsList) {
         this.ownedPowerUps = powerUpsList;
+    }
+
+    /**
+     * Method that increments the number of deaths of this
+     */
+    public void addDeaths(){
+        this.deaths++;
     }
 
     /**
