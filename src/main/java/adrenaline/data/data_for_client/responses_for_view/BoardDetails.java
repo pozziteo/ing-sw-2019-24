@@ -5,6 +5,7 @@ import java.util.List;
 
 public class BoardDetails implements Serializable {
     private String nickname;
+    private String color;
     private int position;
     private List<WeaponDetails> loadedWeapons;
     private List<String> damageTaken;
@@ -13,8 +14,9 @@ public class BoardDetails implements Serializable {
     private List<String> ownedAmmo;
     private int[] pointsForKill;
 
-    public BoardDetails(String nickname, int pos, List<WeaponDetails> loadedWeapons, List<String> damage, List<String> marks, List<WeaponDetails> unloadedWeapons, List<String> ammo, int[] points) {
+    public BoardDetails(String nickname, String color, int pos, List<WeaponDetails> loadedWeapons, List<String> damage, List<String> marks, List<WeaponDetails> unloadedWeapons, List<String> ammo, int[] points) {
         this.nickname = nickname;
+        this.color = color;
         this.position = pos;
         this.loadedWeapons = loadedWeapons;
         this.damageTaken = damage;
@@ -26,6 +28,10 @@ public class BoardDetails implements Serializable {
 
     public String getNickname() {
         return this.nickname;
+    }
+
+    public String getColor() {
+        return this.color;
     }
 
     public int getPosition() {

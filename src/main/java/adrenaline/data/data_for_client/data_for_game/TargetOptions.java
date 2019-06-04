@@ -22,7 +22,7 @@ public class TargetOptions extends DataForClient {
         } else if (effect.getAreaType ().equals("") && effect.getTargetType ().equals("multiple")) {
             view.chooseMultipleTargets (effect.getTargetsAmount (), map);
         } else {
-            view.chooseAreaToTarget(effect.getAreaType (), map);
+            view.chooseAreaToTarget(effect.getAreaType (), effect.getTargetsAmount (), map);
         }
     }
 

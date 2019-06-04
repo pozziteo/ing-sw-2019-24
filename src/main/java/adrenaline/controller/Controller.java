@@ -8,6 +8,7 @@ import adrenaline.data.data_for_client.responses_for_view.WeaponDetails;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.exceptions.MustDiscardWeaponException;
 import adrenaline.exceptions.NotEnoughAmmoException;
+import adrenaline.exceptions.UnreachableTargetException;
 import adrenaline.model.GameModel;
 import adrenaline.model.deck.Ammo;
 import adrenaline.model.deck.OptionalEffect;
@@ -21,7 +22,6 @@ import adrenaline.utils.TimerThread;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Controller implements TimerCallBack {
@@ -364,8 +364,14 @@ public class Controller implements TimerCallBack {
         lobby.sendToSpecific (nickname, options);
     }
 
-    public void setSquareBasedTargets(String nickname, int id) {
-        ((Shoot) currentAction).setEffectTargets (id);
+    public void askDifferentTargets(String nickname) {
+        List<SquareDetails> map = gameModel.createSquareDetails ();
+        TargetOptions options = new TargetOptions (gameModel.createEffectDetails (((Shoot)currentAction).getEffectToApply ()), map);
+        lobby.sendToSpecific (nickname, options);
+    }
+
+    public void setSquareBasedTargets(String nickname, List<Integer> id) {
+        ((Shoot) currentAction).setEffectTargetAreas (id);
 
         if (((Shoot) currentAction).isEndAction ())
             checkNewTurn (nickname);
@@ -373,8 +379,8 @@ public class Controller implements TimerCallBack {
             lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (((Shoot) currentAction).getChosenWeapon ())));
     }
 
-    public void setRoomBasedTargets(String nickname, int id) {
-        ((Shoot) currentAction).setEffectTargets (id);
+    public void setRoomBasedTargets(String nickname, List<Integer> id) {
+        ((Shoot) currentAction).setEffectTargetAreas (id);
 
         if (((Shoot) currentAction).isEndAction ())
             checkNewTurn (nickname);
@@ -387,7 +393,12 @@ public class Controller implements TimerCallBack {
         for (String name : targetNames)
             targets.add(gameModel.getGame ().findByNickname (name));
 
-        ((Shoot)currentAction).setEffectTargets(targets);
+        try {
+            ((Shoot) currentAction).setEffectTargets (targets);
+        } catch (UnreachableTargetException e) {
+            lobby.sendToSpecific (nickname, new MessageForClient (e.getMessage ()));
+            askDifferentTargets (nickname);
+        }
 
         if (((Shoot) currentAction).isEndAction ())
             checkNewTurn (nickname);

@@ -34,7 +34,6 @@ public class TargetType {
     }
 
     private Type type;
-    private boolean all;
     private int value;
     private AreaType areaType;
     private ArrayList<String> constraints;
@@ -42,7 +41,6 @@ public class TargetType {
     protected TargetType() {
         this.type = Type.NONE;
         this.value = -1;
-        this.all = false;
         this.areaType = AreaType.NONE;
         this.constraints = new ArrayList<> ();
     }
@@ -55,23 +53,17 @@ public class TargetType {
         }
 
         if (targetValue.equals("")) {
-            this.all = false;
             this.value = -1;
-            this.areaType = AreaType.NONE;
-        } else if (targetValue.equals("all")) {
-            this.all = true;
-            this.value = -1;
-            if (areaType.equals("room"))
-                this.areaType = AreaType.ROOM;
-            else if (areaType.equals ("square"))
-                this.areaType = AreaType.SQUARE;
-            else
-                this.areaType = AreaType.NONE;
         } else {
-            this.all = false;
-            this.areaType = AreaType.NONE;
             this.value = Integer.parseInt(targetValue);
         }
+
+        if (areaType.equals("room"))
+            this.areaType = AreaType.ROOM;
+        else if (areaType.equals ("square"))
+            this.areaType = AreaType.SQUARE;
+        else
+            this.areaType = AreaType.NONE;
 
         this.constraints = new ArrayList<> (constraints);
     }
@@ -80,9 +72,6 @@ public class TargetType {
         return this.type.typeIdentifier;
     }
 
-    public boolean isAll() {
-        return this.all;
-    }
 
     public String getAreaType() {
         return this.areaType.typeIdentifier;

@@ -129,6 +129,7 @@ public class GameModel {
 
     private BoardDetails createBoardDetails(Player p) {
         String nickname = p.getPlayerName ();
+        String color = p.getPlayerColor ();
         int n = p.getPosition ().getSquareId ();
         List<String> damageTaken = p.getBoard ().getDamageTaken ();
         List<String> receivedMarks = p.getBoard ().getReceivedMarks ();
@@ -144,7 +145,7 @@ public class GameModel {
         for (Ammo a : p.getBoard ().getOwnedAmmo ())
             ownedAmmo.add(a.getColor ());
         int[] pointsForKill = p.getBoard ().getPointsForKill ();
-        return new BoardDetails (nickname, n, loadedWeapons, damageTaken, receivedMarks, unloadedWeapons, ownedAmmo, pointsForKill);
+        return new BoardDetails (nickname, color, n, loadedWeapons, damageTaken, receivedMarks, unloadedWeapons, ownedAmmo, pointsForKill);
     }
 
     public List<EffectDetails> createWeaponEffects(Weapon weapon) {

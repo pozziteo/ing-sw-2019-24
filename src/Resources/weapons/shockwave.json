@@ -36,7 +36,7 @@
       },
       "target": {
         "type": "multiple",
-        "value": "all",
+        "value": "",
         "areaType": "",
         "constraints": []
       },

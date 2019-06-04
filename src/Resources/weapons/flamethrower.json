@@ -37,7 +37,7 @@
       },
       "target": {
         "type": "multiple",
-        "value": "all",
+        "value": "2",
         "areaType": "square",
         "constraints": []
       },

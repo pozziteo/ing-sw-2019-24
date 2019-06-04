@@ -419,7 +419,7 @@ public class CliUserInterface implements UserInterface {
 
     public void chooseMultipleTargets(int maxAmount, List<SquareDetails> map) {
         List<String> players = printPlayersPositions (map);
-        printer.print("Choose your targets (please keep in mind to make your choice in the same order as the targets' descriptions | press " + (players.size ()+1) + " to finish beforehand): ");
+        printer.print("Choose your targets (please keep in mind that for weapons with multiple effects, these will be applied following the description's order | press " + (players.size ()+1) + " to finish beforehand): ");
         List<String> targets = new LinkedList<> ();
         int amountChosen = 0;
         while (amountChosen < maxAmount) {
@@ -439,13 +439,21 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
-    public void chooseAreaToTarget(String area, List<SquareDetails> map) {
+    public void chooseAreaToTarget(String area, int amount, List<SquareDetails> map) {
         printPlayersPositions (map);
+        List<Integer> targetSquares = new ArrayList<> ();
         DataForServer response;
-        printer.print("Type the id of the square you want to target/the id of a square in the room you want to target: ");
-        int parsed = parser.asyncParseInt (map.size()-1);
-        if (parsed != -1) {
-            response = new ChosenTargets (nickname, parsed, area);
+        int amountChosen = 0;
+        while (amountChosen < amount) {
+            printer.print ("Type the id of the square you want to target/the id of a square in the room you want to target (" + (amount-amountChosen) + " left):");
+            int parsed = parser.asyncParseInt (map.size ( ));
+            if (parsed != -1) {
+                amountChosen++;
+                targetSquares.add(parsed);
+            }
+        }
+        if (amountChosen > 0) {
+            response = new ChosenTargets (nickname, targetSquares, area);
             sendToServer (response);
         }
     }

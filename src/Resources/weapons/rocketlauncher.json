@@ -51,7 +51,7 @@
       "additionalCost": ["Yellow"],
       "target": {
         "type": "multiple",
-        "value": "all",
+        "value": "1",
         "areaType": "square",
         "constraints": [
           "on base target position"

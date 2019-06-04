@@ -39,8 +39,8 @@
       },
       "target": {
         "type": "single",
-        "value": "",
-        "areaType": "",
+        "value": "1",
+        "areaType": "square",
         "constraints": []
       },
       "effects": [
