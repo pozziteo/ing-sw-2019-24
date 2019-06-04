@@ -365,7 +365,7 @@ public class Controller implements TimerCallBack {
     }
 
     public void setSquareBasedTargets(String nickname, int id) {
-        ((Shoot) currentAction).setEffectTargets ();
+        ((Shoot) currentAction).setEffectTargets (id);
 
         if (((Shoot) currentAction).isEndAction ())
             checkNewTurn (nickname);
@@ -374,7 +374,7 @@ public class Controller implements TimerCallBack {
     }
 
     public void setRoomBasedTargets(String nickname, int id) {
-        ((Shoot) currentAction).setEffectTargets ();
+        ((Shoot) currentAction).setEffectTargets (id);
 
         if (((Shoot) currentAction).isEndAction ())
             checkNewTurn (nickname);
@@ -382,8 +382,12 @@ public class Controller implements TimerCallBack {
             lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (((Shoot) currentAction).getChosenWeapon ())));
     }
 
-    public void setTargets(String nickname) {
-        ((Shoot)currentAction).setEffectTargets();
+    public void setTargets(String nickname, List<String> targetNames) {
+        List<Player> targets = new ArrayList<> ();
+        for (String name : targetNames)
+            targets.add(gameModel.getGame ().findByNickname (name));
+
+        ((Shoot)currentAction).setEffectTargets(targets);
 
         if (((Shoot) currentAction).isEndAction ())
             checkNewTurn (nickname);
