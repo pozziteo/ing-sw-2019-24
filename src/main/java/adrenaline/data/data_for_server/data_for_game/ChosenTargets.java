@@ -32,6 +32,6 @@ public class ChosenTargets extends DataForServer implements DataForController {
             else
                 controller.setSquareBasedTargets(super.getNickname (), squareId);
         } else
-            controller.setTargets (super.getNickname ());
+            controller.setTargets (super.getNickname (), targets);
     }
 }

@@ -1,5 +1,6 @@
 package adrenaline.model.player;
 
+import adrenaline.model.deck.AtomicWeaponEffect;
 import adrenaline.model.deck.Weapon;
 import adrenaline.model.deck.WeaponEffect;
 
@@ -40,12 +41,17 @@ public class Shoot implements Action {
         this.effects.add(effect);
     }
 
-    public void setEffectTargets() {
-
+    public void setEffectTargets(int id) {
+        for (AtomicWeaponEffect atomicEffect : effects.getLast ().getEffects ()) {
+            atomicEffect.applyEffect (attacker, null, id);
+        }
     }
 
-    public void setEffectTargets(List<String> targetNames) {
-        //this.effects.getLast().useEffect (attacker, );
+    public void setEffectTargets(List<Player> targets) {
+        for (AtomicWeaponEffect atomicEffect : effects.getLast ().getEffects ()) {
+            for (Player target : targets)
+             atomicEffect.applyEffect (attacker, target, null);
+        }
     }
 
     public boolean isEndAction() {
