@@ -409,7 +409,10 @@ public class CliUserInterface implements UserInterface {
         int parsed = parser.asyncParseInt (players.size () + 1);
         if (parsed != -1) {
             if (parsed != players.size () + 1) {
-
+                List<String> target = new ArrayList<>();
+                target.add(players.get(parsed-1));
+                DataForServer response = new ChosenTargets(nickname, target);
+                sendToServer(response);
             }
         }
     }
