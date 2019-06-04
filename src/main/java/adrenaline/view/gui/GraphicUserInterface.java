@@ -9,7 +9,6 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class GraphicUserInterface extends Application {
@@ -27,7 +26,6 @@ public class GraphicUserInterface extends Application {
         primaryStage.setTitle("Adrenaline Launcher");
         primaryStage.setResizable(false);
         primaryStage.setAlwaysOnTop(true);
-        primaryStage.initStyle(StageStyle.UNIFIED);
         primaryStage.centerOnScreen();
 
         controller = GUIController.createController(primaryStage);

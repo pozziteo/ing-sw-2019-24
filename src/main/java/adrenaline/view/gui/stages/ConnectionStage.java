@@ -14,7 +14,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.FileNotFoundException;
 import java.rmi.RemoteException;
 
 public class ConnectionStage {
@@ -23,7 +22,7 @@ public class ConnectionStage {
     private ClientInterface client;
     private Scene connectionScene;
 
-    public ConnectionStage() throws FileNotFoundException {
+    public ConnectionStage() {
         GridPane grid = new GridPane();
         grid.setId("grid");
 
@@ -67,8 +66,8 @@ public class ConnectionStage {
         pane.requestFocus();
     }
 
-    public ClientInterface getConnection(Stage owner) {
-        owner.setScene(connectionScene);
+    public ClientInterface getConnection() {
+        GUIController.getController().setCurrentScene(connectionScene);
         stage = new Stage(StageStyle.TRANSPARENT);
         stage.sizeToScene();
         stage.toBack();

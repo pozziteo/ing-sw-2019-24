@@ -36,3 +36,10 @@
     -fx-font-family: "AR DARLING";
     -fx-font-size: 30;
 }
+
+#map_button {
+    -fx-pref-height: 70;
+    -fx-pref-width: 200;
+    -fx-font-family: "AR DARLING";
+    -fx-font-size: 20;
+}
