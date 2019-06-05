@@ -34,7 +34,7 @@ public class Player {
         this.game = game;
         this.playerName = playerName;
         this.playerColor = color;
-        this.playerBoard = new Board();
+        this.playerBoard = new Board(this);
         this.pointTokens = 0;
         this.deaths = 0;
         this.ownedWeapons = new ArrayList<>();
@@ -309,5 +309,12 @@ public class Player {
             }
         }
         return weapon;
+    }
+
+    protected void deathEvent(){
+        if(this.getBoard().getDamageTaken().size()==12){
+            this.getGame().overKill(this);
+        }
+        this.getGame().givePoints(this);
     }
 }
