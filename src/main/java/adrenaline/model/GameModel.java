@@ -3,10 +3,7 @@ package adrenaline.model;
 import adrenaline.data.data_for_client.responses_for_view.fake_model.EffectDetails;
 import adrenaline.data.data_for_client.responses_for_view.*;
 import adrenaline.data.data_for_client.responses_for_view.fake_model.*;
-import adrenaline.model.deck.Ammo;
-import adrenaline.model.deck.OptionalEffect;
-import adrenaline.model.deck.Weapon;
-import adrenaline.model.deck.WeaponEffect;
+import adrenaline.model.deck.*;
 import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.map.NormalSquare;
 import adrenaline.model.map.SpawnPoint;
@@ -164,7 +161,8 @@ public class GameModel {
 
     public List<TargetDetails> createTargetDetails(WeaponEffect effect) {
         List<TargetDetails> targets = new ArrayList<> ();
-
+        for (TargetType type : effect.getTargets ())
+            targets.add(new TargetDetails (type.getTargetValue (), type.isAreaType (), type.getMovements ()));
         return targets;
     }
 

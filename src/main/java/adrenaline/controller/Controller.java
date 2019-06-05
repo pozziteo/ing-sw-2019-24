@@ -6,6 +6,7 @@ import adrenaline.data.data_for_client.data_for_network.MessageForClient;
 import adrenaline.data.data_for_client.responses_for_view.fake_model.EffectDetails;
 import adrenaline.data.data_for_client.responses_for_view.fake_model.SquareDetails;
 import adrenaline.data.data_for_client.responses_for_view.fake_model.WeaponDetails;
+import adrenaline.data.data_for_server.data_for_game.AtomicTarget;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.exceptions.MustDiscardWeaponException;
 import adrenaline.exceptions.NotEnoughAmmoException;
@@ -382,11 +383,7 @@ public class Controller implements TimerCallBack {
             lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (((Shoot) currentAction).getChosenWeapon ())));
     }
 
-    public void setTargets(String nickname, List<String> targetNames) {
-        List<Player> targets = new ArrayList<> ();
-        for (String name : targetNames)
-            targets.add(gameModel.getGame ().findByNickname (name));
-
+    public void setTargets(String nickname, List<AtomicTarget> targets) {
         try {
             ((Shoot) currentAction).setEffectTargets (targets);
         } catch (UnreachableTargetException e) {

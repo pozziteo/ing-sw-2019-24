@@ -18,7 +18,7 @@ public class TargetOptions extends DataForClient {
 
     @Override
     public void updateView(CliUserInterface view) {
-
+        view.chooseTargets (targets, map);
     }
 
 }

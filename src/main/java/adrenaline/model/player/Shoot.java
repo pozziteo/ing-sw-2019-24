@@ -1,10 +1,12 @@
 package adrenaline.model.player;
 
+import adrenaline.data.data_for_server.data_for_game.AtomicTarget;
 import adrenaline.exceptions.UnreachableTargetException;
 import adrenaline.model.deck.AtomicWeaponEffect;
 import adrenaline.model.deck.Weapon;
 import adrenaline.model.deck.WeaponEffect;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -54,20 +56,33 @@ public class Shoot implements Action {
         }
     }
 
-    public void setEffectTargets(List<Player> targets) throws UnreachableTargetException {
-        for (AtomicWeaponEffect atomicEffect : effects.getLast ().getEffects ()) {
-            for (Player target : targets) {
-                if (checkTargetRequirements()) {
-                    atomicEffect.applyEffect (attacker, target, (Integer[]) null);
-                } else {
-                    throw new UnreachableTargetException();
-                }
+    public void setEffectTargets(List<AtomicTarget> targets) throws UnreachableTargetException {
+        if (targets.size() == 1) {
+            //apply every atomic effect to target.get(0)
+            setAtomicTargets (0, targets.get(0));
+        } else {
+            //apply one atomic effect per target
+            int i = 0;
+            for (AtomicTarget target : targets) {
+                setAtomicTargets (i, target);
             }
         }
     }
 
-    private boolean checkTargetRequirements() {
-        return true;
+    private void setAtomicTargets(int n, AtomicTarget target) throws UnreachableTargetException {
+        if (target.getTargetNames () == null && target.getSquareId () == -1) {
+            if (checkTargetRequirements (0))
+                for (AtomicWeaponEffect atomicEffect : effects.getLast ().getEffects ())
+                    atomicEffect.applyEffect (attacker, null, (Integer[])null);
+            else
+                throw new UnreachableTargetException ();
+        } else if (target.getTargetNames () == null && target.getSquareId () != -1) {
+
+        }
+    }
+
+    private boolean checkTargetRequirements(int n) {
+        return effects.getLast ().getTargets ().get(n).isCompliantTargets (attacker, null);
     }
 
     public boolean isEndAction() {

@@ -213,47 +213,40 @@ public class CliUserInterface implements UserInterface {
                     case 5:
                         request = new MapRequest (nickname);
                         sendToServer (request);
-                        try {
-                            Thread.currentThread ( ).sleep ((long) ConfigFileReader.readConfigFile("cliThread"));
-                        } catch (InterruptedException e) {
-                            Thread.currentThread ().interrupt ();
-                        }
+                        putThreadToSleep ();
                         break;
                     case 6:
                         request = new SquareDetailsRequest (nickname);
                         sendToServer (request);
-                        try {
-                            Thread.currentThread ( ).sleep ((long) ConfigFileReader.readConfigFile("cliThread"));
-                        } catch (InterruptedException e) {
-                            Thread.currentThread ().interrupt ();
-                        }
+                        putThreadToSleep ();
                         break;
                     case 7:
                         request = new MyBoardRequest (nickname);
                         sendToServer (request);
+                        putThreadToSleep ();
                         break;
                     case 8:
                         request = new BoardsRequest (nickname);
                         sendToServer (request);
-                        try {
-                            Thread.currentThread ( ).sleep ((long) ConfigFileReader.readConfigFile("cliThread"));
-                        } catch (InterruptedException e) {
-                            Thread.currentThread ().interrupt ();
-                        }
+                        putThreadToSleep ();
                         break;
                     case 9:
                         request = new RankingRequest (nickname);
                         sendToServer (request);
-                        try {
-                            Thread.currentThread ( ).sleep ((long) ConfigFileReader.readConfigFile("cliThread"));
-                        } catch (InterruptedException e) {
-                            Thread.currentThread ().interrupt ();
-                        }
+                        putThreadToSleep ();
                         break;
                     default:
                         break;
                 }
             }
+        }
+    }
+
+    private void putThreadToSleep() {
+        try {
+            Thread.sleep ((long) ConfigFileReader.readConfigFile("cliThread"));
+        } catch (InterruptedException e) {
+            Thread.currentThread ().interrupt ();
         }
     }
 
@@ -403,59 +396,78 @@ public class CliUserInterface implements UserInterface {
         return players;
     }
 
-    public void chooseSingleTarget(List<SquareDetails> map) {
-        List<String> players = printPlayersPositions (map);
-        printer.print("Choose your target: \n(press " + (players.size ()+1) + " to finish)");
-        int parsed = parser.asyncParseInt (players.size () + 1);
-        if (parsed != -1) {
-            if (parsed != players.size () + 1) {
-                List<String> target = new ArrayList<>();
-                target.add(players.get(parsed-1));
-                DataForServer response = new ChosenTargets(nickname, target, null);
-                sendToServer(response);
-            }
+    public void chooseTargets(List<TargetDetails> targets, List<SquareDetails> map) {
+        List<AtomicTarget> chosenTargets = new ArrayList<> ();
+        AtomicTarget atomicTarget = null;
+        for (TargetDetails target : targets) {
+            if (target.getValue () != -1)
+                //normal targets (single or multiple)
+                atomicTarget = chooseTargets (target.getValue (), target.getMovements (), map);
+            else if (target.getValue () == -1 && target.isArea ())
+                //area based damage (square or room)
+                atomicTarget = chooseAreaToTarget (map);
+            else if (target.getValue () == -1 && !target.isArea () && target.getMovements () == -1)
+                //effect only needs to be applied, no player options
+                atomicTarget = new AtomicTarget (null, -1);
+            else if (target.getValue () == -1 && !target.isArea () && target.getMovements () > 0)
+                //movement applied to attacker
+                atomicTarget = chooseHowManyMovements(target.getMovements (), map);
+            //quit the loop if the timer runs out during one of the phases of target building
+            if (atomicTarget == null)
+                break;
+            else
+                chosenTargets.add(atomicTarget);
         }
+        sendToServer (new ChosenTargets (nickname, chosenTargets));
     }
 
-    public void chooseMultipleTargets(int maxAmount, List<SquareDetails> map) {
+    private AtomicTarget chooseTargets(int maxAmount, int movements, List<SquareDetails> map) {
         List<String> players = printPlayersPositions (map);
         printer.print("Choose your targets (please keep in mind that for weapons with multiple effects, these will be applied following the description's order | press " + (players.size ()+1) + " to finish beforehand): ");
         List<String> targets = new LinkedList<> ();
         int amountChosen = 0;
         while (amountChosen < maxAmount) {
             printer.printChooseTargets (maxAmount - amountChosen);
-            int parsed = this.parser.asyncParseInt (players.size ()+1);
+            int parsed = this.parser.asyncParseInt (players.size () + 1);
             if (parsed != -1) {
                 if (parsed != players.size ()+1) {
                     amountChosen++;
                     targets.add (players.get (parsed - 1));
-                } else
-                    break;
-            }
+                }
+            } else
+                return null;
         }
         if (amountChosen > 0) {
-            DataForServer chosenTargets = new ChosenTargets (nickname, targets, null);
-            sendToServer (chosenTargets);
-        }
+            if (movements != -1) {
+                printer.print ("Choose the square you want to move the targets to (max distance of " + movements + "):");
+                int parsed = this.parser.asyncParseInt (map.size ( ));
+                if (parsed == -1)
+                    return null;
+                return new AtomicTarget (targets, parsed);
+            }
+            return new AtomicTarget (targets, -1);
+        } else
+            return null;
     }
 
-    public void chooseAreaToTarget(int amount, List<SquareDetails> map) {
+    private AtomicTarget chooseAreaToTarget(List<SquareDetails> map) {
         printPlayersPositions (map);
-        List<Integer> targetSquares = new ArrayList<> ();
-        DataForServer response;
-        int amountChosen = 0;
-        while (amountChosen < amount) {
-            printer.print ("Type the id of the square you want to target/the id of a square in the room you want to target (" + (amount-amountChosen) + " left):");
-            int parsed = parser.asyncParseInt (map.size ( ));
-            if (parsed != -1) {
-                amountChosen++;
-                targetSquares.add(parsed);
-            }
-        }
-        if (amountChosen > 0) {
-            response = new ChosenTargets (nickname, null, targetSquares);
-            sendToServer (response);
-        }
+        printer.print ("Type the id of the square you want to target/the id of a square in the room you want to target: ");
+        int parsed = parser.asyncParseInt (map.size ( ));
+        if (parsed != -1) {
+            return new AtomicTarget (null, parsed);
+        } else
+            return null;
+    }
+
+    private AtomicTarget chooseHowManyMovements(int max, List<SquareDetails> map) {
+        printPlayersPositions (map);
+        printer.print("Choose the square you want to move to (max distance of " + max + "):");
+        int parsed = parser.asyncParseInt (map.size ( ));
+        if (parsed != -1) {
+            return new AtomicTarget (null, parsed);
+        } else
+            return null;
     }
 
     public void askReload(List<String> ammo, List<WeaponDetails> weapons) {

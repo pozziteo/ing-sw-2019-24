@@ -37,18 +37,15 @@ public class TargetType {
         return this.constraints;
     }
 
-    public Targets findCompliantTargets(Player attacker, List<Player> players) {
-        Targets targets;
-
-        targets = new Targets(targetValue);
+    public boolean isCompliantTargets(Player attacker, List<Player> players) {
         for (String s : constraints) {
-            applyConstraints (s, attacker, players);
+            if (!applyConstraints (s, attacker, players))
+                return false;
         }
-
-        return targets;
+        return true;
     }
 
-    private void applyConstraints(String constraint, Player attacker, List<Player> players) {
+    private boolean applyConstraints(String constraint, Player attacker, List<Player> players) {
         switch (constraint) {
 
             case "square different from current position":
@@ -111,8 +108,12 @@ public class TargetType {
                 //TODO
                 break;
 
+            case "everyone around user":
+                break;
+
             default:
                 break;
         }
+        return false;
     }
 }
