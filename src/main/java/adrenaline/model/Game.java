@@ -343,7 +343,7 @@ public class Game implements Serializable {
      */
     public void givePoints(Player deadPlayer){
         List<Player> toCompute = new ArrayList<>();
-        List<Player> sortedPlayers;
+        List<Player> sortedPlayers = new ArrayList<>();
         int point;
 
         //assegno punteggio a point(punteggio max guadagnabile) in base a quante morti ha il giocatore morto
@@ -362,25 +362,40 @@ public class Game implements Serializable {
 
         //aggiungo in giocatori che fanno almeno un danno in 'toCompute'
         for (Player p: players){
-            if(deadPlayer.getBoard().getDamageAmountGivenByPlayer(p) > 0) {
+            if(deadPlayer.getBoard().getDamageAmountGivenByPlayer(p) >= 1) {
                 toCompute.add(p);
             }
+        }
+        for(Player p: toCompute){
+            System.out.println(p.getPlayerColor() + " is in toCompute");
         }
         //ordino tutti i giocatori in base al numero di danni inflitti
         sortedPlayers = sortPlayerByHits(toCompute, deadPlayer);
 
+        sortedPlayers = removeDuplicates(sortedPlayers);
+
         //al primo giocatore assegno il massimo, al secondo 2 in meno e cosi` via
+        System.out.println("Sortedplayers list prima dei punti: ");
+        for(Player p: sortedPlayers){
+            System.out.println(p.getPlayerColor() + " is: " + p.getPlayerName());
+        }
+
         for(Player p: sortedPlayers){
             if (deadPlayer.getBoard().isFirstBlood(p)) {
                 p.addPointTokens(1);
             }
             p.addPointTokens(point);
-            if (point == 2)
-                point -= 1;
-            else if (point == 1)
-                point = point;
-            else
-                point -= 2;
+            switch (point){
+                case 1:
+                    break;
+                case 2:
+                    point = point-1;
+                    break;
+                default:
+                    point = point-2;
+                    break;
+            }
+            System.out.println(p.getPlayerColor() + ": " + p.getPointTokens() +" punti");
         }
         //aggiunge una morte al 'deadPlayer'
         deadPlayer.addDeaths();
@@ -396,21 +411,37 @@ public class Game implements Serializable {
         List<Player> list = new ArrayList<>();
         List<Player> tiedPlayers = new ArrayList<>();
         List<Player> finalList;
+        Collections.reverse(toCompute);
         for (int i =0; i<toCompute.size(); i++){
             for (Player p: toCompute){
                 for(Player p1: toCompute.subList(toCompute.indexOf(p)+1, toCompute.size())){
                     if(deadPlayer.getBoard().getDamageAmountGivenByPlayer(p)==deadPlayer.getBoard().getDamageAmountGivenByPlayer(p1)){
-                        tiedPlayers.add(p);
                         tiedPlayers.add(p1);
+                        tiedPlayers.add(p);
                     }else if(deadPlayer.getBoard().getDamageAmountGivenByPlayer(p)>deadPlayer.getBoard().getDamageAmountGivenByPlayer(p1)) {
+                        list.add(p);
+                        list.add(p1);
                         list.set(i, p);
+                        list.set(i+1, p1);
+                        if(tiedPlayers.contains(p))
+                            list.remove(p);
+                        if(tiedPlayers.contains(p1))
+                            list.remove(p1);
                     }else {
+                        list.add(p1);
                         list.set(i, p1);
+                        if(tiedPlayers.contains(p1))
+                            list.remove(p1);
+
                     }
                 }
             }
         }
-        tiedPlayers = tiedPlayers.stream().distinct().collect(Collectors.toList());
+        list = removeDuplicates(list);
+        for(Player p: list){
+            System.out.println(p.getPlayerColor() + " is in list");
+        }
+        tiedPlayers = removeDuplicates(tiedPlayers);
         List<Player> tiedPlayersFinal = compareTiedPlayers(tiedPlayers, deadPlayer);
         finalList = mergeArrays(tiedPlayersFinal, list, deadPlayer);
         return finalList;
@@ -434,6 +465,10 @@ public class Game implements Serializable {
                     tiedPlayers.set(i, p);
             }
         }
+        System.out.println("lista di giocatori pari: ");
+        for(Player p: tiedPlayers){
+            System.out.println(p.getPlayerColor());
+        }
         return tiedPlayers;
     }
 
@@ -453,5 +488,15 @@ public class Game implements Serializable {
                     break;
                 }
         return list;
+    }
+
+    private static List<Player> removeDuplicates(List<Player> list) {
+        List<Player> newList = new ArrayList<>();
+        for (Player element : list) {
+            if (!newList.contains(element)) {
+                newList.add(element);
+            }
+        }
+        return newList;
     }
 }

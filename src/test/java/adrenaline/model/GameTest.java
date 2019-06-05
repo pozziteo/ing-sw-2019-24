@@ -20,6 +20,28 @@ public class GameTest {
     private Player p5 = game.getPlayers ().get(4);
 
     @Test
+    void testPoints(){
+        System.out.println("p4 is " +p4.getPlayerColor());
+        System.out.println("p2 is " +p2.getPlayerColor());
+        System.out.println("p3 is " +p3.getPlayerColor());
+        System.out.println("p5 is " +p5.getPlayerColor());
+        p1.getBoard().gotHit(2, p2); //p2 ha 2 colpi
+        p1.getBoard().gotHit(5, p3); //p3 ha 4 colpi
+        p1.getBoard().gotHit(2, p4); //p4 ha 2 colpi
+        p1.getBoard().gotHit(2, p5); //p5 ha 3 colpi
+//        p1.getBoard().gotHit(1, p2);
+//        p1.getBoard().gotHit(3, p3);
+//        p1.getBoard().gotHit(1, p4);
+//        p1.getBoard().gotHit(1, p3);
+        System.out.println("Array di p1: "+p1.getBoard().getDamageTaken());
+        game.givePoints(p1);
+        System.out.println("p2: "+p2.getPointTokens());
+        System.out.println("p3: "+p3.getPointTokens());
+        System.out.println("p4: "+p4.getPointTokens());
+        System.out.println("p5: "+p5.getPointTokens());
+    }
+
+    @Test
     public void testID() {
         assertTrue (this.game.getGameID () != (new Random().nextInt() * 1000000));
     }
