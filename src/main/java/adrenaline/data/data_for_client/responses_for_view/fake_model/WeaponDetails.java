@@ -1,4 +1,4 @@
-package adrenaline.data.data_for_client.responses_for_view;
+package adrenaline.data.data_for_client.responses_for_view.fake_model;
 
 import java.io.Serializable;
 import java.util.List;

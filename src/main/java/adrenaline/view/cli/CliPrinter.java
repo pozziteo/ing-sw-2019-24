@@ -1,10 +1,9 @@
 package adrenaline.view.cli;
 
 import adrenaline.data.data_for_client.data_for_game.EffectDetails;
-import adrenaline.data.data_for_client.responses_for_view.*;
+import adrenaline.data.data_for_client.responses_for_view.fake_model.*;
 import org.fusesource.jansi.AnsiConsole;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -322,7 +321,7 @@ public class CliPrinter {
             print("You have no weapons");
         else {
             for (int i = 0; i < weapons.size ( ); i++) {
-                print ((i + 1) + " - " + ANSI_RED + weapons.get (i).getName ( ) + ANSI_RESET + ": " + weapons.get (i).getDescription ( ) + "(cost to reload :" + weapons.get (i).getAmmoCost ( ) + ")\n");
+                print ((i + 1) + " - " + ANSI_PURPLE + weapons.get (i).getName ( ) + ANSI_RESET + ": " + weapons.get (i).getDescription ( ) + "(cost to reload :" + weapons.get (i).getAmmoCost ( ) + ")\n");
             }
         }
     }
@@ -376,14 +375,38 @@ public class CliPrinter {
     }
 
     synchronized void printBoard(BoardDetails board) {
-        print(board.getNickname () + "'s board: ");
+        String color = "";
+        switch (board.getColor ()) {
+            case "Red":
+                color = ANSI_RED;
+                break;
+            case "Blue":
+                color = ANSI_BLUE;
+                break;
+            case "Yellow":
+                color = ANSI_YELLOW;
+                break;
+            case "Green":
+                color = ANSI_GREEN;
+                break;
+            case "Grey":
+                color = ANSI_WHITE;
+                break;
+            default:
+                break;
+        }
+        print(color + board.getNickname () + ANSI_RESET + "'s board: ");
+        print("- color: " + board.getColor ());
         print("- on square: " + board.getPosition ());
-        print("- loaded weapons: " + board.getLoadedWeapons ());
+        print("- loaded weapons: " );
+        printWeaponList (board.getLoadedWeapons ());
         print("- damage taken: " + board.getDamageTaken ());
         print("- marks received: " + board.getReceivedMarks ());
-        print("- unloaded weapons: " + board.getUnloadedWeapons ());
+        print("- unloaded weapons: " );
+        printWeaponList (board.getUnloadedWeapons ());
         print("- owned ammo: " + board.getOwnedAmmo ());
         //print("- points: " + board.getPointsForKill ());
+        print("\n");
     }
 
     synchronized void printReload() {

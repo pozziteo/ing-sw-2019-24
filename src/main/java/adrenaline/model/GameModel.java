@@ -2,6 +2,7 @@ package adrenaline.model;
 
 import adrenaline.data.data_for_client.data_for_game.EffectDetails;
 import adrenaline.data.data_for_client.responses_for_view.*;
+import adrenaline.data.data_for_client.responses_for_view.fake_model.*;
 import adrenaline.model.deck.Ammo;
 import adrenaline.model.deck.OptionalEffect;
 import adrenaline.model.deck.Weapon;

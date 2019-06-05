@@ -1,7 +1,7 @@
 package adrenaline.data.data_for_client.data_for_game;
 
 import adrenaline.data.data_for_client.DataForClient;
-import adrenaline.data.data_for_client.responses_for_view.WeaponDetails;
+import adrenaline.data.data_for_client.responses_for_view.fake_model.WeaponDetails;
 import adrenaline.view.cli.CliUserInterface;
 
 import java.util.List;

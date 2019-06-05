@@ -66,7 +66,7 @@ public class Shoot implements Action {
         }
     }
 
-    public boolean checkTargetRequirements() {
+    private boolean checkTargetRequirements() {
         return true;
     }
 
@@ -77,9 +77,4 @@ public class Shoot implements Action {
     public void setEndAction(boolean value) {
         this.endAction = value;
     }
-
-    public void performAttack(Player attacker, List<Player> targets, Weapon weapon) {
-
-    }
-
 }

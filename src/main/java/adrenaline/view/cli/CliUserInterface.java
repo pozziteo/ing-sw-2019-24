@@ -2,7 +2,7 @@ package adrenaline.view.cli;
 
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_client.data_for_game.EffectDetails;
-import adrenaline.data.data_for_client.responses_for_view.*;
+import adrenaline.data.data_for_client.responses_for_view.fake_model.*;
 import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.*;
 import adrenaline.data.data_for_server.data_for_network.AccountSetUp;
@@ -411,7 +411,7 @@ public class CliUserInterface implements UserInterface {
             if (parsed != players.size () + 1) {
                 List<String> target = new ArrayList<>();
                 target.add(players.get(parsed-1));
-                DataForServer response = new ChosenTargets(nickname, target);
+                DataForServer response = new ChosenTargets(nickname, target, null);
                 sendToServer(response);
             }
         }
@@ -434,12 +434,12 @@ public class CliUserInterface implements UserInterface {
             }
         }
         if (amountChosen > 0) {
-            DataForServer chosenTargets = new ChosenTargets (nickname, targets);
+            DataForServer chosenTargets = new ChosenTargets (nickname, targets, null);
             sendToServer (chosenTargets);
         }
     }
 
-    public void chooseAreaToTarget(String area, int amount, List<SquareDetails> map) {
+    public void chooseAreaToTarget(int amount, List<SquareDetails> map) {
         printPlayersPositions (map);
         List<Integer> targetSquares = new ArrayList<> ();
         DataForServer response;
@@ -453,7 +453,7 @@ public class CliUserInterface implements UserInterface {
             }
         }
         if (amountChosen > 0) {
-            response = new ChosenTargets (nickname, targetSquares, area);
+            response = new ChosenTargets (nickname, null, targetSquares);
             sendToServer (response);
         }
     }
