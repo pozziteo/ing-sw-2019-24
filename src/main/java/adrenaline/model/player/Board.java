@@ -17,8 +17,10 @@ public class Board {
     private ArrayList<Weapon> unloadedWeapons;
     private ArrayList<Ammo> ownedAmmo;
     private int[] pointsForKill;
+    private Player player;
 
-    public Board() {
+    public Board(Player player) {
+        this.player = player;
         this.damageTaken = new ArrayList<>();
         this.receivedMarks = new ArrayList<>();
         this.unloadedWeapons = new ArrayList<>();
@@ -124,6 +126,11 @@ public class Board {
     public void gotHit(int amount, Player inflictedByPlayer) {
         for (int i = 0; i < amount; i++) {
             setDamageTaken (inflictedByPlayer);
+        }
+        if (this.getDamageTaken().size()>10) {
+            this.player.deathEvent();
+            this.getDamageTaken().clear();
+            //TODO respawn and invulnerability for deadPlayer in respawn's room
         }
     }
 
