@@ -59,14 +59,14 @@ public class Game implements Serializable {
         this.currentTurn = 0;
         this.finalFrenzy = false;
         this.skullsRemaining = 8;
-        this.players = new ArrayList<> ();
-        this.ranking = new ArrayList<> ();
+        this.players = new ArrayList<>();
+        this.ranking = new ArrayList<>();
         this.endGame = false;
-        this.currentTurnActions = new ArrayList<> ();
+        this.currentTurnActions = new ArrayList<>();
 
-        this.weaponsDeck = new WeaponsDeckCreator ().createDeck();
+        this.weaponsDeck = new WeaponsDeckCreator().createDeck();
         this.powerUpsDeck = new PowerUpsDeckCreator().createDeck();
-        this.tilesDeck = new TilesDeckCreator ().createDeck();
+        this.tilesDeck = new TilesDeckCreator().createDeck();
 
         List<PlayerColor> colors = Arrays.asList(PlayerColor.values());
         Collections.shuffle(colors);
@@ -74,25 +74,25 @@ public class Game implements Serializable {
         int n = playerNames.length;
 
         while (n > 0) {
-            Player p = new Player(playerNames[n-1], this, colors.get(n-1).getColor());
-            p.getOwnedPowerUps ().add ((PowerUp) this.powerUpsDeck.drawCard ());
-            p.getOwnedPowerUps ().add ((PowerUp) this.powerUpsDeck.drawCard ());
+            Player p = new Player(playerNames[n - 1], this, colors.get(n - 1).getColor());
+            p.getOwnedPowerUps().add((PowerUp) this.powerUpsDeck.drawCard());
+            p.getOwnedPowerUps().add((PowerUp) this.powerUpsDeck.drawCard());
             this.players.add(p);
             n--;
         }
 
         this.ranking.addAll(players);
-        this.firstPlayer = this.players.get (0);
+        this.firstPlayer = this.players.get(0);
     }
 
     public void startGame() {
-        for (Square square : map.getArena ()) {
+        for (Square square : map.getArena()) {
             if (square.isSpawnPoint()) {
                 for (int i = 0; i < 3; i++) {
-                    ((SpawnPoint) square).setWeapons ((Weapon) weaponsDeck.drawCard ());
+                    ((SpawnPoint) square).setWeapons((Weapon) weaponsDeck.drawCard());
                 }
             } else {
-                ((NormalSquare) square).setPlacedTile ((Tile) tilesDeck.drawCard ());
+                ((NormalSquare) square).setPlacedTile((Tile) tilesDeck.drawCard());
             }
         }
     }
@@ -103,6 +103,7 @@ public class Game implements Serializable {
 
     /**
      * Getter method to obtain the current game's id
+     *
      * @return gameId
      */
 
@@ -112,11 +113,12 @@ public class Game implements Serializable {
 
     /**
      * Getter method to obtain the turn number in a game
+     *
      * @return turn number
      */
 
     public int getCurrentTurn() {
-        if (currentTurn < players.size ())
+        if (currentTurn < players.size())
             return currentTurn;
         else
             currentTurn = 0;
@@ -124,13 +126,14 @@ public class Game implements Serializable {
     }
 
     public void incrementTurn() {
-        this.currentTurnActions = new ArrayList<> ();
+        this.currentTurnActions = new ArrayList<>();
         replaceEmptySlots();
         this.currentTurn++;
     }
 
     /**
      * Getter method to obtain the arena for a game
+     *
      * @return arena
      */
 
@@ -141,6 +144,7 @@ public class Game implements Serializable {
 
     /**
      * Getter method to obtain the list of players in a game
+     *
      * @return players
      */
 
@@ -151,6 +155,7 @@ public class Game implements Serializable {
     /**
      * Getter method to know how many kills can still be made before the game is ended
      * If skullsRemaining == 0 the game is ended
+     *
      * @return number of remaining skulls
      */
 
@@ -163,6 +168,7 @@ public class Game implements Serializable {
 
     /**
      * Getter method to obtain the deck of weapons in a game
+     *
      * @return weaponsDeck
      */
 
@@ -172,6 +178,7 @@ public class Game implements Serializable {
 
     /**
      * Getter method to obtain the deck of power ups in a game
+     *
      * @return powerUpsDeck
      */
 
@@ -181,6 +188,7 @@ public class Game implements Serializable {
 
     /**
      * Getter method to obtain the deck of tiles in a game
+     *
      * @return tilesDeck
      */
 
@@ -190,13 +198,16 @@ public class Game implements Serializable {
 
     /**
      * Getter method to obtain the first player
+     *
      * @return the first player of the game
      */
     public Player getFirstPlayer() {
         return this.firstPlayer;
     }
+
     /**
      * Getter method to obtain the list of players who won a round in the same session
+     *
      * @return winnersList
      */
 
@@ -206,6 +217,7 @@ public class Game implements Serializable {
 
     /**
      * Getter method to establish if the game is in the Final Frenzy turn
+     *
      * @return true if the game is in Final Frenzy, otherwise false
      */
     public boolean isFinalFrenzy() {
@@ -218,6 +230,7 @@ public class Game implements Serializable {
 
     /**
      * Method to determine who made the most points and won the game
+     *
      * @return winner
      */
 
@@ -227,7 +240,7 @@ public class Game implements Serializable {
 
     public void setCurrentAction(Action a) {
         if (currentTurnActions.size() < 2) {
-            currentTurnActions.add (a);
+            currentTurnActions.add(a);
         }
     }
 
@@ -244,7 +257,7 @@ public class Game implements Serializable {
      */
 
     public void setTileOnSquare(NormalSquare s) {
-        Tile t = (Tile) this.getTilesDeck ().drawCard ();
+        Tile t = (Tile) this.getTilesDeck().drawCard();
         s.setPlacedTile(t);
     }
 
@@ -255,7 +268,7 @@ public class Game implements Serializable {
 
     public void setArena(String fileName) {
         try {
-            this.map = new ArenaBuilder ().createMap(fileName);
+            this.map = new ArenaBuilder().createMap(fileName);
         } catch (FileNotFoundException exc) {
             System.err.println("Error: Invalid map file selected");
             exc.printStackTrace();
@@ -279,44 +292,44 @@ public class Game implements Serializable {
      */
 
     public void updateRanking() {
-        this.ranking.sort( (Player o1, Player o2) -> {
-                Integer points1 = o1.getPointTokens();
-                Integer points2 = o2.getPointTokens();
-                return points2.compareTo(points1);
-            }
+        this.ranking.sort((Player o1, Player o2) -> {
+                    Integer points1 = o1.getPointTokens();
+                    Integer points2 = o2.getPointTokens();
+                    return points2.compareTo(points1);
+                }
         );
     }
 
     public Player findByNickname(String nickname) {
         for (Player p : players) {
-            if (p.getPlayerName ().equals(nickname))
+            if (p.getPlayerName().equals(nickname))
                 return p;
         }
         return null;
     }
 
     private void replaceEmptySlots() {
-        for (Square s : map.getArena ()) {
+        for (Square s : map.getArena()) {
             if (s.isSpawnPoint()) {
-                for (int i = 0; i < ((SpawnPoint)s).getWeapons ().length; i++) {
-                    if (((SpawnPoint)s).getWeapons ()[i] == null) {
-                        ((SpawnPoint)s).setWeapons ((Weapon) weaponsDeck.drawCard ());
+                for (int i = 0; i < ((SpawnPoint) s).getWeapons().length; i++) {
+                    if (((SpawnPoint) s).getWeapons()[i] == null) {
+                        ((SpawnPoint) s).setWeapons((Weapon) weaponsDeck.drawCard());
                     }
                 }
             } else {
-                Tile tile = ((NormalSquare)s).getPlacedTile ();
+                Tile tile = ((NormalSquare) s).getPlacedTile();
                 if (tile == null)
-                    ((NormalSquare) s).setPlacedTile ((Tile) tilesDeck.drawCard ());
+                    ((NormalSquare) s).setPlacedTile((Tile) tilesDeck.drawCard());
             }
         }
     }
 
     public void replaceWeapon(Weapon weapon) {
-        for (Square s : map.getArena ()) {
+        for (Square s : map.getArena()) {
             if (s.isSpawnPoint()) {
-                for (int i = 0; i < ((SpawnPoint)s).getWeapons ().length; i++) {
-                    if (((SpawnPoint)s).getWeapons ()[i] == null) {
-                        ((SpawnPoint)s).setWeapons (weapon);
+                for (int i = 0; i < ((SpawnPoint) s).getWeapons().length; i++) {
+                    if (((SpawnPoint) s).getWeapons()[i] == null) {
+                        ((SpawnPoint) s).setWeapons(weapon);
                         break;
                     }
                 }
@@ -326,12 +339,13 @@ public class Game implements Serializable {
 
     /**
      * Method for the OverKill
+     *
      * @param deadPlayer is the player who died
      */
-    public void overKill(Player deadPlayer){
-        if(deadPlayer.getBoard().getDamageTaken().size()==12) {
+    public void overKill(Player deadPlayer) {
+        if (deadPlayer.getBoard().getDamageTaken().size() == 12) {
             for (Player p : players) {
-                if(p.getPlayerColor().equalsIgnoreCase(deadPlayer.getBoard().getDamageTaken().get(11)))
+                if (p.getPlayerColor().equalsIgnoreCase(deadPlayer.getBoard().getDamageTaken().get(11)))
                     p.getBoard().gotMarked(1, deadPlayer);
             }
         }
@@ -339,15 +353,15 @@ public class Game implements Serializable {
 
     /**
      * Method that assigns points
+     *
      * @param deadPlayer is the one who died
      */
-    public void givePoints(Player deadPlayer){
+    public void givePoints(Player deadPlayer) {
         List<Player> toCompute = new ArrayList<>();
-        List<Player> sortedPlayers = new ArrayList<>();
         int point;
 
         //assegno punteggio a point(punteggio max guadagnabile) in base a quante morti ha il giocatore morto
-        switch (deadPlayer.getDeaths()){
+        switch (deadPlayer.getDeaths()) {
             case 0:
                 point = 8;
                 break;
@@ -358,145 +372,45 @@ public class Game implements Serializable {
                 point = 4;
                 break;
         }
-        if(isFinalFrenzy()) point = 2;
+        if (isFinalFrenzy()) point = 2;
 
         //aggiungo in giocatori che fanno almeno un danno in 'toCompute'
-        for (Player p: players){
-            if(deadPlayer.getBoard().getDamageAmountGivenByPlayer(p) >= 1) {
+        for (Player p : players) {
+            if (deadPlayer.getBoard().getDamageAmountGivenByPlayer(p) >= 1) {
                 toCompute.add(p);
             }
         }
-        for(Player p: toCompute){
-            System.out.println(p.getPlayerColor() + " is in toCompute");
-        }
-        //ordino tutti i giocatori in base al numero di danni inflitti
-        sortedPlayers = sortPlayerByHits(toCompute, deadPlayer);
 
-        sortedPlayers = removeDuplicates(sortedPlayers);
+        toCompute.sort((player1, player2) -> {
+            Integer points1 = deadPlayer.getBoard().getDamageAmountGivenByPlayer(player1);
+            Integer points2 = deadPlayer.getBoard().getDamageAmountGivenByPlayer(player2);
+            if (!points1.equals(points2)) {
+                return points2.compareTo(points1);
+            } else {
+                Integer index1 = deadPlayer.getBoard().getDamageTaken().indexOf(player1.getPlayerColor());
+                Integer index2 = deadPlayer.getBoard().getDamageTaken().indexOf(player2.getPlayerColor());
+                return index1.compareTo(index2);
+            }
+        });
 
         //al primo giocatore assegno il massimo, al secondo 2 in meno e cosi` via
-        System.out.println("Sortedplayers list prima dei punti: ");
-        for(Player p: sortedPlayers){
-            System.out.println(p.getPlayerColor() + " is: " + p.getPlayerName());
-        }
-
-        for(Player p: sortedPlayers){
+        for (Player p : toCompute) {
             if (deadPlayer.getBoard().isFirstBlood(p)) {
                 p.addPointTokens(1);
             }
             p.addPointTokens(point);
-            switch (point){
+            switch (point) {
                 case 1:
                     break;
                 case 2:
-                    point = point-1;
+                    point = point - 1;
                     break;
                 default:
-                    point = point-2;
+                    point = point - 2;
                     break;
             }
-            System.out.println(p.getPlayerColor() + ": " + p.getPointTokens() +" punti");
         }
         //aggiunge una morte al 'deadPlayer'
         deadPlayer.addDeaths();
-    }
-
-    /**
-     * Method that divides the players in two different lists: 'tiedPlayers' and 'list'(non-tying players)
-     * @param toCompute is the list of all players who dealed damage to the 'deadPlayer'
-     * @param deadPlayer is the player who died
-     * @return a final list, sorted by the order required to give points
-     */
-    private List<Player> sortPlayerByHits(List<Player> toCompute, Player deadPlayer){
-        List<Player> list = new ArrayList<>();
-        List<Player> tiedPlayers = new ArrayList<>();
-        List<Player> finalList;
-        Collections.reverse(toCompute);
-        for (int i =0; i<toCompute.size(); i++){
-            for (Player p: toCompute){
-                for(Player p1: toCompute.subList(toCompute.indexOf(p)+1, toCompute.size())){
-                    if(deadPlayer.getBoard().getDamageAmountGivenByPlayer(p)==deadPlayer.getBoard().getDamageAmountGivenByPlayer(p1)){
-                        tiedPlayers.add(p1);
-                        tiedPlayers.add(p);
-                    }else if(deadPlayer.getBoard().getDamageAmountGivenByPlayer(p)>deadPlayer.getBoard().getDamageAmountGivenByPlayer(p1)) {
-                        list.add(p);
-                        list.add(p1);
-                        list.set(i, p);
-                        list.set(i+1, p1);
-                        if(tiedPlayers.contains(p))
-                            list.remove(p);
-                        if(tiedPlayers.contains(p1))
-                            list.remove(p1);
-                    }else {
-                        list.add(p1);
-                        list.set(i, p1);
-                        if(tiedPlayers.contains(p1))
-                            list.remove(p1);
-
-                    }
-                }
-            }
-        }
-        list = removeDuplicates(list);
-        for(Player p: list){
-            System.out.println(p.getPlayerColor() + " is in list");
-        }
-        tiedPlayers = removeDuplicates(tiedPlayers);
-        List<Player> tiedPlayersFinal = compareTiedPlayers(tiedPlayers, deadPlayer);
-        finalList = mergeArrays(tiedPlayersFinal, list, deadPlayer);
-        return finalList;
-    }
-
-    /**
-     * Method that sorts a list of tying players
-     * @param tiedPlayers is the list
-     * @param deadPlayer is the player who died
-     * @return a sorted list
-     */
-    private List<Player> compareTiedPlayers(List<Player> tiedPlayers, Player deadPlayer){
-        List<Integer> position = new ArrayList<>();
-        for (Player p: tiedPlayers){
-            position.add(deadPlayer.getBoard().getDamageTaken().indexOf(p.getPlayerColor()));
-        }
-        Collections.sort(position);
-        for (int i=0; i<position.size(); i++){
-            for (Player p: tiedPlayers){
-                if(p.getPlayerColor().equalsIgnoreCase(deadPlayer.getBoard().getDamageTaken().get(i)))
-                    tiedPlayers.set(i, p);
-            }
-        }
-        System.out.println("lista di giocatori pari: ");
-        for(Player p: tiedPlayers){
-            System.out.println(p.getPlayerColor());
-        }
-        return tiedPlayers;
-    }
-
-    /**
-     * Method that merges the list of tying and non-tying players
-     * @param tiedPlayers is the list of tying players
-     * @param list is the list of non-tying players
-     * @param deadPlayer is the player who died
-     * @return a sorted list of 'tiedPlayers' and 'list'
-     */
-    private List<Player> mergeArrays(List<Player> tiedPlayers, List<Player> list, Player deadPlayer) {
-        for(Player p: tiedPlayers)
-            for (Player p1 : list)
-                if (deadPlayer.getBoard().getDamageAmountGivenByPlayer(p) > deadPlayer.getBoard().getDamageAmountGivenByPlayer(p1)) {
-                    //dentro list in posizione p1 concateno tiedPlayers
-                    list.addAll(list.indexOf(p1), tiedPlayers);
-                    break;
-                }
-        return list;
-    }
-
-    private static List<Player> removeDuplicates(List<Player> list) {
-        List<Player> newList = new ArrayList<>();
-        for (Player element : list) {
-            if (!newList.contains(element)) {
-                newList.add(element);
-            }
-        }
-        return newList;
     }
 }
