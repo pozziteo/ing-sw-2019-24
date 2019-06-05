@@ -6,12 +6,14 @@
         "type": "moveToVisible",
         "maxMovements": 2
       },
-      "target": {
-        "type": "single",
-        "value": "",
-        "areaType": "",
-        "constraints": []
-      },
+      "target": [
+        {
+          "value": 1,
+          "areaType": false,
+          "movement": 2,
+          "constraints": []
+        }
+      ],
       "effects": [
         {
           "type": "moveTargetToVisibleSquare",
@@ -35,12 +37,14 @@
         "minDistance": 0,
         "maxDistance": 2
       },
-      "target": {
-        "type": "single",
-        "value": "",
-        "areaType": "",
-        "constraints": []
-      },
+      "target": [
+        {
+          "value": 1,
+          "areaType": false,
+          "movement": -1,
+          "constraints": []
+        }
+      ],
       "effects": [
         {
           "type": "moveToAttacker"

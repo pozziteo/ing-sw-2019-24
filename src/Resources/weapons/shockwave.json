@@ -7,14 +7,16 @@
         "minDistance": 1,
         "maxDistance": 1
       },
-      "target": {
-        "type": "multiple",
-        "value": "3",
-        "areaType": "",
-        "constraints": [
-          "on different squares"
-        ]
-      },
+      "target": [
+        {
+          "value": 3,
+          "areaType": false,
+          "movement": -1,
+          "constraints": [
+            "on different squares"
+          ]
+        }
+      ],
       "effects": [
         {
           "type": "damage",
@@ -34,12 +36,14 @@
         "minDistance": 1,
         "maxDistance": 1
       },
-      "target": {
-        "type": "multiple",
-        "value": "",
-        "areaType": "",
-        "constraints": []
-      },
+      "target": [
+        {
+          "value": -1,
+          "areaType": false,
+          "movement": -1,
+          "constraints": [ "everyone around user" ]
+        }
+      ],
       "effects": [
         {
           "type": "damage",

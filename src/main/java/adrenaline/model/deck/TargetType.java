@@ -9,103 +9,40 @@ import static java.lang.Math.abs;
 
 public class TargetType {
 
-    private enum Type {
-        NONE(""),
-        SINGLE("single"),
-        MULTIPLE("multiple");
-
-        private String typeIdentifier;
-
-        Type(String typeIdentifier) {
-            this.typeIdentifier = typeIdentifier;
-        }
-    }
-
-    private enum AreaType {
-        NONE(""),
-        ROOM("room"),
-        SQUARE("square");
-
-        private String typeIdentifier;
-
-        AreaType(String typeIdentifier) {
-            this.typeIdentifier = typeIdentifier;
-        }
-    }
-
-    private Type type;
-    private int value;
-    private AreaType areaType;
+    private int targetValue;
+    private boolean areaType;
+    private int movements;
     private ArrayList<String> constraints;
 
-    protected TargetType() {
-        this.type = Type.NONE;
-        this.value = -1;
-        this.areaType = AreaType.NONE;
-        this.constraints = new ArrayList<> ();
-    }
-
-    protected TargetType(String typeIdentifier, String targetValue, String areaType, ArrayList<String> constraints) {
-        if (typeIdentifier.equals("single")) {
-            this.type = Type.SINGLE;
-        } else if (typeIdentifier.equals("multiple")) {
-            this.type = Type.MULTIPLE;
-        }
-
-        if (targetValue.equals("")) {
-            this.value = -1;
-        } else {
-            this.value = Integer.parseInt(targetValue);
-        }
-
-        if (areaType.equals("room"))
-            this.areaType = AreaType.ROOM;
-        else if (areaType.equals ("square"))
-            this.areaType = AreaType.SQUARE;
-        else
-            this.areaType = AreaType.NONE;
-
+    protected TargetType(int value, boolean area, int movements, ArrayList<String> constraints) {
+        this.targetValue = value;
+        this.areaType = area;
+        this.movements = movements;
         this.constraints = new ArrayList<> (constraints);
     }
 
-    public String getType() {
-        return this.type.typeIdentifier;
+    public int getTargetValue() {
+        return this.targetValue;
     }
 
-
-    public String getAreaType() {
-        return this.areaType.typeIdentifier;
+    public boolean isAreaType() {
+        return this.areaType;
     }
 
-    public int getValue() {
-        return this.value;
+    public int getMovements() {
+        return this.movements;
     }
 
-    public ArrayList<String> getConstraints() {
+    public List<String> getConstraints() {
         return this.constraints;
     }
 
-    public Targets findTargets(Player attacker, List<Player> players) {
+    public Targets findCompliantTargets(Player attacker, List<Player> players) {
         Targets targets;
 
-        switch(type.typeIdentifier) {
-            case "single":
-                targets = new Targets(1);
-                for (String s : constraints) {
-                    applyConstraints (s, attacker, players);
-                }
-                break;
-
-            case "multiple":
-                targets = new Targets (value);
-                for (String s : constraints) {
-                    applyConstraints (s, attacker, players);
-                }
-                break;
-
-            default:
-                targets = new Targets(0, null);
-                break;
+        targets = new Targets(targetValue);
+        for (String s : constraints) {
+            applyConstraints (s, attacker, players);
         }
 
         return targets;

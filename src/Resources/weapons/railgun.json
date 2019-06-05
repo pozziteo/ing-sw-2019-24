@@ -5,12 +5,14 @@
       "requirement": {
         "type": "direction"
       },
-      "target": {
-        "type": "single",
-        "value": "",
-        "areaType": "",
-        "constraints": []
-      },
+      "target": [
+        {
+          "value": 1,
+          "areaType": false,
+          "movement": -1,
+          "constraints": []
+        }
+      ],
       "effects": [
         {
           "type": "damage",
@@ -28,14 +30,16 @@
       "requirement": {
         "type": "direction"
       },
-      "target": {
-        "type": "multiple",
-        "value": "2",
-        "areaType": "",
-        "constraints": [
-          "on same direction"
-        ]
-      },
+      "target": [
+        {
+          "value": 2,
+          "areaType": false,
+          "movement": -1,
+          "constraints": [
+            "on same direction"
+          ]
+        }
+      ],
       "effects": [
         {
           "type": "damage",

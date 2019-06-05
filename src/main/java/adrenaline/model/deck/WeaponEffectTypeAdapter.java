@@ -48,7 +48,7 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
         reader.beginObject();
 
         WeaponEffectRequirement requirement = null;
-        TargetType targets = null;
+        List<TargetType> targets = null;
         List<AtomicWeaponEffect> effects = null;
         while (reader.peek() != JsonToken.END_OBJECT) {
             switch (reader.nextName()) {
@@ -56,7 +56,7 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
                     requirement = createRequirement(reader);
                     break;
                 case "target":
-                    targets = findTargets (reader);
+                    targets = generateTargetTypes (reader);
                     break;
                 case "effects":
                     effects = generateEffects(reader);
@@ -98,12 +98,12 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
         }
         reader.endArray();
         WeaponEffectRequirement requirement = null;
-        TargetType targets = null;
+        List<TargetType> targets = null;
         List<AtomicWeaponEffect> effects = null;
         while (reader.peek() != JsonToken.END_OBJECT) {
             switch (reader.nextName()) {
                 case "target":
-                    targets = findTargets (reader);
+                    targets = generateTargetTypes (reader);
                     break;
                 case "requirement":
                     requirement = createRequirement(reader);
@@ -172,33 +172,34 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
         return requirement;
     }
 
-    private TargetType findTargets(JsonReader reader) throws IOException {
-        TargetType targets = null;
-        String targetType;
-        String targetValue;
-        String areaType;
+    private List<TargetType> generateTargetTypes(JsonReader reader) throws IOException {
+        List<TargetType> targetTypes = new ArrayList<> ();
+        int value;
+        boolean areaType;
+        int movements;
         ArrayList<String> constraints = new ArrayList<> ();
-        reader.beginObject ();
-        while (reader.peek() != JsonToken.END_OBJECT) {
-            reader.nextName ();
-            targetType = reader.nextString ();
-            reader.nextName();
-            targetValue = reader.nextString ();
-            reader.nextName();
-            areaType = reader.nextString ();
-            reader.nextName ();
-            reader.beginArray ();
-            while (reader.peek() != JsonToken.END_ARRAY) {
-                constraints.add(reader.nextString ());
+        reader.beginArray();
+        while (reader.peek() != JsonToken.END_ARRAY) {
+            reader.beginObject ();
+            while (reader.peek() != JsonToken.END_OBJECT) {
+                reader.nextName ();
+                value = reader.nextInt ();
+                reader.nextName();
+                areaType = reader.nextBoolean ();
+                reader.nextName();
+                movements = reader.nextInt ();
+                reader.nextName ();
+                reader.beginArray ();
+                while (reader.peek() != JsonToken.END_ARRAY) {
+                    constraints.add(reader.nextString ());
+                }
+                reader.endArray ();
+                targetTypes.add(new TargetType (value, areaType, movements, constraints));
             }
-            reader.endArray ();
-            targets = new TargetType (targetType, targetValue, areaType, constraints);
+            reader.endObject ();
         }
-        reader.endObject ();
-        if (targets == null) {
-            targets = new TargetType ();
-        }
-        return targets;
+        reader.endArray();
+        return targetTypes;
     }
 
     private List<AtomicWeaponEffect> generateEffects(JsonReader reader) throws IOException {

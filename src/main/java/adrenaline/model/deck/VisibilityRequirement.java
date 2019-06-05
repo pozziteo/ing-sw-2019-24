@@ -14,11 +14,11 @@ public class VisibilityRequirement implements WeaponEffectRequirement {
     }
 
     @Override
-    public List<Player> findTargets(Player attacker, TargetType targetType){
+    public List<Player> findTargets(Player attacker){
 
         List<Player> visiblePlayers = new ArrayList<>();
         List<Player> notVisiblePlayers = new ArrayList<>();
-        List<Player> players = WeaponEffectRequirement.super.findTargets(attacker, targetType);
+        List<Player> players = WeaponEffectRequirement.super.findTargets(attacker);
 
         for (Player player : players) {
             if (attacker.canSee(player))

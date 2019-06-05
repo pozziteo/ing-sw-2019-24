@@ -3,6 +3,7 @@ package adrenaline.controller;
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_client.data_for_game.*;
 import adrenaline.data.data_for_client.data_for_network.MessageForClient;
+import adrenaline.data.data_for_client.responses_for_view.fake_model.EffectDetails;
 import adrenaline.data.data_for_client.responses_for_view.fake_model.SquareDetails;
 import adrenaline.data.data_for_client.responses_for_view.fake_model.WeaponDetails;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
@@ -12,6 +13,7 @@ import adrenaline.exceptions.UnreachableTargetException;
 import adrenaline.model.GameModel;
 import adrenaline.model.deck.Ammo;
 import adrenaline.model.deck.OptionalEffect;
+import adrenaline.model.deck.TargetType;
 import adrenaline.model.deck.Weapon;
 import adrenaline.model.map.SpawnPoint;
 import adrenaline.model.player.*;
@@ -344,15 +346,13 @@ public class Controller implements TimerCallBack {
         if (effectId == 0) {
             ((Shoot) currentAction).addEffectToApply (((Shoot) currentAction).getChosenWeapon ( ).getBaseEffect ( ));
             ((Shoot)currentAction).setBaseUsed (true);
-            options = new TargetOptions (gameModel.createEffectDetails (((Shoot) currentAction).getChosenWeapon ( ).getBaseEffect ( )), map);
+            options = new TargetOptions (gameModel.createTargetDetails (((Shoot) currentAction).getChosenWeapon ( ).getBaseEffect ( )), map);
         } else {
             for (OptionalEffect e : ((Shoot)currentAction).getChosenWeapon ().getOptionalEffects ()) {
                 effectId--;
-                if (effectId == 0) {
-                    if (e.isUsableBeforeBase () || (!e.isUsableBeforeBase () && ((Shoot)currentAction).isBaseUsed())) {
-                        ((Shoot) currentAction).addEffectToApply (e);
-                        options = new TargetOptions (gameModel.createEffectDetails (e), map);
-                    }
+                if (effectId == 0 && (e.isUsableBeforeBase () || (!e.isUsableBeforeBase () && ((Shoot)currentAction).isBaseUsed()) || (e.isAlternativeMode () && !((Shoot)currentAction).isBaseUsed()))) {
+                    ((Shoot) currentAction).addEffectToApply (e);
+                    options = new TargetOptions (gameModel.createTargetDetails (e), map);
                 }
             }
         }
@@ -369,7 +369,7 @@ public class Controller implements TimerCallBack {
 
     private void askDifferentTargets(String nickname) {
         List<SquareDetails> map = gameModel.createSquareDetails ();
-        TargetOptions options = new TargetOptions (gameModel.createEffectDetails (((Shoot)currentAction).getEffectToApply ()), map);
+        TargetOptions options = new TargetOptions (gameModel.createTargetDetails (((Shoot)currentAction).getEffectToApply ()), map);
         lobby.sendToSpecific (nickname, options);
     }
 

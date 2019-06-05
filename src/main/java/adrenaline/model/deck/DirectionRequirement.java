@@ -12,9 +12,9 @@ public class DirectionRequirement implements WeaponEffectRequirement {
     }
 
     @Override
-    public List<Player> findTargets(Player attacker, TargetType targetType) {
+    public List<Player> findTargets(Player attacker) {
         List<Player> targets = new ArrayList<>();
-        List<Player> players = WeaponEffectRequirement.super.findTargets(attacker, targetType);
+        List<Player> players = WeaponEffectRequirement.super.findTargets(attacker);
 
         int attackerPosition = attacker.getPosition().getSquareId();
         for (Player player : players) {

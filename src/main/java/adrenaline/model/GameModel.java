@@ -1,6 +1,6 @@
 package adrenaline.model;
 
-import adrenaline.data.data_for_client.data_for_game.EffectDetails;
+import adrenaline.data.data_for_client.responses_for_view.fake_model.EffectDetails;
 import adrenaline.data.data_for_client.responses_for_view.*;
 import adrenaline.data.data_for_client.responses_for_view.fake_model.*;
 import adrenaline.model.deck.Ammo;
@@ -151,24 +151,21 @@ public class GameModel {
 
     public List<EffectDetails> createWeaponEffects(Weapon weapon) {
         List<EffectDetails> effects = new ArrayList<> ();
-        EffectDetails effect = new EffectDetails ("base effect", false, false, "", -1, "");
+        EffectDetails effect = new EffectDetails ("base effect", false, false);
         effects.add(effect);
         for (OptionalEffect optEffect : weapon.getOptionalEffects ()) {
             boolean alternative = optEffect.isAlternativeMode ();
             boolean usable = optEffect.isUsableBeforeBase ();
-            effect = new EffectDetails ("optional effect", alternative, usable, "", -1, "");
+            effect = new EffectDetails ("optional effect", alternative, usable);
             effects.add(effect);
         }
         return effects;
     }
 
-    public EffectDetails createEffectDetails(WeaponEffect effect) {
-        EffectDetails effectDetails;
-        String type = effect.getTargets ().getType ();
-        String area = effect.getTargets ().getAreaType ();
-        int n = effect.getTargets ().getValue ();
-        effectDetails = new EffectDetails ("", false, false, type, n, area);
-        return effectDetails;
+    public List<TargetDetails> createTargetDetails(WeaponEffect effect) {
+        List<TargetDetails> targets = new ArrayList<> ();
+
+        return targets;
     }
 
 }

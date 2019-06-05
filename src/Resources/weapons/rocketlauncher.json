@@ -7,12 +7,14 @@
         "minDistance": 1,
         "maxDistance": 0
       },
-      "target": {
-        "type": "single",
-        "value": "",
-        "areaType": "",
-        "constraints": []
-      },
+      "target": [
+        {
+          "value": 1,
+          "areaType": false,
+          "movement": 1,
+          "constraints": []
+        }
+      ],
       "effects": [
         {
           "type": "damage",
@@ -33,7 +35,14 @@
     "usableBeforeBase": true,
     "effect": {
       "additionalCost": ["Blue"],
-      "target": {},
+      "target": [
+        {
+          "value": -1,
+          "areaType": false,
+          "movement": 2,
+          "constraints": []
+        }
+      ],
       "effects": [
         {
           "type": "movement",
@@ -49,14 +58,16 @@
     "usableBeforeBase": false,
     "effect": {
       "additionalCost": ["Yellow"],
-      "target": {
-        "type": "multiple",
-        "value": "1",
-        "areaType": "square",
-        "constraints": [
-          "on base target position"
-        ]
-      },
+      "target": [
+        {
+          "value": -1,
+          "areaType": true,
+          "movement": -1,
+          "constraints": [
+            "on base target position"
+          ]
+        }
+      ],
       "effects": [
         {
           "type": "squareBasedDamage",

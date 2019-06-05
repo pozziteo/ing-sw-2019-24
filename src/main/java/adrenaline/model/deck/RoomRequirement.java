@@ -33,11 +33,11 @@ public class RoomRequirement implements WeaponEffectRequirement {
     }
 
     @Override
-    public List<Player> findTargets(Player attacker, TargetType targetType) {
+    public List<Player> findTargets(Player attacker) {
 
         List<Player> inSameRoom = new ArrayList<>();
         List<Player> inDifferentRoom = new ArrayList<>();
-        List<Player> players = WeaponEffectRequirement.super.findTargets(attacker, targetType);
+        List<Player> players = WeaponEffectRequirement.super.findTargets(attacker);
 
         for (Player player : players) {
             if (attacker.canSee(player)) {

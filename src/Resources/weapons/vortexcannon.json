@@ -6,15 +6,17 @@
         "type": "visibility",
         "visible": true
       },
-      "target": {
-        "type": "single",
-        "value": "",
-        "areaType": "",
-        "constraints": [
-          "square different from current position",
-          "target at distance 1 from square"
-        ]
-      },
+      "target": [
+        {
+          "value": 1,
+          "areaType": false,
+          "movement": -1,
+          "constraints": [
+            "square different from current position",
+            "target at distance 1 from square"
+          ]
+        }
+      ],
       "effects": [
         {
           "type": "moveToSquare",
@@ -38,14 +40,16 @@
         "type": "visibility",
         "visible": true
       },
-      "target": {
-        "type": "multiple",
-        "value": "2",
-        "areaType": "",
-        "constraints": [
-          "different from base target"
-        ]
-      },
+      "target":  [
+        {
+          "value": 2,
+          "areaType": false,
+          "movement": -1,
+          "constraints": [
+            "different from base target"
+          ]
+        }
+      ],
       "effects": [
         {
           "type": "moveToSquare",

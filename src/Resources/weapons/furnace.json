@@ -6,12 +6,14 @@
         "type": "room",
         "identifier": "different"
       },
-      "target": {
-        "type": "multiple",
-        "value": "1",
-        "areaType": "room",
-        "constraints": []
-      },
+      "target": [
+        {
+          "value": -1,
+          "areaType": true,
+          "movement": -1,
+          "constraints": []
+        }
+      ],
       "effects": [
         {
           "type": "roomBasedDamage",
@@ -31,12 +33,14 @@
         "minDistance": 1,
         "maxDistance": 1
       },
-      "target": {
-        "type": "multiple",
-        "value": "1",
-        "areaType": "square",
-        "constraints": []
-      },
+      "target": [
+        {
+          "value": -1,
+          "areaType": true,
+          "movement": -1,
+          "constraints": []
+        }
+      ],
       "effects": [
         {
           "type": "squareBasedDamage",

@@ -11,7 +11,7 @@ public class OptionalEffect extends WeaponEffect {
     private boolean usableBeforeBase;
     private boolean alternativeMode;
 
-    protected OptionalEffect(WeaponEffectRequirement requirement, TargetType targets, List<AtomicWeaponEffect> effects,
+    protected OptionalEffect(WeaponEffectRequirement requirement, List<TargetType> targets, List<AtomicWeaponEffect> effects,
                              List<Ammo> additionalCost, boolean usableBeforeBase, boolean alternativeMode) {
         super(requirement, targets, effects);
         this.additionalCost = new ArrayList<>();

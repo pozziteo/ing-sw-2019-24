@@ -1,6 +1,6 @@
 package adrenaline.view.cli;
 
-import adrenaline.data.data_for_client.data_for_game.EffectDetails;
+import adrenaline.data.data_for_client.responses_for_view.fake_model.EffectDetails;
 import adrenaline.data.data_for_client.responses_for_view.fake_model.*;
 import org.fusesource.jansi.AnsiConsole;
 

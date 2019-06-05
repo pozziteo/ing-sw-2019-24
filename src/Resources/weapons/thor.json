@@ -6,12 +6,14 @@
         "type": "visibility",
         "visible": true
       },
-      "target": {
-        "type": "single",
-        "value": "",
-        "areaType": "",
-        "constraints": []
-      },
+      "target": [
+        {
+          "value": 1,
+          "areaType": false,
+          "movement": -1,
+          "constraints": []
+        }
+      ],
       "effects": [
         {
           "type": "damage",
@@ -32,12 +34,14 @@
         "type": "visibility",
         "visible": true
       },
-      "target": {
-        "type": "single",
-        "value": "",
-        "areaType": "",
-        "constraints": []
-      },
+      "target": [
+        {
+          "value": 1,
+          "areaType": false,
+          "movement": -1,
+          "constraints": []
+        }
+      ],
       "effects": [
         {
           "type": "damage",
@@ -60,12 +64,14 @@
         "type": "visibility",
         "visible": true
       },
-      "target": {
-        "type": "single",
-        "value": "",
-        "areaType": "",
-        "constraints": []
-      },
+      "target": [
+        {
+          "value": 1,
+          "areaType": false,
+          "movement": -1,
+          "constraints": []
+        }
+      ],
       "effects": [
         {
           "type": "damage",

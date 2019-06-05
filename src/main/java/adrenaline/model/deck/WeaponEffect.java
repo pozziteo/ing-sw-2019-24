@@ -7,10 +7,10 @@ import java.util.*;
 public abstract class WeaponEffect {
 
     private WeaponEffectRequirement requirement;
-    private TargetType targets;
+    private List<TargetType> targets;
     private List<AtomicWeaponEffect> effects;
 
-    protected WeaponEffect(WeaponEffectRequirement requirement, TargetType targets, List<AtomicWeaponEffect> effects) {
+    protected WeaponEffect(WeaponEffectRequirement requirement, List<TargetType> targets, List<AtomicWeaponEffect> effects) {
         this.requirement = requirement;
         this.targets = targets;
         this.effects = new ArrayList<>(effects);
@@ -26,7 +26,7 @@ public abstract class WeaponEffect {
         return this.requirement;
     }
 
-    public TargetType getTargets() {
+    public List<TargetType> getTargets() {
         return this.targets;
     }
 

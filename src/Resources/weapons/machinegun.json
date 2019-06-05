@@ -6,12 +6,14 @@
         "type": "visibility",
         "visible": true
       },
-      "target": {
-        "type": "multiple",
-        "value": "2",
-        "areaType": "",
-        "constraints": []
-      },
+      "target": [
+        {
+          "value": 2,
+          "areaType": false,
+          "movement": -1,
+          "constraints": []
+        }
+      ],
       "effects": [
         {
           "type": "damage",
@@ -29,14 +31,16 @@
       "additionalCost": [
         "Yellow"
       ],
-      "target": {
-        "type": "single",
-        "value": "",
-        "areaType": "",
-        "constraints": [
-          "one of base targets"
-        ]
-      },
+      "target": [
+        {
+          "value": 1,
+          "areaType": false,
+          "movement": -1,
+          "constraints": [
+            "one of base targets"
+          ]
+        }
+      ],
       "effects": [
         {
           "type": "additionalDamage",
@@ -55,15 +59,24 @@
         "type": "visibility",
         "visible": true
       },
-      "target": {
-        "type": "multiple",
-        "value": "2",
-        "areaType": "",
-        "constraints": [
-          "one of base targets different from first optional target",
-          "different from base target"
-        ]
-      },
+      "target": [
+        {
+          "value": 1,
+          "areaType": false,
+          "movement": -1,
+          "constraints": [
+            "one of base targets different from first optional target"
+          ]
+        },
+        {
+          "value": 1,
+          "areaType": false,
+          "movement": -1,
+          "constraints": [
+            "different from base target"
+          ]
+        }
+      ],
       "effects": [
         {
           "type": "additionalDamage",

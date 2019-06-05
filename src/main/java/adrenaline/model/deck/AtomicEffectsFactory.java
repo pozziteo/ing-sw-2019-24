@@ -31,6 +31,10 @@ public class AtomicEffectsFactory {
         return (attacker, target, id) -> {
             List<Player> players = new ArrayList<>(attacker.getGame().getPlayers());
             players.remove(attacker);
+            if (id == null) {
+                id = new Integer[1];
+                id[0] = attacker.getPosition ( ).getSquareId ( );
+            }
             for (Player player : players)
                 if (player.getPosition().getSquareId() == id[0]) {
                     AtomicWeaponEffect effect = createBaseDamageEffect(pureDamage, marks);

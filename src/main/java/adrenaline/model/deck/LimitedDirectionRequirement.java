@@ -15,9 +15,9 @@ public class LimitedDirectionRequirement extends DirectionRequirement {
     }
 
     @Override
-    public List<Player> findTargets(Player attacker, TargetType targetType) {
+    public List<Player> findTargets(Player attacker) {
         List<Player> limitedTargets = new ArrayList<>();
-        List<Player> directionTargets = super.findTargets(attacker, targetType);
+        List<Player> directionTargets = super.findTargets(attacker);
         List<Integer> validPositions = Action.findPaths(attacker, maxDistance);
         for (Player target : directionTargets) {
             if (checkPosition(target, validPositions))
