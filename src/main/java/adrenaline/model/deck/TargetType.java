@@ -1,6 +1,8 @@
 package adrenaline.model.deck;
 
+import adrenaline.model.player.Action;
 import adrenaline.model.player.Player;
+import adrenaline.model.player.Shoot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,75 +47,116 @@ public class TargetType {
         return true;
     }
 
-    private boolean applyConstraints(String constraint, Player attacker, List<Player> players, int squareId) {
+    private boolean applyConstraints(String constraint, Player attacker, List<Player> targets, int squareId) {
+        boolean legal = true;
+        Action currentAction = attacker.getGame ().getCurrentAction ();
         switch (constraint) {
 
             case "square different from current position":
-                for (Player p : players) {
-                    if (p.getPosition ().equals(attacker.getPosition ()))
-                        players.remove(p);
+                for (Player p : targets) {
+                    if (p.getPosition ().equals(attacker.getPosition ())) {
+                        legal = false;
+                        break;
+                    }
                 }
                 break;
 
             case "target at distance 1 from square":
                 int attackerPos = attacker.getPosition ().getSquareId ();
-                for (Player p : players) {
+                for (Player p : targets) {
                     int playerPos = p.getPosition ().getSquareId ();
                     int distance = abs(attackerPos -  playerPos);
                     if (! (distance == 1 || distance == 4)) {
-                        players.remove (p);
+                        legal = false;
+                        break;
                     }
                 }
                 break;
 
             case "different from base target":
-                //attacker.getCurrentAction();
+                for (Player p : targets) {
+                    if (((Shoot)currentAction).getBaseEffect ().getTargets ().contains(p)) {
+                        legal = false;
+                        break;
+                    }
+                }
                 break;
 
             case "on different squares":
                 int attackerPosition = attacker.getPosition().getSquareId();
-                for (Player p : players) {
+                for (Player p : targets) {
                     int playerPos = p.getPosition ().getSquareId ();
                     if (attackerPosition == playerPos) {
-                        players.remove (p);
+                        legal = false;
+                        break;
                     }
                 }
                 break;
 
             case "on base target position":
-                //TODO
+                for (Player p : targets) {
+                    if (!((Shoot)currentAction).getBaseEffect ().getTargets ().get(0).getPosition ().equals(p.getPosition ())) {
+                        legal = false;
+                        break;
+                    }
+                }
                 break;
 
             case "on same direction":
                 int attackerPositionX = attacker.getPosition().getX();
                 int attackerPositionY = attacker.getPosition().getY();
-                for (Player p: players){
+                for (Player p: targets){
                     int playerPosX = p.getPosition().getX();
                     int playerPosY = p.getPosition().getY();
                     if (attackerPositionX!=playerPosX && attackerPositionY!=playerPosY){
-                        players.remove(p);
+                        legal = false;
+                        break;
                     }
                 }
                 break;
 
             case "one target per square":
-                //TODO
+                for (Player p : targets) {
+                    for (int i = targets.indexOf (p)+1; i < targets.size (); i++) {
+                        if (targets.get(i).getPosition ().equals(p.getPosition ())) {
+                            legal = false;
+                            break;
+                        }
+                    }
+                }
                 break;
 
             case "one of base targets":
-                //TODO
+                if (!((Shoot)currentAction).getBaseEffect ().getTargets ().contains (targets.get (0)))
+                    legal = false;
                 break;
 
             case "one of base targets different from first optional targets":
-                //TODO
+                if (!((Shoot)currentAction).getBaseEffect ().getTargets ().contains (targets.get (0))) {
+                    legal = false;
+                    break;
+                }
+                if (targets.get(0).equals(((Shoot)currentAction).getOptionalEffect ().getTargets ().get (0)))
+                    legal = false;
                 break;
 
             case "everyone around user":
+                List<Player> playersAroundUser = new ArrayList<> ();
+                for (Player p : attacker.getGame ().getPlayers ()) {
+                    if (!p.equals(attacker)) {
+                        int distance = abs(attacker.getPosition ().getSquareId () -  p.getPosition ().getSquareId ());
+                        if (distance == 1 || distance == 4) {
+                            playersAroundUser.add(p);
+                        }
+                    }
+                }
+                if (!targets.containsAll (playersAroundUser))
+                    legal = false;
                 break;
 
             default:
                 break;
         }
-        return false;
+        return legal;
     }
 }

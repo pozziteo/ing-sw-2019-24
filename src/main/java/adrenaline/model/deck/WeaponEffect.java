@@ -7,13 +7,15 @@ import java.util.*;
 public abstract class WeaponEffect {
 
     private WeaponEffectRequirement requirement;
-    private List<TargetType> targets;
+    private List<TargetType> targetTypes;
     private List<AtomicWeaponEffect> effects;
+    private List<Player> targets;
 
     protected WeaponEffect(WeaponEffectRequirement requirement, List<TargetType> targets, List<AtomicWeaponEffect> effects) {
         this.requirement = requirement;
-        this.targets = targets;
+        this.targetTypes = targets;
         this.effects = new ArrayList<>(effects);
+        this.targets = new ArrayList<> ();
     }
 
     public void useEffect(Player attacker, Player target, Integer... id) {
@@ -26,12 +28,20 @@ public abstract class WeaponEffect {
         return this.requirement;
     }
 
-    public List<TargetType> getTargets() {
-        return this.targets;
+    public List<TargetType> getTargetTypes() {
+        return this.targetTypes;
     }
 
     public List<AtomicWeaponEffect> getEffects() {
         return this.effects;
+    }
+
+    public void setTargets(List<Player> targets) {
+        this.targets = targets;
+    }
+
+    public List<Player> getTargets() {
+        return this.targets;
     }
 
 }

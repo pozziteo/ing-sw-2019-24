@@ -161,9 +161,22 @@ public class GameModel {
 
     public List<TargetDetails> createTargetDetails(WeaponEffect effect) {
         List<TargetDetails> targets = new ArrayList<> ();
-        for (TargetType type : effect.getTargets ())
+        for (TargetType type : effect.getTargetTypes ())
             targets.add(new TargetDetails (type.getTargetValue (), type.isAreaType (), type.getMovements ()));
         return targets;
     }
 
+    public List<String> findCompliantTargets(WeaponEffect effect, String attacker) {
+        if (effect.getRequirement () != null) {
+            List<String> targets = new ArrayList<> ();
+            List<Player> compliantTargets = effect.getRequirement ( ).findTargets (game.findByNickname (attacker));
+
+            for (Player p : compliantTargets)
+                targets.add (p.getPlayerName ( ));
+
+            return targets;
+        }
+
+        return null;
+    }
 }

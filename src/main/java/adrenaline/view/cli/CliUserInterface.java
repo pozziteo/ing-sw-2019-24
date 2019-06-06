@@ -383,7 +383,99 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
-    private List<String> printPlayersPositions(List<SquareDetails> map) {
+    private boolean printPlayersPositions(List<String> targets, List<SquareDetails> map) {
+        try {
+            if (targets.isEmpty ()) {
+                printer.print ("There are no players you can hit with this effect.\n");
+                return false;
+            } else {
+                int i = 0;
+                for (String name : targets) {
+                    i++;
+                    for (SquareDetails square : map) {
+                        if (square.getPlayersOnSquare ( ).contains (name)) {
+                            printer.printPlayerPositions (i, name, square.getId ( ));
+                            break;
+                        }
+                    }
+                }
+                return true;
+            }
+        } catch (NullPointerException e) {
+            printer.print ("This action does not require any targets.\n");
+            return true;
+        }
+    }
+
+    public void chooseTargets(List<TargetDetails> targets, List<String> compliantTargets, List<SquareDetails> map) {
+        boolean invalid = false;
+        List<AtomicTarget> chosenTargets = new ArrayList<> ();
+        AtomicTarget atomicTarget = null;
+        for (TargetDetails target : targets) {
+            if (target.getValue () != -1)
+                //normal targets (single or multiple)
+                try {
+                    atomicTarget = chooseTargets (target.getValue ( ), target.getMovements ( ), compliantTargets, map);
+                } catch (NullPointerException e) {
+                    atomicTarget = chooseNonRequirementTargets (target.getValue (), target.getMovements (), map);
+                }
+            else if (target.getValue () == -1 && target.isArea ())
+                //area based damage (square or room)
+                atomicTarget = chooseAreaToTarget (compliantTargets, map);
+            else if (target.getValue () == -1 && !target.isArea () && target.getMovements () == -1)
+                //effect only needs to be applied, no player options
+                atomicTarget = new AtomicTarget (null, -1);
+            else if (target.getValue () == -1 && !target.isArea () && target.getMovements () > 0)
+                //movement applied to attacker
+                atomicTarget = chooseHowManyMovements(target.getMovements (), compliantTargets, map);
+            //quit the loop if the timer runs out during one of the phases of target building/automatically pass the turn if the effect chosen can't hit anyone
+            if (atomicTarget == null) {
+                invalid = true;
+                sendAction ("pass");
+                printer.print("Automatically skipping this turn...");
+                break;
+            }
+            else
+                chosenTargets.add(atomicTarget);
+        }
+        if (!invalid)
+            sendToServer (new ChosenTargets (nickname, chosenTargets));
+    }
+
+    private AtomicTarget chooseTargets(int maxAmount, int movements, List<String> compliantTargets, List<SquareDetails> map) {
+        if (printPlayersPositions (compliantTargets, map)) {
+            printer.print ("Choose your targets (please keep in mind that for weapons with multiple effects, these will be applied following the description's order | press " + (compliantTargets.size ( ) + 1) + " to finish beforehand): ");
+            List<String> targets = new LinkedList<> ( );
+            int amountChosen = 0;
+            while (amountChosen < maxAmount) {
+                printer.printChooseTargets (maxAmount - amountChosen);
+                int parsed = this.parser.asyncParseInt (compliantTargets.size ( ) + 1);
+                if (parsed != -1) {
+                    if (parsed != compliantTargets.size ( ) + 1) {
+                        amountChosen++;
+                        targets.add (compliantTargets.get (parsed - 1));
+                    } else
+                        break;
+                } else
+                    return null;
+            }
+            if (amountChosen > 0) {
+                if (movements != -1) {
+                    printer.print ("Choose the square you want to move the targets to (max distance of " + movements + "):");
+                    int parsed = this.parser.asyncParseInt (map.size ( ));
+                    if (parsed == -1)
+                        return null;
+                    return new AtomicTarget (targets, parsed);
+                }
+                return new AtomicTarget (targets, -1);
+            } else
+                return null;
+        } else
+            return null;
+    }
+
+    private AtomicTarget chooseNonRequirementTargets(int maxAmount, int movements, List<SquareDetails> map) {
+        //TODO fix
         List<String> players = new ArrayList<> ();
         for (SquareDetails s : map) {
             if (! s.getPlayersOnSquare ().isEmpty ()) {
@@ -393,79 +485,49 @@ public class CliUserInterface implements UserInterface {
                 }
             }
         }
-        return players;
-    }
-
-    public void chooseTargets(List<TargetDetails> targets, List<SquareDetails> map) {
-        List<AtomicTarget> chosenTargets = new ArrayList<> ();
-        AtomicTarget atomicTarget = null;
-        for (TargetDetails target : targets) {
-            if (target.getValue () != -1)
-                //normal targets (single or multiple)
-                atomicTarget = chooseTargets (target.getValue (), target.getMovements (), map);
-            else if (target.getValue () == -1 && target.isArea ())
-                //area based damage (square or room)
-                atomicTarget = chooseAreaToTarget (map);
-            else if (target.getValue () == -1 && !target.isArea () && target.getMovements () == -1)
-                //effect only needs to be applied, no player options
-                atomicTarget = new AtomicTarget (null, -1);
-            else if (target.getValue () == -1 && !target.isArea () && target.getMovements () > 0)
-                //movement applied to attacker
-                atomicTarget = chooseHowManyMovements(target.getMovements (), map);
-            //quit the loop if the timer runs out during one of the phases of target building
-            if (atomicTarget == null)
-                break;
-            else
-                chosenTargets.add(atomicTarget);
-        }
-        sendToServer (new ChosenTargets (nickname, chosenTargets));
-    }
-
-    private AtomicTarget chooseTargets(int maxAmount, int movements, List<SquareDetails> map) {
-        List<String> players = printPlayersPositions (map);
-        printer.print("Choose your targets (please keep in mind that for weapons with multiple effects, these will be applied following the description's order | press " + (players.size ()+1) + " to finish beforehand): ");
+        printer.print("Choose your targets (please keep in mind that for weapons with multiple effects, these will be applied following the description's order | press 5 to finish beforehand):" );
+        boolean valid = false;
         List<String> targets = new LinkedList<> ();
         int amountChosen = 0;
-        while (amountChosen < maxAmount) {
+        while (amountChosen <= maxAmount) {
             printer.printChooseTargets (maxAmount - amountChosen);
-            int parsed = this.parser.asyncParseInt (players.size () + 1);
+            int parsed = this.parser.asyncParseInt (players.size ());
             if (parsed != -1) {
-                if (parsed != players.size ()+1) {
+                if (parsed > 0 && parsed <= players.size()) {
+                    valid = true;
                     amountChosen++;
-                    targets.add (players.get (parsed - 1));
+                    targets.add(players.get (parsed-1));
+                } else {
+                    printer.printInvalidInput ( );
                 }
+            }
+        }
+        if (valid)
+            return new AtomicTarget (players, -1);
+        else
+            return null;
+    }
+
+    private AtomicTarget chooseAreaToTarget(List<String> compliantTargets, List<SquareDetails> map) {
+        if (printPlayersPositions (compliantTargets, map)) {
+            printer.print ("Type the id of the square you want to target/the id of a square in the room you want to target: ");
+            int parsed = parser.asyncParseInt (map.size ( ));
+            if (parsed != -1) {
+                return new AtomicTarget (null, parsed);
             } else
                 return null;
-        }
-        if (amountChosen > 0) {
-            if (movements != -1) {
-                printer.print ("Choose the square you want to move the targets to (max distance of " + movements + "):");
-                int parsed = this.parser.asyncParseInt (map.size ( ));
-                if (parsed == -1)
-                    return null;
-                return new AtomicTarget (targets, parsed);
-            }
-            return new AtomicTarget (targets, -1);
         } else
             return null;
     }
 
-    private AtomicTarget chooseAreaToTarget(List<SquareDetails> map) {
-        printPlayersPositions (map);
-        printer.print ("Type the id of the square you want to target/the id of a square in the room you want to target: ");
-        int parsed = parser.asyncParseInt (map.size ( ));
-        if (parsed != -1) {
-            return new AtomicTarget (null, parsed);
-        } else
-            return null;
-    }
-
-    private AtomicTarget chooseHowManyMovements(int max, List<SquareDetails> map) {
-        printPlayersPositions (map);
-        printer.print("Choose the square you want to move to (max distance of " + max + "):");
-        int parsed = parser.asyncParseInt (map.size ( ));
-        if (parsed != -1) {
-            return new AtomicTarget (null, parsed);
+    private AtomicTarget chooseHowManyMovements(int max, List<String> compliantTargets, List<SquareDetails> map) {
+        if (printPlayersPositions (compliantTargets, map)) {
+            printer.print ("Choose the square you want to move to (max distance of " + max + "):");
+            int parsed = parser.asyncParseInt (map.size ( ));
+            if (parsed != -1) {
+                return new AtomicTarget (null, parsed);
+            } else
+                return null;
         } else
             return null;
     }

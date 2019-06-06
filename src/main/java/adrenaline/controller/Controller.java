@@ -8,6 +8,7 @@ import adrenaline.data.data_for_client.responses_for_view.fake_model.WeaponDetai
 import adrenaline.data.data_for_server.data_for_game.AtomicTarget;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.exceptions.MustDiscardWeaponException;
+import adrenaline.exceptions.MustUseBaseEffectException;
 import adrenaline.exceptions.NotEnoughAmmoException;
 import adrenaline.exceptions.UnreachableTargetException;
 import adrenaline.model.GameModel;
@@ -28,7 +29,6 @@ import java.util.List;
 public class Controller implements TimerCallBack {
     private Lobby lobby;
     private GameModel gameModel;
-    private long timeout;
     private TimerThread timer;
     private ArrayList<Player> dummyPlayers;
     private Action currentAction;
@@ -39,8 +39,7 @@ public class Controller implements TimerCallBack {
 
     public Controller(Lobby lobby) {
         this.lobby = lobby;
-        this.timeout = ConfigFileReader.readConfigFile("controllerTimeout");
-        this.timer = new TimerThread (this, timeout);
+        this.timer = new TimerThread (this, ConfigFileReader.readConfigFile("controllerTimeout"));
         this.dummyPlayers = new ArrayList<> ();
     }
 
@@ -227,9 +226,14 @@ public class Controller implements TimerCallBack {
 //                usePup.usePowerUp(powerUp);
                 break;
             case "pass":
-                timer.shutDownThread();
-                lobby.sendMessageToAll(nickname + " passed the turn.\n");
-                playNewTurn();
+                int indexOfLast = gameModel.getGame ( ).getPlayers ( ).size ( ) - 1;
+                int currentTurn = gameModel.getGame ( ).getCurrentTurn ( ) - 1;
+                String currentPlayer = gameModel.getGame ( ).getPlayers ( ).get (indexOfLast - currentTurn).getPlayerName ( );
+                if (nickname.equals(currentPlayer)) {
+                    timer.shutDownThread ( );
+                    lobby.sendMessageToAll (nickname + " passed the turn.\n");
+                    playNewTurn ( );
+                }
                 break;
             default:
                 break;
@@ -343,42 +347,46 @@ public class Controller implements TimerCallBack {
         List<SquareDetails> map = gameModel.createSquareDetails ();
         TargetOptions options = null;
         if (effectId == 0) {
-            ((Shoot) currentAction).addEffectToApply (((Shoot) currentAction).getChosenWeapon ( ).getBaseEffect ( ));
-            ((Shoot)currentAction).setBaseUsed (true);
-            options = new TargetOptions (gameModel.createTargetDetails (((Shoot) currentAction).getChosenWeapon ( ).getBaseEffect ( )), map);
+            options = setBaseEffect (nickname, map);
         } else {
-            for (OptionalEffect e : ((Shoot)currentAction).getChosenWeapon ().getOptionalEffects ()) {
-                effectId--;
-                if (effectId == 0 && (e.isUsableBeforeBase () || (!e.isUsableBeforeBase () && ((Shoot)currentAction).isBaseUsed()) || (e.isAlternativeMode () && !((Shoot)currentAction).isBaseUsed()))) {
-                    ((Shoot) currentAction).addEffectToApply (e);
-                    options = new TargetOptions (gameModel.createTargetDetails (e), map);
+            if (! ((Shoot)currentAction).isMustUseBase ()) {
+                for (OptionalEffect e : ((Shoot) currentAction).getChosenWeapon ( ).getOptionalEffects ( )) {
+                    effectId--;
+                    if (effectId == 0) {
+                        if (e.isUsableBeforeBase ( ) && !((Shoot) currentAction).isBaseUsed ( )) {
+                            ((Shoot) currentAction).setMustUseBase (true);
+                            ((Shoot) currentAction).addOptionalEffect (e);
+                            options = new TargetOptions (gameModel.createTargetDetails (e), gameModel.findCompliantTargets (e, nickname), map);
+                        } else if (!e.isUsableBeforeBase ( ) && ((Shoot) currentAction).isBaseUsed ( ) || (e.isAlternativeMode ( ) && !((Shoot) currentAction).isBaseUsed ( ))) {
+                            ((Shoot) currentAction).addOptionalEffect (e);
+                            options = new TargetOptions (gameModel.createTargetDetails (e), gameModel.findCompliantTargets (e, nickname), map);
+                        }
+                    }
                 }
+            } else {
+                lobby.sendToSpecific (nickname, new MessageForClient ("Error: you must use base effect."));
+                options = setBaseEffect (nickname, map);
             }
         }
-        if (((Shoot)currentAction).getChosenWeapon ().getOptionalEffects ().get(0).isAlternativeMode ()) {
-            ((Shoot)currentAction).setEndAction(true);
-        }
-        if (options != null)
+        if (options != null) {
+            if (((Shoot)currentAction).getChosenWeapon ().getOptionalEffects ().get(0).isAlternativeMode ())
+                ((Shoot)currentAction).setEndAction(true);
             lobby.sendToSpecific (nickname, options);
-        else {
+        } else {
             lobby.sendToSpecific (nickname, new MessageForClient ("Error: you can't choose this effect."));
             lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (((Shoot)currentAction).getChosenWeapon ())));
         }
     }
 
-    private void askDifferentTargets(String nickname) {
-        List<SquareDetails> map = gameModel.createSquareDetails ();
-        TargetOptions options = new TargetOptions (gameModel.createTargetDetails (((Shoot)currentAction).getEffectToApply ()), map);
-        lobby.sendToSpecific (nickname, options);
+    private TargetOptions setBaseEffect(String nickname, List<SquareDetails> map) {
+        ((Shoot) currentAction).addBaseEffect (((Shoot) currentAction).getChosenWeapon ( ).getBaseEffect ( ));
+        return new TargetOptions (gameModel.createTargetDetails (((Shoot) currentAction).getChosenWeapon ( ).getBaseEffect ( )), gameModel.findCompliantTargets (((Shoot) currentAction).getChosenWeapon ( ).getBaseEffect ( ), nickname), map);
     }
 
-    public void setAreaBasedTargets(String nickname, List<Integer> id) {
-        ((Shoot) currentAction).setEffectTargetAreas (id);
-
-        if (((Shoot) currentAction).isEndAction ())
-            checkNewTurn (nickname);
-        else
-            lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (((Shoot) currentAction).getChosenWeapon ())));
+    private void askDifferentTargets(String nickname) {
+        List<SquareDetails> map = gameModel.createSquareDetails ();
+        TargetOptions options = new TargetOptions (gameModel.createTargetDetails (((Shoot)currentAction).getEffectToApply ()), gameModel.findCompliantTargets (((Shoot)currentAction).getEffectToApply (), nickname), map);
+        lobby.sendToSpecific (nickname, options);
     }
 
     public void setTargets(String nickname, List<AtomicTarget> targets) {

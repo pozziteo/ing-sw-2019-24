@@ -84,7 +84,7 @@ class WeaponEffectTypeAdapterTest {
             try {
                 while (reader.peek() != JsonToken.END_DOCUMENT) {
                     WeaponEffect effect = parser.fromJson(reader, WeaponEffect.class);
-                    for (TargetType type : effect.getTargets ())
+                    for (TargetType type : effect.getTargetTypes ())
                         System.out.println(file.path + ": " + type.getTargetValue () + ", " + type.isAreaType () + ", " + type.getMovements () + "," + type.getConstraints ());
                 }
             } catch (IOException exc) {

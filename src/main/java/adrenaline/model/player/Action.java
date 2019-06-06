@@ -24,19 +24,14 @@ public interface Action {
         Map map = player.getGame().getMap();
         Square position = player.getPosition();
 
-        if (movements == 1) {
-            List<Integer> paths = findPaths (map, position, movements);
-            paths.add (player.getPosition ( ).getSquareId ( ));
-
-            return paths;
-        } else
-            return findPaths (map, position, movements);
+        return findPaths (map, position, movements);
     }
 
     static List<Integer> findPaths(Map map, Square position, int movements) {
         List<Integer> toVisit = new ArrayList<>();
         toVisit.add(position.getSquareId());
         List<Integer> visited = new ArrayList<>();
+        visited.add (position.getSquareId ());
         for (int moves = 1; moves <= movements; moves++) {
             int currentNodes = toVisit.size();
             while (currentNodes > 0) {
