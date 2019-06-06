@@ -3,7 +3,6 @@ package adrenaline.controller;
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_client.data_for_game.*;
 import adrenaline.data.data_for_client.data_for_network.MessageForClient;
-import adrenaline.data.data_for_client.responses_for_view.fake_model.EffectDetails;
 import adrenaline.data.data_for_client.responses_for_view.fake_model.SquareDetails;
 import adrenaline.data.data_for_client.responses_for_view.fake_model.WeaponDetails;
 import adrenaline.data.data_for_server.data_for_game.AtomicTarget;
@@ -14,7 +13,6 @@ import adrenaline.exceptions.UnreachableTargetException;
 import adrenaline.model.GameModel;
 import adrenaline.model.deck.Ammo;
 import adrenaline.model.deck.OptionalEffect;
-import adrenaline.model.deck.TargetType;
 import adrenaline.model.deck.Weapon;
 import adrenaline.model.map.SpawnPoint;
 import adrenaline.model.player.*;
@@ -225,7 +223,7 @@ public class Controller implements TimerCallBack {
                 lobby.sendToSpecific (nickname, options);
                 break;
             case "power up":
-                UsePowerUp usePup = new UsePowerUp(nickname);
+                PowerUpAction usePup = new PowerUpAction(nickname);
 //                usePup.usePowerUp(powerUp);
                 break;
             case "pass":

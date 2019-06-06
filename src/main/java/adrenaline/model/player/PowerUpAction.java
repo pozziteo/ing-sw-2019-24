@@ -9,7 +9,7 @@ import adrenaline.model.map.Square;
 import java.util.List;
 
 //TODO add JavaDoc
-public class UsePowerUp {
+public class PowerUpAction {
 
     private Game game;
     private Ammo ammo;
@@ -22,10 +22,10 @@ public class UsePowerUp {
     private int id;
 
     /**
-     * Constructor of the action UsePowerUp
+     * Constructor of the action PowerUpAction
      * @param nickname is the player who performs the action
      */
-    public UsePowerUp(String nickname){
+    public PowerUpAction(String nickname){
         for (int i=0; i<this.game.getPlayers().size(); i++){
             if (game.getPlayers().get(i).getPlayerName().equalsIgnoreCase(nickname)) {
                 powerUps = game.getPlayers().get(i).getOwnedPowerUps();
@@ -50,16 +50,16 @@ public class UsePowerUp {
     public void usePowerUp(PowerUp powerUp) {
         switch (powerUp.getPowerUpsName()){
             case "Teleporter":
-                powerUpEffect.useTeleporter(attacker, square);
+                //powerUpEffect.useTeleporter(attacker, square);
                 break;
             case "Targeting Scope":
-                powerUpEffect.useTargetingScope(attacker, target);
+               // powerUpEffect.useTargetingScope(attacker, target);
                 break;
             case "Tagback Grenade":
-                powerUpEffect.useTagbackGrenade(attacker, target);
+               // powerUpEffect.useTagbackGrenade(attacker, target);
                 break;
             case "Newton":
-                powerUpEffect.useNewton(attacker, target, movements, id);
+               // powerUpEffect.useNewton(attacker, target, movements, id);
                 break;
         }
     }

@@ -49,7 +49,7 @@ class PowerUpEffectTest {
         assertEquals(1, attacker.getBoard().getAmountOfAmmo(ammo));
     }
 
-    @Test
+    /*@Test
     void trueTestPup(){
         this.game.setArena(SMALL);
         attacker.setPosition(game.getMap().getSquare(1));
@@ -103,7 +103,7 @@ class PowerUpEffectTest {
         assertEquals(1, victim.getPosition().getSquareId());
         System.out.println("has tagback? "+attacker.hasGrenade());
     }
-
+*/
 /*    @Test
     void falseTestPup(){
         this.game.setArena(SMALL);
