@@ -5,11 +5,11 @@ import adrenaline.model.map.Square;
 import java.util.*;
 
 //TODO add JavaDoc
-public class Move implements Action {
+public class MoveAction implements Action {
 
     private List<Integer> paths;
 
-    public Move(Player player, boolean frenzy) {
+    public MoveAction(Player player, boolean frenzy) {
         List<Player> players = player.getGame().getPlayers();
         Player firstPlayer = player.getGame().getFirstPlayer();
 

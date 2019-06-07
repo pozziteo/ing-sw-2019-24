@@ -355,7 +355,7 @@ public class CliUserInterface implements UserInterface {
     private void chooseWeapon(SpawnPointDetails square) {
         NewPositionAndGrabbed newPositionAndGrabbed;
         this.printer.printWeaponListToChoose (square.getWeaponsOnSquare ());
-        int parsed = this.parser.asyncParseInt (3);
+        int parsed = this.parser.asyncParseInt (2);
         if (parsed != -1) {
             newPositionAndGrabbed = new NewPositionAndGrabbed (nickname, square.getId (), square.getWeaponsOnSquare ()[parsed-1].getName ());
             sendToServer (newPositionAndGrabbed);
@@ -366,9 +366,9 @@ public class CliUserInterface implements UserInterface {
         DataForServer weapon;
         printer.print("These are your loaded weapons: ");
         printer.printWeaponList (weapons);
-        int parsed = this.parser.asyncParseInt (3);
+        int parsed = this.parser.asyncParseInt (weapons.size ()-1);
         if (parsed != -1) {
-            weapon = new ChosenWeapon (nickname, weapons.get(parsed-1).getName ());
+            weapon = new ChosenWeapon (nickname, weapons.get(parsed).getName ());
             sendToServer (weapon);
         }
     }
@@ -510,7 +510,7 @@ public class CliUserInterface implements UserInterface {
                 printer.printWeaponList (weapons);
                 int parsed1 = this.parser.asyncParseInt (weapons.size ());
                 if (parsed1 != -1) {
-                    DataForServer response = new ReloadResponse (nickname, true, weapons.get(parsed1-1).getName ());
+                    DataForServer response = new ReloadResponse (nickname, true, weapons.get(parsed1).getName ());
                     sendToServer (response);
                 }
             }
@@ -519,17 +519,17 @@ public class CliUserInterface implements UserInterface {
     }
 
     public void discardWeapon(List<WeaponDetails> weapons) {
-        printer.print ("You reached the max amount of weapons you can hold. Please discard one of the following: ");
         printer.printWeaponList (weapons);
-        int parsed = this.parser.asyncParseInt (weapons.size ( ));
+        int parsed = this.parser.asyncParseInt (weapons.size ( )-1);
         if (parsed != -1) {
-            DataForServer response = new DiscardedWeapon (nickname, weapons.get (parsed - 1).getName ( ));
+            DataForServer response = new DiscardedWeapon (nickname, weapons.get (parsed).getName ( ));
             sendToServer (response);
         }
     }
 
     public void showEndGameScreen(List<String> ranking) {
         printer.printRanking (ranking);
+        printer.printEndGame ();
         System.exit (0);
     }
 }

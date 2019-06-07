@@ -13,11 +13,11 @@ import adrenaline.model.map.Square;
 import java.util.*;
 
 //TODO add JavaDoc
-public class MoveAndGrab implements Action {
+public class MoveAndGrabAction implements Action {
 
     private List<Integer> paths;
 
-    public MoveAndGrab(Player player, boolean frenzy) {
+    public MoveAndGrabAction(Player player, boolean frenzy) {
 
         List<Player> players = player.getGame().getPlayers();
         Player firstPlayer = player.getGame().getFirstPlayer();
@@ -87,6 +87,10 @@ public class MoveAndGrab implements Action {
         }
         position.setPlacedTile(null);
         player.getGame().getTilesDeck ().discardCard(tile);
+        if (player.getGame ().getTilesDeck ().getCards ().isEmpty ()) {
+            player.getGame ( ).getTilesDeck ( ).reloadDeck ( );
+            player.getGame ( ).getTilesDeck ( ).deckShuffle ();
+        }
     }
 
     @Override

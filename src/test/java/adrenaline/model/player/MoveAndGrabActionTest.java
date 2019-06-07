@@ -17,7 +17,7 @@ import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MoveAndGrabTest {
+class MoveAndGrabActionTest {
     private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
     private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
     private String[] playerNames = {"luca", "matteo", "sara"};
@@ -32,7 +32,7 @@ class MoveAndGrabTest {
         ((NormalSquare) initialSquare).setPlacedTile(new Tile(TileFormat.TILE_FORMAT_4));
         Player player = g.getPlayers().get(0);
         player.setPosition(initialSquare);
-        MoveAndGrab moveAndGrab = new MoveAndGrab(player, player.getGame().isFinalFrenzy());
+        MoveAndGrabAction moveAndGrab = new MoveAndGrabAction (player, player.getGame().isFinalFrenzy());
 
         try {
             Square newPosition = moveAndGrab.grabObject (player, null);
@@ -48,7 +48,7 @@ class MoveAndGrabTest {
 
         Weapon toGrab = ((SpawnPoint) map.getSquare(2)).getWeapons()[0];
 
-        MoveAndGrab anotherGrab = new MoveAndGrab(player, player.getGame().isFinalFrenzy());
+        MoveAndGrabAction anotherGrab = new MoveAndGrabAction (player, player.getGame().isFinalFrenzy());
 
         try {
             Square anotherPosition = anotherGrab.grabObject (player, 2, toGrab);
@@ -78,7 +78,7 @@ class MoveAndGrabTest {
         squareToGet.setPlacedTile(new Tile(TileFormat.TILE_FORMAT_20));
 
         try {
-            MoveAndGrab thisWillFail = new MoveAndGrab (notAdrenaline, notAdrenaline.getGame ( ).isFinalFrenzy ( ));
+            MoveAndGrabAction thisWillFail = new MoveAndGrabAction (notAdrenaline, notAdrenaline.getGame ( ).isFinalFrenzy ( ));
             Square samePosition = thisWillFail.grabObject (notAdrenaline, 6, null);
             assertNotNull (squareToGet.getPlacedTile ( ));
             assertEquals (initialSquare, samePosition);
@@ -87,7 +87,7 @@ class MoveAndGrabTest {
         }
 
         try {
-            MoveAndGrab thisWillSucceed = new MoveAndGrab (adrenaline, adrenaline.getGame ( ).isFinalFrenzy ( ));
+            MoveAndGrabAction thisWillSucceed = new MoveAndGrabAction (adrenaline, adrenaline.getGame ( ).isFinalFrenzy ( ));
             Square newPosition = thisWillSucceed.grabObject (adrenaline, 6, null);
             assertEquals (squareToGet, newPosition);
             assertNull (squareToGet.getPlacedTile ( ));

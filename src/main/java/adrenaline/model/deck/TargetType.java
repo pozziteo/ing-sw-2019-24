@@ -2,7 +2,7 @@ package adrenaline.model.deck;
 
 import adrenaline.model.player.Action;
 import adrenaline.model.player.Player;
-import adrenaline.model.player.Shoot;
+import adrenaline.model.player.ShootAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +75,7 @@ public class TargetType {
 
             case "different from base target":
                 for (Player p : targets) {
-                    if (((Shoot)currentAction).getBaseEffect ().getTargets ().contains(p)) {
+                    if (((ShootAction)currentAction).getBaseEffect ().getTargets ().contains(p)) {
                         legal = false;
                         break;
                     }
@@ -94,7 +94,7 @@ public class TargetType {
                 break;
 
             case "on base target position":
-                if (((Shoot)currentAction).getBaseEffect ().getTargets ().get(0).getPosition ().getSquareId () != squareId) {
+                if (((ShootAction)currentAction).getBaseEffect ().getTargets ().get(0).getPosition ().getSquareId () != squareId) {
                         legal = false;
                         break;
                 }
@@ -125,16 +125,16 @@ public class TargetType {
                 break;
 
             case "one of base targets":
-                if (!((Shoot)currentAction).getBaseEffect ().getTargets ().contains (targets.get (0)))
+                if (!((ShootAction)currentAction).getBaseEffect ().getTargets ().contains (targets.get (0)))
                     legal = false;
                 break;
 
             case "one of base targets different from first optional targets":
-                if (!((Shoot)currentAction).getBaseEffect ().getTargets ().contains (targets.get (0))) {
+                if (!((ShootAction)currentAction).getBaseEffect ().getTargets ().contains (targets.get (0))) {
                     legal = false;
                     break;
                 }
-                if (targets.get(0).equals(((Shoot)currentAction).getOptionalEffect ().getTargets ().get (0)))
+                if (targets.get(0).equals(((ShootAction)currentAction).getOptionalEffect ().getTargets ().get (0)))
                     legal = false;
                 break;
 

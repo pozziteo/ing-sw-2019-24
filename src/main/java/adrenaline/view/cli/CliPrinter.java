@@ -308,7 +308,7 @@ public class CliPrinter {
     synchronized void printWeaponListToChoose(WeaponDetails[] weapons){
         print("These are the weapons you can grab from this square: ");
         for (int i = 0; i < weapons.length; i++){
-            print ((i + 1) + " - " + weapons[i].getName () + ": " + weapons[i].getDescription () + "(cost to grab: " + weapons[i].getGrabCost () + ")\n");
+            print (i + " - " + weapons[i].getName () + ": " + weapons[i].getDescription () + "(cost to grab: " + weapons[i].getGrabCost () + ")\n");
         }
     }
 
@@ -321,7 +321,7 @@ public class CliPrinter {
             print("No weapons");
         else {
             for (int i = 0; i < weapons.size ( ); i++) {
-                print ((i + 1) + " - " + ANSI_PURPLE + weapons.get (i).getName ( ) + ANSI_RESET + ": " + weapons.get (i).getDescription ( ) + "(cost to reload :" + weapons.get (i).getAmmoCost ( ) + ")\n");
+                print (i + " - " + ANSI_PURPLE + weapons.get (i).getName ( ) + ANSI_RESET + ": " + weapons.get (i).getDescription ( ) + "(cost to reload :" + weapons.get (i).getAmmoCost ( ) + ")\n");
             }
         }
     }
@@ -347,7 +347,7 @@ public class CliPrinter {
     synchronized void printPowerUpList(List<String> pups){
         print("These are your PowerUps: ");
         for (int i=0; i< pups.size(); i++){
-            print((i+1) + " - " + pups.get(i) + " ~ Ammo color: " );
+            print(i + " - " + pups.get(i) + " ~ Ammo color: " );
         }
     }
 
@@ -406,12 +406,13 @@ public class CliPrinter {
         print("- unloaded weapons: " );
         printWeaponList (board.getUnloadedWeapons ());
         print("- owned ammo: " + board.getOwnedAmmo ());
-        //print("- points: " + board.getPointsForKill ());
         print("\n");
     }
 
     synchronized void printReload() {
         print("Do you want to reload any of your weapons?\n");
+        print("0 - No");
+        print("1 - Yes");
     }
 
     synchronized void printEndGame() {

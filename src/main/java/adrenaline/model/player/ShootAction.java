@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Shoot implements Action {
+public class ShootAction implements Action {
     private Player attacker;
     private boolean baseUsed;
     private boolean mustUseBase;
@@ -20,7 +20,7 @@ public class Shoot implements Action {
     private LinkedList<WeaponEffect> effects;
     private boolean endAction;
 
-    public Shoot(Player attacker) {
+    public ShootAction(Player attacker) {
         this.attacker = attacker;
         this.baseUsed = false;
         this.mustUseBase = false;
