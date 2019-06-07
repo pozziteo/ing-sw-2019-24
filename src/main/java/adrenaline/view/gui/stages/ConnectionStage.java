@@ -22,7 +22,9 @@ public class ConnectionStage {
     private ClientInterface client;
     private Scene connectionScene;
 
-    public ConnectionStage() {
+    public ConnectionStage(Stage stage) {
+        this.stage = stage;
+
         GridPane grid = new GridPane();
         grid.setId("grid");
 
@@ -47,7 +49,8 @@ public class ConnectionStage {
 
         socketButton.setOnMouseClicked(mouseEvent -> {
             client = new SocketClient("localhost", ConfigFileReader.readConfigFile("socketPort"), GUIController.getController());
-            stage.close();
+            GUIController.getController().setClient(client);
+            client.connectToServer();
         });
 
         rmiButton.setOnMouseClicked(mouseEvent -> {
@@ -56,23 +59,18 @@ public class ConnectionStage {
             } catch (RemoteException exc) {
                 exc.printStackTrace();
             }
-            stage.close();
+            GUIController.getController().setClient(client);
+            client.connectToServer();
         });
 
         pane.getChildren().add(grid);
-        this.connectionScene = new Scene(pane, 1360, 768);
+        this.connectionScene = new Scene(pane, stage.getScene().getWidth(), stage.getScene().getHeight());
         connectionScene.getStylesheets().addAll(getClass().getResource("/assets/launch_scene.css").toExternalForm(),
                 getClass().getResource("/assets/background.css").toExternalForm());
         pane.requestFocus();
     }
 
-    public ClientInterface getConnection() {
-        GUIController.getController().setCurrentScene(connectionScene);
-        stage = new Stage(StageStyle.TRANSPARENT);
-        stage.sizeToScene();
-        stage.toBack();
-        stage.showAndWait();
-
-        return client;
+    public Scene getConnectionScene() {
+        return this.connectionScene;
     }
 }

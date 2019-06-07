@@ -11,12 +11,15 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class LoginStage {
 
     private Scene loginScene;
 
-    public LoginStage() {
+    public LoginStage(Stage stage) {
+        stage.setMaximized(true);
+
         StackPane pane = new StackPane();
         pane.setId("launcher");
 
@@ -62,7 +65,7 @@ public class LoginStage {
             controller.sendToServer(accountData);
         });
 
-        this.loginScene = new Scene(pane, 1360, 768);
+        this.loginScene = new Scene(pane, stage.getScene().getWidth(), stage.getScene().getHeight());
         loginScene.getStylesheets().addAll(getClass().getResource("/assets/background.css").toExternalForm(),
                 getClass().getResource("/assets/login_stage.css").toExternalForm());
         pane.requestFocus();

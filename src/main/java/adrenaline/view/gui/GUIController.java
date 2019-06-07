@@ -36,8 +36,6 @@ public class GUIController implements UserInterface {
 
     private GUIController(Stage stage) {
         this.stage = stage;
-        this.connectionStage = new ConnectionStage();
-        this.loginStage = new LoginStage();
     }
 
     public static GUIController getController() {
@@ -50,13 +48,12 @@ public class GUIController implements UserInterface {
         return getController();
     }
 
-    public void establishConnection() {
-        client = connectionStage.getConnection();
-        client.connectToServer();
-    }
-
     public String getNickname() {
         return this.nickname;
+    }
+
+    public void setClient(ClientInterface client) {
+        this.client = client;
     }
 
     public void setNickname(String nickname) {
@@ -125,12 +122,19 @@ public class GUIController implements UserInterface {
 
     @Override
     public void setUpAccount() {
+        this.loginStage = new LoginStage(stage);
         Platform.runLater(() ->
                 setCurrentScene(loginStage.getLoginScene()));
     }
 
+    public void establishConnection() {
+        this.connectionStage = new ConnectionStage(stage);
+        Platform.runLater(() ->
+                setCurrentScene(connectionStage.getConnectionScene()));
+    }
+
     public void entryLobby() {
-        this.lobbyStage = new LobbyStage();
+        this.lobbyStage = new LobbyStage(stage);
         Platform.runLater(() ->
                 setCurrentScene(lobbyStage.getLobbyScene()));
     }
