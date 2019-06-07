@@ -1,12 +1,10 @@
 package adrenaline.view.gui.stages;
 
-import adrenaline.data.data_for_server.data_for_game.ChosenMapSetUp;
 import adrenaline.view.gui.GUIController;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -14,6 +12,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -26,13 +25,15 @@ public class LobbyStage {
     private static final String MEDIUM_2 = PATH + File.separatorChar + "mediummap_2.json";
     private static final String LARGE = PATH + File.separatorChar + "largemap.json";
 
+    private Stage stage;
     private Scene lobbyScene;
     private StackPane rootPane;
     private VBox box;
     private Text waitingText;
     private Text waitingSelection;
 
-    public LobbyStage() {
+    public LobbyStage(Stage stage) {
+        this.stage = stage;
         this.rootPane = new StackPane();
         rootPane.setId("launcher");
 
@@ -71,7 +72,7 @@ public class LobbyStage {
         box.getChildren().addAll(success, waitingText);
         rootPane.getChildren().add(box);
 
-        this.lobbyScene = new Scene(rootPane, 1360, 768);
+        this.lobbyScene = new Scene(rootPane, stage.getScene().getWidth(), stage.getScene().getHeight());
         lobbyScene.getStylesheets().addAll(getClass().getResource("/assets/background.css").toExternalForm(),
                 getClass().getResource("/assets/login_stage.css").toExternalForm());
         rootPane.requestFocus();

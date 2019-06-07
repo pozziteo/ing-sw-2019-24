@@ -8,6 +8,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -25,8 +26,10 @@ public class GraphicUserInterface extends Application {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Adrenaline Launcher");
         primaryStage.setResizable(false);
+//        primaryStage.setFullScreen(false);
         primaryStage.setAlwaysOnTop(true);
-        primaryStage.centerOnScreen();
+//        primaryStage.centerOnScreen();
+        primaryStage.setMaximized(true);
 
         controller = GUIController.createController(primaryStage);
 
@@ -61,11 +64,11 @@ public class GraphicUserInterface extends Application {
             //TODO improve
         });
 
-        Scene firstScene = new Scene(pane, 1360, 768);
+        Scene firstScene = new Scene(pane);
         primaryStage.setScene(firstScene);
         firstScene.getStylesheets().addAll(getClass().getResource("/assets/launch_scene.css").toExternalForm(),
                 getClass().getResource("/assets/background.css").toExternalForm());
-        primaryStage.sizeToScene();
+//        primaryStage.sizeToScene();
         primaryStage.show();
         pane.requestFocus();
     }
