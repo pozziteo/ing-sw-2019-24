@@ -4,6 +4,7 @@ import adrenaline.data.data_for_client.responses_for_view.fake_model.EffectDetai
 import adrenaline.data.data_for_client.responses_for_view.fake_model.*;
 import org.fusesource.jansi.AnsiConsole;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -148,6 +149,7 @@ public class CliPrinter {
      */
     synchronized void printRanking(List<String> ranking) {
         print("Ranking:");
+        Collections.reverse(ranking);
         for (int i = 0; i < ranking.size(); i++) {
             print ((i+1) + " - " + ranking.get(i));
         }

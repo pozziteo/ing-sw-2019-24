@@ -12,7 +12,6 @@ import adrenaline.model.player.Player;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Class used to access the entire model package
@@ -53,6 +52,7 @@ public class Game implements Serializable {
     private boolean finalFrenzy;
     private boolean endGame;
     private LinkedList<Action> currentTurnActions;
+    private List<String> deathTrack;
 
     public Game(String[] playerNames) {
         this.gameID = new Random().nextInt() * 1000000;
@@ -63,6 +63,7 @@ public class Game implements Serializable {
         this.ranking = new ArrayList<>();
         this.endGame = false;
         this.currentTurnActions = new LinkedList<>();
+        this.deathTrack = new ArrayList<>();
 
         this.weaponsDeck = new WeaponsDeckCreator().createDeck();
         this.powerUpsDeck = new PowerUpsDeckCreator().createDeck();
@@ -347,12 +348,26 @@ public class Game implements Serializable {
     }
 
     /**
+     * Method that adds one death to the 'DeadPlayer',
+     * adds the killer in the 'deathTrack' and
+     * reduce the number of skulls remaining
+     * @param deadPlayer is the one who died
+     */
+    private void deathEvent(Player deadPlayer){
+        deadPlayer.addDeaths();
+        deathTrack.add(deadPlayer.getBoard().getDamageTaken().get(10));
+        if(deadPlayer.getBoard().getDamageTaken().size()==12)
+            deathTrack.add(deadPlayer.getBoard().getDamageTaken().get(11));
+        skullsRemaining--;
+    }
+
+    /**
      * Method for the OverKill
 
      * @param deadPlayer is the player who died
      */
     public void overKill(Player deadPlayer) {
-        if (deadPlayer.getBoard().getDamageTaken().size() == 12)
+        if (deadPlayer.getBoard().getDamageTaken().size() >= 12)
             for (Player p : players)
                 if (p.getPlayerColor().equalsIgnoreCase(deadPlayer.getBoard().getDamageTaken().get(11)))
                     deadPlayer.giveMark(1, p);
@@ -418,6 +433,6 @@ public class Game implements Serializable {
             }
         }
         //aggiunge una morte al 'deadPlayer'
-        deadPlayer.addDeaths();
+        deathEvent(deadPlayer);
     }
 }
