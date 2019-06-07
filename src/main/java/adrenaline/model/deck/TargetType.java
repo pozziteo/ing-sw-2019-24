@@ -94,11 +94,9 @@ public class TargetType {
                 break;
 
             case "on base target position":
-                for (Player p : targets) {
-                    if (!((Shoot)currentAction).getBaseEffect ().getTargets ().get(0).getPosition ().equals(p.getPosition ())) {
+                if (((Shoot)currentAction).getBaseEffect ().getTargets ().get(0).getPosition ().getSquareId () != squareId) {
                         legal = false;
                         break;
-                    }
                 }
                 break;
 

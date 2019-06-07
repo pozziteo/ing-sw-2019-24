@@ -414,11 +414,7 @@ public class CliUserInterface implements UserInterface {
         for (TargetDetails target : targets) {
             if (target.getValue () != -1)
                 //normal targets (single or multiple)
-                try {
-                    atomicTarget = chooseTargets (target.getValue ( ), target.getMovements ( ), compliantTargets, map);
-                } catch (NullPointerException e) {
-                    atomicTarget = chooseNonRequirementTargets (target.getValue (), target.getMovements (), map);
-                }
+                atomicTarget = chooseTargets (target.getValue ( ), target.getMovements ( ), compliantTargets, map);
             else if (target.getValue () == -1 && target.isArea ())
                 //area based damage (square or room)
                 atomicTarget = chooseAreaToTarget (compliantTargets, map);
@@ -432,7 +428,7 @@ public class CliUserInterface implements UserInterface {
             if (atomicTarget == null) {
                 invalid = true;
                 sendAction ("pass");
-                printer.print("Automatically skipping this turn...");
+                printer.print("Error: you built an illegal action. Automatically skipping this turn...");
                 break;
             }
             else
@@ -471,40 +467,6 @@ public class CliUserInterface implements UserInterface {
             } else
                 return null;
         } else
-            return null;
-    }
-
-    private AtomicTarget chooseNonRequirementTargets(int maxAmount, int movements, List<SquareDetails> map) {
-        //TODO fix
-        List<String> players = new ArrayList<> ();
-        for (SquareDetails s : map) {
-            if (! s.getPlayersOnSquare ().isEmpty ()) {
-                for (String nick : s.getPlayersOnSquare ()) {
-                    players.add(nick);
-                    printer.printPlayerPositions (players.size(), nick, s.getId ( ));
-                }
-            }
-        }
-        printer.print("Choose your targets (please keep in mind that for weapons with multiple effects, these will be applied following the description's order | press 5 to finish beforehand):" );
-        boolean valid = false;
-        List<String> targets = new LinkedList<> ();
-        int amountChosen = 0;
-        while (amountChosen <= maxAmount) {
-            printer.printChooseTargets (maxAmount - amountChosen);
-            int parsed = this.parser.asyncParseInt (players.size ());
-            if (parsed != -1) {
-                if (parsed > 0 && parsed <= players.size()) {
-                    valid = true;
-                    amountChosen++;
-                    targets.add(players.get (parsed-1));
-                } else {
-                    printer.printInvalidInput ( );
-                }
-            }
-        }
-        if (valid)
-            return new AtomicTarget (players, -1);
-        else
             return null;
     }
 

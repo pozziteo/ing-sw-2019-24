@@ -7,6 +7,7 @@ import adrenaline.model.deck.*;
 import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.map.NormalSquare;
 import adrenaline.model.map.SpawnPoint;
+import adrenaline.model.player.Action;
 import adrenaline.model.player.Player;
 import adrenaline.network.Account;
 
@@ -167,16 +168,19 @@ public class GameModel {
     }
 
     public List<String> findCompliantTargets(WeaponEffect effect, String attacker) {
-        if (effect.getRequirement () != null) {
-            List<String> targets = new ArrayList<> ();
-            List<Player> compliantTargets = effect.getRequirement ( ).findTargets (game.findByNickname (attacker));
-
+        if (effect.getTargetTypes ().get (0).getTargetValue () != -1) {
+            List<String> targets = new ArrayList<> ( );
+            List<Player> compliantTargets;
+            if (effect.getRequirement ( ) != null) {
+                compliantTargets = effect.getRequirement ( ).findTargets (game.findByNickname (attacker));
+            } else {
+                NullRequirement requirement = new NullRequirement ();
+                compliantTargets = requirement.findTargets (game.findByNickname (attacker));
+            }
             for (Player p : compliantTargets)
                 targets.add (p.getPlayerName ( ));
-
             return targets;
         }
-
         return null;
     }
 }
