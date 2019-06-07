@@ -374,12 +374,15 @@ public class CliUserInterface implements UserInterface {
     }
 
     public void chooseWeaponEffect(List<EffectDetails> effects) {
-        printer.print("Choose the effect you want to perform: ");
+        printer.print("Choose the effect you want to perform | press " + effects.size() + " to finish):");
         printer.printWeaponEffects(effects);
-        int parsed = this.parser.asyncParseInt (effects.size()-1);
+        int parsed = this.parser.asyncParseInt (effects.size());
         if (parsed != -1) {
-            DataForServer response = new ChosenEffect (nickname, parsed);
-            sendToServer (response);
+            if (parsed != effects.size()) {
+                DataForServer response = new ChosenEffect (nickname, parsed);
+                sendToServer (response);
+            } else
+                sendAction ("end action");
         }
     }
 
@@ -427,8 +430,8 @@ public class CliUserInterface implements UserInterface {
             //quit the loop if the timer runs out during one of the phases of target building/automatically pass the turn if the effect chosen can't hit anyone
             if (atomicTarget == null) {
                 invalid = true;
-                sendAction ("pass");
-                printer.print("Error: you built an illegal action. Automatically skipping this turn...");
+                sendAction ("end action");
+                printer.print("Error: you built an illegal action. Automatically skipping this action...");
                 break;
             }
             else
@@ -440,7 +443,7 @@ public class CliUserInterface implements UserInterface {
 
     private AtomicTarget chooseTargets(int maxAmount, int movements, List<String> compliantTargets, List<SquareDetails> map) {
         if (printPlayersPositions (compliantTargets, map)) {
-            printer.print ("Choose your targets (please keep in mind that for weapons with multiple effects, these will be applied following the description's order | press " + (compliantTargets.size ( ) + 1) + " to finish beforehand): ");
+            printer.print ("Choose your targets | press " + (compliantTargets.size ( ) + 1) + " to finish beforehand): ");
             List<String> targets = new LinkedList<> ( );
             int amountChosen = 0;
             while (amountChosen < maxAmount) {

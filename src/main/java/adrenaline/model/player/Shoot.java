@@ -1,7 +1,7 @@
 package adrenaline.model.player;
 
 import adrenaline.data.data_for_server.data_for_game.AtomicTarget;
-import adrenaline.exceptions.UnreachableTargetException;
+import adrenaline.exceptions.IllegalTargetException;
 import adrenaline.model.deck.AtomicWeaponEffect;
 import adrenaline.model.deck.Weapon;
 import adrenaline.model.deck.WeaponEffect;
@@ -54,11 +54,15 @@ public class Shoot implements Action {
         this.baseUsed = true;
         this.mustUseBase = false;
         this.effects.add(effect);
+        if (chosenWeapon.getOptionalEffects ().isEmpty ())
+            this.endAction = true;
     }
 
     public void addOptionalEffect(WeaponEffect effect) {
         this.optionalEffects.add (effect);
         this.effects.add(effect);
+        if (optionalEffects.containsAll (chosenWeapon.getOptionalEffects ()))
+            this.endAction = true;
     }
 
     public WeaponEffect getBaseEffect() {
@@ -73,7 +77,7 @@ public class Shoot implements Action {
         return this.effects.getLast ();
     }
 
-    public void setEffectTargets(List<AtomicTarget> targets) throws UnreachableTargetException {
+    public void setEffectTargets(List<AtomicTarget> targets) throws IllegalTargetException {
         boolean legal = true;
         if (targets.size() == 1) {
             //apply every atomic effect to target.get(0)
@@ -84,7 +88,7 @@ public class Shoot implements Action {
                 for (AtomicWeaponEffect atomicEffect : effects.getLast().getEffects())
                     applyEffectToAtomicTargets(targets.get(0), atomicEffect);
             } else {
-                throw new UnreachableTargetException();
+                throw new IllegalTargetException ();
             }
         } else {
             int i = 0;
@@ -102,7 +106,7 @@ public class Shoot implements Action {
                 for (int j = 0; j < targets.size (); j++)
                     applyEffectToAtomicTargets(targets.get(j), effects.getLast ().getEffects ().get (j));
             } else
-                throw new UnreachableTargetException ();
+                throw new IllegalTargetException ();
         }
     }
 

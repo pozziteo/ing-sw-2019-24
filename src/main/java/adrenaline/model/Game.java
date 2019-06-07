@@ -244,6 +244,11 @@ public class Game implements Serializable {
         }
     }
 
+    public void updateCurrentAction(Action a) {
+        this.currentTurnActions.remove(getCurrentAction ());
+        this.currentTurnActions.add(a);
+    }
+
     public Action getCurrentAction() {
         return this.currentTurnActions.getLast();
     }

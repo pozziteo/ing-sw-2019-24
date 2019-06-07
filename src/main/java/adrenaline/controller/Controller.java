@@ -8,9 +8,8 @@ import adrenaline.data.data_for_client.responses_for_view.fake_model.WeaponDetai
 import adrenaline.data.data_for_server.data_for_game.AtomicTarget;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
 import adrenaline.exceptions.MustDiscardWeaponException;
-import adrenaline.exceptions.MustUseBaseEffectException;
 import adrenaline.exceptions.NotEnoughAmmoException;
-import adrenaline.exceptions.UnreachableTargetException;
+import adrenaline.exceptions.IllegalTargetException;
 import adrenaline.model.GameModel;
 import adrenaline.model.deck.Ammo;
 import adrenaline.model.deck.OptionalEffect;
@@ -226,14 +225,12 @@ public class Controller implements TimerCallBack {
 //                usePup.usePowerUp(powerUp);
                 break;
             case "pass":
-                int indexOfLast = gameModel.getGame ( ).getPlayers ( ).size ( ) - 1;
-                int currentTurn = gameModel.getGame ( ).getCurrentTurn ( ) - 1;
-                String currentPlayer = gameModel.getGame ( ).getPlayers ( ).get (indexOfLast - currentTurn).getPlayerName ( );
-                if (nickname.equals(currentPlayer)) {
-                    timer.shutDownThread ( );
-                    lobby.sendMessageToAll (nickname + " passed the turn.\n");
-                    playNewTurn ( );
-                }
+                timer.shutDownThread ( );
+                lobby.sendMessageToAll (nickname + " passed the turn.\n");
+                playNewTurn ( );
+                break;
+            case "end action":
+                checkNewTurn (nickname);
                 break;
             default:
                 break;
@@ -251,6 +248,7 @@ public class Controller implements TimerCallBack {
                 //should not be thrown
             }
         }
+        gameModel.getGame ().updateCurrentAction (currentAction);
         checkNewTurn (nickname);
     }
 
@@ -280,6 +278,7 @@ public class Controller implements TimerCallBack {
 
             lobby.sendToSpecific (nickname, new WeaponsToDiscard(weapons));
         }
+        gameModel.getGame ().updateCurrentAction (currentAction);
         checkNewTurn (nickname);
     }
 
@@ -338,6 +337,7 @@ public class Controller implements TimerCallBack {
     public void sendModeOptions(String nickname, String weaponName) {
         Weapon weapon = gameModel.getGame ().findByNickname (nickname).findLoadedWeapon (weaponName);
         ((Shoot) currentAction).setChosenWeapon (weapon);
+        gameModel.getGame ().updateCurrentAction (currentAction);
         if (weapon != null) {
             lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (weapon)));
         }
@@ -346,7 +346,7 @@ public class Controller implements TimerCallBack {
     public void askTargets(String nickname, int effectId) {
         List<SquareDetails> map = gameModel.createSquareDetails ();
         TargetOptions options = null;
-        if (effectId == 0) {
+        if (effectId == 0 && !((Shoot)currentAction).isBaseUsed ()) {
             options = setBaseEffect (nickname, map);
         } else {
             if (! ((Shoot)currentAction).isMustUseBase ()) {
@@ -369,13 +369,14 @@ public class Controller implements TimerCallBack {
             }
         }
         if (options != null) {
-            if (((Shoot)currentAction).getChosenWeapon ().getOptionalEffects ().get(0).isAlternativeMode ())
+            if (!((Shoot)currentAction).getChosenWeapon ().getOptionalEffects ().isEmpty () && ((Shoot)currentAction).getChosenWeapon ().getOptionalEffects ().get(0).isAlternativeMode ())
                 ((Shoot)currentAction).setEndAction(true);
             lobby.sendToSpecific (nickname, options);
         } else {
             lobby.sendToSpecific (nickname, new MessageForClient ("Error: you can't choose this effect."));
             lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (((Shoot)currentAction).getChosenWeapon ())));
         }
+        gameModel.getGame ().updateCurrentAction (currentAction);
     }
 
     private TargetOptions setBaseEffect(String nickname, List<SquareDetails> map) {
@@ -383,24 +384,25 @@ public class Controller implements TimerCallBack {
         return new TargetOptions (gameModel.createTargetDetails (((Shoot) currentAction).getChosenWeapon ( ).getBaseEffect ( )), gameModel.findCompliantTargets (((Shoot) currentAction).getChosenWeapon ( ).getBaseEffect ( ), nickname), map);
     }
 
+    /*
     private void askDifferentTargets(String nickname) {
         List<SquareDetails> map = gameModel.createSquareDetails ();
         TargetOptions options = new TargetOptions (gameModel.createTargetDetails (((Shoot)currentAction).getEffectToApply ()), gameModel.findCompliantTargets (((Shoot)currentAction).getEffectToApply (), nickname), map);
         lobby.sendToSpecific (nickname, options);
-    }
+    } */
 
     public void setTargets(String nickname, List<AtomicTarget> targets) {
         try {
             ((Shoot) currentAction).setEffectTargets (targets);
-        } catch (UnreachableTargetException e) {
+            gameModel.getGame ().updateCurrentAction (currentAction);
+            if (((Shoot) currentAction).isEndAction ())
+                checkNewTurn (nickname);
+            else
+                lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (((Shoot) currentAction).getChosenWeapon ())));
+        } catch (IllegalTargetException e) {
             lobby.sendToSpecific (nickname, new MessageForClient (e.getMessage ()));
-            askDifferentTargets (nickname);
-        }
-
-        if (((Shoot) currentAction).isEndAction ())
             checkNewTurn (nickname);
-        else
-            lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (((Shoot) currentAction).getChosenWeapon ())));
+        }
     }
 
     //******************************************************************************************************************
