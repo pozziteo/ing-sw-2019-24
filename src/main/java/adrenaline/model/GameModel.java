@@ -71,11 +71,16 @@ public class GameModel {
     public WeaponDetails createWeaponDetail(Weapon w) {
         List<String> ammoList = new ArrayList<> ();
         List<String> grabList = new ArrayList<> ();
+        List<String> additionalList1 = new ArrayList<> ();
+        List<String> additionalList2 = new ArrayList<> ();
+        String empty = "empty";
 
         if (w == null) {
-            ammoList.add("empty");
-            grabList.add("empty");
-            return new WeaponDetails ("empty", "none", ammoList, grabList);
+            ammoList.add(empty);
+            grabList.add(empty);
+            additionalList1.add(empty);
+            additionalList2.add(empty);
+            return new WeaponDetails (empty, "none", ammoList, grabList, additionalList1, additionalList2);
         }
 
         for (Ammo a : w.getType ( ).getReloadingAmmo ( ))
@@ -84,7 +89,17 @@ public class GameModel {
         for (Ammo a : w.getType ( ).getGrabbingCost ( ))
             grabList.add (a.getColor ( ));
 
-        return new WeaponDetails (w.getWeaponsName (), w.getWeaponsDescription (), ammoList, grabList);
+        if (! w.getOptionalEffects ().isEmpty ()) {
+            for (Ammo a : w.getOptionalEffects ( ).get (0).getAdditionalCost ( ))
+                additionalList1.add (a.getColor ( ));
+
+            if (w.getOptionalEffects ().size () == 2) {
+                for (Ammo a : w.getOptionalEffects ( ).get (1).getAdditionalCost ( ))
+                    additionalList2.add (a.getColor ( ));
+            }
+        }
+
+        return new WeaponDetails (w.getWeaponsName (), w.getWeaponsDescription (), ammoList, grabList, additionalList1, additionalList2);
     }
 
     public void updateMap(Account account) {

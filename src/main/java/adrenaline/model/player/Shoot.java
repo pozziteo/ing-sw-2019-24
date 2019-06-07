@@ -73,10 +73,6 @@ public class Shoot implements Action {
         return this.optionalEffects.get(0);
     }
 
-    public WeaponEffect getEffectToApply() {
-        return this.effects.getLast ();
-    }
-
     public void setEffectTargets(List<AtomicTarget> targets) throws IllegalTargetException {
         boolean legal = true;
         if (targets.size() == 1) {
@@ -149,6 +145,8 @@ public class Shoot implements Action {
             }
             effects.getLast ().setTargets (targets);
         }
+        attacker.getOwnedWeapons ().remove (chosenWeapon);
+        attacker.getBoard ().getUnloadedWeapons ().add(chosenWeapon);
     }
 
     public boolean isEndAction() {
