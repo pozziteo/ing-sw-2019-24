@@ -302,8 +302,8 @@ public class Game implements Serializable {
 
     public void updateRanking() {
         this.ranking.sort((Player o1, Player o2) -> {
-                    Integer points1 = o1.getPointTokens();
-                    Integer points2 = o2.getPointTokens();
+                    Integer points1 = o1.getBoard().getPointTokens();
+                    Integer points2 = o2.getBoard().getPointTokens();
                     return points2.compareTo(points1);
                 }
         );
@@ -403,9 +403,9 @@ public class Game implements Serializable {
         //al primo giocatore assegno il massimo, al secondo 2 in meno e cosi` via
         for (Player p : toCompute) {
             if (deadPlayer.getBoard().isFirstBlood(p)) {
-                p.addPointTokens(1);
+                p.getBoard().addPointTokens(1);
             }
-            p.addPointTokens(point);
+            p.getBoard().addPointTokens(point);
             switch (point) {
                 case 1:
                     break;

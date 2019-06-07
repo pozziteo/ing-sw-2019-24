@@ -18,7 +18,7 @@ public class Player {
     private String playerName;
     private String playerColor;
     private Board playerBoard;
-    private int pointTokens;
+    //private int pointTokens;
     private Square position = null;
     private ArrayList<Weapon> ownedWeapons;
     private ArrayList<PowerUp> ownedPowerUps;
@@ -35,7 +35,7 @@ public class Player {
         this.playerName = playerName;
         this.playerColor = color;
         this.playerBoard = new Board(this);
-        this.pointTokens = 0;
+       // this.pointTokens = 0;
         this.deaths = 0;
         this.ownedWeapons = new ArrayList<>();
         this.ownedPowerUps = new ArrayList<>();
@@ -120,22 +120,6 @@ public class Player {
 
     public Board getBoard(){return this.playerBoard;}
 
-    /**
-     * Getter method to obtain a player's points
-     * @return amount of points
-     */
-
-    public int getPointTokens() {
-        return this.pointTokens;
-    }
-
-    /**Setter method to set a player's points
-     * @param amount of points to be given
-     */
-
-    public void setPointTokens(int amount) {
-        this.pointTokens = amount;
-    }
 
     /**
      * Getter method to obtain a player's weapons
@@ -199,16 +183,6 @@ public class Player {
         toPlayer.playerBoard.gotMarked(amount, this);
     }
 
-    /**
-     * Method to add points to a player after a kill
-     * @param amount
-     */
-
-    public void addPointTokens(int amount) {
-        int points = this.getPointTokens ();
-        points += amount;
-        setPointTokens (points);
-    }
 
     /**
      * Method to set this player's spawn point based on the discarded power up

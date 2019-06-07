@@ -13,8 +13,9 @@ public class BoardDetails implements Serializable {
     private List<WeaponDetails> unloadedWeapons;
     private List<String> ownedAmmo;
     private int[] pointsForKill;
+    private int pointsToken;
 
-    public BoardDetails(String nickname, String color, int pos, List<WeaponDetails> loadedWeapons, List<String> damage, List<String> marks, List<WeaponDetails> unloadedWeapons, List<String> ammo, int[] points) {
+    public BoardDetails(String nickname, String color, int pos, List<WeaponDetails> loadedWeapons, List<String> damage, List<String> marks, List<WeaponDetails> unloadedWeapons, List<String> ammo, int[] points, int pointsToken) {
         this.nickname = nickname;
         this.color = color;
         this.position = pos;
@@ -24,6 +25,7 @@ public class BoardDetails implements Serializable {
         this.unloadedWeapons = unloadedWeapons;
         this.ownedAmmo = ammo;
         this.pointsForKill = points;
+        this.pointsToken = pointsToken;
     }
 
     public String getNickname() {
@@ -61,4 +63,6 @@ public class BoardDetails implements Serializable {
     public int[] getPointsForKill() {
         return this.pointsForKill;
     }
+
+    public int getPointsToken() {return this.pointsToken;}
 }

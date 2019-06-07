@@ -18,6 +18,7 @@ public class Board {
     private ArrayList<Ammo> ownedAmmo;
     private int[] pointsForKill;
     private Player player;
+    private int points;
 
     public Board(Player player) {
         this.player = player;
@@ -29,6 +30,7 @@ public class Board {
         this.ownedAmmo.add(Ammo.BLUE_AMMO);
         this.ownedAmmo.add(Ammo.YELLOW_AMMO);
         this.pointsForKill = new int[5];
+        this.points = 0;
     }
 
     /**
@@ -188,4 +190,34 @@ public class Board {
     public boolean isFirstBlood(Player player){
         return this.getDamageTaken().get(0).equalsIgnoreCase(player.getPlayerColor());
     }
+
+    /**
+     * Getter method to obtain a player's points
+     * @return amount of points
+     */
+
+    public int getPointTokens() {
+        return this.points;
+    }
+
+    /**Setter method to set a player's points
+     * @param amount of points to be given
+     */
+
+    private void setPointTokens(int amount) {
+        this.points = amount;
+    }
+
+
+    /**
+     * Method to add points to a player after a kill
+     * @param amount
+     */
+
+    public void addPointTokens(int amount) {
+        int points = this.getPointTokens ();
+        points += amount;
+        setPointTokens (points);
+    }
+
 }

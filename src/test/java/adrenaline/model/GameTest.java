@@ -26,10 +26,10 @@ public class GameTest {
         p1.getBoard().gotHit(5, p4);
         p1.getBoard().gotHit(1, p5);
         game.givePoints(p1);
-        assertEquals(8, p4.getPointTokens());
-        assertEquals(7, p2.getPointTokens());
-        assertEquals(4, p3.getPointTokens());
-        assertEquals(2, p5.getPointTokens());
+        assertEquals(8, p4.getBoard().getPointTokens());
+        assertEquals(7, p2.getBoard().getPointTokens());
+        assertEquals(4, p3.getBoard().getPointTokens());
+        assertEquals(2, p5.getBoard().getPointTokens());
     }
 
     @Test
@@ -43,17 +43,17 @@ public class GameTest {
         p1.setPosition(game.getMap ().getSquare(2));
         p2.setPosition(game.getMap ().getSquare(4));
         p3.setPosition(game.getMap ().getSquare(11));
-        assertEquals (0, game.getWinner ( ).getPointTokens ());
-        p1.addPointTokens (8);
-        p2.addPointTokens (2);
-        p3.addPointTokens (16);
-        p4.addPointTokens (4);
-        p5.addPointTokens (6);
+        assertEquals (0, game.getWinner ( ).getBoard().getPointTokens ());
+        p1.getBoard().addPointTokens (8);
+        p2.getBoard().addPointTokens (2);
+        p3.getBoard().addPointTokens (16);
+        p4.getBoard().addPointTokens (4);
+        p5.getBoard().addPointTokens (6);
         game.updateRanking();
-        assertEquals (16, game.getWinner ( ).getPointTokens ());
-        assertEquals (8, game.getRanking ().get(1).getPointTokens ());
-        assertEquals (6, game.getRanking ().get(2).getPointTokens ());
-        assertEquals (4, game.getRanking ().get(3).getPointTokens ());
-        assertEquals (2, game.getRanking ().get(4).getPointTokens ());
+        assertEquals (16, game.getWinner ( ).getBoard().getPointTokens ());
+        assertEquals (8, game.getRanking ().get(1).getBoard().getPointTokens ());
+        assertEquals (6, game.getRanking ().get(2).getBoard().getPointTokens ());
+        assertEquals (4, game.getRanking ().get(3).getBoard().getPointTokens ());
+        assertEquals (2, game.getRanking ().get(4).getBoard().getPointTokens ());
     }
 }

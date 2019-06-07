@@ -144,7 +144,8 @@ public class GameModel {
         for (Ammo a : p.getBoard ().getOwnedAmmo ())
             ownedAmmo.add(a.getColor ());
         int[] pointsForKill = p.getBoard ().getPointsForKill ();
-        return new BoardDetails (nickname, color, n, loadedWeapons, damageTaken, receivedMarks, unloadedWeapons, ownedAmmo, pointsForKill);
+        int pointsToken = p.getBoard().getPointTokens();
+        return new BoardDetails (nickname, color, n, loadedWeapons, damageTaken, receivedMarks, unloadedWeapons, ownedAmmo, pointsForKill, pointsToken);
     }
 
     public List<EffectDetails> createWeaponEffects(Weapon weapon) {
