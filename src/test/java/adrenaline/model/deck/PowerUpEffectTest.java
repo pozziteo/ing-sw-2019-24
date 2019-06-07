@@ -13,6 +13,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PowerUpEffectTest {
 
@@ -41,70 +42,60 @@ class PowerUpEffectTest {
     @Test
     void ammoPowerUpTest(){
         attacker.getBoard().setOwnedAmmo(ammo1);
-        System.out.println("num of initial ammo: "+attacker.getBoard().getOwnedAmmo().size());
         attacker.setOwnedPowerUps(pupList);
         powerUpEffect.usePupAmmo(attacker, powerUp);
-        System.out.println("amount of ammo: "+attacker.getBoard().getOwnedAmmo().size());
         assertEquals(3, attacker.getOwnedPowerUps().size());
         assertEquals(1, attacker.getBoard().getAmountOfAmmo(ammo));
     }
 
-    /*@Test
+    @Test
     void trueTestPup(){
         this.game.setArena(SMALL);
         attacker.setPosition(game.getMap().getSquare(1));
         victim.setPosition(game.getMap().getSquare(2));
         attacker.setOwnedPowerUps(pupList);
 
-        for (int i=0; i<attacker.getOwnedPowerUps().size(); i++){
-            System.out.println("first use: "+attacker.getOwnedPowerUps().get(i).getPowerUpsName());
-        }
-        System.out.println("has tagback? "+attacker.hasGrenade());
-
         //targeting scope
-        victim.getBoard().gotHit(3, attacker);
-        attacker.getBoard().setOwnedAmmo(ammo);
-        powerUpEffect.useTargetingScope(attacker, victim);
+        try {
+            victim.getBoard().gotHit(3, attacker);
+            attacker.getBoard().setOwnedAmmo(ammo);
+            powerUpEffect.useTargetingScope(attacker, victim);
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+        }
         assertEquals(3, attacker.getOwnedPowerUps().size());
         assertEquals(4, victim.getBoard().getDamageAmountGivenByPlayer(attacker));
 
-        for (int i=0; i<attacker.getOwnedPowerUps().size(); i++){
-            System.out.println("second use: "+attacker.getOwnedPowerUps().get(i).getPowerUpsName());
-        }
-        System.out.println("has tagback? "+attacker.hasGrenade());
-
         //tagback grenade
-
-        attacker.getBoard().gotHit(2, victim);
-        powerUpEffect.useTagbackGrenade(attacker, victim);
-
+        try {
+            attacker.getBoard().gotHit(2, victim);
+            powerUpEffect.useTagbackGrenade(attacker, victim);
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+        }
         assertEquals(2, attacker.getOwnedPowerUps().size());
         assertEquals(1, victim.getBoard().getMarksAmountGivenByPlayer(attacker));
 
-        for (int i=0; i<attacker.getOwnedPowerUps().size(); i++){
-            System.out.println("third use: "+attacker.getOwnedPowerUps().get(i).getPowerUpsName());
-        }
-        System.out.println("has tagback? "+attacker.hasGrenade());
         //teleporter
-
-        powerUpEffect.useTeleporter(attacker, game.getMap().getSquare(9));
-
+        try {
+            powerUpEffect.useTeleporter(attacker, game.getMap().getSquare(9));
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+        }
         assertEquals(1, attacker.getOwnedPowerUps().size());
         assertEquals(9, attacker.getPosition().getSquareId());
 
-        for (int i=0; i<attacker.getOwnedPowerUps().size(); i++){
-            System.out.println("fourth use: "+attacker.getOwnedPowerUps().get(i).getPowerUpsName());
-        }
-        System.out.println("has tagback? "+attacker.hasGrenade());
         //newton
-        powerUpEffect.useNewton(attacker, victim, 1, 1);
-
+        try {
+            powerUpEffect.useNewton(attacker, victim, 1, 1);
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+        }
         assertEquals(0, attacker.getOwnedPowerUps().size());
         assertEquals(1, victim.getPosition().getSquareId());
-        System.out.println("has tagback? "+attacker.hasGrenade());
     }
-*/
-/*    @Test
+
+    @Test
     void falseTestPup(){
         this.game.setArena(SMALL);
         attacker.setPosition(game.getMap().getSquare(5));
@@ -135,5 +126,5 @@ class PowerUpEffectTest {
 
         //newton outside map <0
         assertThrows(InvalidPositionException.class, () -> powerUpEffect.useNewton(attacker, victim, 1, -1));
-    }*/
+    }
 }

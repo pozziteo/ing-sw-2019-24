@@ -34,7 +34,7 @@ public class PowerUpEffect {
      * @param positionToGo is the position where you want to teleport
      */
     public void useTeleporter(Player attacker, Square positionToGo)throws InvalidPositionException {
-        if (attacker.getPosition() != positionToGo){
+        if (attacker.getPosition() == positionToGo){
             throw new InvalidPositionException("The position you want to teleport to is your starting position");
         }
         attacker.setPosition(positionToGo);
@@ -68,13 +68,12 @@ public class PowerUpEffect {
         if (attacker.getBoard().getAmountOfAmmo(ammo) == 0){
             throw new IllegalUseOfPowerUpException("You don't have enough ammo to use the Targeting Scope");
         }
-        if (!attacker.getBoard().getOwnedAmmo().isEmpty()){
-            if (victim.getBoard().getDamageAmountGivenByPlayer(attacker ) > 0) {
-                victim.getBoard().gotHit(1, attacker);
-                removePowerUp(attacker, pup2);
-                this.game.getPowerUpsDeck().discardCard(pup2);
-            }else System.err.println("You cannot use this PowerUp");
-        }else System.err.println("You cannot use this PowerUp");
+        if (victim.getBoard().getDamageAmountGivenByPlayer(attacker ) == 0) {
+            throw new IllegalUseOfPowerUpException("You must deal at least one damage to the victim");
+        }
+        victim.getBoard().gotHit(1, attacker);
+        removePowerUp(attacker, pup2);
+        this.game.getPowerUpsDeck().discardCard(pup2);
     }
 
     /**
