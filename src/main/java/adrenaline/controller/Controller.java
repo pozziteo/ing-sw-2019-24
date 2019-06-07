@@ -270,6 +270,7 @@ public class Controller implements TimerCallBack {
         } catch (NotEnoughAmmoException e) {
             lobby.sendToSpecific (nickname, new MessageForClient (e.getMessage()));
         } catch (MustDiscardWeaponException e) {
+            lobby.sendToSpecific (nickname, new MessageForClient (e.getMessage ()));
             List<WeaponDetails> weapons = new ArrayList<> ();
             for (Weapon w : gameModel.getGame ().findByNickname (nickname).getOwnedWeapons ())
                 weapons.add(gameModel.createWeaponDetail (w));

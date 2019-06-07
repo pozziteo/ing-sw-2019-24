@@ -50,7 +50,7 @@ public class MoveAndGrab implements Action {
                 player.getBoard ( ).getOwnedAmmo ( ).removeAll (weapon.getType ( ).getGrabbingCost ( ));
                 int numberOfLoaded = player.getOwnedWeapons ().size ();
                 int numberOfUnloaded = player.getBoard ().getUnloadedWeapons ().size();
-                if (numberOfLoaded + numberOfUnloaded == 3) {
+                if (numberOfLoaded + numberOfUnloaded > 3) {
                     throw new MustDiscardWeaponException ();
                 }
             } else
