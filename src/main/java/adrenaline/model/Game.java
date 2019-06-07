@@ -354,11 +354,12 @@ public class Game implements Serializable {
      * @param deadPlayer is the one who died
      */
     private void deathEvent(Player deadPlayer){
-        deadPlayer.addDeaths();
-        deathTrack.add(deadPlayer.getBoard().getDamageTaken().get(10));
-        if(deadPlayer.getBoard().getDamageTaken().size()==12)
+        if(deadPlayer.getBoard().getDamageTaken().size()>10)
+            deathTrack.add(deadPlayer.getBoard().getDamageTaken().get(10));
+        if(deadPlayer.getBoard().getDamageTaken().size()>11)
             deathTrack.add(deadPlayer.getBoard().getDamageTaken().get(11));
-        skullsRemaining--;
+        deadPlayer.addDeaths();
+        skullsRemaining -= 1;
     }
 
     /**
