@@ -263,16 +263,6 @@ public class Game implements Serializable {
     // **********************************************
 
     /**
-     * Setter method to draw a Tile from the deck and place it on Square s
-     */
-
-    public void setTileOnSquare(NormalSquare s) {
-        Tile t = (Tile) this.getTilesDeck().drawCard();
-        s.setPlacedTile(t);
-    }
-
-
-    /**
      * Setter method to set the arena for a game
      */
 
@@ -281,7 +271,6 @@ public class Game implements Serializable {
             this.map = new ArenaBuilder().createMap(fileName);
         } catch (FileNotFoundException exc) {
             System.err.println("Error: Invalid map file selected");
-            exc.printStackTrace();
         }
     }
 

@@ -145,8 +145,10 @@ public class ShootAction implements Action {
             }
             effects.getLast ().setTargets (targets);
         }
-        attacker.getOwnedWeapons ().remove (chosenWeapon);
-        attacker.getBoard ().getUnloadedWeapons ().add(chosenWeapon);
+        if (endAction) {
+            attacker.getOwnedWeapons ( ).remove (chosenWeapon);
+            attacker.getBoard ( ).getUnloadedWeapons ( ).add (chosenWeapon);
+        }
     }
 
     public boolean isEndAction() {

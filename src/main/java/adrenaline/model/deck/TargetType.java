@@ -62,10 +62,9 @@ public class TargetType {
                 break;
 
             case "target at distance 1 from square":
-                int attackerPos = attacker.getPosition ().getSquareId ();
                 for (Player p : targets) {
                     int playerPos = p.getPosition ().getSquareId ();
-                    int distance = abs(attackerPos -  playerPos);
+                    int distance = abs(squareId -  playerPos);
                     if (! (distance == 1 || distance == 4)) {
                         legal = false;
                         break;
