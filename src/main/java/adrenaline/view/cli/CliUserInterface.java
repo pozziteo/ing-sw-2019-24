@@ -357,7 +357,7 @@ public class CliUserInterface implements UserInterface {
         this.printer.printWeaponListToChoose (square.getWeaponsOnSquare ());
         int parsed = this.parser.asyncParseInt (2);
         if (parsed != -1) {
-            newPositionAndGrabbed = new NewPositionAndGrabbed (nickname, square.getId (), square.getWeaponsOnSquare ()[parsed-1].getName ());
+            newPositionAndGrabbed = new NewPositionAndGrabbed (nickname, square.getId (), square.getWeaponsOnSquare ()[parsed].getName ());
             sendToServer (newPositionAndGrabbed);
         }
     }
