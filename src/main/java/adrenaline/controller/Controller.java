@@ -327,9 +327,10 @@ public class Controller implements TimerCallBack {
         if (weapon == null) {
             weapon = gameModel.getGame ().findByNickname (nickname).findUnloadedWeapon (weaponName);
         }
-        if (weapon != null) {
-            gameModel.getGame ().replaceWeapon(weapon);
+        if (gameModel.getGame ().findByNickname (nickname).getOwnedWeapons ().remove (weapon) || gameModel.getGame ().findByNickname (nickname).getBoard ().getUnloadedWeapons ().remove (weapon)) {
+            gameModel.getGame ().replaceWeapon(gameModel.getGame ().findByNickname (nickname), weapon);
         }
+        checkNewTurn (nickname);
     }
 
     private boolean isFirstAction() {
@@ -343,7 +344,7 @@ public class Controller implements TimerCallBack {
         if (weapon != null) {
             lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (weapon)));
         }
-        checkNewTurn(nickname);
+//        checkNewTurn(nickname);
     }
 
     public void askTargets(String nickname, int effectId) {

@@ -161,9 +161,6 @@ public class Game implements Serializable {
      */
 
     public int getSkullsRemaining() {
-        if (this.skullsRemaining == 0) {
-            this.finalFrenzy = true;
-        }
         return this.skullsRemaining;
     }
 
@@ -323,18 +320,18 @@ public class Game implements Serializable {
         }
     }
 
-    public void replaceWeapon(Weapon weapon) {
-        for (Square s : map.getArena()) {
-            if (s.isSpawnPoint()) {
-                for (int i = 0; i < ((SpawnPoint) s).getWeapons().length; i++) {
-                    if (((SpawnPoint) s).getWeapons()[i] == null) {
-                        ((SpawnPoint) s).setWeapons(weapon);
-                        break;
-                    }
-                }
-            }
-        }
-    }
+//    public void replaceWeapon(Weapon weapon) {
+//        for (Square s : map.getArena()) {
+//            if (s.isSpawnPoint()) {
+//                for (int i = 0; i < ((SpawnPoint) s).getWeapons().length; i++) {
+//                    if (((SpawnPoint) s).getWeapons()[i] == null) {
+//                        ((SpawnPoint) s).setWeapons(weapon);
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     /**
      * Method that adds one death to the 'DeadPlayer',
@@ -348,7 +345,7 @@ public class Game implements Serializable {
         if(deadPlayer.getBoard().getDamageTaken().size()>11)
             deathTrack.add(deadPlayer.getBoard().getDamageTaken().get(11));
         deadPlayer.addDeaths();
-        skullsRemaining -= 1;
+        skullsRemaining--;
     }
 
     /**
@@ -424,5 +421,13 @@ public class Game implements Serializable {
         }
         //aggiunge una morte al 'deadPlayer'
         deathEvent(deadPlayer);
+        if (getSkullsRemaining() == 0) {
+            this.finalFrenzy = true;
+        }
+    }
+
+    public void replaceWeapon(Player player, Weapon weapon) {
+        SpawnPoint playerPosition = (SpawnPoint) player.getPosition ();
+        playerPosition.setWeapons (weapon);
     }
 }
