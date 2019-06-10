@@ -2,7 +2,9 @@ package adrenaline.model.player;
 
 import adrenaline.data.data_for_server.data_for_game.AtomicTarget;
 import adrenaline.exceptions.IllegalTargetException;
+import adrenaline.exceptions.NotEnoughAmmoException;
 import adrenaline.model.deck.AtomicWeaponEffect;
+import adrenaline.model.deck.OptionalEffect;
 import adrenaline.model.deck.Weapon;
 import adrenaline.model.deck.WeaponEffect;
 
@@ -58,11 +60,14 @@ public class ShootAction implements Action {
             this.endAction = true;
     }
 
-    public void addOptionalEffect(WeaponEffect effect) {
-        this.optionalEffects.add (effect);
-        this.effects.add(effect);
-        if (optionalEffects.containsAll (chosenWeapon.getOptionalEffects ()))
-            this.endAction = true;
+    public void addOptionalEffect(WeaponEffect effect) throws NotEnoughAmmoException {
+        if (((OptionalEffect)effect).isUsable (attacker)) {
+            this.optionalEffects.add (effect);
+            this.effects.add (effect);
+            if (optionalEffects.containsAll (chosenWeapon.getOptionalEffects ( )))
+                this.endAction = true;
+        } else
+            throw new NotEnoughAmmoException ();
     }
 
     public WeaponEffect getBaseEffect() {

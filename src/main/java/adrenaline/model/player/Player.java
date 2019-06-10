@@ -255,10 +255,9 @@ public class Player {
     }
 
     public void reloadWeapon(Weapon toReload) throws NotEnoughAmmoException {
-        if (playerBoard.getOwnedAmmo ().containsAll (toReload.getType ().getReloadingAmmo ())) {
+        if (playerBoard.getOwnedAmmo ().removeAll (toReload.getType ().getReloadingAmmo ())) {
             ownedWeapons.add(toReload);
             playerBoard.getUnloadedWeapons ().remove(toReload);
-            playerBoard.getOwnedAmmo ().removeAll (toReload.getType ().getReloadingAmmo ());
         } else
             throw new NotEnoughAmmoException ();
     }

@@ -267,8 +267,11 @@ public class Controller implements TimerCallBack {
         }
         try {
             ((MoveAndGrabAction) currentAction).grabObject (p, squareId, weapon);
+            gameModel.getGame ().updateCurrentAction (currentAction);
+            checkNewTurn (nickname);
         } catch (NotEnoughAmmoException e) {
             lobby.sendToSpecific (nickname, new MessageForClient (e.getMessage()));
+            checkNewTurn (nickname);
         } catch (MustDiscardWeaponException e) {
             lobby.sendToSpecific (nickname, new MessageForClient (e.getMessage ()));
             List<WeaponDetails> weapons = new ArrayList<> ();
@@ -279,8 +282,6 @@ public class Controller implements TimerCallBack {
 
             lobby.sendToSpecific (nickname, new WeaponsToDiscard(weapons));
         }
-        gameModel.getGame ().updateCurrentAction (currentAction);
-        checkNewTurn (nickname);
     }
 
     private void checkNewTurn(String nickname) {
@@ -342,6 +343,7 @@ public class Controller implements TimerCallBack {
         if (weapon != null) {
             lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (weapon)));
         }
+        checkNewTurn(nickname);
     }
 
     public void askTargets(String nickname, int effectId) {
@@ -354,6 +356,7 @@ public class Controller implements TimerCallBack {
                 for (OptionalEffect e : ((ShootAction) currentAction).getChosenWeapon ( ).getOptionalEffects ( )) {
                     effectId--;
                     if (effectId == 0) {
+                        try {
                         if (e.isUsableBeforeBase ( ) && !((ShootAction) currentAction).isBaseUsed ( )) {
                             ((ShootAction) currentAction).setMustUseBase (true);
                             ((ShootAction) currentAction).addOptionalEffect (e);
@@ -361,6 +364,8 @@ public class Controller implements TimerCallBack {
                         } else if (!e.isUsableBeforeBase ( ) && ((ShootAction) currentAction).isBaseUsed ( ) || (e.isAlternativeMode ( ) && !((ShootAction) currentAction).isBaseUsed ( ))) {
                             ((ShootAction) currentAction).addOptionalEffect (e);
                             options = new TargetOptions (gameModel.createTargetDetails (e), gameModel.findCompliantTargets (e, nickname), map);
+                        } } catch (NotEnoughAmmoException ex) {
+                            //options is null
                         }
                     }
                 }
