@@ -98,11 +98,13 @@ public class Controller implements TimerCallBack {
         } else {
             p.chooseSpawnPoint (color);
         }
-        if (checkPlayersReady()) {
+        if (!gameModel.getGame ().isStartGame () && checkPlayersReady()) {
             System.out.println("All players have spawned...\n");
             lobby.sendMessageToAll("All players have spawned.\n");
             gameModel.getGame ().startGame();
             playNewTurn ();
+        } else if (gameModel.getGame ().isStartGame ()) {
+            lobby.sendToSpecific (nickname, new Turn (nickname));
         }
     }
 
@@ -121,15 +123,19 @@ public class Controller implements TimerCallBack {
         timer.shutDownThread ();
         int indexOfLast = gameModel.getGame ().getPlayers ().size ()-1;
         int currentTurn = gameModel.getGame ( ).getCurrentTurn ( );
-        String currentPlayer;
+        Player currentPlayer;
         if (dummyPlayers.contains(gameModel.getGame ().getPlayers ().get (indexOfLast - currentTurn))) {
             gameModel.getGame ().incrementTurn ();
             currentTurn = gameModel.getGame ().getCurrentTurn ( );
         }
-        currentPlayer = gameModel.getGame ().getPlayers ().get (indexOfLast - currentTurn).getPlayerName ( );
-        lobby.sendToSpecific (currentPlayer, new Turn(currentPlayer));
-        lobby.sendToAllNonCurrent (currentPlayer, new Turn(currentPlayer));
-        timer.startThread (currentPlayer);
+        currentPlayer = gameModel.getGame ().getPlayers ().get (indexOfLast - currentTurn);
+        lobby.sendToAllNonCurrent (currentPlayer.getPlayerName (), new Turn(currentPlayer.getPlayerName ()));
+        if (!currentPlayer.isWaitingForRespawn()) {
+            lobby.sendToSpecific (currentPlayer.getPlayerName (), new Turn(currentPlayer.getPlayerName ()));
+        } else {
+            lobby.sendToSpecific (currentPlayer.getPlayerName (), new InitialSpawnPointSetUp (gameModel.createPowerUpDetails (currentPlayer)));
+        }
+        timer.startThread (currentPlayer.getPlayerName ());
         gameModel.getGame ().incrementTurn ( );
     }
 
@@ -221,8 +227,10 @@ public class Controller implements TimerCallBack {
                 lobby.sendToSpecific (nickname, options);
                 break;
             case "power up":
-                PowerUpAction usePup = new PowerUpAction(nickname);
-//                usePup.usePowerUp(powerUp);
+                if (gameModel.getGame ().findByNickname (nickname).hasUsablePowerUps()) {
+                    options = new PowerUpOptions(gameModel.createPowerUpDetails (gameModel.getGame ().findByNickname (nickname)));
+                    lobby.sendToSpecific (nickname, options);
+                }
                 break;
             case "pass":
                 timer.shutDownThread ( );
