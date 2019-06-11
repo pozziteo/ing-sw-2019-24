@@ -2,6 +2,7 @@ package adrenaline.model.player;
 
 import adrenaline.exceptions.NotEnoughAmmoException;
 import adrenaline.model.Game;
+import adrenaline.model.deck.Ammo;
 import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.deck.Weapon;
 import adrenaline.model.deck.powerup.PowerUpType;
@@ -25,6 +26,7 @@ public class Player {
     private int givenMarks;
     private Action[] performedActions;
     private int deaths;
+    private boolean waitingForRespawn;
 
     public Player() {
 
@@ -40,6 +42,7 @@ public class Player {
         this.ownedWeapons = new ArrayList<>();
         this.ownedPowerUps = new ArrayList<>();
         this.performedActions = new Action[2];
+        this.waitingForRespawn = false;
     }
 
     /**
@@ -165,6 +168,22 @@ public class Player {
         this.ownedPowerUps = powerUpsList;
     }
 
+    public boolean isWaitingForRespawn() {
+        return this.waitingForRespawn;
+    }
+
+    public void setWaitingForRespawn(boolean value) {
+        this.waitingForRespawn = value;
+    }
+
+    public boolean hasUsablePowerUps() {
+        for (PowerUp p : ownedPowerUps) {
+            if (p.getPowerUpsName ().equals("Newton") || p.getPowerUpsName ().equals("Teleporter"))
+                return true;
+        }
+        return false;
+    }
+
     /**
      * Method that increments the number of deaths of this
      */
@@ -255,9 +274,10 @@ public class Player {
     }
 
     public void reloadWeapon(Weapon toReload) throws NotEnoughAmmoException {
-        if (playerBoard.getOwnedAmmo ().removeAll (toReload.getType ().getReloadingAmmo ())) {
+        if (hasEnoughAmmo (toReload.getType ().getReloadingAmmo ())) {
             ownedWeapons.add(toReload);
             playerBoard.getUnloadedWeapons ().remove(toReload);
+            payAmmo(toReload.getType ().getReloadingAmmo ());
         } else
             throw new NotEnoughAmmoException ();
     }
@@ -289,5 +309,22 @@ public class Player {
             this.getGame().overKill(this);
         }
         this.getGame().givePoints(this);
+    }
+
+    public boolean hasEnoughAmmo(List<Ammo> neededAmmo) {
+        List<Ammo> ammos = new ArrayList<> (playerBoard.getOwnedAmmo ());
+
+        for (Ammo a : neededAmmo) {
+            if (! ammos.remove(a))
+                return false;
+        }
+
+        return true;
+    }
+
+    public void payAmmo(List<Ammo> neededAmmo) {
+        for (Ammo a : neededAmmo) {
+            playerBoard.getOwnedAmmo ().remove (a);
+        }
     }
 }

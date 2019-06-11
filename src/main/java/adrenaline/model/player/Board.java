@@ -2,6 +2,7 @@ package adrenaline.model.player;
 
 import adrenaline.model.deck.Ammo;
 import adrenaline.model.deck.Weapon;
+import adrenaline.model.deck.powerup.PowerUp;
 
 import java.util.*;
 
@@ -130,9 +131,13 @@ public class Board {
             setDamageTaken (inflictedByPlayer);
         }
         if (this.getDamageTaken().size()>10) {
-            this.player.deathEvent();
-            this.getDamageTaken().clear();
-            //TODO respawn and invulnerability for deadPlayer in respawn's room
+            this.player.deathEvent ( );
+            this.getDamageTaken ( ).clear ( );
+            this.player.setWaitingForRespawn (true);
+            if (player.getOwnedPowerUps ( ).size ( ) < 4) {
+                PowerUp powerUp = (PowerUp) player.getGame ( ).getPowerUpsDeck ( ).drawCard ( );
+                player.getOwnedPowerUps ().add(powerUp);
+            }
         }
     }
 

@@ -50,6 +50,7 @@ public class Game implements Serializable {
     private TilesDeck tilesDeck;
     private List<Player> ranking;
     private boolean finalFrenzy;
+    private boolean startGame;
     private boolean endGame;
     private LinkedList<Action> currentTurnActions;
     private List<String> deathTrack;
@@ -61,6 +62,7 @@ public class Game implements Serializable {
         this.skullsRemaining = 8;
         this.players = new ArrayList<>();
         this.ranking = new ArrayList<>();
+        this.startGame = false;
         this.endGame = false;
         this.currentTurnActions = new LinkedList<>();
         this.deathTrack = new ArrayList<>();
@@ -222,6 +224,10 @@ public class Game implements Serializable {
         return this.finalFrenzy;
     }
 
+    public boolean isStartGame() {
+        return this.startGame;
+    }
+
     public boolean isEndGame() {
         return this.endGame;
     }
@@ -335,19 +341,6 @@ public class Game implements Serializable {
             }
         }
     }
-
-//    public void replaceWeapon(Weapon weapon) {
-//        for (Square s : map.getArena()) {
-//            if (s.isSpawnPoint()) {
-//                for (int i = 0; i < ((SpawnPoint) s).getWeapons().length; i++) {
-//                    if (((SpawnPoint) s).getWeapons()[i] == null) {
-//                        ((SpawnPoint) s).setWeapons(weapon);
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     /**
      * Method that adds one death to the 'DeadPlayer',

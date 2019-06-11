@@ -44,10 +44,10 @@ public class MoveAndGrabAction implements Action {
 
     public Square grabObject(Player player, Weapon weapon) throws NotEnoughAmmoException, MustDiscardWeaponException {
         if (weapon != null) {
-            if (player.getBoard ().getOwnedAmmo ().containsAll (weapon.getType ().getGrabbingCost ())) {
+            if (player.hasEnoughAmmo (weapon.getType ().getGrabbingCost ())) {
                 ((SpawnPoint) player.getPosition ()).removeWeapon(weapon);
                 player.getOwnedWeapons().add(weapon);
-                player.getBoard ( ).getOwnedAmmo ( ).removeAll (weapon.getType ( ).getGrabbingCost ( ));
+                player.payAmmo (weapon.getType ().getGrabbingCost ());
                 int numberOfLoaded = player.getOwnedWeapons ().size ();
                 int numberOfUnloaded = player.getBoard ().getUnloadedWeapons ().size();
                 if (numberOfLoaded + numberOfUnloaded > 3) {

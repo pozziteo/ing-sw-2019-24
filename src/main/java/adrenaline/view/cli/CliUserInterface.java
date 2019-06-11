@@ -173,7 +173,7 @@ public class CliUserInterface implements UserInterface {
         int n = parser.parseInt (1);
         ChosenSpawnPointSetUp data = new ChosenSpawnPointSetUp (nickname, powerUps.get (n).getColor ( ));
         sendToServer (data);
-        printer.print("Your choice has been sent. Waiting for the other players...\n");
+        printer.print("Your choice has been sent...\n");
     }
 
 
