@@ -291,9 +291,25 @@ public class Game implements Serializable {
         this.ranking.sort((Player o1, Player o2) -> {
                     Integer points1 = o1.getBoard().getPointTokens();
                     Integer points2 = o2.getBoard().getPointTokens();
-                    return points2.compareTo(points1);
+                    if (!points1.equals(points2)) {
+                        return points2.compareTo(points1);
+                    } else {
+                        Integer tiedPoints1 = getDeathTrackPlayerPoint(o1);
+                        Integer tiedPoints2 = getDeathTrackPlayerPoint(o2);
+                        return tiedPoints1.compareTo(tiedPoints2);
+                    }
                 }
         );
+    }
+
+    public int getDeathTrackPlayerPoint(Player p){
+        int a=0;
+        for(int i=0; i<deathTrack.size(); i++){
+            if(deathTrack.get(i).equalsIgnoreCase(p.getPlayerColor())){
+                a++;
+            }
+        }
+        return a;
     }
 
     public Player findByNickname(String nickname) {

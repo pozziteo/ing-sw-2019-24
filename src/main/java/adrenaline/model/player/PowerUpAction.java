@@ -33,14 +33,6 @@ public class PowerUpAction {
             }
         }
 
-        if (powerUps.isEmpty()){
-            System.out.println("You don't have any Power Ups");
-        }else{
-            System.out.println("You can use these Power Ups: ");
-            for (int i=0; i<powerUps.size(); i++){
-                System.out.println((i+1) + " - " + powerUps.get(i).getPowerUpsName() + " ~ " + powerUps.get(i).getAmmo().getColor());
-            }
-        }
     }
 
     /**

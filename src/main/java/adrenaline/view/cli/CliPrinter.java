@@ -149,7 +149,6 @@ public class CliPrinter {
      */
     synchronized void printRanking(List<String> ranking) {
         print("Ranking:");
-        Collections.reverse(ranking);
         for (int i = 0; i < ranking.size(); i++) {
             print ((i+1) + " - " + ranking.get(i));
         }
@@ -294,7 +293,7 @@ public class CliPrinter {
                 print ((i + 1) + ": " + ((SpawnPointDetails) square).getWeaponsOnSquare ()[i].getName ());
             }
         } else {
-            print ("Tile details: " + ((NormalSquareDetails) square).getTileOnSquare ( ).toUpperCase ( ));
+            print("Tile details: " + ((NormalSquareDetails) square).getTileOnSquare().toUpperCase());
         }
     }
 
