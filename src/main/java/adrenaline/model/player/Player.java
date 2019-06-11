@@ -151,6 +151,15 @@ public class Player {
         return this.ownedPowerUps;
     }
 
+    public PowerUp findPowerUp(String name) {
+        for (PowerUp p : ownedPowerUps) {
+            if (p.getPowerUpsName().equals(name)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
     /**
      * Getter method to obtain the actions performed by a player in a single turn
      * @return the actions performed in a turn

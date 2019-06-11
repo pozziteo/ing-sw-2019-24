@@ -345,7 +345,7 @@ public class CliPrinter {
      * Method to print the player's PowerUp List
      * @param pups is the ArrayList of PowerUp
      */
-    synchronized void printPowerUpList(List<String> pups){
+    synchronized void printPowerUpList(List<PowerUpDetails> pups){
         print("These are your PowerUps: ");
         for (int i=0; i< pups.size(); i++){
             print(i + " - " + pups.get(i) + " ~ Ammo color: " );

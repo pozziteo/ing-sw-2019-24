@@ -302,7 +302,7 @@ public class Game implements Serializable {
                     } else {
                         Integer tiedPoints1 = getDeathTrackPlayerPoint(o1);
                         Integer tiedPoints2 = getDeathTrackPlayerPoint(o2);
-                        return tiedPoints1.compareTo(tiedPoints2);
+                        return tiedPoints2.compareTo(tiedPoints1);
                     }
                 }
         );

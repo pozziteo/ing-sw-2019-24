@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PowerUpEffectTest {
-
+/*
     private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
     private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
     private String[] playerNames = {"luca", "sara"};
@@ -126,5 +126,5 @@ class PowerUpEffectTest {
 
         //newton outside map <0
         assertThrows(InvalidPositionException.class, () -> powerUpEffect.useNewton(attacker, victim, 1, -1));
-    }
+    } */
 }
