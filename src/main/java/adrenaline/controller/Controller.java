@@ -79,6 +79,7 @@ public class Controller implements TimerCallBack {
 
     public void initializeMap(String filepath) {
         gameModel.getGame ().setArena (filepath);
+        lobby.sendMessageToAll ("Map has been initialized to " + gameModel.getGame ().getMap ().getMapName ());
         lobby.sendToAll (new MapInfo(filepath));
         spawnPointSetUp ();
     }
