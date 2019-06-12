@@ -4,6 +4,8 @@ import adrenaline.model.player.Player;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,6 +20,8 @@ public class GameTest {
     private Player p3 = game.getPlayers ().get(2);
     private Player p4 = game.getPlayers ().get(3);
     private Player p5 = game.getPlayers ().get(4);
+    private List<String> deathTrack = new ArrayList<>();
+    private List<Player> ranking = new ArrayList<>();
 
     @Test
     void testPoints(){
@@ -55,5 +59,31 @@ public class GameTest {
         assertEquals (6, game.getRanking ().get(2).getBoard().getPointTokens ());
         assertEquals (4, game.getRanking ().get(3).getBoard().getPointTokens ());
         assertEquals (2, game.getRanking ().get(4).getBoard().getPointTokens ());
+    }
+
+    @Test
+    void testTiedPlayers(){
+
+        p1.getBoard().addPointTokens(8);
+        p2.getBoard().addPointTokens(7);
+        p3.getBoard().addPointTokens(8);
+        p4.getBoard().addPointTokens(5);
+        p5.getBoard().addPointTokens(2);
+
+        deathTrack.add(p1.getPlayerColor());
+        deathTrack.add(p1.getPlayerColor());
+        deathTrack.add(p3.getPlayerColor());
+        deathTrack.add(p1.getPlayerColor());
+        System.out.println("p1 is: "+p1.getPlayerColor());
+        System.out.println("p2 is: "+p2.getPlayerColor());
+        System.out.println("p3 is: "+p3.getPlayerColor());
+        System.out.println("p4 is: "+p4.getPlayerColor());
+        System.out.println("p5 is: "+p5.getPlayerColor());
+
+        game.updateRanking();
+        for (Player p: game.getRanking()) {
+            System.out.println(p.getPlayerColor());
+        }
+
     }
 }

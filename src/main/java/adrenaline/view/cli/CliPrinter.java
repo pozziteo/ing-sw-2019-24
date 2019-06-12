@@ -149,7 +149,6 @@ public class CliPrinter {
      */
     synchronized void printRanking(List<String> ranking) {
         print("Ranking:");
-        Collections.reverse(ranking);
         for (int i = 0; i < ranking.size(); i++) {
             print ((i+1) + " - " + ranking.get(i));
         }
@@ -294,7 +293,7 @@ public class CliPrinter {
                 print ((i + 1) + ": " + ((SpawnPointDetails) square).getWeaponsOnSquare ()[i].getName ());
             }
         } else {
-            print ("Tile details: " + ((NormalSquareDetails) square).getTileOnSquare ( ).toUpperCase ( ));
+            print("Tile details: " + ((NormalSquareDetails) square).getTileOnSquare().toUpperCase());
         }
     }
 
@@ -346,7 +345,7 @@ public class CliPrinter {
      * Method to print the player's PowerUp List
      * @param pups is the ArrayList of PowerUp
      */
-    synchronized void printPowerUpList(List<String> pups){
+    synchronized void printPowerUpList(List<PowerUpDetails> pups){
         print("These are your PowerUps: ");
         for (int i=0; i< pups.size(); i++){
             print(i + " - " + pups.get(i) + " ~ Ammo color: " );

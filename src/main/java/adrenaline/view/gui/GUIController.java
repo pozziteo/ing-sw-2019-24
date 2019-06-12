@@ -5,6 +5,7 @@ import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.ChosenMapSetUp;
 import adrenaline.network.ClientInterface;
 import adrenaline.view.UserInterface;
+import adrenaline.view.gui.game.GameInterface;
 import adrenaline.view.gui.stages.ConnectionStage;
 import adrenaline.view.gui.stages.LobbyStage;
 import adrenaline.view.gui.stages.LoginStage;
@@ -26,9 +27,11 @@ public class GUIController implements UserInterface {
     private ConnectionStage connectionStage;
     private LoginStage loginStage;
     private LobbyStage lobbyStage;
+    private GameInterface gameInterface;
 
     private Thread updatingThread;
 
+    private String map;
     private ClientInterface client;
     private String nickname;
 
@@ -58,6 +61,14 @@ public class GUIController implements UserInterface {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public void setMap(String map) {
+        this.map = map;
+    }
+
+    public String getMap() {
+        return this.map;
     }
 
     public void setCurrentScene(Scene scene) {
@@ -147,5 +158,11 @@ public class GUIController implements UserInterface {
     public void sendChosenMap(String map) {
         ChosenMapSetUp mapdata = new ChosenMapSetUp(nickname, map);
         sendToServer(mapdata);
+    }
+
+    public void initGame() {
+        this.gameInterface = new GameInterface(stage);
+        Platform.runLater(() ->
+                setCurrentScene(gameInterface.initGame()));
     }
 }

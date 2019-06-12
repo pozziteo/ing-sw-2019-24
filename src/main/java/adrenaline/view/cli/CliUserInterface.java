@@ -362,6 +362,16 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
+    public void choosePowerUp(List<PowerUpDetails> powerUps) {
+        DataForServer powerUp;
+        printer.printPowerUpList(powerUps);
+        int parsed = this.parser.asyncParseInt (powerUps.size ()-1);
+        if (parsed != -1) {
+            powerUp = new ChosenPowerUp (nickname, powerUps.get(parsed).getType());
+            sendToServer (powerUp);
+        }
+    }
+
     public void chooseWeapon(List<WeaponDetails> weapons) {
         DataForServer weapon;
         printer.print("These are your loaded weapons: ");

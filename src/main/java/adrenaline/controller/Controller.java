@@ -14,6 +14,7 @@ import adrenaline.model.GameModel;
 import adrenaline.model.deck.Ammo;
 import adrenaline.model.deck.OptionalEffect;
 import adrenaline.model.deck.Weapon;
+import adrenaline.model.deck.powerup.PowerUpEffect;
 import adrenaline.model.map.SpawnPoint;
 import adrenaline.model.player.*;
 import adrenaline.network.Lobby;
@@ -78,7 +79,7 @@ public class Controller implements TimerCallBack {
 
     public void initializeMap(String filepath) {
         gameModel.getGame ().setArena (filepath);
-        lobby.sendMessageToAll ("Map has been initialized to " + gameModel.getGame ().getMap ().getMapName ());
+        lobby.sendToAll (new MapInfo(filepath));
         spawnPointSetUp ();
     }
 
@@ -352,7 +353,6 @@ public class Controller implements TimerCallBack {
         if (weapon != null) {
             lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (weapon)));
         }
-//        checkNewTurn(nickname);
     }
 
     public void askTargets(String nickname, int effectId) {
@@ -399,13 +399,6 @@ public class Controller implements TimerCallBack {
         return new TargetOptions (gameModel.createTargetDetails (((ShootAction) currentAction).getChosenWeapon ( ).getBaseEffect ( )), gameModel.findCompliantTargets (((ShootAction) currentAction).getChosenWeapon ( ).getBaseEffect ( ), nickname), map);
     }
 
-    /*
-    private void askDifferentTargets(String nickname) {
-        List<SquareDetails> map = gameModel.createSquareDetails ();
-        TargetOptions options = new TargetOptions (gameModel.createTargetDetails (((ShootAction)currentAction).getEffectToApply ()), gameModel.findCompliantTargets (((ShootAction)currentAction).getEffectToApply (), nickname), map);
-        lobby.sendToSpecific (nickname, options);
-    } */
-
     public void setTargets(String nickname, List<AtomicTarget> targets) {
         try {
             ((ShootAction) currentAction).setEffectTargets (targets);
@@ -418,6 +411,11 @@ public class Controller implements TimerCallBack {
             lobby.sendToSpecific (nickname, new MessageForClient (e.getMessage ()));
             checkNewTurn (nickname);
         }
+    }
+
+    public void choosePowerUpOption(String nickname, String powerUpName) {
+        PowerUpEffect effect = new PowerUpEffect(gameModel.getGame().findByNickname(nickname), gameModel.getGame().findByNickname(nickname).findPowerUp(powerUpName));
+
     }
 
     //******************************************************************************************************************

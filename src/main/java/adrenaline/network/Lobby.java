@@ -194,6 +194,13 @@ public class Lobby implements TimerCallBack {
         }
     }
 
+    public void sendToAll(DataForClient data) {
+        for (Account a : players) {
+            data.setAccount(a);
+            data.sendToView ();
+        }
+    }
+
     /**
      * @return true if the lobby is full
      */

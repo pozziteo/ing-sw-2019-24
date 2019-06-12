@@ -14,7 +14,7 @@ public class PowerUpAction {
     private Game game;
     private Ammo ammo;
     private List<PowerUp> powerUps;
-    private PowerUpEffect powerUpEffect = new PowerUpEffect(game, ammo);
+    //private PowerUpEffect powerUpEffect = new PowerUpEffect(game, ammo);
     private Square square;
     private Player attacker;
     private Player target;
@@ -33,14 +33,6 @@ public class PowerUpAction {
             }
         }
 
-        if (powerUps.isEmpty()){
-            System.out.println("You don't have any Power Ups");
-        }else{
-            System.out.println("You can use these Power Ups: ");
-            for (int i=0; i<powerUps.size(); i++){
-                System.out.println((i+1) + " - " + powerUps.get(i).getPowerUpsName() + " ~ " + powerUps.get(i).getAmmo().getColor());
-            }
-        }
     }
 
     /**
@@ -70,7 +62,7 @@ public class PowerUpAction {
      * @return a boolean.
      */
     public boolean useAmmo(PowerUp powerUp){
-        powerUpEffect.usePupAmmo(attacker, powerUp);
+      //  powerUpEffect.usePupAmmo(attacker, powerUp);
         return true;
     }
 }

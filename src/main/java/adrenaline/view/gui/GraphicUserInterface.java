@@ -26,10 +26,13 @@ public class GraphicUserInterface extends Application {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Adrenaline Launcher");
         primaryStage.setResizable(false);
-//        primaryStage.setFullScreen(false);
         primaryStage.setAlwaysOnTop(true);
-//        primaryStage.centerOnScreen();
-        primaryStage.setMaximized(true);
+        primaryStage.centerOnScreen();
+//        primaryStage.setX(Screen.getPrimary().getVisualBounds().getMinX());
+//        primaryStage.setY(Screen.getPrimary().getVisualBounds().getMinY());
+//        primaryStage.setWidth(Screen.getPrimary().getVisualBounds().getWidth());
+//        primaryStage.setHeight(Screen.getPrimary().getVisualBounds().getHeight());
+
 
         controller = GUIController.createController(primaryStage);
 
@@ -64,11 +67,11 @@ public class GraphicUserInterface extends Application {
             //TODO improve
         });
 
-        Scene firstScene = new Scene(pane);
+        Scene firstScene = new Scene(pane, 1440, 900);
         primaryStage.setScene(firstScene);
         firstScene.getStylesheets().addAll(getClass().getResource("/assets/launch_scene.css").toExternalForm(),
                 getClass().getResource("/assets/background.css").toExternalForm());
-//        primaryStage.sizeToScene();
+        primaryStage.sizeToScene();
         primaryStage.show();
         pane.requestFocus();
     }

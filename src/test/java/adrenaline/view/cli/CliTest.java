@@ -32,7 +32,7 @@ public class CliTest {
     private Ammo ammo1 = Ammo.BLUE_AMMO;
     private Ammo ammo2 = Ammo.YELLOW_AMMO;
 
-    private PowerUpEffect powerUpEffect = new PowerUpEffect(g, ammo);
+
     private PowerUpType powerUpType = PowerUpType.TARGETING_SCOPE;
     private PowerUp powerUp = new PowerUp(powerUpType, ammo1);
     private PowerUpType powerUpType1 = PowerUpType.NEWTON;
