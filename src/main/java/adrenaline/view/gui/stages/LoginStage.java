@@ -18,7 +18,7 @@ public class LoginStage {
     private Scene loginScene;
 
     public LoginStage(Stage stage) {
-        stage.setMaximized(true);
+//        stage.setMaximized(true);
 
         StackPane pane = new StackPane();
         pane.setId("launcher");
