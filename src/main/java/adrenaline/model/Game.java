@@ -89,6 +89,7 @@ public class Game implements Serializable {
     }
 
     public void startGame() {
+        this.startGame = true;
         for (Square square : map.getArena()) {
             if (square.isSpawnPoint()) {
                 for (int i = 0; i < 3; i++) {

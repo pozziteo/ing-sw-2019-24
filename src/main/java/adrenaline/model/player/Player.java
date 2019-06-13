@@ -218,6 +218,7 @@ public class Player {
      */
 
     public void chooseSpawnPoint(String powerUpColor) {
+        this.waitingForRespawn = false;
         for (int i = 0; i < this.game.getMap ().getDimension (); i++) {
             Square s = this.game.getMap ().getSquare (i);
             if (s.getSquareColor ().equals(powerUpColor) && s.isSpawnPoint()) {
@@ -227,6 +228,7 @@ public class Player {
         for (PowerUp pup : ownedPowerUps){
             if (pup.getAmmo().getColor().equals(powerUpColor)){
                 this.game.getPowerUpsDeck ().discardCard (pup);
+                break;
             }
         }
     }
