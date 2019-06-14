@@ -24,7 +24,7 @@ public class GraphicUserInterface extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
-        primaryStage.setTitle("Adrenaline Launcher");
+        primaryStage.setTitle("Adrenaline");
         primaryStage.setResizable(false);
         primaryStage.setAlwaysOnTop(true);
         primaryStage.centerOnScreen();
