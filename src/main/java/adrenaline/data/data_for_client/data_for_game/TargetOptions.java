@@ -11,16 +11,18 @@ public class TargetOptions extends DataForClient {
     private List<TargetDetails> targets;
     private List<String> compliantTargets;
     private List<SquareDetails> map;
+    private boolean hasTargetingScope;
 
-    public TargetOptions(List<TargetDetails> targets, List<String> compliantTargets, List<SquareDetails> map) {
+    public TargetOptions(List<TargetDetails> targets, List<String> compliantTargets, List<SquareDetails> map, boolean value) {
         this.targets = targets;
         this.compliantTargets = compliantTargets;
         this.map = map;
+        this.hasTargetingScope = value;
     }
 
     @Override
     public void updateView(CliUserInterface view) {
-        view.chooseTargets (targets, compliantTargets, map);
+        view.chooseTargets (targets, compliantTargets, map, hasTargetingScope);
     }
 
 }

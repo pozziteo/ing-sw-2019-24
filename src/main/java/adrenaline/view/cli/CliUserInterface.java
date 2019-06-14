@@ -287,6 +287,10 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
+    public void printMapInit(String name) {
+        printer.print ("Map has been initialized to " + name);
+    }
+
     public void printSquareDetails(List<SquareDetails> map) {
         for (int i = 0; i < map.size(); i++)
             printer.printSquareDetails(map.get(i));
@@ -404,13 +408,13 @@ public class CliUserInterface implements UserInterface {
             } else {
                 int i = 0;
                 for (String name : targets) {
-                    i++;
                     for (SquareDetails square : map) {
                         if (square.getPlayersOnSquare ( ).contains (name)) {
                             printer.printPlayerPositions (i, name, square.getId ( ));
                             break;
                         }
                     }
+                    i++;
                 }
                 return true;
             }
@@ -420,7 +424,7 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
-    public void chooseTargets(List<TargetDetails> targets, List<String> compliantTargets, List<SquareDetails> map) {
+    public void chooseTargets(List<TargetDetails> targets, List<String> compliantTargets, List<SquareDetails> map, boolean hasTargetingScope) {
         boolean invalid = false;
         List<AtomicTarget> chosenTargets = new ArrayList<> ();
         AtomicTarget atomicTarget = null;
@@ -447,22 +451,39 @@ public class CliUserInterface implements UserInterface {
             else
                 chosenTargets.add(atomicTarget);
         }
-        if (!invalid)
-            sendToServer (new ChosenTargets (nickname, chosenTargets));
+        if (!invalid) {
+            String targetingScopeTarget = null;
+            if (hasTargetingScope)
+                targetingScopeTarget = chooseTargetingScopeTarget(compliantTargets);
+            sendToServer (new ChosenTargets (nickname, chosenTargets, targetingScopeTarget));
+        }
+    }
+
+    private String chooseTargetingScopeTarget(List<String> targets) {
+        String targetNickname = null;
+        printer.printTargetingScope();
+        int parsed = parser.asyncParseInt (1);
+        if (parsed == 1) {
+            int parsedTarget = this.parser.asyncParseInt (targets.size ( ));
+            if (parsedTarget != -1) {
+                targetNickname = targets.get(parsedTarget);
+            }
+        }
+        return targetNickname;
     }
 
     private AtomicTarget chooseTargets(int maxAmount, int movements, boolean isArea, List<String> compliantTargets, List<SquareDetails> map) {
         if (printPlayersPositions (compliantTargets, map)) {
-            printer.print ("Choose your targets | press " + (compliantTargets.size ( ) + 1) + " to finish beforehand): ");
+            printer.print ("Choose your targets | press " + compliantTargets.size ( ) + " to finish beforehand): ");
             LinkedList<String> targets = new LinkedList<> ( );
             int amountChosen = 0;
             while (amountChosen < maxAmount) {
                 printer.printChooseTargets (maxAmount - amountChosen);
-                int parsed = this.parser.asyncParseInt (compliantTargets.size ( ) + 1);
+                int parsed = this.parser.asyncParseInt (compliantTargets.size ( ));
                 if (parsed != -1) {
-                    if (parsed != compliantTargets.size ( ) + 1) {
+                    if (parsed != compliantTargets.size ( )) {
                         amountChosen++;
-                        targets.add (compliantTargets.get (parsed - 1));
+                        targets.add (compliantTargets.get (parsed));
                     } else
                         break;
                 } else
@@ -517,6 +538,23 @@ public class CliUserInterface implements UserInterface {
                 return null;
         } else
             return null;
+    }
+
+    public void chooseSquareForTarget(List<String> targets, List<SquareDetails> map) {
+        printPlayersPositions (targets, map);
+        printer.print ("Choose your target and the square you want to move them to: ");
+        int parsed = parser.asyncParseInt (11);
+        if (parsed != -1) {
+            //TODO chosen power up effect
+        }
+    }
+
+    public void chooseSquare() {
+        printer.print ("Choose the square you want to move to: ");
+        int parsed = parser.asyncParseInt (11);
+        if (parsed != -1) {
+            //TODO chosen power up effect
+        }
     }
 
     public void askReload(List<String> ammo, List<WeaponDetails> weapons) {

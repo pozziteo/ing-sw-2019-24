@@ -3,8 +3,6 @@ package adrenaline.data.data_for_server.data_for_network;
 import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.network.MainServer;
 
-//TODO javadoc
-
 public class AccountSetUp extends DataForServer {
     private String customNickname;
 

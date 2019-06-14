@@ -8,6 +8,7 @@ import java.io.File;
 
 public class MapInfo extends DataForClient {
     private String mapPath;
+    private String simpleName;
 
     private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
     private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
@@ -21,13 +22,14 @@ public class MapInfo extends DataForClient {
     private static final String IMAGE_MEDIUM_2 = IMAGE_PATH + File.separatorChar + "medium_map_2.png";
     private static final String IMAGE_LARGE = IMAGE_PATH + File.separatorChar + "large_map.png";
 
-    public MapInfo(String path) {
+    public MapInfo(String path, String name) {
         this.mapPath = path;
+        this.simpleName = name;
     }
 
     @Override
     public void updateView(CliUserInterface view) {
-        //TODO
+        view.printMapInit (simpleName);
     }
 
     @Override

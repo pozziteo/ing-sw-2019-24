@@ -7,6 +7,7 @@ import adrenaline.data.data_for_client.responses_for_view.fake_model.SquareDetai
 import adrenaline.data.data_for_client.responses_for_view.fake_model.WeaponDetails;
 import adrenaline.data.data_for_server.data_for_game.AtomicTarget;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
+import adrenaline.exceptions.IllegalUseOfPowerUpException;
 import adrenaline.exceptions.MustDiscardWeaponException;
 import adrenaline.exceptions.NotEnoughAmmoException;
 import adrenaline.exceptions.IllegalTargetException;
@@ -32,6 +33,7 @@ public class Controller implements TimerCallBack {
     private TimerThread timer;
     private ArrayList<Player> dummyPlayers;
     private Action currentAction;
+    private PowerUpEffect powerUpEffect;
 
     //path for default map
     private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
@@ -79,7 +81,7 @@ public class Controller implements TimerCallBack {
 
     public void initializeMap(String filepath) {
         gameModel.getGame ().setArena (filepath);
-        lobby.sendToAll (new MapInfo(filepath));
+        lobby.sendToAll (new MapInfo(filepath, gameModel.getGame ().getMap ().getMapName ()));
         spawnPointSetUp ();
     }
 
@@ -356,6 +358,7 @@ public class Controller implements TimerCallBack {
     }
 
     public void askTargets(String nickname, int effectId) {
+        Player p = gameModel.getGame ().findByNickname (nickname);
         List<SquareDetails> map = gameModel.createSquareDetails ();
         TargetOptions options = null;
         if (effectId == 0 && !((ShootAction)currentAction).isBaseUsed ()) {
@@ -369,10 +372,10 @@ public class Controller implements TimerCallBack {
                         if (e.isUsableBeforeBase ( ) && !((ShootAction) currentAction).isBaseUsed ( )) {
                             ((ShootAction) currentAction).setMustUseBase (true);
                             ((ShootAction) currentAction).addOptionalEffect (e);
-                            options = new TargetOptions (gameModel.createTargetDetails (e), gameModel.findCompliantTargets (e, nickname), map);
+                            options = new TargetOptions (gameModel.createTargetDetails (e), gameModel.findCompliantTargets (e, nickname), map, p.hasTargetingScope ());
                         } else if (!e.isUsableBeforeBase ( ) && ((ShootAction) currentAction).isBaseUsed ( ) || (e.isAlternativeMode ( ) && !((ShootAction) currentAction).isBaseUsed ( ))) {
                             ((ShootAction) currentAction).addOptionalEffect (e);
-                            options = new TargetOptions (gameModel.createTargetDetails (e), gameModel.findCompliantTargets (e, nickname), map);
+                            options = new TargetOptions (gameModel.createTargetDetails (e), gameModel.findCompliantTargets (e, nickname), map, p.hasTargetingScope ());
                         } } catch (NotEnoughAmmoException ex) {
                             //options is null
                         }
@@ -395,27 +398,28 @@ public class Controller implements TimerCallBack {
     }
 
     private TargetOptions setBaseEffect(String nickname, List<SquareDetails> map) {
+        Player p = gameModel.getGame ().findByNickname (nickname);
         ((ShootAction) currentAction).addBaseEffect (((ShootAction) currentAction).getChosenWeapon ( ).getBaseEffect ( ));
-        return new TargetOptions (gameModel.createTargetDetails (((ShootAction) currentAction).getChosenWeapon ( ).getBaseEffect ( )), gameModel.findCompliantTargets (((ShootAction) currentAction).getChosenWeapon ( ).getBaseEffect ( ), nickname), map);
+        return new TargetOptions (gameModel.createTargetDetails (((ShootAction) currentAction).getChosenWeapon ( ).getBaseEffect ( )), gameModel.findCompliantTargets (((ShootAction) currentAction).getChosenWeapon ( ).getBaseEffect ( ), nickname), map, p.hasTargetingScope ());
     }
 
-    public void setTargets(String nickname, List<AtomicTarget> targets) {
+    public void setTargets(String nickname, List<AtomicTarget> targets, String targetingScopeNickname) {
         try {
-            ((ShootAction) currentAction).setEffectTargets (targets);
+            ((ShootAction) currentAction).setEffectTargets (targets, targetingScopeNickname);
             gameModel.getGame ().updateCurrentAction (currentAction);
             if (((ShootAction) currentAction).isEndAction ())
                 checkNewTurn (nickname);
             else
                 lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (((ShootAction) currentAction).getChosenWeapon ())));
-        } catch (IllegalTargetException e) {
+        } catch (IllegalTargetException | IllegalUseOfPowerUpException | NotEnoughAmmoException e) {
             lobby.sendToSpecific (nickname, new MessageForClient (e.getMessage ()));
             checkNewTurn (nickname);
         }
     }
 
     public void choosePowerUpOption(String nickname, String powerUpName) {
-        PowerUpEffect effect = new PowerUpEffect(gameModel.getGame().findByNickname(nickname), gameModel.getGame().findByNickname(nickname).findPowerUp(powerUpName));
-
+        this.powerUpEffect = new PowerUpEffect(gameModel.getGame().findByNickname(nickname), gameModel.getGame().findByNickname(nickname).findPowerUp(powerUpName));
+        lobby.sendToSpecific (nickname, new PowerUpEffectOptions (powerUpName, gameModel.createSquareDetails ()));
     }
 
     //******************************************************************************************************************

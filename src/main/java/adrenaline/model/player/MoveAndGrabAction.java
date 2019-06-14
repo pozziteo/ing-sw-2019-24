@@ -12,7 +12,6 @@ import adrenaline.model.map.Square;
 
 import java.util.*;
 
-//TODO add JavaDoc
 public class MoveAndGrabAction implements Action {
 
     private List<Integer> paths;
@@ -54,7 +53,7 @@ public class MoveAndGrabAction implements Action {
                     throw new MustDiscardWeaponException ();
                 }
             } else
-                throw new NotEnoughAmmoException();
+                throw new NotEnoughAmmoException("You don't have enough ammo to grab this weapon.");
         } else
            grabTileContent(player, (NormalSquare) player.getPosition ());
 

@@ -7,14 +7,16 @@ import java.util.List;
 
 public class ChosenTargets extends DataForServer implements DataForController {
     private List<AtomicTarget> targets;
+    private String targetingScopeTarget;
 
-    public ChosenTargets(String nickname, List<AtomicTarget> targets) {
+    public ChosenTargets(String nickname, List<AtomicTarget> targets, String targetingScopeTarget) {
         super(nickname);
         this.targets = targets;
+        this.targetingScopeTarget = targetingScopeTarget;
     }
 
     @Override
     public void updateGame(Controller controller) {
-        controller.setTargets (super.getNickname (), targets);
+        controller.setTargets (super.getNickname (), targets, targetingScopeTarget);
     }
 }

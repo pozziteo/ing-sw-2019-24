@@ -1,7 +1,5 @@
 package adrenaline.model.deck.powerup;
 
-import adrenaline.exceptions.IllegalUseOfPowerUpException;
-import adrenaline.exceptions.InvalidPositionException;
 import adrenaline.exceptions.NotEnoughAmmoException;
 import adrenaline.model.deck.AtomicEffectsFactory;
 import adrenaline.model.deck.AtomicWeaponEffect;
@@ -20,30 +18,25 @@ public class PowerUpEffect {
 
     /**
      * Method for the Teleport Power Up.
-     * If the player chooses to teleport himself into his starting square the method recalls itself
-     * @param positionToGo is the position where you want to teleport
+     * @param id is the id of the square the player wants to teleport to
      */
-    public void useTeleporter(Square positionToGo) throws InvalidPositionException {
-        if (user.getPosition() == positionToGo){
-            throw new InvalidPositionException("The position you want to teleport to is your starting position");
-        } else {
-            user.setPosition(positionToGo);
-            removePowerUp(user, toUse);
-            user.getGame().getPowerUpsDeck().discardCard(toUse);
-        }
+    public void useTeleporter(int id) {
+        Square square = null;
+        for (Square s : user.getGame ().getMap ().getArena ())
+            if (s.getSquareId () == id)
+                square = s;
+        user.setPosition(square);
+        removePowerUp(user, toUse);
+        user.getGame().getPowerUpsDeck().discardCard(toUse);
     }
 
     /**
      * Method for Newton Power Up
      * @param victim is the player you want to move
-     * @param movements is the number of movements (1 or 2)
      * @param id is the new victim's square
      */
-    public void useNewton(Player victim, int movements, int id) throws InvalidPositionException {
-        if (0 > id || id > 11){
-            throw new InvalidPositionException("The position you chose is outside the map");
-        }
-        AtomicWeaponEffect effect = factory.createGenericMovementEffect("target", movements);
+    public void useNewton(Player victim, int id) {
+        AtomicWeaponEffect effect = factory.createGenericMovementEffect("target", 2);
         effect.applyEffect(user, victim, id);
         removePowerUp(user, toUse);
     }
@@ -54,7 +47,7 @@ public class PowerUpEffect {
      */
     public void useTargetingScope(Player victim) throws NotEnoughAmmoException {
         if (user.getBoard().getOwnedAmmo().isEmpty()){
-            throw new NotEnoughAmmoException();
+            throw new NotEnoughAmmoException("You don't have enough ammo to use this power up.");
         } else {
             user.getBoard().getOwnedAmmo().remove(0);
             victim.getBoard().gotHit(1, user);
@@ -66,13 +59,7 @@ public class PowerUpEffect {
      * Method for Tagback Grenade Power Up
      * @param victim is the victim
      */
-    public void useTagbackGrenade(Player victim) throws IllegalUseOfPowerUpException {
-        if(!user.canSee(victim)){
-            throw new IllegalUseOfPowerUpException("You can't see the victim");
-        }
-        if (user.getBoard().getDamageAmountGivenByPlayer(victim)==0){
-            throw new IllegalUseOfPowerUpException("You must receive damage from the target");
-        }
+    public void useTagbackGrenade(Player victim) {
         user.giveMark(1, victim);
         removePowerUp(user, toUse);
         user.getGame().getPowerUpsDeck().discardCard(toUse);

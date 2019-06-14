@@ -50,7 +50,7 @@ public class CliPrinter {
      * Printer Method
      * @param input is what it's printed
      */
-    public void print(String input) {
+    public synchronized void print(String input) {
         AnsiConsole.out.println (input);
     }
 
@@ -373,6 +373,12 @@ public class CliPrinter {
 
     synchronized void printPlayerPositions(int n, String nickname, int squareId) {
         print(n + " - " + nickname + " is on square " + squareId);
+    }
+
+    synchronized void printTargetingScope() {
+        print("Do you want to use Targeting Scope to give one additional damage to someone?");
+        print("0 - No");
+        print("1 - Yes");
     }
 
     synchronized void printBoard(BoardDetails board) {

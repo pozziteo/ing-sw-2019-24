@@ -4,7 +4,6 @@ import adrenaline.model.map.Square;
 
 import java.util.*;
 
-//TODO add JavaDoc
 public class MoveAction implements Action {
 
     private List<Integer> paths;

@@ -2,11 +2,14 @@ package adrenaline.model.player;
 
 import adrenaline.data.data_for_server.data_for_game.AtomicTarget;
 import adrenaline.exceptions.IllegalTargetException;
+import adrenaline.exceptions.IllegalUseOfPowerUpException;
 import adrenaline.exceptions.NotEnoughAmmoException;
 import adrenaline.model.deck.AtomicWeaponEffect;
 import adrenaline.model.deck.OptionalEffect;
 import adrenaline.model.deck.Weapon;
 import adrenaline.model.deck.WeaponEffect;
+import adrenaline.model.deck.powerup.PowerUpEffect;
+
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -67,7 +70,7 @@ public class ShootAction implements Action {
             if (optionalEffects.containsAll (chosenWeapon.getOptionalEffects ( )))
                 this.endAction = true;
         } else
-            throw new NotEnoughAmmoException ();
+            throw new NotEnoughAmmoException ("You don't have enough ammo to use this additional effect.");
     }
 
     public WeaponEffect getBaseEffect() {
@@ -78,7 +81,7 @@ public class ShootAction implements Action {
         return this.optionalEffects.get(0);
     }
 
-    public void setEffectTargets(List<AtomicTarget> targets) throws IllegalTargetException {
+    public void setEffectTargets(List<AtomicTarget> targets, String targetingScopeTarget) throws IllegalTargetException, IllegalUseOfPowerUpException, NotEnoughAmmoException {
         boolean legal = true;
         if (targets.size() == 1) {
             //apply every atomic effect to target.get(0)
@@ -86,6 +89,11 @@ public class ShootAction implements Action {
             legal = isAtomicTargetLegal(targets.get(0), 0);
             //apply atomic effects
             if (legal) {
+                if (targets.get(0).getTargetNames ().contains(targetingScopeTarget)) {
+                    PowerUpEffect effect = new PowerUpEffect (attacker, attacker.findPowerUp ("Targeting Scope"));
+                    effect.useTargetingScope (attacker.getGame ().findByNickname (targetingScopeTarget));
+                } else
+                    throw new IllegalUseOfPowerUpException ("You can't hit this player with Targeting Scope in this action.");
                 for (AtomicWeaponEffect atomicEffect : effects.getLast().getEffects())
                     applyEffectToAtomicTargets(targets.get(0), atomicEffect);
             } else {

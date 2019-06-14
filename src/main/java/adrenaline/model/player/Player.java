@@ -193,6 +193,14 @@ public class Player {
         return false;
     }
 
+    public boolean hasTargetingScope() {
+        for (PowerUp p : ownedPowerUps) {
+            if (p.getPowerUpsName ().equals("Targeting Scope"))
+                return true;
+        }
+        return false;
+    }
+
     /**
      * Method that increments the number of deaths of this
      */
@@ -288,7 +296,7 @@ public class Player {
             playerBoard.getUnloadedWeapons ().remove(toReload);
             payAmmo(toReload.getType ().getReloadingAmmo ());
         } else
-            throw new NotEnoughAmmoException ();
+            throw new NotEnoughAmmoException ("You don't have enough ammo to reload this weapon.");
     }
 
     public Weapon findLoadedWeapon(String name) {
