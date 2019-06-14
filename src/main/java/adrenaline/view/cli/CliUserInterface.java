@@ -427,7 +427,7 @@ public class CliUserInterface implements UserInterface {
         for (TargetDetails target : targets) {
             if (target.getValue () != -1)
                 //normal targets (single or multiple)
-                atomicTarget = chooseTargets (target.getValue ( ), target.getMovements ( ), compliantTargets, map);
+                atomicTarget = chooseTargets (target.getValue ( ), target.getMovements ( ), target.isArea (), compliantTargets, map);
             else if (target.getValue () == -1 && target.isArea ())
                 //area based damage (square or room)
                 atomicTarget = chooseAreaToTarget (compliantTargets, map);
@@ -451,10 +451,10 @@ public class CliUserInterface implements UserInterface {
             sendToServer (new ChosenTargets (nickname, chosenTargets));
     }
 
-    private AtomicTarget chooseTargets(int maxAmount, int movements, List<String> compliantTargets, List<SquareDetails> map) {
+    private AtomicTarget chooseTargets(int maxAmount, int movements, boolean isArea, List<String> compliantTargets, List<SquareDetails> map) {
         if (printPlayersPositions (compliantTargets, map)) {
             printer.print ("Choose your targets | press " + (compliantTargets.size ( ) + 1) + " to finish beforehand): ");
-            List<String> targets = new LinkedList<> ( );
+            LinkedList<String> targets = new LinkedList<> ( );
             int amountChosen = 0;
             while (amountChosen < maxAmount) {
                 printer.printChooseTargets (maxAmount - amountChosen);
@@ -475,12 +475,24 @@ public class CliUserInterface implements UserInterface {
                     if (parsed == -1)
                         return null;
                     return new AtomicTarget (targets, parsed);
+                } else if (isArea) {
+                    int n = findTargetPos(targets.getFirst (), map);
+                    return new AtomicTarget (targets, n);
                 }
                 return new AtomicTarget (targets, -1);
             } else
                 return null;
         } else
             return null;
+    }
+
+    private int findTargetPos(String name, List<SquareDetails> map) {
+        for (SquareDetails square : map) {
+            if (square.getPlayersOnSquare ( ).contains (name)) {
+                return square.getId ();
+            }
+        }
+        return -1;
     }
 
     private AtomicTarget chooseAreaToTarget(List<String> compliantTargets, List<SquareDetails> map) {

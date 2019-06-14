@@ -138,15 +138,21 @@ public class ShootAction implements Action {
         else if (target.getTargetNames ( ) != null && target.getSquareId ( ) == -1) {
             List<Player> targets = new ArrayList<> ();
             for (String name : target.getTargetNames ( )) {
-                targets.add(attacker.getGame ( ).findByNickname (name));
-                effect.applyEffect (attacker, attacker.getGame ( ).findByNickname (name), (Integer[]) null);
+                Player targetPlayer = attacker.getGame ( ).findByNickname (name);
+                if (targetPlayer.getBoard ().getDamageTaken ().size() < 12) {
+                    targets.add(targetPlayer);
+                    effect.applyEffect (attacker, attacker.getGame ( ).findByNickname (name), (Integer[]) null);
+                }
             }
             effects.getLast ().setTargets (targets);
         } else if (target.getTargetNames ( ) != null && target.getSquareId ( ) != -1) {
             List<Player> targets = new ArrayList<> ();
             for (String name : target.getTargetNames ( )) {
-                targets.add(attacker.getGame ( ).findByNickname (name));
-                effect.applyEffect (attacker, attacker.getGame ( ).findByNickname (name), target.getSquareId ( ));
+                Player targetPlayer = attacker.getGame ( ).findByNickname (name);
+                if (targetPlayer.getBoard ().getDamageTaken ().size() < 12) {
+                    targets.add(targetPlayer);
+                    effect.applyEffect (attacker, attacker.getGame ( ).findByNickname (name), target.getSquareId ());
+                }
             }
             effects.getLast ().setTargets (targets);
         }

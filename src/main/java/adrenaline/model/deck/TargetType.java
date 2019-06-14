@@ -53,19 +53,15 @@ public class TargetType {
         switch (constraint) {
 
             case "square different from current position":
-                for (Player p : targets) {
-                    if (p.getPosition ().equals(attacker.getPosition ())) {
-                        legal = false;
-                        break;
-                    }
-                }
+                if (squareId == attacker.getPosition ().getSquareId ())
+                    legal = false;
                 break;
 
             case "target at distance 1 from square":
                 for (Player p : targets) {
                     int playerPos = p.getPosition ().getSquareId ();
                     int distance = abs(squareId -  playerPos);
-                    if (! (distance == 1 || distance == 4)) {
+                    if (! (distance == 1 || distance == 4 || distance == 0)) {
                         legal = false;
                         break;
                     }

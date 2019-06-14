@@ -127,16 +127,18 @@ public class Board {
      */
 
     public void gotHit(int amount, Player inflictedByPlayer) {
-        for (int i = 0; i < amount; i++) {
-            setDamageTaken (inflictedByPlayer);
-        }
-        if (this.getDamageTaken().size()>10) {
-            this.player.deathEvent ( );
-            this.getDamageTaken ( ).clear ( );
-            this.player.setWaitingForRespawn (true);
-            if (player.getOwnedPowerUps ( ).size ( ) < 4) {
-                PowerUp powerUp = (PowerUp) player.getGame ( ).getPowerUpsDeck ( ).drawCard ( );
-                player.getOwnedPowerUps ().add(powerUp);
+        if(!this.player.isWaitingForRespawn()){
+            for (int i = 0; i < amount; i++) {
+                setDamageTaken(inflictedByPlayer);
+            }
+            if (this.getDamageTaken().size() > 10) {
+                this.player.deathEvent();
+                this.getDamageTaken().clear();
+                this.player.setWaitingForRespawn(true);
+                if (player.getOwnedPowerUps().size() < 4) {
+                    PowerUp powerUp = (PowerUp) player.getGame().getPowerUpsDeck().drawCard();
+                    player.getOwnedPowerUps().add(powerUp);
+                }
             }
         }
     }
