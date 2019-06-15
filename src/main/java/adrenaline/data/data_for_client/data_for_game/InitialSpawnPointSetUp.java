@@ -21,6 +21,6 @@ public class InitialSpawnPointSetUp extends DataForClient {
 
     @Override
     public void updateView(GUIController view) {
-        view.initGame();
+        view.chooseSpawnPoint(powerUps);
     }
 }

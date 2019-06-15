@@ -45,5 +45,6 @@ public class MapInfo extends DataForClient {
             map = IMAGE_LARGE;
 
         view.setMap(map);
+        view.initGame();
     }
 }

@@ -1,3 +1,26 @@
 #game_scene {
     -fx-background-color: radial-gradient(center 50% 50%, radius 70%, #ae5f16, #502817, #000000);
 }
+
+#map_style {
+    -fx-grid-lines-visible: true;
+    -fx-alignment: center;
+    -fx-hgap: 30.0;
+}
+
+#square {
+    -fx-pref-width: 110;
+    -fx-pref-height: 110;
+    -fx-opacity: 0.4;
+}
+
+#spawn-box {
+    -fx-alignment: bottom-center;
+    -fx-spacing: 30;
+}
+
+#spawn-button {
+    -fx-font-family: "AR DARLING";
+    -fx-font-size: 15;
+    -fx-text-alignment: center;
+}
