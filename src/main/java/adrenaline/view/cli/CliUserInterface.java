@@ -169,8 +169,8 @@ public class CliUserInterface implements UserInterface {
     }
 
     public void chooseSpawnPoint(List<PowerUpDetails> powerUps) {
-        printer.printInitialSpawnPointOptions (powerUps);
-        int n = parser.parseInt (1);
+        printer.printSpawnPointOptions (powerUps);
+        int n = parser.parseInt (powerUps.size()-1);
         ChosenSpawnPointSetUp data = new ChosenSpawnPointSetUp (nickname, powerUps.get (n).getColor ( ));
         sendToServer (data);
         printer.print("Your choice has been sent...\n");

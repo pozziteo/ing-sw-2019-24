@@ -56,7 +56,7 @@ public class Controller implements TimerCallBack {
     public void receiveData(DataForController data) {
         Runnable thread = () -> {
             Thread.currentThread ().setName ("Controller Receiver Thread");
-            System.out.println("Received " + data.getClass ().getSimpleName ());
+            System.out.println("Received " + data.getClass ().getSimpleName () + "in lobby #" + lobby.getId());
             data.updateGame (this);
         };
         Thread receiverThread = new Thread(thread);
@@ -88,7 +88,7 @@ public class Controller implements TimerCallBack {
     private void spawnPointSetUp() {
         timer.shutDownThread ();
         for (Player p : gameModel.getGame ().getPlayers ()) {
-            InitialSpawnPointSetUp data = new InitialSpawnPointSetUp(gameModel.createPowerUpDetails (p));
+            SpawnPointSetUp data = new SpawnPointSetUp (gameModel.createPowerUpDetails (p));
             lobby.sendToSpecific (p.getPlayerName (), data);
         }
     }
@@ -136,7 +136,7 @@ public class Controller implements TimerCallBack {
         if (!currentPlayer.isWaitingForRespawn()) {
             lobby.sendToSpecific (currentPlayer.getPlayerName (), new Turn(currentPlayer.getPlayerName ()));
         } else {
-            lobby.sendToSpecific (currentPlayer.getPlayerName (), new InitialSpawnPointSetUp (gameModel.createPowerUpDetails (currentPlayer)));
+            lobby.sendToSpecific (currentPlayer.getPlayerName (), new SpawnPointSetUp (gameModel.createPowerUpDetails (currentPlayer)));
         }
         timer.startThread (currentPlayer.getPlayerName ());
         gameModel.getGame ().incrementTurn ( );

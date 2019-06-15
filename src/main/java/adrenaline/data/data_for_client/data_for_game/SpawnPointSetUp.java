@@ -7,10 +7,10 @@ import adrenaline.view.gui.GUIController;
 
 import java.util.List;
 
-public class InitialSpawnPointSetUp extends DataForClient {
+public class SpawnPointSetUp extends DataForClient {
     private List<PowerUpDetails> powerUps;
 
-    public InitialSpawnPointSetUp(List<PowerUpDetails> powerUps) {
+    public SpawnPointSetUp(List<PowerUpDetails> powerUps) {
         this.powerUps = powerUps;
     }
 

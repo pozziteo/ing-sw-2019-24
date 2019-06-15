@@ -50,6 +50,10 @@ public class Lobby implements TimerCallBack {
         this.controller.startController (new GameModel (playerNames));
     }
 
+    public int getId() {
+        return this.id;
+    }
+
     /**
      * Getter method
      * @return the list of players
