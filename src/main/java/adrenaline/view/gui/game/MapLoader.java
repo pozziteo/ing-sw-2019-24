@@ -24,7 +24,7 @@ public class MapLoader {
         }
     }
 
-    public ImageView getMap() {
+    public ImageView loadMap() {
         return this.map;
     }
 }

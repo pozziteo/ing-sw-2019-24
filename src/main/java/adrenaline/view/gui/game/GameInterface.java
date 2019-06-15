@@ -4,7 +4,6 @@ import adrenaline.data.data_for_client.responses_for_view.fake_model.PowerUpDeta
 import adrenaline.view.gui.GUIController;
 import javafx.application.Platform;
 import javafx.geometry.HPos;
-import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -32,7 +31,7 @@ public class GameInterface {
         this.root = new StackPane();
         root.setId("game_scene");
         this.game = new BorderPane();
-        game.setCenter(new MapLoader(GUIController.getController().getMap()).getMap());
+        game.setCenter(new MapLoader(GUIController.getController().getMap()).loadMap());
 //        game.setLeft(new BoardLoader("left").getLeftBoard());
 //       game.setTop(new BoardLoader("topR").getTopBoard());
 //        game.setRight(new BoardLoader("right").getRightBoard());
@@ -48,6 +47,7 @@ public class GameInterface {
         for (int i=0; i < 12; i++) {
             Button button = new Button(i/4 + ", " + i%4);
             button.setId("square");
+            button.setDisable(true);
             mapPane.add(button, i%4, i/4);
             GridPane.setHalignment(button, HPos.CENTER);
             GridPane.setValignment(button, VPos.BOTTOM);
@@ -90,6 +90,10 @@ public class GameInterface {
             box.getChildren().addAll(select, imageBox);
             root.getChildren().add(box);
         });
+    }
+
+    public void startTurn() {
+        //TODO
     }
 
 }

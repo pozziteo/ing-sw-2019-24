@@ -180,4 +180,12 @@ public class GUIController implements UserInterface {
         Platform.runLater(() ->
                 setCurrentScene(gameInterface.initGame()));
     }
+
+    public void showTurn(String nickname) {
+        if (nickname.equals(this.nickname)) {
+            gameInterface.startTurn();
+        } else {
+            showMessage(nickname + " is playing. Please wait your turn...");
+        }
+    }
 }
