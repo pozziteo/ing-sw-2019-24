@@ -1,6 +1,7 @@
 package adrenaline.view.gui;
 
 import adrenaline.data.data_for_client.DataForClient;
+import adrenaline.data.data_for_client.responses_for_view.fake_model.PowerUpDetails;
 import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.ChosenMapSetUp;
 import adrenaline.data.data_for_server.data_for_game.ChosenSpawnPointSetUp;
@@ -20,6 +21,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.util.List;
 
 public class GUIController implements UserInterface {
 
@@ -157,8 +160,8 @@ public class GUIController implements UserInterface {
         lobbyStage.mapSelection(selector);
     }
 
-    public void selectSpawnPoint(){
-//        lobbyStage.selectSpawnPoint(gameModel.createPowerUpDetails());
+    public void chooseSpawnPoint(List<PowerUpDetails> powerUps){
+        gameInterface.selectSpawnPoint(powerUps);
     }
 
     public void sendChosenMap(String map) {
@@ -167,13 +170,22 @@ public class GUIController implements UserInterface {
     }
 
     public void sendChosenSpawnPoint(String spawnColor){
-        ChosenSpawnPointSetUp spawndata = new ChosenSpawnPointSetUp (nickname, spawnColor);
+        ChosenSpawnPointSetUp spawndata = new ChosenSpawnPointSetUp(nickname, spawnColor);
         sendToServer (spawndata);
+        showMessage("Your choice has been sent...\n");
     }
 
     public void initGame() {
         this.gameInterface = new GameInterface(stage);
         Platform.runLater(() ->
                 setCurrentScene(gameInterface.initGame()));
+    }
+
+    public void showTurn(String nickname) {
+        if (nickname.equals(this.nickname)) {
+            gameInterface.startTurn();
+        } else {
+            showMessage(nickname + " is playing. Please wait your turn...");
+        }
     }
 }

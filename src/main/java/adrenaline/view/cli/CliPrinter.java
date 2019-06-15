@@ -118,12 +118,11 @@ public class CliPrinter {
      * after he keeps a PowerUp
      * @param powerUps is the couple of powerUps the player gets at the beginning of the game
      */
-    synchronized void printInitialSpawnPointOptions(List<PowerUpDetails> powerUps) {
-        PowerUpDetails powerUp1 = powerUps.get(0);
-        PowerUpDetails powerUp2 = powerUps.get(1);
+    synchronized void printSpawnPointOptions(List<PowerUpDetails> powerUps) {
         print("Pick your spawn point by discarding the power up card with the corresponding color:");
-        print("0 - " + powerUp1.getType () + "(spawn in " + powerUp1.getColor ().toLowerCase () + " room)");
-        print("1 - " + powerUp2.getType () + "(spawn in " + powerUp2.getColor ().toLowerCase () + " room)");
+        for (int i = 0; i < powerUps.size(); i++) {
+            print(i + " - " + powerUps.get(i).getType () + " (spawn in " + powerUps.get(i).getColor ().toLowerCase () + " room)");
+        }
     }
 
     /**

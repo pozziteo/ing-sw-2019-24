@@ -81,7 +81,7 @@ public class MainServer {
      */
 
     private void startServer() throws IOException, ClassNotFoundException {
-        System.setProperty("java.rmi.server.hostname", "192.168.43.155");
+//        System.setProperty("java.rmi.server.hostname", "192.168.43.155");
         this.gameLobbies = new LinkedList<> ();
         this.storedAccounts = loadAccounts ();
         mainRunning = true;

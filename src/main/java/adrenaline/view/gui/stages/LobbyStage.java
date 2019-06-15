@@ -126,33 +126,6 @@ public class LobbyStage {
         });
     }
 
-    public void selectSpawnPoint(List<PowerUpDetails> powerups){
-        Platform.runLater( () -> {
-            Text select = new Text(GUIController.getController().getNickname() + ", choose your spawnPoint:");
-            select.setId("text");
-            HBox buttonBox = new HBox();
-            buttonBox.setId("box");
-
-            Button first = new Button(powerups.get(0).getColor()+"\n"+powerups.get(0).getType());
-            Button second = new Button(powerups.get(1).getColor()+"\n"+powerups.get(1).getType());
-
-            first.setId("spawn-button");
-            second.setId("spawn-button");
-
-            first.setOnMouseClicked(mouseEvent ->
-                    GUIController.getController().sendChosenSpawnPoint(powerups.get(0).getColor())
-            );
-
-            second.setOnMouseClicked(mouseEvent ->
-                    GUIController.getController().sendChosenSpawnPoint(powerups.get(1).getColor())
-            );
-
-            buttonBox.getChildren().addAll(first, second);
-            box.getChildren().remove(waitingText);
-            box.getChildren().addAll(select ,buttonBox);
-        });
-    }
-
     public Scene getLobbyScene() {
         return this.lobbyScene;
     }
