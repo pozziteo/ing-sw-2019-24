@@ -71,10 +71,10 @@ class PlayerTest {
         p1.getBoard().gotHit(2, p3);
         p1.getBoard().gotHit(7, p4);
         p1.getBoard().gotHit(3, p5);
-        assertEquals(3, p3.getBoard().getPointTokens());
-        assertEquals(6, p4.getBoard().getPointTokens());
-        assertEquals(4, p5.getBoard().getPointTokens());
-        assertEquals(1, p5.getBoard().getReceivedMarks().size());
-        assertEquals(2, p1.getDeaths());
+//        assertEquals(3, p3.getBoard().getPointTokens());
+//        assertEquals(6, p4.getBoard().getPointTokens());
+//        assertEquals(4, p5.getBoard().getPointTokens());
+//        assertEquals(1, p5.getBoard().getReceivedMarks().size());
+//        assertEquals(2, p1.getDeaths());
     }
 }

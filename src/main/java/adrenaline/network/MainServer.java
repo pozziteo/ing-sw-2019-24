@@ -42,7 +42,7 @@ public class MainServer {
 
     public MainServer() {
         this.onlineClients = new LinkedList<>();
-        this.serverAddress = "192.168.43.155"; //change to get dynamically
+        this.serverAddress = "localhost"; //change to get dynamically
         this.rmiPort = ConfigFileReader.readConfigFile("rmiPort");
         this.socketPort = ConfigFileReader.readConfigFile("socketPort");
         this.mainRunning = false;

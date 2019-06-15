@@ -3,6 +3,8 @@ package adrenaline.view.gui;
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.ChosenMapSetUp;
+import adrenaline.data.data_for_server.data_for_game.ChosenSpawnPointSetUp;
+import adrenaline.model.GameModel;
 import adrenaline.network.ClientInterface;
 import adrenaline.view.UserInterface;
 import adrenaline.view.gui.game.GameInterface;
@@ -155,9 +157,18 @@ public class GUIController implements UserInterface {
         lobbyStage.mapSelection(selector);
     }
 
+    public void selectSpawnPoint(){
+//        lobbyStage.selectSpawnPoint(gameModel.createPowerUpDetails());
+    }
+
     public void sendChosenMap(String map) {
         ChosenMapSetUp mapdata = new ChosenMapSetUp(nickname, map);
         sendToServer(mapdata);
+    }
+
+    public void sendChosenSpawnPoint(String spawnColor){
+        ChosenSpawnPointSetUp spawndata = new ChosenSpawnPointSetUp (nickname, spawnColor);
+        sendToServer (spawndata);
     }
 
     public void initGame() {

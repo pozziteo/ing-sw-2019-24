@@ -12,6 +12,8 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 public class GameInterface {
 
     private StackPane root;
@@ -25,6 +27,10 @@ public class GameInterface {
         root.setId("game_scene");
         this.game = new BorderPane();
         game.setCenter(new MapLoader(GUIController.getController().getMap()).getMap());
+//        game.setLeft(new BoardLoader("left").getLeftBoard());
+ //       game.setTop(new BoardLoader("topR").getTopBoardR());
+//        game.setRight(new BoardLoader("right").getRightBoard());
+//        game.setBottom(new BoardLoader("bottom").getBottomBoard());
 
         GridPane mapPane = new GridPane();
         mapPane.setGridLinesVisible(true);
