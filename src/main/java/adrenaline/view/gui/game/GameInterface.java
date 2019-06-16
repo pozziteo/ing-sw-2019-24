@@ -18,6 +18,8 @@ import java.util.List;
 
 public class GameInterface {
 
+    private GUIController userController;
+
     private StackPane root;
     private BorderPane game;
     private List<Button> mapButtons;
@@ -27,15 +29,20 @@ public class GameInterface {
 
     public GameInterface(Stage stage) {
 
+        this.userController = GUIController.getController();
         this.cardLoader = new CardLoader();
         this.root = new StackPane();
         root.setId("game_scene");
         this.game = new BorderPane();
-        game.setCenter(new MapLoader(GUIController.getController().getMap()).loadMap());
-//        game.setLeft(new BoardLoader("left").getLeftBoard());
-//       game.setTop(new BoardLoader("topR").getTopBoard());
-//        game.setRight(new BoardLoader("right").getRightBoard());
-//        game.setBottom(new BoardLoader("bottom").getBottomBoard());
+        game.setCenter(new MapLoader(userController.getMap()).loadMap());
+        game.setLeft(new BoardLoader("left").getLeftBoard());
+        game.setRight(new BoardLoader("right").getRightBoard());
+        game.setBottom(new BoardLoader("bottom").getBottomBoard());
+        HBox topBoards = new HBox();
+        topBoards.setId("box");
+        topBoards.getChildren().addAll(new BoardLoader("topR").getTopBoardR(),
+                new BoardLoader("topL").getTopBoardL());
+        game.setTop(topBoards);
 
         GridPane mapPane = new GridPane();
         mapPane.setId("map_style");
@@ -70,7 +77,7 @@ public class GameInterface {
         Platform.runLater( () -> {
             VBox box = new VBox();
             box.setId("spawn-box");
-            Text select = new Text(GUIController.getController().getNickname() + ", choose your spawnPoint:");
+            Text select = new Text(userController.getNickname() + ", choose your spawnPoint:");
             select.setTextAlignment(TextAlignment.CENTER);
             select.setId("small_text");
             HBox imageBox = new HBox();
@@ -81,7 +88,7 @@ public class GameInterface {
                 ImageView powerUp = cardLoader.loadCard(powerUpDetails.getType() + "_" + powerUpDetails.getColor());
                 images.add(powerUp);
                 powerUp.setOnMouseClicked(mouseEvent -> {
-                    GUIController.getController().sendChosenSpawnPoint(powerUpDetails.getColor());
+                    userController.sendChosenSpawnPoint(powerUpDetails.getColor());
                     root.getChildren().remove(box);
                 });
             }
@@ -93,7 +100,59 @@ public class GameInterface {
     }
 
     public void startTurn() {
-        //TODO
+        Platform.runLater( () -> {
+            VBox box = new VBox();
+            box.setId("actions-box");
+            Text actionsSelect = new Text(userController.getNickname() + ", choose your next action!");
+            actionsSelect.setTextAlignment(TextAlignment.CENTER);
+            actionsSelect.setId("medium-text");
+            HBox actionButtons = new HBox();
+            actionButtons.setId("box");
+
+            Button move = new Button("MOVE");
+            move.setId("action-button");
+            move.setOnMouseClicked(mouseEvent -> {
+                userController.sendAction("move");
+                userController.showMessage("Move action selected");
+                root.getChildren().remove(box);
+            });
+
+            Button moveAndGrab = new Button("MOVE AND GRAB");
+            moveAndGrab.setId("action-button");
+            moveAndGrab.setOnMouseClicked(mouseEvent -> {
+                userController.sendAction("move and grab");
+                userController.showMessage("Move and Grab action selected");
+                root.getChildren().remove(box);
+            });
+
+            Button shoot = new Button("SHOOT");
+            shoot.setId("action-button");
+            shoot.setOnMouseClicked(mouseEvent -> {
+                userController.sendAction("shoot");
+                userController.showMessage("Shoot action selected");
+                root.getChildren().remove(box);
+            });
+
+            Button powerUp = new Button("POWER-UP");
+            powerUp.setId("action-button");
+            powerUp.setOnMouseClicked(mouseEvent -> {
+                userController.sendAction("power up");
+                userController.showMessage("Power-Up action selected");
+                root.getChildren().remove(box);
+            });
+
+            Button pass = new Button("PASS TURN");
+            pass.setId("action-button");
+            pass.setOnMouseClicked(mouseEvent -> {
+                userController.sendAction("pass");
+                userController.showMessage("You are passing this turn");
+                root.getChildren().remove(box);
+            });
+
+            actionButtons.getChildren().addAll(move, moveAndGrab, shoot, powerUp, pass);
+            box.getChildren().addAll(actionsSelect, actionButtons);
+            root.getChildren().add(box);
+        });
     }
 
 }

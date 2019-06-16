@@ -15,26 +15,26 @@ public class BoardLoader{
 
     BoardLoader(String position){
 //TODO sistemare, questa era solo una prova. al posto di 'color' la board del giocatore
-//        switch (position){
-//            case "topR":
-//                loadBoard("red");
-//                break;
-//            case "topL":
-//                loadBoard("ss");
-//                break;
-//            case "right":
-//                loadBoard("green");
-//                break;
-//            case "left":
-//                loadBoard("grey");
-//                break;
-//            case "bottom":
-//                loadBoard("c");
-//                break;
-//
-//                default:
-//                    break;
-//        }
+        switch (position){
+            case "topR":
+                loadBoard("red");
+                break;
+            case "topL":
+                loadBoard("blue");
+                break;
+            case "right":
+                loadBoard("green");
+                break;
+            case "left":
+                loadBoard("grey");
+                break;
+            case "bottom":
+                loadBoard("yellow");
+                break;
+
+                default:
+                    break;
+        }
 
     }
 
