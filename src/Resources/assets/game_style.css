@@ -17,10 +17,17 @@
 #spawn-box {
     -fx-alignment: bottom-center;
     -fx-spacing: 30;
+    -fx-padding: 20;
 }
 
-#spawn-button {
+#actions-box {
+    -fx-alignment: bottom-center;
+    -fx-spacing: 25;
+    -fx-padding: 40;
+}
+
+#action-button {
     -fx-font-family: "AR DARLING";
-    -fx-font-size: 15;
+    -fx-font-size: 20;
     -fx-text-alignment: center;
 }

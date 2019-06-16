@@ -23,6 +23,12 @@
     -fx-effect: dropShadow(gaussian , #499149, 1, 1, 1, 1);
 }
 
+#medium-text {
+    -fx-font-family: "AR DARLING";
+    -fx-font-size: 45;
+    -fx-effect: dropShadow(gaussian , #499149, 1, 1, 1, 1);
+}
+
 #small_text {
     /*-fx-text-fill: #4cff76;*/
     -fx-font-family: "AR DARLING";

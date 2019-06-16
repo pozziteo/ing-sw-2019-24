@@ -3,6 +3,7 @@ package adrenaline.view.gui;
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_client.responses_for_view.fake_model.PowerUpDetails;
 import adrenaline.data.data_for_server.DataForServer;
+import adrenaline.data.data_for_server.data_for_game.ActionBuilder;
 import adrenaline.data.data_for_server.data_for_game.ChosenMapSetUp;
 import adrenaline.data.data_for_server.data_for_game.ChosenSpawnPointSetUp;
 import adrenaline.model.GameModel;
@@ -14,6 +15,7 @@ import adrenaline.view.gui.stages.LobbyStage;
 import adrenaline.view.gui.stages.LoginStage;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
@@ -89,22 +91,20 @@ public class GUIController implements UserInterface {
                 currentScene.getStylesheets().add(getClass().getResource("/assets/message_popup.css").toExternalForm());
                 text.setId("message");
                 text.setTextAlignment(TextAlignment.CENTER);
-                BorderPane border = new BorderPane();
-                HBox box = new HBox();
-                box.setAlignment(Pos.CENTER);
+                VBox box = new VBox();
+                box.setId("box-message");
                 box.getChildren().add(text);
-                border.setBottom(box);
                 FadeTransition transition = new FadeTransition(Duration.seconds(2.0), box);
                 transition.setFromValue(0.0);
                 transition.setToValue(1.0);
                 transition.setAutoReverse(true);
                 transition.setCycleCount(2);
                 StackPane pane = (StackPane) currentScene.getRoot();
-                pane.getChildren().add(border);
+                pane.getChildren().add(box);
                 transition.play();
                 transition.setOnFinished(actionEvent -> {
                     synchronized (obj) {
-                        pane.getChildren().remove(border);
+                        pane.getChildren().remove(box);
                             updatingThread = null;
                             obj.notifyAll();
                         }
@@ -160,7 +160,14 @@ public class GUIController implements UserInterface {
         lobbyStage.mapSelection(selector);
     }
 
-    public void chooseSpawnPoint(List<PowerUpDetails> powerUps){
+    public synchronized void chooseSpawnPoint(List<PowerUpDetails> powerUps){
+        try {
+            while (gameInterface == null)
+                wait();
+        } catch (InterruptedException exc) {
+            exc.printStackTrace();
+            Thread.currentThread().interrupt();
+        }
         gameInterface.selectSpawnPoint(powerUps);
     }
 
@@ -175,9 +182,24 @@ public class GUIController implements UserInterface {
         showMessage("Your choice has been sent...\n");
     }
 
-    public void initGame() {
+    public synchronized void initGame() {
         this.gameInterface = new GameInterface(stage);
+        notifyAll();
         Platform.runLater(() ->
                 setCurrentScene(gameInterface.initGame()));
+    }
+
+    public void showTurn(String nickname) {
+        if (nickname.equals(this.nickname)) {
+            showMessage("It's your turn!");
+            gameInterface.startTurn();
+        } else {
+            showMessage(nickname + " is playing. Please wait your turn...");
+        }
+    }
+
+    public void sendAction(String actionType) {
+        ActionBuilder action = new ActionBuilder(nickname, actionType);
+        sendToServer(action);
     }
 }
