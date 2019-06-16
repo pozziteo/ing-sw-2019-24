@@ -70,24 +70,34 @@ public class AtomicEffectsFactory {
                 performer = target;
             }
 
-            if (id[0] != null && paths.contains(id[0]))
-                performer.setPosition(performer.getGame().getMap().getSquare(id[0]));
+            if (id[0] != null && paths.contains(id[0])) {
+                performer.getPosition ().removePlayerFromSquare (performer);
+                performer.setPosition (performer.getGame ( ).getMap ( ).getSquare (id[0]));
+            }
         };
     }
 
     public AtomicWeaponEffect createMoveToAttackerPosition() {
-        return (attacker, target, id) -> target.setPosition(attacker.getPosition());
+        return (attacker, target, id) -> {
+            target.getPosition ().removePlayerFromSquare (target);
+            target.setPosition(attacker.getPosition());
+        };
     }
 
     public AtomicWeaponEffect createMoveToTargetPosition() {
-        return (attacker, target, id) -> attacker.setPosition(target.getPosition());
+        return (attacker, target, id) -> {
+            attacker.getPosition ().removePlayerFromSquare (attacker);
+            attacker.setPosition(target.getPosition());
+        };
     }
 
     public AtomicWeaponEffect createMoveTargetToVisibleSquare(int maxMovements) {
         return (attacker, target, id) -> {
             List<Integer> targetPaths = Action.findPaths(target, maxMovements);
-            if (targetPaths.contains(id[0]) && attacker.canSee(attacker.getGame().getMap().getSquare(id[0])))
-                target.setPosition(target.getGame().getMap().getSquare(id[0]));
+            if (targetPaths.contains(id[0]) && attacker.canSee(attacker.getGame().getMap().getSquare(id[0]))) {
+                target.getPosition ().removePlayerFromSquare (target);
+                target.setPosition (target.getGame ( ).getMap ( ).getSquare (id[0]));
+            }
         };
     }
 
@@ -99,6 +109,7 @@ public class AtomicEffectsFactory {
             else
                 performer = target;
 
+            performer.getPosition ().removePlayerFromSquare (performer);
             performer.setPosition(performer.getGame().getMap().getSquare(id[0]));
         };
     }

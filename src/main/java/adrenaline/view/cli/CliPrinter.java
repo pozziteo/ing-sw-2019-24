@@ -28,6 +28,9 @@ public class CliPrinter {
     public static final String ANSI_CYAN = "\u001b[36;1m";
     public static final String ANSI_WHITE = "\u001b[37;1m";
 
+    public static final String YES = "1 - Yes";
+    public static final String NO = "0 - No";
+
     /**
      * List of background colors for ANSI
      */
@@ -327,6 +330,12 @@ public class CliPrinter {
         }
     }
 
+    synchronized void printUseAsAmmo() {
+        print("Do you want to use the chosen power up as bonus ammo?");
+        print(NO);
+        print(YES);
+    }
+
     synchronized void printWeaponEffects(List<EffectDetails> effects) {
         int i = 0;
         for (EffectDetails e : effects) {
@@ -343,12 +352,12 @@ public class CliPrinter {
 
     /**
      * Method to print the player's PowerUp List
-     * @param pups is the ArrayList of PowerUp
+     * @param powerUpDetails is the ArrayList of PowerUp
      */
-    synchronized void printPowerUpList(List<PowerUpDetails> pups){
-        print("These are your PowerUps: ");
-        for (int i=0; i< pups.size(); i++){
-            print(i + " - " + pups.get(i) + " ~ Ammo color: " );
+    synchronized void printPowerUpList(List<PowerUpDetails> powerUpDetails){
+        print("These are your power ups (press " + powerUpDetails.size() + " if you don't want to use any):");
+        for (int i=0; i < powerUpDetails.size(); i++){
+            print(i + " - " + powerUpDetails.get(i).getType () + " - Bonus ammo color: " + powerUpDetails.get(i).getColor ());
         }
     }
 
@@ -377,8 +386,8 @@ public class CliPrinter {
 
     synchronized void printTargetingScope() {
         print("Do you want to use Targeting Scope to give one additional damage to someone?");
-        print("0 - No");
-        print("1 - Yes");
+        print(NO);
+        print(YES);
     }
 
     synchronized void printBoard(BoardDetails board) {
@@ -418,8 +427,8 @@ public class CliPrinter {
 
     synchronized void printReload() {
         print("Do you want to reload any of your weapons?\n");
-        print("0 - No");
-        print("1 - Yes");
+        print(NO);
+        print(YES);
     }
 
     synchronized void printEndGame() {

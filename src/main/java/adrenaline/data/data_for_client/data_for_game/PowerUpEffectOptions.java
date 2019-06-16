@@ -22,7 +22,8 @@ public class PowerUpEffectOptions extends DataForClient {
             List<String> names = new ArrayList<> ();
             for (SquareDetails s : map) {
                 for (String name : s.getPlayersOnSquare ()) {
-                    names.add(name);
+                    if (! name.equals(super.getAccount ().getNickName ()))
+                        names.add(name);
                 }
             }
             view.chooseSquareForTarget (names, map);

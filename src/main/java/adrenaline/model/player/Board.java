@@ -123,16 +123,19 @@ public class Board {
     /**
      * Method to add the right amount of damage depending on the weapon's effect after a player hit this player
      * @param amount
-     * @param inflictedByPlayer
+     * @param attacker
      */
 
-    public void gotHit(int amount, Player inflictedByPlayer) {
+    public void gotHit(int amount, Player attacker) {
         if(!this.player.isWaitingForRespawn()){
             for (int i = 0; i < amount; i++) {
-                setDamageTaken(inflictedByPlayer);
+                setDamageTaken(attacker);
+            }
+            if (player.canSee (attacker) && player.hasTagbackGrenade ()) {
+                player.setCanTagbackGrenade (true);
             }
             if (this.getDamageTaken().size() > 10) {
-                this.player.deathEvent();
+                this.player.hasDied ();
                 this.getDamageTaken().clear();
                 this.player.setWaitingForRespawn(true);
                 if (player.getOwnedPowerUps().size() < 4) {

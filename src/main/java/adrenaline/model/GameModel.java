@@ -50,7 +50,7 @@ public class GameModel {
                 try {
                     tile = ((NormalSquare) game.getMap ( ).getSquare (i)).getPlacedTile ( ).getTileDescription ( );
                 } catch (NullPointerException e ) {
-                    tile = null;
+                    tile = "empty";
                 }
                 square = new NormalSquareDetails (i, playersNames, tile);
             }
@@ -198,5 +198,19 @@ public class GameModel {
             return targets;
         }
         return null;
+    }
+
+    public List<Player> findPlayersEnabledToTagback() {
+        List<Player> players = new ArrayList<>();
+        for (Player p : game.getPlayers ()) {
+            if (p.canTagbackGrenade ())
+                players.add(p);
+        }
+        return players;
+    }
+
+    public void resetCanTagback() {
+        for (Player p : game.getPlayers ())
+            p.setCanTagbackGrenade (false);
     }
 }

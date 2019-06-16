@@ -54,13 +54,16 @@ class PlayerTest {
         this.game.setArena (SMALL);
         PowerUp powerup = p1.getOwnedPowerUps ().get(0);
         p1.chooseSpawnPoint (powerup.getAmmo().getColor());
-        p1.getPosition ();
         assertTrue(p1.getPosition ().isSpawnPoint ());
         assertTrue(p1.getPosition ().getSquareColor ().equals(powerup.getAmmo().getColor ()));
     }
 
     @Test
     void deathTest(){
+        this.game.setArena (SMALL);
+        p1.setPosition(game.getMap ().getSquare(2));
+        p2.setPosition(game.getMap ().getSquare(1));
+
         assertEquals(0, p1.getDeaths());
 
         p1.getBoard().gotHit(12, p2);

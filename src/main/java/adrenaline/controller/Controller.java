@@ -56,7 +56,7 @@ public class Controller implements TimerCallBack {
     public void receiveData(DataForController data) {
         Runnable thread = () -> {
             Thread.currentThread ().setName ("Controller Receiver Thread");
-            System.out.println("Received " + data.getClass ().getSimpleName () + "in lobby #" + lobby.getId());
+            System.out.println("Received " + data.getClass ().getSimpleName () + " in lobby #" + lobby.getId());
             data.updateGame (this);
         };
         Thread receiverThread = new Thread(thread);
@@ -73,7 +73,6 @@ public class Controller implements TimerCallBack {
         int indexOfLast = gameModel.getGame ().getPlayers ().size ()-1;
         Player firstPlayer = gameModel.getGame ().getPlayers ().get (indexOfLast); //clients are put into the list of players in reverse order
         MapSetUp data = new MapSetUp (firstPlayer.getPlayerName ());
-//        lobby.sendToSpecific (firstPlayer.getPlayerName (), data);
         for (Player p : gameModel.getGame ().getPlayers ()) {
             lobby.sendToSpecific (p.getPlayerName (), data);
         }
@@ -124,6 +123,7 @@ public class Controller implements TimerCallBack {
 
     private void playNewTurn() {
         timer.shutDownThread ();
+        gameModel.resetCanTagback();
         int indexOfLast = gameModel.getGame ().getPlayers ().size ()-1;
         int currentTurn = gameModel.getGame ( ).getCurrentTurn ( );
         Player currentPlayer;
@@ -230,7 +230,7 @@ public class Controller implements TimerCallBack {
                 lobby.sendToSpecific (nickname, options);
                 break;
             case "power up":
-                if (gameModel.getGame ().findByNickname (nickname).hasUsablePowerUps()) {
+                if (! gameModel.getGame ().findByNickname (nickname).getOwnedPowerUps ().isEmpty ()) {
                     options = new PowerUpOptions(gameModel.createPowerUpDetails (gameModel.getGame ().findByNickname (nickname)));
                     lobby.sendToSpecific (nickname, options);
                 }
@@ -296,7 +296,7 @@ public class Controller implements TimerCallBack {
     }
 
     private void checkNewTurn(String nickname) {
-        if (isFirstAction ()) {
+        if (! isLastAction ()) {
             lobby.sendToSpecific (nickname, new Turn(nickname));
             lobby.sendToAllNonCurrent (nickname, new Turn(nickname));
         } else if (! gameModel.getGame ().findByNickname (nickname).getBoard ().getUnloadedWeapons ().isEmpty ()){
@@ -344,8 +344,8 @@ public class Controller implements TimerCallBack {
         checkNewTurn (nickname);
     }
 
-    private boolean isFirstAction() {
-        return (gameModel.getGame ().getCurrentTurnActionNumber () == 1);
+    private boolean isLastAction() {
+        return (gameModel.getGame ().getCurrentTurnActionNumber () == 2);
     }
 
     public void sendModeOptions(String nickname, String weaponName) {
@@ -407,8 +407,20 @@ public class Controller implements TimerCallBack {
         try {
             ((ShootAction) currentAction).setEffectTargets (targets, targetingScopeNickname);
             gameModel.getGame ().updateCurrentAction (currentAction);
-            if (((ShootAction) currentAction).isEndAction ())
-                checkNewTurn (nickname);
+            if (((ShootAction) currentAction).isEndAction ()) {
+                List<Player> tagbackUsers = gameModel.findPlayersEnabledToTagback();
+                if (! tagbackUsers.isEmpty ()) {
+                    for (Player p : tagbackUsers)
+                        lobby.sendToSpecific (p.getPlayerName (), new TagbackRequest());
+                    try {
+                        Thread.sleep (20000);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread ().interrupt ();
+                    }
+                    checkNewTurn (nickname);
+                } else
+                    checkNewTurn (nickname);
+            }
             else
                 lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (((ShootAction) currentAction).getChosenWeapon ())));
         } catch (IllegalTargetException | IllegalUseOfPowerUpException | NotEnoughAmmoException e) {
@@ -417,9 +429,33 @@ public class Controller implements TimerCallBack {
         }
     }
 
-    public void choosePowerUpOption(String nickname, String powerUpName) {
+    public void usePowerUpAsAmmo(String nickname, String powerUpName) {
         this.powerUpEffect = new PowerUpEffect(gameModel.getGame().findByNickname(nickname), gameModel.getGame().findByNickname(nickname).findPowerUp(powerUpName));
-        lobby.sendToSpecific (nickname, new PowerUpEffectOptions (powerUpName, gameModel.createSquareDetails ()));
+        this.powerUpEffect.usePupAmmo ();
+        checkNewTurn (nickname);
+    }
+
+    public void choosePowerUpOption(String nickname, String powerUpName) {
+        if (powerUpName.equals("Newton") || powerUpName.equals("Teleporter")) {
+            this.powerUpEffect = new PowerUpEffect (gameModel.getGame ( ).findByNickname (nickname), gameModel.getGame ( ).findByNickname (nickname).findPowerUp (powerUpName));
+            lobby.sendToSpecific (nickname, new PowerUpEffectOptions (powerUpName, gameModel.createSquareDetails ( )));
+        } else {
+            lobby.sendToSpecific (nickname, new MessageForClient ("You can't use this power up right now."));
+            checkNewTurn (nickname);
+        }
+    }
+
+    public void usePowerUpEffect(String nickname, String targetName, int squareId) {
+        if (targetName != null) {
+            try {
+                this.powerUpEffect.useNewton (gameModel.getGame ( ).findByNickname (targetName), squareId);
+            } catch (IllegalUseOfPowerUpException e) {
+                lobby.sendToSpecific (nickname, new MessageForClient (e.getMessage ()));
+            }
+        } else {
+            this.powerUpEffect.useTeleporter (squareId);
+        }
+        checkNewTurn (nickname);
     }
 
     //******************************************************************************************************************

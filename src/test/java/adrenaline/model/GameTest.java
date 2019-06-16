@@ -25,6 +25,13 @@ public class GameTest {
 
     @Test
     void testPoints(){
+        this.game.setArena (SMALL);
+        p1.setPosition(game.getMap ().getSquare(2));
+        p2.setPosition(game.getMap ().getSquare(4));
+        p3.setPosition(game.getMap ().getSquare(6));
+        p4.setPosition(game.getMap ().getSquare(8));
+        p5.setPosition(game.getMap ().getSquare(10));
+
         p1.getBoard().gotHit(3, p2);
         p1.getBoard().gotHit(2, p3);
         p1.getBoard().gotHit(5, p4);
