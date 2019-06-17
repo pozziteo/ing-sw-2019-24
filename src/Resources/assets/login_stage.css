@@ -20,12 +20,14 @@
     /*-fx-text-fill: #4cff76;*/
     -fx-font-family: "AR DARLING";
     -fx-font-size: 60;
+    -fx-text-alignment: center;
     -fx-effect: dropShadow(gaussian , #499149, 1, 1, 1, 1);
 }
 
 #medium-text {
     -fx-font-family: "AR DARLING";
     -fx-font-size: 45;
+    -fx-text-alignment: center;
     -fx-effect: dropShadow(gaussian , #499149, 1, 1, 1, 1);
 }
 
@@ -33,6 +35,7 @@
     /*-fx-text-fill: #4cff76;*/
     -fx-font-family: "AR DARLING";
     -fx-font-size: 30;
+    -fx-text-alignment: center;
     -fx-effect: dropShadow(gaussian , #499149, 1, 1, 1, 1);
 }
 
