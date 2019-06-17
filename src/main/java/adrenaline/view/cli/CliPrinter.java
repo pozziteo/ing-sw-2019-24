@@ -385,7 +385,7 @@ public class CliPrinter {
     }
 
     synchronized void printTargetingScope() {
-        print("Do you want to use Targeting Scope to give one additional damage to someone?");
+        print("Do you want to use Targeting Scope to give one additional damage to one of you targets?");
         print(NO);
         print(YES);
     }
@@ -427,6 +427,12 @@ public class CliPrinter {
 
     synchronized void printReload() {
         print("Do you want to reload any of your weapons?\n");
+        print(NO);
+        print(YES);
+    }
+
+    synchronized void printTagback(String name) {
+        print("You just received damage from " + name + ". Do you want to use your Tagback Grenade and give one mark in return?");
         print(NO);
         print(YES);
     }

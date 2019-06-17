@@ -407,20 +407,16 @@ public class Controller implements TimerCallBack {
         try {
             ((ShootAction) currentAction).setEffectTargets (targets, targetingScopeNickname);
             gameModel.getGame ().updateCurrentAction (currentAction);
-            if (((ShootAction) currentAction).isEndAction ()) {
-                List<Player> tagbackUsers = gameModel.findPlayersEnabledToTagback();
-                if (! tagbackUsers.isEmpty ()) {
-                    for (Player p : tagbackUsers)
-                        lobby.sendToSpecific (p.getPlayerName (), new TagbackRequest());
-                    try {
-                        Thread.sleep (20000);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread ().interrupt ();
-                    }
-                    checkNewTurn (nickname);
-                } else
-                    checkNewTurn (nickname);
+            List<Player> tagbackUsers = gameModel.findPlayersEnabledToTagback();
+            for (Player p : tagbackUsers)
+                lobby.sendToSpecific (p.getPlayerName (), new TagbackRequest(nickname));
+            try {
+                Thread.sleep (20000);
+            } catch (InterruptedException e) {
+                Thread.currentThread ().interrupt ();
             }
+            if (((ShootAction) currentAction).isEndAction ())
+                checkNewTurn (nickname);
             else
                 lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (((ShootAction) currentAction).getChosenWeapon ())));
         } catch (IllegalTargetException | IllegalUseOfPowerUpException | NotEnoughAmmoException e) {
@@ -456,6 +452,15 @@ public class Controller implements TimerCallBack {
             this.powerUpEffect.useTeleporter (squareId);
         }
         checkNewTurn (nickname);
+    }
+
+    public void useTagback(boolean toBeUsed, String user, String target) {
+        if (toBeUsed) {
+            Player userPlayer = gameModel.getGame ().findByNickname (user);
+            Player targetPlayer = gameModel.getGame ().findByNickname (target);
+            PowerUpEffect tagbackEffect = new PowerUpEffect (userPlayer, userPlayer.findPowerUp ("Tagback Grenade"));
+            tagbackEffect.useTagbackGrenade (targetPlayer);
+        }
     }
 
     //******************************************************************************************************************

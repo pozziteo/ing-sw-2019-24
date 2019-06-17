@@ -467,22 +467,23 @@ public class CliUserInterface implements UserInterface {
         if (!invalid) {
             String targetingScopeTarget = null;
             if (hasTargetingScope)
-                targetingScopeTarget = chooseTargetingScopeTarget(compliantTargets);
+                targetingScopeTarget = chooseTargetingScopeTarget(compliantTargets, map);
             sendToServer (new ChosenTargets (nickname, chosenTargets, targetingScopeTarget));
         }
     }
 
-    private String chooseTargetingScopeTarget(List<String> targets) {
-        String targetNickname = null;
+    private String chooseTargetingScopeTarget(List<String> targets, List<SquareDetails> map) {
         printer.printTargetingScope();
         int parsed = parser.asyncParseInt (1);
         if (parsed == 1) {
+            printer.print("Choose one of the targets you hit with your weapon:");
+            printPlayersPositions (targets, map);
             int parsedTarget = this.parser.asyncParseInt (targets.size ( ));
             if (parsedTarget != -1) {
-                targetNickname = targets.get(parsedTarget);
+                return targets.get (parsedTarget);
             }
         }
-        return targetNickname;
+        return null;
     }
 
     private AtomicTarget chooseTargets(int maxAmount, int movements, boolean isArea, List<String> compliantTargets, List<SquareDetails> map) {
@@ -606,8 +607,17 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
-    public void askTagback() {
-        //printer.printAskTagback();
+    public void askTagback(String attacker) {
+        printer.printTagback(attacker);
+        int parsed = this.parser.asyncParseInt (1);
+        if (parsed != -1) {
+            DataForServer response;
+            if (parsed == 0)
+                response = new TagbackResponse (nickname, attacker, false);
+            else
+                response = new TagbackResponse (nickname, attacker,  true);
+            sendToServer (response);
+        }
     }
 
     public void showEndGameScreen(List<String> ranking) {
