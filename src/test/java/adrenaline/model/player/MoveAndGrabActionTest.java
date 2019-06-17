@@ -69,11 +69,11 @@ class MoveAndGrabActionTest {
         Square initialSquare = map.getSquare(1);
         Player notAdrenaline = g.getPlayers().get(1);
         Player adrenaline = g.getPlayers().get(2);
-        adrenaline.getBoard().gotHit(5, notAdrenaline);
 
         notAdrenaline.setPosition(initialSquare);
         adrenaline.setPosition(initialSquare);
 
+        adrenaline.getBoard().gotHit(5, notAdrenaline);
         NormalSquare squareToGet = (NormalSquare) map.getSquare(6);
         squareToGet.setPlacedTile(new Tile(TileFormat.TILE_FORMAT_20));
 

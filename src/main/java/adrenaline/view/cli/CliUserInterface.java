@@ -103,8 +103,10 @@ public class CliUserInterface implements UserInterface {
      */
     public void updateView(DataForClient data) {
         synchronized (obj) {
-            Runnable thread = () ->
-                data.updateView(this);
+            Runnable thread = () -> {
+                Thread.currentThread ().setName ("Cli Receiver Thread");
+                data.updateView (this);
+            };
             Thread receiverThread = new Thread(thread);
             receiverThread.start();
         }
@@ -371,8 +373,16 @@ public class CliUserInterface implements UserInterface {
         printer.printPowerUpList(powerUps);
         int parsed = this.parser.asyncParseInt (powerUps.size ()-1);
         if (parsed != -1) {
-            powerUp = new ChosenPowerUp (nickname, powerUps.get(parsed).getType());
-            sendToServer (powerUp);
+            if (parsed != powerUps.size()) {
+                printer.printUseAsAmmo ( );
+                int parsedBool = parser.asyncParseInt (1);
+                if (parsedBool == 0)
+                    powerUp = new ChosenPowerUp (nickname, powerUps.get (parsed).getType ( ), false);
+                else
+                    powerUp = new ChosenPowerUp (nickname, powerUps.get (parsed).getType ( ), true);
+                sendToServer (powerUp);
+            } else
+                sendAction ("end action");
         }
     }
 
@@ -380,11 +390,14 @@ public class CliUserInterface implements UserInterface {
         DataForServer weapon;
         printer.print("These are your loaded weapons: ");
         printer.printWeaponList (weapons);
-        int parsed = this.parser.asyncParseInt (weapons.size ()-1);
-        if (parsed != -1) {
-            weapon = new ChosenWeapon (nickname, weapons.get(parsed).getName ());
-            sendToServer (weapon);
-        }
+        if (! weapons.isEmpty ()) {
+            int parsed = this.parser.asyncParseInt (weapons.size ( ) - 1);
+            if (parsed != -1) {
+                weapon = new ChosenWeapon (nickname, weapons.get (parsed).getName ( ));
+                sendToServer (weapon);
+            }
+        } else
+            sendAction ("end action");
     }
 
     public void chooseWeaponEffect(List<EffectDetails> effects) {
@@ -542,10 +555,15 @@ public class CliUserInterface implements UserInterface {
 
     public void chooseSquareForTarget(List<String> targets, List<SquareDetails> map) {
         printPlayersPositions (targets, map);
-        printer.print ("Choose your target and the square you want to move them to: ");
-        int parsed = parser.asyncParseInt (11);
-        if (parsed != -1) {
-            //TODO chosen power up effect
+        printer.print ("Choose your target:");
+        int parsedTarget = parser.asyncParseInt (targets.size()-1);
+        if (parsedTarget != -1) {
+            printer.print("Choose the square you want to move them to (maximum of 2 squares in one direction): ");
+            int parsedSquare = parser.asyncParseInt (map.size ()-1);
+            if (parsedSquare != -1) {
+                DataForServer powerUpEffect = new ChosenPowerUpEffect (nickname, targets.get(parsedTarget), parsedSquare);
+                sendToServer (powerUpEffect);
+            }
         }
     }
 
@@ -553,7 +571,8 @@ public class CliUserInterface implements UserInterface {
         printer.print ("Choose the square you want to move to: ");
         int parsed = parser.asyncParseInt (11);
         if (parsed != -1) {
-            //TODO chosen power up effect
+            DataForServer powerUpEffect = new ChosenPowerUpEffect (nickname, parsed);
+            sendToServer (powerUpEffect);
         }
     }
 
@@ -585,6 +604,10 @@ public class CliUserInterface implements UserInterface {
             DataForServer response = new DiscardedWeapon (nickname, weapons.get (parsed).getName ( ));
             sendToServer (response);
         }
+    }
+
+    public void askTagback() {
+        //printer.printAskTagback();
     }
 
     public void showEndGameScreen(List<String> ranking) {

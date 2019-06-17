@@ -27,6 +27,7 @@ public class Player {
     private Action[] performedActions;
     private int deaths;
     private boolean waitingForRespawn;
+    private boolean canTagbackGrenade;
 
     public Player() {
 
@@ -43,6 +44,7 @@ public class Player {
         this.ownedPowerUps = new ArrayList<>();
         this.performedActions = new Action[2];
         this.waitingForRespawn = false;
+        this.canTagbackGrenade = false;
     }
 
     /**
@@ -185,9 +187,17 @@ public class Player {
         this.waitingForRespawn = value;
     }
 
-    public boolean hasUsablePowerUps() {
+    public boolean canTagbackGrenade() {
+        return this.canTagbackGrenade;
+    }
+
+    public void setCanTagbackGrenade(boolean value) {
+        this.canTagbackGrenade = value;
+    }
+
+    public boolean hasTagbackGrenade() {
         for (PowerUp p : ownedPowerUps) {
-            if (p.getPowerUpsName ().equals("Newton") || p.getPowerUpsName ().equals("Teleporter"))
+            if (p.getPowerUpsName ().equals("Tagback Grenade"))
                 return true;
         }
         return false;
@@ -230,11 +240,14 @@ public class Player {
         for (int i = 0; i < this.game.getMap ().getDimension (); i++) {
             Square s = this.game.getMap ().getSquare (i);
             if (s.getSquareColor ().equals(powerUpColor) && s.isSpawnPoint()) {
+                if (this.getPosition () != null)
+                    this.getPosition ().removePlayerFromSquare (this);
                 this.setPosition (s);
             }
         }
         for (PowerUp pup : ownedPowerUps){
             if (pup.getAmmo().getColor().equals(powerUpColor)){
+                this.ownedPowerUps.remove(pup);
                 this.game.getPowerUpsDeck ().discardCard (pup);
                 break;
             }
@@ -263,19 +276,6 @@ public class Player {
     public boolean canSee(Player player) {
         return this.canSee(player.getPosition());
 
-    }
-
-    /**
-     * Method to check if a player has the Tagback Grenade
-     * @return true if the player does have it
-     */
-    public boolean hasGrenade(){
-        for (PowerUp p: ownedPowerUps){
-            if(p.getType()== PowerUpType.TAGBACK_GRENADE){
-                return true;
-            }
-        }
-        return false;
     }
 
     public boolean canSee(Square square) {
@@ -323,7 +323,7 @@ public class Player {
         return weapon;
     }
 
-    protected void deathEvent(){
+    protected void hasDied(){
         if(this.getBoard().getDamageTaken().size()==12){
             this.getGame().overKill(this);
         }
@@ -331,10 +331,10 @@ public class Player {
     }
 
     public boolean hasEnoughAmmo(List<Ammo> neededAmmo) {
-        List<Ammo> ammos = new ArrayList<> (playerBoard.getOwnedAmmo ());
+        List<Ammo> ammo = new ArrayList<> (playerBoard.getOwnedAmmo ());
 
         for (Ammo a : neededAmmo) {
-            if (! ammos.remove(a))
+            if (! ammo.remove(a))
                 return false;
         }
 
