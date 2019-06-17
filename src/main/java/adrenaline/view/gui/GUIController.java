@@ -2,6 +2,7 @@ package adrenaline.view.gui;
 
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_client.responses_for_view.fake_model.PowerUpDetails;
+import adrenaline.data.data_for_client.responses_for_view.fake_model.SquareDetails;
 import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.ActionBuilder;
 import adrenaline.data.data_for_server.data_for_game.ChosenMapSetUp;
@@ -90,7 +91,6 @@ public class GUIController implements UserInterface {
                 Text text = new Text(message);
                 currentScene.getStylesheets().add(getClass().getResource("/assets/message_popup.css").toExternalForm());
                 text.setId("message");
-                text.setTextAlignment(TextAlignment.CENTER);
                 VBox box = new VBox();
                 box.setId("box-message");
                 box.getChildren().add(text);
@@ -184,9 +184,9 @@ public class GUIController implements UserInterface {
 
     public synchronized void initGame() {
         this.gameInterface = new GameInterface(stage);
-        notifyAll();
         Platform.runLater(() ->
                 setCurrentScene(gameInterface.initGame()));
+        notifyAll();
     }
 
     public void showTurn(String nickname) {
@@ -201,5 +201,13 @@ public class GUIController implements UserInterface {
     public void sendAction(String actionType) {
         ActionBuilder action = new ActionBuilder(nickname, actionType);
         sendToServer(action);
+    }
+
+    public void showPaths(List<Integer> paths) {
+        gameInterface.showPaths(paths);
+    }
+
+    public void showPathsAndGrabOptions(List<Integer> paths, List<SquareDetails> map) {
+        gameInterface.showPathsAndGrabOptions(paths, map);
     }
 }

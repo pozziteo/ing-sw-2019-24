@@ -22,8 +22,8 @@ public class CardLoader {
             Image cardImage = new Image(new FileInputStream(basePath + File.separatorChar + path + ".png"));
             cardView = new ImageView(cardImage);
             cardView.setPreserveRatio(true);
-            cardView.setFitHeight(170);
-            cardView.setFitWidth(170);
+            cardView.setFitHeight(220);
+//            cardView.setFitWidth(170);
         } catch (FileNotFoundException exc) {
             exc.printStackTrace();
         }

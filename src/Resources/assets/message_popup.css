@@ -1,6 +1,7 @@
 #message {
     -fx-font-family: "AR DARLING";
     -fx-font-size: 30;
+    -fx-text-alignment: center;
     -fx-effect: dropShadow(gaussian , #499149, 1, 1, 1, 1);
 }
 

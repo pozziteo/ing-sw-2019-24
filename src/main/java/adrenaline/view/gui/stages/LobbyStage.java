@@ -45,15 +45,12 @@ public class LobbyStage {
         box.setId("box");
 
         Text success = new Text("Login Successful\nInserted in a lobby");
-        success.setTextAlignment(TextAlignment.CENTER);
         success.setId("text");
 
         this.waitingText = new Text("Wait for other players...");
-        waitingText.setTextAlignment(TextAlignment.CENTER);
         waitingText.setId("text");
 
         this.waitingSelection = new Text("The first player in your lobby\nis choosing the arena.\nPlease wait...");
-        waitingSelection.setTextAlignment(TextAlignment.CENTER);
         waitingSelection.setId("text");
 
         FadeTransition successTrans = new FadeTransition(Duration.seconds(3.0), success);
