@@ -1,9 +1,8 @@
 package adrenaline.view.gui.game;
 
-import adrenaline.data.data_for_client.responses_for_view.fake_model.PowerUpDetails;
-import adrenaline.data.data_for_client.responses_for_view.fake_model.SpawnPointDetails;
-import adrenaline.data.data_for_client.responses_for_view.fake_model.SquareDetails;
-import adrenaline.data.data_for_client.responses_for_view.fake_model.WeaponDetails;
+import adrenaline.data.data_for_client.responses_for_view.fake_model.*;
+import adrenaline.data.data_for_server.data_for_game.ChosenEffect;
+import adrenaline.data.data_for_server.data_for_game.ChosenWeapon;
 import adrenaline.data.data_for_server.data_for_game.NewPosition;
 import adrenaline.data.data_for_server.data_for_game.NewPositionAndGrabbed;
 import adrenaline.view.gui.GUIController;
@@ -27,7 +26,9 @@ public class GameInterface {
     private StackPane root;
     private BorderPane game;
     private GridPane mapPane;
+    private VBox contextBox;
     private List<Button> mapButtons;
+    private ImageView selectedWeapon;
 
     private CardLoader cardLoader;
     private Scene gameScene;
@@ -79,10 +80,10 @@ public class GameInterface {
     }
 
     public void selectSpawnPoint(List<PowerUpDetails> powerups){
-        VBox box = new VBox();
-        box.setId("spawn-box");
+        this.contextBox = new VBox();
+        contextBox.setId("spawn-box");
         Text select = new Text(userController.getNickname() + ", choose your Spawn Point:");
-        select.setId("small_text");
+        select.setId("small-text");
         HBox imageBox = new HBox();
         imageBox.setId("box");
 
@@ -92,19 +93,19 @@ public class GameInterface {
             images.add(powerUp);
             powerUp.setOnMouseClicked(mouseEvent -> {
                 userController.sendChosenSpawnPoint(powerUpDetails.getColor());
-                root.getChildren().remove(box);
+                root.getChildren().remove(contextBox);
             });
         }
 
         imageBox.getChildren().addAll(images);
-        box.getChildren().addAll(select, imageBox);
+        contextBox.getChildren().addAll(select, imageBox);
 
-        Platform.runLater( () -> root.getChildren().add(box));
+        Platform.runLater( () -> root.getChildren().add(contextBox));
     }
 
     public void startTurn() {
-        VBox box = new VBox();
-        box.setId("actions-box");
+        this.contextBox = new VBox();
+        contextBox.setId("actions-box");
         Text actionsSelect = new Text(userController.getNickname() + ", choose your next action!");
         actionsSelect.setId("medium-text");
         HBox actionButtons = new HBox();
@@ -115,7 +116,7 @@ public class GameInterface {
         move.setOnMouseClicked(mouseEvent -> {
             userController.sendAction("move");
             userController.showMessage("Move action selected");
-            root.getChildren().remove(box);
+            root.getChildren().remove(contextBox);
         });
 
         Button moveAndGrab = new Button("MOVE AND GRAB");
@@ -123,7 +124,7 @@ public class GameInterface {
         moveAndGrab.setOnMouseClicked(mouseEvent -> {
             userController.sendAction("move and grab");
             userController.showMessage("Move and Grab action selected");
-            root.getChildren().remove(box);
+            root.getChildren().remove(contextBox);
         });
 
         Button shoot = new Button("SHOOT");
@@ -131,7 +132,7 @@ public class GameInterface {
         shoot.setOnMouseClicked(mouseEvent -> {
             userController.sendAction("shoot");
             userController.showMessage("Shoot action selected");
-            root.getChildren().remove(box);
+            root.getChildren().remove(contextBox);
         });
 
         Button powerUp = new Button("POWER-UP");
@@ -139,7 +140,7 @@ public class GameInterface {
         powerUp.setOnMouseClicked(mouseEvent -> {
             userController.sendAction("power up");
             userController.showMessage("Power-Up action selected");
-            root.getChildren().remove(box);
+            root.getChildren().remove(contextBox);
         });
 
         Button pass = new Button("PASS TURN");
@@ -147,18 +148,18 @@ public class GameInterface {
         pass.setOnMouseClicked(mouseEvent -> {
             userController.sendAction("pass");
             userController.showMessage("You are passing this turn");
-            root.getChildren().remove(box);
+            root.getChildren().remove(contextBox);
         });
 
         actionButtons.getChildren().addAll(move, moveAndGrab, shoot, powerUp, pass);
-        box.getChildren().addAll(actionsSelect, actionButtons);
+        contextBox.getChildren().addAll(actionsSelect, actionButtons);
 
-        Platform.runLater( () -> root.getChildren().add(box));
+        Platform.runLater( () -> root.getChildren().add(contextBox));
     }
 
     public void showPaths(List<Integer> paths) {
-        VBox box = new VBox();
-        box.setId("actions-box");
+        this.contextBox = new VBox();
+        contextBox.setId("actions-box");
         Text text = new Text(userController.getNickname() + ", choose the square to move to.");
         text.setId("medium-text");
 
@@ -169,20 +170,20 @@ public class GameInterface {
                 NewPosition newPosition = new NewPosition(userController.getNickname(), i);
                 userController.sendToServer(newPosition);
                 disableButtons(paths);
-                root.getChildren().remove(box);
+                root.getChildren().remove(contextBox);
             });
         }
 
-        box.getChildren().add(text);
+        contextBox.getChildren().add(text);
         Platform.runLater(() -> {
-            root.getChildren().add(box);
+            root.getChildren().add(contextBox);
             mapPane.toFront();
         });
     }
 
     public void showPathsAndGrabOptions(List<Integer> paths, List<SquareDetails> map) {
-        VBox box = new VBox();
-        box.setId("actions-box");
+        this.contextBox = new VBox();
+        contextBox.setId("actions-box");
         Text text = new Text(userController.getNickname() + ", choose the square to grab stuff from.");
         text.setId("medium-text");
 
@@ -198,22 +199,22 @@ public class GameInterface {
                     userController.sendToServer(newPosition);
                 }
                 disableButtons(paths);
-                root.getChildren().remove(box);
+                root.getChildren().remove(contextBox);
             });
         }
 
-        box.getChildren().add(text);
+        contextBox.getChildren().add(text);
         Platform.runLater(() -> {
-            root.getChildren().add(box);
+            root.getChildren().add(contextBox);
             mapPane.toFront();
         });
     }
 
     private void chooseWeapon(SpawnPointDetails square) {
-        VBox box = new VBox();
-        box.setId("spawn-box");
+        this.contextBox = new VBox();
+        contextBox.setId("spawn-box");
         Text select = new Text(userController.getNickname() + ", choose a weapon from the Spawn Point:");
-        select.setId("small_text");
+        select.setId("small-text");
         HBox imageBox = new HBox();
         imageBox.setId("box");
 
@@ -225,14 +226,90 @@ public class GameInterface {
                 NewPositionAndGrabbed newPositionAndGrabbed = new NewPositionAndGrabbed
                         (userController.getNickname(), square.getId(), details.getName());
                 userController.sendToServer(newPositionAndGrabbed);
-                root.getChildren().remove(box);
+                root.getChildren().remove(contextBox);
             });
         }
 
         imageBox.getChildren().addAll(weapons);
-        box.getChildren().addAll(select, imageBox);
+        contextBox.getChildren().addAll(select, imageBox);
 
-        Platform.runLater( () -> root.getChildren().add(box));
+        Platform.runLater( () -> root.getChildren().add(contextBox));
+    }
+
+    public void chooseWeapon(List<WeaponDetails> weapons) {
+        if (!weapons.isEmpty()) {
+            this.contextBox = new VBox();
+            contextBox.setId("spawn-box");
+            Text select = new Text(userController.getNickname() + ", choose a weapon to slaughter an enemy!");
+            select.setId("medium-text");
+            HBox weaponsBox = new HBox();
+            weaponsBox.setId("box");
+
+            List<ImageView> loadedWeapons = new ArrayList<>();
+            for (WeaponDetails details : weapons) {
+                ImageView weapon = cardLoader.loadCard(details.getName());
+                loadedWeapons.add(weapon);
+                weapon.setOnMouseClicked(mouseEvent -> {
+                    this.selectedWeapon = weapon;
+                    ChosenWeapon chosenWeapon = new ChosenWeapon(userController.getNickname(), details.getName());
+                    userController.sendToServer(chosenWeapon);
+                    root.getChildren().remove(contextBox);
+                });
+            }
+
+            weaponsBox.getChildren().addAll(loadedWeapons);
+            contextBox.getChildren().addAll(select, weaponsBox);
+
+            Platform.runLater(() -> root.getChildren().add(contextBox));
+        } else {
+            userController.showMessage("You have no loaded weapons");
+            userController.sendAction("end action");
+        }
+    }
+
+    public void chooseWeaponEffect(List<EffectDetails> effects) {
+        this.contextBox = new VBox();
+        contextBox.setId("small-box");
+        Text chooseEffect = new Text("Now " + userController.getNickname() + ", choose an effect and sow destruction " +
+                "in the arena!");
+        chooseEffect.setId("small-text");
+        VBox weaponOptions = new VBox();
+        weaponOptions.setId("small-box");
+        HBox buttonsBox = new HBox();
+        buttonsBox.setId("small-box");
+
+        int i = 1;
+        for (EffectDetails effect : effects) {
+            Button button = new Button();
+            if (effect.getEffectType ().equals("base effect")) {
+               button.setText("BASE EFFECT");
+            } else if (effect.getEffectType ().equals("optional effect") && effect.isAlternativeMode ()) {
+                button.setText("ALTERNATIVE MODE");
+            } else if (effect.getEffectType ().equals ("optional effect")) {
+                button.setText("OPTIONAL EFFECT " + i + "\n(usable before base: " + effect.isUsableBeforeBase() + ")" );
+                i++;
+            }
+            button.setId("action-button");
+            button.setOnMouseClicked(mouseEvent -> {
+                ChosenEffect chosenEffect = new ChosenEffect(userController.getNickname(), effects.indexOf(effect));
+                userController.sendToServer(chosenEffect);
+                root.getChildren().remove(contextBox);
+            });
+            buttonsBox.getChildren().add(button);
+        }
+        Button none = new Button("NONE");
+        none.setId("action-button");
+        none.setOnMouseClicked(mouseEvent -> {
+            userController.sendAction("end action");
+            userController.showMessage("Skipping action...");
+            root.getChildren().remove(contextBox);
+        });
+        buttonsBox.getChildren().add(none);
+        weaponOptions.getChildren().addAll(selectedWeapon, buttonsBox);
+        contextBox.getChildren().addAll(chooseEffect, weaponOptions);
+
+        Platform.runLater(() -> root.getChildren().add(contextBox));
+
     }
 
     private void disableButtons(List<Integer> buttons) {
@@ -241,5 +318,16 @@ public class GameInterface {
             mapButtons.get(index).setDisable(true);
             mapButtons.get(index).setOnMouseClicked(null);
         }
+    }
+
+    public void timeOut() {
+        Platform.runLater(() -> {
+            if (contextBox != null && root.getChildren().contains(contextBox))
+                root.getChildren().remove(contextBox);
+            List<Integer> allButtons = new ArrayList<>();
+            for (int index = 0; index < mapButtons.size(); index++)
+                allButtons.add(index);
+            disableButtons(allButtons);
+        });
     }
 }

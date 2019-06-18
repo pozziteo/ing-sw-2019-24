@@ -32,6 +32,12 @@
     -fx-padding: 40;
 }
 
+#small-box {
+    -fx-alignment: bottom-center;
+    -fx-spacing: 15;
+    -fx-padding: 20;
+}
+
 #action-button {
     -fx-font-family: "AR DARLING";
     -fx-font-size: 20;
@@ -41,5 +47,5 @@
 #board_style {
     -fx-grid-lines-visible: false;
     -fx-alignment: center-left;
-    -fx-padding: 0 0 0 43;
+    -fx-padding: 20 50 20 43;
 }

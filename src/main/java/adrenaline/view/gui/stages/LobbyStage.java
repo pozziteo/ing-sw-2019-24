@@ -1,8 +1,5 @@
 package adrenaline.view.gui.stages;
 
-import adrenaline.data.data_for_client.responses_for_view.fake_model.PowerUpDetails;
-import adrenaline.data.data_for_server.data_for_game.ChosenSpawnPointSetUp;
-import adrenaline.model.player.Player;
 import adrenaline.view.gui.GUIController;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
@@ -14,12 +11,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
+
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
-import java.util.List;
 
 public class LobbyStage {
 
