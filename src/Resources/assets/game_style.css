@@ -37,3 +37,9 @@
     -fx-font-size: 20;
     -fx-text-alignment: center;
 }
+
+#board_style {
+    -fx-grid-lines-visible: false;
+    -fx-alignment: center-left;
+    -fx-padding: 0 0 0 43;
+}

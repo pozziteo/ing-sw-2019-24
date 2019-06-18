@@ -1,16 +1,21 @@
 package adrenaline.view.gui.game;
 
-import adrenaline.view.gui.GUIController;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.control.Button;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class BoardLoader{
-    private VBox board;
+class BoardLoader{
+    private StackPane board;
+    private List<Button> boardLifeBar;
 
 
     BoardLoader(String position){
@@ -38,43 +43,61 @@ public class BoardLoader{
 
     }
 
-    public void loadBoard(String color) {
+    private void loadBoard(String color) {
         try {
-            VBox pane = new VBox();
-            Image boardImage = new Image(new FileInputStream("src/Resources/images/boards/"+color+"_player_front.png"));
+            StackPane pane = new StackPane();
+
+            Image boardImage = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"boards"+ File.separator+color+"_player_front.png"));
             ImageView boardView = new ImageView(boardImage);
             boardView.setPreserveRatio(true);
             boardView.setFitHeight(110);
             boardView.setFitWidth(700);
-            pane.getChildren().addAll(boardView);
+
+            GridPane boardPane = new GridPane();
+            boardPane.setId("board_style");
+            boardPane.getRowConstraints().add(new RowConstraints(30));
+            this.boardLifeBar = new ArrayList<>();
+            for (int i=0; i<12; i++){
+                Button button = new Button();
+                button.setId("board");
+                button.setDisable(true);
+                button.setStyle("-fx-background-color: "+color);
+                boardPane.add(button, i, 0);
+                boardLifeBar.add(button);
+            }
+            boardPane.setHgap(9);
+            boardPane.setAlignment(Pos.CENTER_LEFT);
+            boardPane.setPadding(new Insets(20, 50, 20, 0));
+
+            pane.getChildren().addAll(boardView, boardPane);
             this.board = pane;
         } catch (FileNotFoundException exc) {
             exc.printStackTrace();
         }
     }
 
-    VBox getBottomBoard(){
+    StackPane getBottomBoard(){
         board.setAlignment(Pos.CENTER);
         return this.board;}
 
-    VBox getLeftBoard(){
+    StackPane getLeftBoard(){
         board.setAlignment(Pos.CENTER);
         board.setRotate(90);
         return this.board;
     }
 
-    VBox getRightBoard(){
+    StackPane getRightBoard(){
         board.setAlignment(Pos.CENTER);
         board.setRotate(270);
         return this.board;
     }
 
-    VBox getTopBoardR(){
+    StackPane getTopBoardR(){
         board.setAlignment(Pos.CENTER_RIGHT);
         board.setRotate(180);
         return this.board;
     }
-    VBox getTopBoardL(){
+    StackPane getTopBoardL(){
         board.setAlignment(Pos.CENTER_LEFT);
         board.setRotate(180);
         return this.board;
