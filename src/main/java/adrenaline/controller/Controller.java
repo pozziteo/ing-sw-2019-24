@@ -72,9 +72,8 @@ public class Controller implements TimerCallBack {
         timer.startThread ();
         int indexOfLast = gameModel.getGame ().getPlayers ().size ()-1;
         Player firstPlayer = gameModel.getGame ().getPlayers ().get (indexOfLast); //clients are put into the list of players in reverse order
-        MapSetUp data = new MapSetUp (firstPlayer.getPlayerName ());
         for (Player p : gameModel.getGame ().getPlayers ()) {
-            lobby.sendToSpecific (p.getPlayerName (), data);
+            lobby.sendToSpecific (p.getPlayerName (), new MapSetUp (firstPlayer.getPlayerName (), p.getPlayerColor ()));
         }
     }
 

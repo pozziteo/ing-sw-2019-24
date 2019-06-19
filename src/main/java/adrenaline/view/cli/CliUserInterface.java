@@ -29,6 +29,7 @@ public class CliUserInterface implements UserInterface {
     private CliParser parser;
     private ClientInterface client;
     private String nickname;
+    private String color;
 
     private final Object obj = new Object();
 
@@ -138,8 +139,10 @@ public class CliUserInterface implements UserInterface {
     /**
      * This Method asks the player which map he wants to play with
      */
-    public void selectMap(String firstPlayerNick){
+    public void selectMap(String firstPlayerNick, String color){
         parser.setActive (true);
+        this.color = color;
+        printer.print("Your color is " + color);
         if (nickname.equals(firstPlayerNick)){
             boolean valid = false;
             while(!valid) {

@@ -42,6 +42,7 @@ public class GUIController implements UserInterface {
     private String map;
     private ClientInterface client;
     private String nickname;
+    private String color;
 
     private final Object obj = new Object();
 
@@ -155,7 +156,8 @@ public class GUIController implements UserInterface {
                 setCurrentScene(lobbyStage.getLobbyScene()));
     }
 
-    public void selectMap(String firstPlayerNick) {
+    public void selectMap(String firstPlayerNick, String color) {
+        this.color = color;
         boolean selector = nickname.equals(firstPlayerNick);
         lobbyStage.mapSelection(selector);
     }
