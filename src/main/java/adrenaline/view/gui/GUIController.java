@@ -1,8 +1,10 @@
 package adrenaline.view.gui;
 
 import adrenaline.data.data_for_client.DataForClient;
+import adrenaline.data.data_for_client.responses_for_view.fake_model.EffectDetails;
 import adrenaline.data.data_for_client.responses_for_view.fake_model.PowerUpDetails;
 import adrenaline.data.data_for_client.responses_for_view.fake_model.SquareDetails;
+import adrenaline.data.data_for_client.responses_for_view.fake_model.WeaponDetails;
 import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.ActionBuilder;
 import adrenaline.data.data_for_server.data_for_game.ChosenMapSetUp;
@@ -95,7 +97,7 @@ public class GUIController implements UserInterface {
                 VBox box = new VBox();
                 box.setId("box-message");
                 box.getChildren().add(text);
-                FadeTransition transition = new FadeTransition(Duration.seconds(2.0), box);
+                FadeTransition transition = new FadeTransition(Duration.seconds(1.2), box);
                 transition.setFromValue(0.0);
                 transition.setToValue(1.0);
                 transition.setAutoReverse(true);
@@ -211,5 +213,18 @@ public class GUIController implements UserInterface {
 
     public void showPathsAndGrabOptions(List<Integer> paths, List<SquareDetails> map) {
         gameInterface.showPathsAndGrabOptions(paths, map);
+    }
+
+    public void chooseWeapon(List<WeaponDetails> weapons) {
+        gameInterface.chooseWeapon(weapons);
+    }
+
+    public void chooseWeaponEffect(List<EffectDetails> effects) {
+        gameInterface.chooseWeaponEffect(effects);
+    }
+
+    public void notifyTimeOut() {
+        showMessage("Time is up. You took too long to make a choice.");
+        gameInterface.timeOut();
     }
 }

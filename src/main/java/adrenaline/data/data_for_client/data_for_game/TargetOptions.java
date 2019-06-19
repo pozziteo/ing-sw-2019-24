@@ -4,6 +4,7 @@ import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_client.responses_for_view.fake_model.SquareDetails;
 import adrenaline.data.data_for_client.responses_for_view.fake_model.TargetDetails;
 import adrenaline.view.cli.CliUserInterface;
+import adrenaline.view.gui.GUIController;
 
 import java.util.List;
 
@@ -24,5 +25,10 @@ public class TargetOptions extends DataForClient {
     public void updateView(CliUserInterface view) {
         view.chooseTargets (targets, compliantTargets, map, hasTargetingScope);
     }
+
+//    @Override
+//    public void updateView(GUIController view) {
+//        view.chooseTargets(targets, compliantTargets, map, hasTargetingScope);
+//    }
 
 }

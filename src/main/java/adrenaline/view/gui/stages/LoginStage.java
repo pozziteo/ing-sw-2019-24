@@ -42,7 +42,7 @@ public class LoginStage {
         GridPane.setHalignment(request, HPos.CENTER);
 
         Text username = new Text("Username:");
-        username.setId("small_text");
+        username.setId("small-text");
         grid.add(username, 0, 1);
         GridPane.setHalignment(username, HPos.RIGHT);
 

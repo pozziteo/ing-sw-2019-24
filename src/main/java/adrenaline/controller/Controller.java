@@ -474,7 +474,8 @@ public class Controller implements TimerCallBack {
     @Override
     public void timerCallBack() {
         gameModel.getGame ( ).setArena (SMALL);
-        lobby.sendMessageToAll ("The arena has been set to the default one (small arena)\n");
+        lobby.sendToAll (new MapInfo(SMALL, gameModel.getGame ().getMap ().getMapName ()));
+//        lobby.sendMessageToAll ("The arena has been set to the default one (small arena)\n");
         TimeOutNotice notice = new TimeOutNotice (lobby.getPlayers ().get (0));
         notice.sendToView ();
         spawnPointSetUp ();
