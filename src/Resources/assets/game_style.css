@@ -55,3 +55,9 @@
     -fx-alignment: center-left;
     -fx-padding: 20 50 20 43;
 }
+
+#board_style_bottom{
+    -fx-grid-lines-visible: false;
+    -fx-alignment: center;
+    -fx-padding: 20 50 20 -20;
+}

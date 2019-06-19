@@ -9,7 +9,6 @@ import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.ActionBuilder;
 import adrenaline.data.data_for_server.data_for_game.ChosenMapSetUp;
 import adrenaline.data.data_for_server.data_for_game.ChosenSpawnPointSetUp;
-import adrenaline.model.GameModel;
 import adrenaline.network.ClientInterface;
 import adrenaline.view.UserInterface;
 import adrenaline.view.gui.game.GameInterface;
@@ -18,15 +17,13 @@ import adrenaline.view.gui.stages.LobbyStage;
 import adrenaline.view.gui.stages.LoginStage;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +43,7 @@ public class GUIController implements UserInterface {
     private ClientInterface client;
     private String nickname;
     private Map<String, String> playerColors;
+    private List<String> nicks = new ArrayList<>();
 
     private final Object obj = new Object();
 
@@ -67,6 +65,12 @@ public class GUIController implements UserInterface {
         return this.nickname;
     }
 
+    public List<String> getPlayersNicks(){
+        for (Map.Entry<String, String> entry: playerColors.entrySet()) {
+            nicks.add(entry.getKey());
+        }
+        return this.nicks;
+    }
     public void setClient(ClientInterface client) {
         this.client = client;
     }
