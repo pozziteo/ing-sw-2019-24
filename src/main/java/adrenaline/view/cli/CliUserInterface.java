@@ -18,6 +18,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class that implements the user interface using command line.
@@ -29,7 +30,7 @@ public class CliUserInterface implements UserInterface {
     private CliParser parser;
     private ClientInterface client;
     private String nickname;
-    private String color;
+    private Map<String, String> playerColors;
 
     private final Object obj = new Object();
 
@@ -139,10 +140,10 @@ public class CliUserInterface implements UserInterface {
     /**
      * This Method asks the player which map he wants to play with
      */
-    public void selectMap(String firstPlayerNick, String color){
+    public void selectMap(String firstPlayerNick, Map<String, String> colors){
         parser.setActive (true);
-        this.color = color;
-        printer.print("Your color is " + color);
+        this.playerColors = colors;
+        printer.print("Your color is " + playerColors.get(getNickname()));
         if (nickname.equals(firstPlayerNick)){
             boolean valid = false;
             while(!valid) {

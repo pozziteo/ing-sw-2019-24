@@ -38,6 +38,12 @@
     -fx-padding: 20;
 }
 
+#grid-box {
+    -fx-alignment: bottom-center;
+    -fx-hgap: 20;
+    -fx-padding: 20;
+}
+
 #action-button {
     -fx-font-family: "AR DARLING";
     -fx-font-size: 20;

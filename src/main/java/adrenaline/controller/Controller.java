@@ -24,8 +24,7 @@ import adrenaline.utils.TimerCallBack;
 import adrenaline.utils.TimerThread;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Controller implements TimerCallBack {
     private Lobby lobby;
@@ -72,8 +71,15 @@ public class Controller implements TimerCallBack {
         timer.startThread ();
         int indexOfLast = gameModel.getGame ().getPlayers ().size ()-1;
         Player firstPlayer = gameModel.getGame ().getPlayers ().get (indexOfLast); //clients are put into the list of players in reverse order
+
+        Map<String, String> playerColors = new HashMap<>();
+        for (Player p : gameModel.getGame().getPlayers()) {
+            playerColors.put(p.getPlayerName(), p.getPlayerColor());
+        }
+        Map<String, String> readOnlyColors = Collections.unmodifiableMap(playerColors);
+
         for (Player p : gameModel.getGame ().getPlayers ()) {
-            lobby.sendToSpecific (p.getPlayerName (), new MapSetUp (firstPlayer.getPlayerName (), p.getPlayerColor ()));
+            lobby.sendToSpecific (p.getPlayerName (), new MapSetUp (firstPlayer.getPlayerName (), readOnlyColors));
         }
     }
 

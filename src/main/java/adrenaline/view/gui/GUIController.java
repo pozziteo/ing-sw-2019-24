@@ -28,6 +28,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.List;
+import java.util.Map;
 
 public class GUIController implements UserInterface {
 
@@ -44,7 +45,7 @@ public class GUIController implements UserInterface {
     private String map;
     private ClientInterface client;
     private String nickname;
-    private String color;
+    private Map<String, String> playerColors;
 
     private final Object obj = new Object();
 
@@ -80,6 +81,10 @@ public class GUIController implements UserInterface {
 
     public String getMap() {
         return this.map;
+    }
+
+    public Map<String, String> getPlayerColors() {
+        return this.playerColors;
     }
 
     public void setCurrentScene(Scene scene) {
@@ -158,8 +163,9 @@ public class GUIController implements UserInterface {
                 setCurrentScene(lobbyStage.getLobbyScene()));
     }
 
-    public void selectMap(String firstPlayerNick, String color) {
-        this.color = color;
+    public void selectMap(String firstPlayerNick, Map<String, String> playerColors) {
+        this.playerColors = playerColors;
+        showMessage("Your color is " + playerColors.get(getNickname()));
         boolean selector = nickname.equals(firstPlayerNick);
         lobbyStage.mapSelection(selector);
     }
@@ -221,6 +227,10 @@ public class GUIController implements UserInterface {
 
     public void chooseWeaponEffect(List<EffectDetails> effects) {
         gameInterface.chooseWeaponEffect(effects);
+    }
+
+    public void choosePowerUp(List<PowerUpDetails> powerups) {
+        gameInterface.choosePowerUp(powerups);
     }
 
     public void notifyTimeOut() {

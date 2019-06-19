@@ -1,10 +1,7 @@
 package adrenaline.view.gui.game;
 
 import adrenaline.data.data_for_client.responses_for_view.fake_model.*;
-import adrenaline.data.data_for_server.data_for_game.ChosenEffect;
-import adrenaline.data.data_for_server.data_for_game.ChosenWeapon;
-import adrenaline.data.data_for_server.data_for_game.NewPosition;
-import adrenaline.data.data_for_server.data_for_game.NewPositionAndGrabbed;
+import adrenaline.data.data_for_server.data_for_game.*;
 import adrenaline.view.gui.GUIController;
 import javafx.application.Platform;
 import javafx.geometry.HPos;
@@ -275,10 +272,11 @@ public class GameInterface {
         chooseEffect.setId("small-text");
         VBox weaponOptions = new VBox();
         weaponOptions.setId("small-box");
-        HBox buttonsBox = new HBox();
-        buttonsBox.setId("small-box");
+        GridPane buttonsPane = new GridPane();
+        buttonsPane.setId("grid-box");
 
         int i = 1;
+        int columnIndex = 0;
         for (EffectDetails effect : effects) {
             Button button = new Button();
             if (effect.getEffectType ().equals("base effect")) {
@@ -295,7 +293,8 @@ public class GameInterface {
                 userController.sendToServer(chosenEffect);
                 root.getChildren().remove(contextBox);
             });
-            buttonsBox.getChildren().add(button);
+            buttonsPane.add(button, columnIndex, 0);
+            columnIndex++;
         }
         Button none = new Button("NONE");
         none.setId("action-button");
@@ -304,12 +303,65 @@ public class GameInterface {
             userController.showMessage("Skipping action...");
             root.getChildren().remove(contextBox);
         });
-        buttonsBox.getChildren().add(none);
-        weaponOptions.getChildren().addAll(selectedWeapon, buttonsBox);
+        buttonsPane.getChildren().add(none);
+        weaponOptions.getChildren().addAll(selectedWeapon, buttonsPane);
         contextBox.getChildren().addAll(chooseEffect, weaponOptions);
 
         Platform.runLater(() -> root.getChildren().add(contextBox));
 
+    }
+
+    public void choosePowerUp(List<PowerUpDetails> powerups) {
+        this.contextBox = new VBox();
+        contextBox.setId("small-box");
+        Text choosePowerUp = new Text(userController.getNickname() + ", choose a Power-Up to use:");
+        choosePowerUp.setId("medium-text");
+        GridPane powerupPane = new GridPane();
+        powerupPane.setId("grid-box");
+
+        Button skip = new Button("NONE");
+        skip.setId("action-button");
+        skip.setOnMouseClicked(mouseEvent -> {
+            userController.sendAction("end action");
+            userController.showMessage("Skipping action...");
+            root.getChildren().remove(contextBox);
+        });
+
+        int columnIndex = 0;
+        for (PowerUpDetails details : powerups) {
+            ImageView powerUp = cardLoader.loadCard(details.getType() + "_" + details.getColor());
+            powerUp.setOnMouseClicked(mouseEvent -> {
+                contextBox.getChildren().clear();
+                Text bool = new Text("Use Power-Up as bonus ammo?");
+                bool.setId("small-text");
+                HBox buttonsBox = new HBox();
+                buttonsBox.setId("small-box");
+
+                Button yes = new Button("YES");
+                yes.setId("action-button");
+                yes.setOnMouseClicked(mouseEvent1 -> {
+                    ChosenPowerUp chosen = new ChosenPowerUp(userController.getNickname(), details.getType(), true);
+                    userController.sendToServer(chosen);
+                    root.getChildren().remove(contextBox);
+                });
+
+                Button no = new Button("NO");
+                no.setId("action-button");
+                no.setOnMouseClicked(mouseEvent1 -> {
+                    ChosenPowerUp chosen = new ChosenPowerUp(userController.getNickname(), details.getType(), false);
+                    userController.sendToServer(chosen);
+                    root.getChildren().remove(contextBox);
+                });
+                buttonsBox.getChildren().addAll(yes, no);
+                contextBox.getChildren().addAll(bool, buttonsBox);
+            });
+            powerupPane.add(powerUp, columnIndex, 0);
+            columnIndex++;
+        }
+        powerupPane.add(skip, columnIndex, 0);
+
+        contextBox.getChildren().addAll(choosePowerUp, powerupPane);
+        Platform.runLater(() -> root.getChildren().add(contextBox));
     }
 
     private void disableButtons(List<Integer> buttons) {
