@@ -375,7 +375,7 @@ public class CliUserInterface implements UserInterface {
     public void choosePowerUp(List<PowerUpDetails> powerUps) {
         DataForServer powerUp;
         printer.printPowerUpList(powerUps);
-        int parsed = this.parser.asyncParseInt (powerUps.size ()-1);
+        int parsed = this.parser.asyncParseInt (powerUps.size());
         if (parsed != -1) {
             if (parsed != powerUps.size()) {
                 printer.printUseAsAmmo ( );

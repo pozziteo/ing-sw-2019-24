@@ -25,14 +25,16 @@ public class GameInterface {
     private GridPane mapPane;
     private VBox contextBox;
     private List<Button> mapButtons;
-    private ImageView selectedWeapon;
+    private ImageView cachedImage;
 
+    private FiguresLoader figuresLoader;
     private CardLoader cardLoader;
     private Scene gameScene;
 
     public GameInterface(Stage stage) {
 
         this.userController = GUIController.getController();
+        this.figuresLoader = new FiguresLoader();
         this.cardLoader = new CardLoader();
         this.root = new StackPane();
         root.setId("game_scene");
@@ -166,7 +168,7 @@ public class GameInterface {
             mapButtons.get(i).setOnMouseClicked(mouseEvent -> {
                 NewPosition newPosition = new NewPosition(userController.getNickname(), i);
                 userController.sendToServer(newPosition);
-                disableButtons(paths);
+                disableButtons();
                 root.getChildren().remove(contextBox);
             });
         }
@@ -195,7 +197,7 @@ public class GameInterface {
                     NewPosition newPosition = new NewPosition(userController.getNickname(), i);
                     userController.sendToServer(newPosition);
                 }
-                disableButtons(paths);
+                disableButtons();
                 root.getChildren().remove(contextBox);
             });
         }
@@ -247,7 +249,7 @@ public class GameInterface {
                 ImageView weapon = cardLoader.loadCard(details.getName());
                 loadedWeapons.add(weapon);
                 weapon.setOnMouseClicked(mouseEvent -> {
-                    this.selectedWeapon = weapon;
+                    this.cachedImage = weapon;
                     ChosenWeapon chosenWeapon = new ChosenWeapon(userController.getNickname(), details.getName());
                     userController.sendToServer(chosenWeapon);
                     root.getChildren().remove(contextBox);
@@ -304,7 +306,7 @@ public class GameInterface {
             root.getChildren().remove(contextBox);
         });
         buttonsPane.getChildren().add(none);
-        weaponOptions.getChildren().addAll(selectedWeapon, buttonsPane);
+        weaponOptions.getChildren().addAll(cachedImage, buttonsPane);
         contextBox.getChildren().addAll(chooseEffect, weaponOptions);
 
         Platform.runLater(() -> root.getChildren().add(contextBox));
@@ -364,11 +366,72 @@ public class GameInterface {
         Platform.runLater(() -> root.getChildren().add(contextBox));
     }
 
-    private void disableButtons(List<Integer> buttons) {
-        for (int index : buttons) {
-            mapButtons.get(index).setId("inactive-square");
-            mapButtons.get(index).setDisable(true);
-            mapButtons.get(index).setOnMouseClicked(null);
+    public void chooseSquare() {
+        this.contextBox = new VBox();
+        contextBox.setId("small-box");
+        Text select = new Text("Select the square to apply the effect");
+        select.setId("medium-text");
+
+        for (Button square : mapButtons) {
+            square.setId("active-square");
+            square.setDisable(false);
+            square.setOnMouseClicked(mouseEvent -> {
+                ChosenPowerUpEffect effect = new ChosenPowerUpEffect(userController.getNickname(), mapButtons.indexOf(square));
+                userController.sendToServer(effect);
+                disableButtons();
+                root.getChildren().remove(contextBox);
+            });
+        }
+
+        contextBox.getChildren().add(select);
+        Platform.runLater(() -> {
+            root.getChildren().add(contextBox);
+            mapPane.toFront();
+        });
+    }
+
+    public void chooseSquareForTarget(List<String> targets, List<SquareDetails> map) {
+        this.contextBox = new VBox();
+        contextBox.setId("small-box");
+        Text targetSelect = new Text("Select a target to move");
+        targetSelect.setId("medium-text");
+        GridPane targetsBox = new GridPane();
+        targetsBox.setId("grid-box");
+
+        int columnIndex = 0;
+        for (String validTarget : targets) {
+            ImageView target = figuresLoader.loadFigure(userController.getPlayerColors().get(validTarget));
+            target.setOnMouseClicked(mouseEvent -> {
+                contextBox.getChildren().clear();
+                Text move = new Text("Move your target to a new position. Choose wisely!\n(Maximum 2 squares in a direction)");
+                move.setId("medium-text");
+                for (SquareDetails details : map) {
+                    Button square = mapButtons.get(details.getId());
+                    square.setId("active-square");
+                    square.setDisable(false);
+                    square.setOnMouseClicked(mouseEvent1 -> {
+                        ChosenPowerUpEffect effect = new ChosenPowerUpEffect(userController.getNickname(), validTarget, details.getId());
+                        userController.sendToServer(effect);
+                        disableButtons();
+                        root.getChildren().remove(contextBox);
+                    });
+                }
+                contextBox.getChildren().add(move);
+                mapPane.toFront();
+            });
+            targetsBox.add(target, columnIndex, 0);
+            columnIndex++;
+        }
+
+        contextBox.getChildren().addAll(targetSelect, targetsBox);
+        Platform.runLater(() -> root.getChildren().add(contextBox));
+    }
+
+    private void disableButtons() {
+        for (Button button : mapButtons) {
+            button.setId("inactive-square");
+            button.setDisable(true);
+            button.setOnMouseClicked(null);
         }
     }
 
@@ -376,10 +439,7 @@ public class GameInterface {
         Platform.runLater(() -> {
             if (contextBox != null && root.getChildren().contains(contextBox))
                 root.getChildren().remove(contextBox);
-            List<Integer> allButtons = new ArrayList<>();
-            for (int index = 0; index < mapButtons.size(); index++)
-                allButtons.add(index);
-            disableButtons(allButtons);
+            disableButtons();
         });
     }
 }

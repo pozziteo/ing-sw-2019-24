@@ -235,10 +235,8 @@ public class Controller implements TimerCallBack {
                 lobby.sendToSpecific (nickname, options);
                 break;
             case "power up":
-                if (! gameModel.getGame ().findByNickname (nickname).getOwnedPowerUps ().isEmpty ()) {
-                    options = new PowerUpOptions(gameModel.createPowerUpDetails (gameModel.getGame ().findByNickname (nickname)));
-                    lobby.sendToSpecific (nickname, options);
-                }
+                options = new PowerUpOptions(gameModel.createPowerUpDetails (gameModel.getGame ().findByNickname (nickname)));
+                lobby.sendToSpecific (nickname, options);
                 break;
             case "pass":
                 timer.shutDownThread ( );

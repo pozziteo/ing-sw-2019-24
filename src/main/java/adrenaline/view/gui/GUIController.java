@@ -233,6 +233,14 @@ public class GUIController implements UserInterface {
         gameInterface.choosePowerUp(powerups);
     }
 
+    public void chooseSquare() {
+        gameInterface.chooseSquare();
+    }
+
+    public void chooseSquareForTarget(List<String> targets, List<SquareDetails> map) {
+        gameInterface.chooseSquareForTarget(targets, map);
+    }
+
     public void notifyTimeOut() {
         showMessage("Time is up. You took too long to make a choice.");
         gameInterface.timeOut();
