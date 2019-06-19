@@ -65,12 +65,6 @@ public class GUIController implements UserInterface {
         return this.nickname;
     }
 
-    public List<String> getPlayersNicks(){
-        for (Map.Entry<String, String> entry: playerColors.entrySet()) {
-            nicks.add(entry.getKey());
-        }
-        return this.nicks;
-    }
     public void setClient(ClientInterface client) {
         this.client = client;
     }

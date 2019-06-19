@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class GameInterface {
@@ -26,6 +27,7 @@ public class GameInterface {
     private VBox contextBox;
     private List<Button> mapButtons;
     private ImageView cachedImage;
+    private List<BoardLoader> boards;
 
     private FiguresLoader figuresLoader;
     private CardLoader cardLoader;
@@ -36,18 +38,32 @@ public class GameInterface {
         this.userController = GUIController.getController();
         this.figuresLoader = new FiguresLoader();
         this.cardLoader = new CardLoader();
+        this.boards = new ArrayList<>();
         this.root = new StackPane();
         root.setId("game_scene");
-        this.game = new BorderPane();
-        game.setCenter(new MapLoader(userController.getMap()).loadMap());
-        game.setLeft(new BoardLoader("left").getLeftBoard());
-        game.setRight(new BoardLoader("right").getRightBoard());
-        game.setBottom(new BoardLoader("bottom").getBottomBoard());
+
+        List<String> nicknames = new ArrayList<>(userController.getPlayerColors().keySet());
         HBox topBoards = new HBox();
         topBoards.setId("box");
-        topBoards.getChildren().addAll(new BoardLoader("topR").getTopBoardR(),
-                new BoardLoader("topL").getTopBoardL());
-        game.setTop(topBoards);
+        for (int i=0; i < userController.getPlayerColors().keySet().size(); i++) {
+            String nickname;
+            if (i == 0) {
+                nickname = userController.getNickname();
+            } else {
+                nickname = nicknames.get(0);
+            }
+            BoardLoader boardLoader = new BoardLoader(nickname);
+            boards.add(boardLoader);
+            if (i > 2) {
+                if (i == 3)
+                    topBoards.getChildren().add(boardLoader.getTopBoardL());
+                else
+                    topBoards.getChildren().add(boardLoader.getTopBoardR());
+            }
+            nicknames.remove(nickname);
+        }
+        ImageView map = new MapLoader(userController.getMap()).loadMap();
+        this.game = new BorderPane(map, topBoards, boards.get(2).getRightBoard(), boards.get(0).getBottomBoard(), boards.get(1).getLeftBoard());
 
         this.mapPane = new GridPane();
         mapPane.setId("map_style");

@@ -15,60 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 class BoardLoader{
+
+    private String owner;
     private StackPane board;
     private List<Button> boardLifeBar;
     private GUIController userController = GUIController.getController();
-    private String thisPlayerColor;
-    private List<String> names = userController.getPlayersNicks();
-    private List<String> colors = new ArrayList<>();
-    private String position;
 
-
-    BoardLoader(String position){
-
-        this.position = position;
-        for (int i = 0; i < names.size(); i++) {
-            String name = names.get(i);
-            colors.add(userController.getPlayerColors().get(name));
-        }
-        thisPlayerColor = userController.getPlayerColors().get(userController.getNickname());
-        for(int i=0; i<colors.size(); i++){
-            if(colors.get(i).equalsIgnoreCase(thisPlayerColor)){
-                colors.remove(i);
-                break;
-            }
-        }
-
-        switch (position){
-            case "topR":
-                if(names.size()==5) {
-                    loadBoard(colors.get(3));
-                }else {
-                    loadBoard("null");
-                }
-
-                break;
-            case "topL":
-                if (names.size()==4 || names.size()==5) {
-                    loadBoard(colors.get(2));
-                }else {
-                    loadBoard("null");
-                }
-                break;
-            case "right":
-                loadBoard(colors.get(1));
-                break;
-            case "left":
-                loadBoard(colors.get(0));
-                break;
-            case "bottom":
-                loadBoard(thisPlayerColor);
-                break;
-
-                default:
-                    break;
-        }
-
+    BoardLoader(String owner){
+        this.owner = owner;
+        loadBoard(userController.getPlayerColors().get(owner));
     }
 
     private void loadBoard(String color) {
@@ -82,24 +37,22 @@ class BoardLoader{
             boardView.setFitWidth(700);
 
             GridPane boardPane = new GridPane();
-            if(!color.equals("null")){
-                if (position.equals("bottom")) {
-                    boardPane.setId("board_style_bottom");
-                } else {
-                    boardPane.setId("board_style");
-                }
-                boardPane.getRowConstraints().add(new RowConstraints(30));
-                this.boardLifeBar = new ArrayList<>();
-                for (int i = 0; i < 12; i++) {
-                    Button button = new Button();
-                    button.setId("board");
-                    button.setDisable(true);
-                    button.setStyle("-fx-background-color: white ");
-                    boardPane.add(button, i, 0);
-                    boardLifeBar.add(button);
-                }
-                boardPane.setHgap(9);
+            if (owner.equals(userController.getNickname())) {
+                boardPane.setId("board_style_bottom");
+            } else {
+                boardPane.setId("board_style");
             }
+            boardPane.getRowConstraints().add(new RowConstraints(30));
+            this.boardLifeBar = new ArrayList<>();
+            for (int i = 0; i < 12; i++) {
+                Button button = new Button();
+                button.setId("board");
+                button.setDisable(true);
+                button.setStyle("-fx-background-color: " +color);
+                boardPane.add(button, i, 0);
+                boardLifeBar.add(button);
+            }
+            boardPane.setHgap(9);
             pane.getChildren().addAll(boardView, boardPane);
             this.board = pane;
         } catch (FileNotFoundException exc) {
@@ -134,4 +87,7 @@ class BoardLoader{
         return this.board;
     }
 
+    public String getOwner() {
+        return this.owner;
+    }
 }
