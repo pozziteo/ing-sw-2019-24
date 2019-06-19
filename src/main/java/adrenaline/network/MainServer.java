@@ -4,6 +4,7 @@ import adrenaline.data.data_for_client.data_for_network.AccountResponse;
 import adrenaline.data.data_for_client.data_for_network.MessageForClient;
 import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
+import adrenaline.exceptions.ClosedLobbyException;
 import adrenaline.exceptions.GameStartedException;
 import adrenaline.network.rmi.server.RmiServer;
 import adrenaline.network.socket.server.SocketServer;
@@ -289,7 +290,11 @@ public class MainServer {
     public void notifyDisconnection(String disconnectedNickname) {
         Account disconnected = findClient (disconnectedNickname);
         Lobby toNotify = disconnected.getCurrentLobby ();
-        toNotify.removeDisconnected(disconnected);
+        try {
+            toNotify.removeDisconnected (disconnected);
+        } catch (ClosedLobbyException e) {
+            this.gameLobbies.remove(disconnected.getCurrentLobby ());
+        }
         this.onlineClients.remove(disconnected);
     }
 

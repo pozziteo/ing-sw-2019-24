@@ -11,9 +11,7 @@ import adrenaline.model.player.Action;
 import adrenaline.model.player.Player;
 import adrenaline.network.Account;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 //TODO javadoc
 
@@ -36,25 +34,27 @@ public class GameModel {
             SquareDetails square;
             List<String> playersNames = new ArrayList<> ();
 
-            for (Player p : game.getMap ().getSquare (i).getPlayersOnSquare ())
-                playersNames.add(p.getPlayerName ());
-            if (game.getMap ().getSquare (i).isSpawnPoint ()) {
-                WeaponDetails[] weapons = new WeaponDetails[3];
-                for (int j = 0; j < 3; j++) {
-                    weapons[j] = createWeaponDetail (((SpawnPoint) game.getMap ().getSquare (i)).getWeapons ()[j]);
-                }
-                square = new SpawnPointDetails (i, playersNames, weapons);
+            if (! game.getMap ().getSquare (i).getLinks ().isEmpty ()) {
+                for (Player p : game.getMap ( ).getSquare (i).getPlayersOnSquare ( ))
+                    playersNames.add (p.getPlayerName ( ));
+                if (game.getMap ( ).getSquare (i).isSpawnPoint ( )) {
+                    WeaponDetails[] weapons = new WeaponDetails[3];
+                    for (int j = 0; j < 3; j++) {
+                        weapons[j] = createWeaponDetail (((SpawnPoint) game.getMap ( ).getSquare (i)).getWeapons ( )[j]);
+                    }
+                    square = new SpawnPointDetails (i, playersNames, weapons);
 
-            } else {
-                String tile;
-                try {
-                    tile = ((NormalSquare) game.getMap ( ).getSquare (i)).getPlacedTile ( ).getTileDescription ( );
-                } catch (NullPointerException e ) {
-                    tile = "empty";
+                } else {
+                    String tile;
+                    try {
+                        tile = ((NormalSquare) game.getMap ( ).getSquare (i)).getPlacedTile ( ).getTileDescription ( );
+                    } catch (NullPointerException e) {
+                        tile = "empty";
+                    }
+                    square = new NormalSquareDetails (i, playersNames, tile);
                 }
-                square = new NormalSquareDetails (i, playersNames, tile);
+                map.add (square);
             }
-            map.add(square);
         }
         return map;
     }
@@ -212,5 +212,15 @@ public class GameModel {
     public void resetCanTagback() {
         for (Player p : game.getPlayers ())
             p.setCanTagbackGrenade (false);
+    }
+
+    public Map<String, List<Integer>> createPossiblePaths(String user) {
+        Map<String, List<Integer>> paths = new HashMap<> ();
+        Player userPlayer = game.findByNickname (user);
+        NullRequirement req = new NullRequirement ();
+        List<Player> targets = req.findTargets (userPlayer);
+        for (Player p : targets)
+            paths.put(p.getPlayerName (), Action.findPaths (p, 2));
+        return paths;
     }
 }

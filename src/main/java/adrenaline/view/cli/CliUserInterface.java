@@ -558,26 +558,44 @@ public class CliUserInterface implements UserInterface {
             return null;
     }
 
-    public void chooseSquareForTarget(List<String> targets, List<SquareDetails> map) {
+    public void chooseSquareForTarget(List<String> targets, List<SquareDetails> map, Map<String, List<Integer>> possiblePaths) {
         printPlayersPositions (targets, map);
         printer.print ("Choose your target:");
         int parsedTarget = parser.asyncParseInt (targets.size()-1);
         if (parsedTarget != -1) {
-            printer.print("Choose the square you want to move them to (maximum of 2 squares in one direction): ");
-            int parsedSquare = parser.asyncParseInt (map.size ()-1);
-            if (parsedSquare != -1) {
-                DataForServer powerUpEffect = new ChosenPowerUpEffect (nickname, targets.get(parsedTarget), parsedSquare);
-                sendToServer (powerUpEffect);
+            boolean valid = false;
+            while (!valid) {
+                printer.print ("Choose the square you want to move them to: ");
+                printer.print(possiblePaths.get(targets.get (parsedTarget)) + "");
+                int parsedSquare = parser.asyncParseInt (map.size ( ) - 1);
+                if (parsedSquare != -1) {
+                    if (possiblePaths.get(targets.get (parsedTarget)).contains (parsedSquare)) {
+                        valid = true;
+                        DataForServer powerUpEffect = new ChosenPowerUpEffect (nickname, targets.get (parsedTarget), parsedSquare);
+                        sendToServer (powerUpEffect);
+                    } else
+                        printer.printInvalidInput ( );
+                } else
+                    break;
             }
         }
     }
 
-    public void chooseSquare() {
-        printer.print ("Choose the square you want to move to: ");
-        int parsed = parser.asyncParseInt (11);
-        if (parsed != -1) {
-            DataForServer powerUpEffect = new ChosenPowerUpEffect (nickname, parsed);
-            sendToServer (powerUpEffect);
+    public void chooseSquare(List<Integer> validSquareIds) {
+        boolean valid = false;
+        while (!valid) {
+            printer.print (validSquareIds + "");
+            printer.print ("Choose the square you want to move to: ");
+            int parsed = parser.asyncParseInt (11);
+            if (parsed != -1) {
+                if (validSquareIds.contains (parsed)) {
+                    valid = true;
+                    DataForServer powerUpEffect = new ChosenPowerUpEffect (nickname, parsed);
+                    sendToServer (powerUpEffect);
+                } else
+                    printer.printInvalidInput ();
+            } else
+                break;
         }
     }
 

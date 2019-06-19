@@ -437,7 +437,7 @@ public class Controller implements TimerCallBack {
     public void choosePowerUpOption(String nickname, String powerUpName) {
         if (powerUpName.equals("Newton") || powerUpName.equals("Teleporter")) {
             this.powerUpEffect = new PowerUpEffect (gameModel.getGame ( ).findByNickname (nickname), gameModel.getGame ( ).findByNickname (nickname).findPowerUp (powerUpName));
-            lobby.sendToSpecific (nickname, new PowerUpEffectOptions (powerUpName, gameModel.createSquareDetails ( )));
+            lobby.sendToSpecific (nickname, new PowerUpEffectOptions (powerUpName, gameModel.createSquareDetails ( ), gameModel.createPossiblePaths (nickname)));
         } else {
             lobby.sendToSpecific (nickname, new MessageForClient ("You can't use this power up right now."));
             checkNewTurn (nickname);

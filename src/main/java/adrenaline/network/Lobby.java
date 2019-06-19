@@ -3,6 +3,7 @@ package adrenaline.network;
 import adrenaline.controller.Controller;
 import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.data.data_for_client.data_for_network.MessageForClient;
+import adrenaline.exceptions.ClosedLobbyException;
 import adrenaline.exceptions.GameStartedException;
 import adrenaline.model.GameModel;
 import adrenaline.utils.ConfigFileReader;
@@ -152,25 +153,29 @@ public class Lobby implements TimerCallBack {
      * Method that removes from the players list the one who disconnected
      * @param disconnected is the account of the player
      */
-    public synchronized void removeDisconnected(Account disconnected) {
+    public synchronized void removeDisconnected(Account disconnected) throws ClosedLobbyException {
         players.remove (disconnected);
         this.disconnected.add(disconnected.getNickName ());
         sendMessageToAll (disconnected.getNickName () + " disconnected...\n");
         if (gameStarted) {
             if (players.size() < 3 && !controller.getGameModel ().getGame ().isEndGame ()) {
                 controller.endGameBecauseOfDisconnection ();
+                throw new ClosedLobbyException ();
             } else if (players.size () > 2) {
                 controller.informOfDisconnection(disconnected.getNickName ());
             }
         } else {
-            if (timerThread.isRunning ()) {
-                timerThread.shutDownThread ();
-            }
-            try {
-                checkReady ( );
-            } catch(GameStartedException e) {
-                System.out.print(e.getMessage ());
-            }
+            if (!players.isEmpty ()) {
+                if (timerThread.isRunning ( )) {
+                    timerThread.shutDownThread ( );
+                }
+                try {
+                    checkReady ( );
+                } catch (GameStartedException e) {
+                    System.out.print (e.getMessage ( ));
+                }
+            } else
+                throw new ClosedLobbyException ();
         }
     }
 

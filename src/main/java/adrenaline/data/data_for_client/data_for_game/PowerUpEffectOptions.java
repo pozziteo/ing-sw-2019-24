@@ -7,14 +7,17 @@ import adrenaline.view.gui.GUIController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PowerUpEffectOptions extends DataForClient {
     private String powerUpName;
     private List<SquareDetails> map;
+    private Map<String, List<Integer>> targetPaths;
 
-    public PowerUpEffectOptions(String powerUpName, List<SquareDetails> map) {
+    public PowerUpEffectOptions(String powerUpName, List<SquareDetails> map, Map<String, List<Integer>> targetPaths) {
         this.powerUpName = powerUpName;
         this.map = map;
+        this.targetPaths = targetPaths;
     }
 
     private List<String> getValidNames() {
@@ -28,13 +31,20 @@ public class PowerUpEffectOptions extends DataForClient {
         return names;
     }
 
+    private List<Integer> getValidSquares() {
+        List<Integer> ids = new ArrayList<> ();
+        for (SquareDetails s : map)
+            ids.add(s.getId ());
+        return ids;
+    }
+
     @Override
     public void updateView(CliUserInterface view) {
         if (powerUpName.equals("Newton")) {
             List<String> names = getValidNames();
-            view.chooseSquareForTarget (names, map);
+            view.chooseSquareForTarget (names, map, targetPaths);
         } else {
-            view.chooseSquare ();
+            view.chooseSquare (getValidSquares ());
         }
     }
 
