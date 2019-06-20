@@ -58,5 +58,23 @@
 #board_style_bottom{
     -fx-grid-lines-visible: false;
     -fx-alignment: center;
-    -fx-padding: 20 50 20 -20;
+    -fx-padding: 20 53 20 -20;
+}
+
+#mark_style {
+    -fx-grid-lines-visible: false;
+    -fx-alignment: center-right;
+    -fx-padding: 0 45 85 70;
+}
+
+#mark_style_bottom {
+    -fx-grid-lines-visible: false;
+    -fx-alignment: center;
+    -fx-padding: 0 0 85 200;
+}
+
+#skulls_style{
+    -fx-grid-lines-visible: false;
+    -fx-alignment: top-left;
+    -fx-padding: 0 0 300 0;
 }

@@ -1,7 +1,6 @@
 package adrenaline.view.gui.game;
 
 import adrenaline.view.gui.GUIController;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,10 +36,13 @@ class BoardLoader{
             boardView.setFitWidth(700);
 
             GridPane boardPane = new GridPane();
+            GridPane markPane = new MarkLoader().getMarks();
             if (owner.equals(userController.getNickname())) {
                 boardPane.setId("board_style_bottom");
+                markPane.setId("mark_style_bottom");
             } else {
                 boardPane.setId("board_style");
+                markPane.setId("mark_style");
             }
             boardPane.getRowConstraints().add(new RowConstraints(30));
             this.boardLifeBar = new ArrayList<>();
@@ -53,7 +55,7 @@ class BoardLoader{
                 boardLifeBar.add(button);
             }
             boardPane.setHgap(9);
-            pane.getChildren().addAll(boardView, boardPane);
+            pane.getChildren().addAll(boardView, boardPane, markPane);
             this.board = pane;
         } catch (FileNotFoundException exc) {
             exc.printStackTrace();
