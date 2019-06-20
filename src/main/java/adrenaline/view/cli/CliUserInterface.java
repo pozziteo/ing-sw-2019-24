@@ -133,8 +133,10 @@ public class CliUserInterface implements UserInterface {
         sendToServer (accountData);
     }
 
-    public void notifyTimeOut() {
-        printer.print("Time is up. You took too long to make a choice.\n");
+    public void notifyTimeOut(String nickname) {
+        parser.setActive (false);
+        if (this.nickname.equals(nickname))
+            printer.print("Time is up. You took too long to make a choice.\n");
     }
 
     /**
@@ -344,7 +346,10 @@ public class CliUserInterface implements UserInterface {
             if (parsed != -1) {
                 for (Integer i : paths) {
                     if (parsed == i) {
-                        SquareDetails s = map.get (i);
+                        SquareDetails s = null;
+                        for (SquareDetails square : map)
+                            if (square.getId () == i)
+                                s = square;
                         if (s.isSpawnPoint ()) {
                             chooseWeapon ((SpawnPointDetails) s);
                         } else {
@@ -443,16 +448,19 @@ public class CliUserInterface implements UserInterface {
 
     public void chooseTargets(List<TargetDetails> targets, List<String> compliantTargets, List<SquareDetails> map, boolean hasTargetingScope) {
         boolean invalid = false;
+        boolean canTargetScope = false;
         List<AtomicTarget> chosenTargets = new ArrayList<> ();
         AtomicTarget atomicTarget = null;
         for (TargetDetails target : targets) {
-            if (target.getValue () != -1)
+            if (target.getValue () != -1) {
                 //normal targets (single or multiple)
-                atomicTarget = chooseTargets (target.getValue ( ), target.getMovements ( ), target.isArea (), compliantTargets, map);
-            else if (target.getValue () == -1 && target.isArea ())
+                canTargetScope = true;
+                atomicTarget = chooseTargets (target.getValue ( ), target.getMovements ( ), target.isArea ( ), compliantTargets, map);
+            } else if (target.getValue () == -1 && target.isArea ()) {
                 //area based damage (square or room)
+                canTargetScope = true;
                 atomicTarget = chooseAreaToTarget (compliantTargets, map);
-            else if (target.getValue () == -1 && !target.isArea () && target.getMovements () == -1)
+            } else if (target.getValue () == -1 && !target.isArea () && target.getMovements () == -1)
                 //effect only needs to be applied, no player options
                 atomicTarget = new AtomicTarget (null, -1);
             else if (target.getValue () == -1 && !target.isArea () && target.getMovements () > 0)
@@ -470,7 +478,7 @@ public class CliUserInterface implements UserInterface {
         }
         if (!invalid) {
             String targetingScopeTarget = null;
-            if (hasTargetingScope)
+            if (hasTargetingScope && canTargetScope)
                 targetingScopeTarget = chooseTargetingScopeTarget(compliantTargets, map);
             sendToServer (new ChosenTargets (nickname, chosenTargets, targetingScopeTarget));
         }
@@ -581,21 +589,26 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
-    public void chooseSquare(List<Integer> validSquareIds) {
+    public void chooseSquare(List<Integer> validSquareIds, List<WeaponDetails> weaponDetails) {
         boolean valid = false;
+        int parsed = -1;
         while (!valid) {
             printer.print (validSquareIds + "");
             printer.print ("Choose the square you want to move to: ");
-            int parsed = parser.asyncParseInt (11);
+            parsed = parser.asyncParseInt (11);
             if (parsed != -1) {
                 if (validSquareIds.contains (parsed)) {
                     valid = true;
-                    DataForServer powerUpEffect = new ChosenPowerUpEffect (nickname, parsed);
-                    sendToServer (powerUpEffect);
                 } else
                     printer.printInvalidInput ();
             } else
                 break;
+        }
+        if (valid && weaponDetails.isEmpty ()) {
+            DataForServer powerUpEffect = new ChosenPowerUpEffect (nickname, parsed);
+            sendToServer (powerUpEffect);
+        } else if (valid) {
+            chooseWeapon (weaponDetails);
         }
     }
 
@@ -630,10 +643,11 @@ public class CliUserInterface implements UserInterface {
     }
 
     public void askTagback(String attacker) {
+        parser.setActive (true);
         printer.printTagback(attacker);
+        DataForServer response;
         int parsed = this.parser.asyncParseInt (1);
         if (parsed != -1) {
-            DataForServer response;
             if (parsed == 0)
                 response = new TagbackResponse (nickname, attacker, false);
             else

@@ -13,7 +13,7 @@ public class TimeOutNotice extends DataForClient {
 
     @Override
     public void updateView(CliUserInterface view) {
-        view.notifyTimeOut();
+        view.notifyTimeOut(super.getAccount ().getNickName ());
     }
 
     @Override

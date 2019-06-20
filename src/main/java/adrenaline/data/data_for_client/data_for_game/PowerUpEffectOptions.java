@@ -44,7 +44,7 @@ public class PowerUpEffectOptions extends DataForClient {
             List<String> names = getValidNames();
             view.chooseSquareForTarget (names, map, targetPaths);
         } else {
-            view.chooseSquare (getValidSquares ());
+            view.chooseSquare (getValidSquares (), null);
         }
     }
 

@@ -231,7 +231,7 @@ public class Controller implements TimerCallBack {
                 List<WeaponDetails> weaponDetails = new ArrayList<> ();
                 for (Weapon w : gameModel.getGame ().findByNickname (nickname).getOwnedWeapons ())
                     weaponDetails.add(gameModel.createWeaponDetail (w));
-                options = new ShootOptions(weaponDetails);
+                options = new ShootOptions(((ShootAction)currentAction).isAdrenaline (), Action.findPaths (gameModel.getGame ().findByNickname (nickname), 1), weaponDetails);
                 lobby.sendToSpecific (nickname, options);
                 break;
             case "power up":
@@ -376,7 +376,7 @@ public class Controller implements TimerCallBack {
                             ((ShootAction) currentAction).setMustUseBase (true);
                             ((ShootAction) currentAction).addOptionalEffect (e);
                             options = new TargetOptions (gameModel.createTargetDetails (e), gameModel.findCompliantTargets (e, nickname), map, p.hasTargetingScope ());
-                        } else if (!e.isUsableBeforeBase ( ) && ((ShootAction) currentAction).isBaseUsed ( ) || (e.isAlternativeMode ( ) && !((ShootAction) currentAction).isBaseUsed ( ))) {
+                        } else if ((!e.isUsableBeforeBase() && ((ShootAction) currentAction).isBaseUsed ( )) || (e.isAlternativeMode ( ) && !((ShootAction) currentAction).isBaseUsed ( ))) {
                             ((ShootAction) currentAction).addOptionalEffect (e);
                             options = new TargetOptions (gameModel.createTargetDetails (e), gameModel.findCompliantTargets (e, nickname), map, p.hasTargetingScope ());
                         } } catch (NotEnoughAmmoException ex) {
@@ -394,7 +394,7 @@ public class Controller implements TimerCallBack {
                 ((ShootAction)currentAction).setEndAction(true);
             lobby.sendToSpecific (nickname, options);
         } else {
-            lobby.sendToSpecific (nickname, new MessageForClient ("Error: you can't choose this effect."));
+            lobby.sendToSpecific (nickname, new MessageForClient ("Error: you can't choose this effect/do not have enough ammo"));
             lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (((ShootAction)currentAction).getChosenWeapon ())));
         }
         gameModel.getGame ().updateCurrentAction (currentAction);
@@ -413,10 +413,12 @@ public class Controller implements TimerCallBack {
             List<Player> tagbackUsers = gameModel.findPlayersEnabledToTagback();
             for (Player p : tagbackUsers)
                 lobby.sendToSpecific (p.getPlayerName (), new TagbackRequest(nickname));
-            try {
-                Thread.sleep (20000);
-            } catch (InterruptedException e) {
-                Thread.currentThread ().interrupt ();
+            if (! tagbackUsers.isEmpty ()) {
+                try {
+                    Thread.sleep (20000);
+                } catch (InterruptedException e) {
+                    Thread.currentThread ( ).interrupt ( );
+                }
             }
             if (((ShootAction) currentAction).isEndAction ())
                 checkNewTurn (nickname);
@@ -492,8 +494,7 @@ public class Controller implements TimerCallBack {
 
     @Override
     public void timerCallBack(String nickname) {
-        TimeOutNotice notice = new TimeOutNotice (lobby.findPlayer(nickname));
-        notice.sendToView ();
+        lobby.sendToAll (new TimeOutNotice (lobby.findPlayer(nickname)));
         playNewTurn ();
     }
 }

@@ -19,6 +19,7 @@ public class ShootAction implements Action {
     private Player attacker;
     private boolean baseUsed;
     private boolean mustUseBase;
+    private boolean adrenaline;
     private Weapon chosenWeapon;
     private WeaponEffect baseEffect;
     private List<WeaponEffect> optionalEffects;
@@ -27,11 +28,16 @@ public class ShootAction implements Action {
 
     public ShootAction(Player attacker) {
         this.attacker = attacker;
+        this.adrenaline = (this.attacker.getBoard ().getDamageTaken ().size () > 5);
         this.baseUsed = false;
         this.mustUseBase = false;
         this.endAction = false;
         this.optionalEffects = new ArrayList<> ();
         this.effects = new LinkedList<> ();
+    }
+
+    public boolean isAdrenaline() {
+        return this.adrenaline;
     }
 
     public boolean isBaseUsed() {
@@ -89,10 +95,10 @@ public class ShootAction implements Action {
             legal = isAtomicTargetLegal(targets.get(0), 0);
             //apply atomic effects
             if (legal) {
-                if (targets.get(0).getTargetNames ().contains(targetingScopeTarget)) {
+                if (targetingScopeTarget != null && targets.get(0).getTargetNames ().contains(targetingScopeTarget) && attacker.hasTargetingScope ()) {
                     PowerUpEffect effect = new PowerUpEffect (attacker, attacker.findPowerUp ("Targeting Scope"));
                     effect.useTargetingScope (attacker.getGame ().findByNickname (targetingScopeTarget));
-                } else
+                } else if (targetingScopeTarget != null && attacker.hasTargetingScope ())
                     throw new IllegalUseOfPowerUpException ("You can't hit this player with Targeting Scope in this action.");
                 for (AtomicWeaponEffect atomicEffect : effects.getLast().getEffects())
                     applyEffectToAtomicTargets(targets.get(0), atomicEffect);
