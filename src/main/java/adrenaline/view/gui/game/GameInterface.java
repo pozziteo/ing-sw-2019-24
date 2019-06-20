@@ -88,6 +88,8 @@ public class GameInterface {
             mapButtons.add(button);
         }
 
+        GridPane skullsPane = new SkullsLoader().getSkullsPane();
+        mapPane.getChildren().add(skullsPane);
         root.getChildren().add(game);
         root.getChildren().add(mapPane);
         this.gameScene = new Scene(root, stage.getScene().getWidth(), stage.getScene().getHeight());
