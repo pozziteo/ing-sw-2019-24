@@ -3,7 +3,6 @@
 }
 
 #map_style {
-    /*-fx-grid-lines-visible: true;*/
     -fx-alignment: center;
     -fx-hgap: 30.0;
 }

@@ -78,7 +78,7 @@ public class GameInterface {
             button.setId("inactive-square");
             mapPane.add(button, i%4, i/4);
             GridPane.setHalignment(button, HPos.CENTER);
-            GridPane.setValignment(button, VPos.BOTTOM);
+            GridPane.setValignment(button, VPos.TOP);
             mapButtons.add(button);
         }
 
@@ -206,7 +206,7 @@ public class GameInterface {
             mapButtons.get(i).setId("active-square");
             mapButtons.get(i).setDisable(false);
             mapButtons.get(i).setOnMouseClicked(mouseEvent -> {
-                SquareDetails squareDetails = map.get(i);
+                SquareDetails squareDetails = map.stream().filter(details -> details.getId() == i).findFirst().get();
                 if (squareDetails.isSpawnPoint())
                     Platform.runLater(() -> chooseWeapon((SpawnPointDetails) squareDetails));
                 else {
