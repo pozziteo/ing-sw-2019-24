@@ -52,9 +52,9 @@ public class PowerUpEffectOptions extends DataForClient {
     public void updateView(GUIController view) {
         if (powerUpName.equals("Newton")) {
             List<String> names = getValidNames();
-            view.chooseSquareForTarget(names, map);
+            view.chooseSquareForTarget(names, targetPaths);
         } else {
-            view.chooseSquare();
+            view.chooseSquare(getValidSquares());
         }
     }
 }

@@ -1,10 +1,7 @@
 package adrenaline.view.gui;
 
 import adrenaline.data.data_for_client.DataForClient;
-import adrenaline.data.data_for_client.responses_for_view.fake_model.EffectDetails;
-import adrenaline.data.data_for_client.responses_for_view.fake_model.PowerUpDetails;
-import adrenaline.data.data_for_client.responses_for_view.fake_model.SquareDetails;
-import adrenaline.data.data_for_client.responses_for_view.fake_model.WeaponDetails;
+import adrenaline.data.data_for_client.responses_for_view.fake_model.*;
 import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.ActionBuilder;
 import adrenaline.data.data_for_server.data_for_game.ChosenMapSetUp;
@@ -227,16 +224,20 @@ public class GUIController implements UserInterface {
         gameInterface.chooseWeaponEffect(effects);
     }
 
+    public void chooseTargets(List<TargetDetails> targets, List<String> compliantTargets, List<SquareDetails> map, boolean targetingScope) {
+        gameInterface.chooseTargets(targets, compliantTargets, map, targetingScope);
+    }
+
     public void choosePowerUp(List<PowerUpDetails> powerups) {
         gameInterface.choosePowerUp(powerups);
     }
 
-    public void chooseSquare() {
-        gameInterface.chooseSquare();
+    public void chooseSquare(List<Integer> validSquares) {
+        gameInterface.chooseSquare(validSquares);
     }
 
-    public void chooseSquareForTarget(List<String> targets, List<SquareDetails> map) {
-        gameInterface.chooseSquareForTarget(targets, map);
+    public void chooseSquareForTarget(List<String> targets, Map<String, List<Integer>> targetPaths) {
+        gameInterface.chooseSquareForTarget(targets, targetPaths);
     }
 
     public void notifyTimeOut() {

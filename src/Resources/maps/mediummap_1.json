@@ -36,7 +36,7 @@
       "squareId": 6,
       "room": "Purple",
       "spawn": false,
-      "links": [2, 7]
+      "links": [2, 5, 7]
     },{
       "squareId": 7,
       "room": "Yellow",

@@ -26,9 +26,11 @@ public class TargetOptions extends DataForClient {
         view.chooseTargets (targets, compliantTargets, map, hasTargetingScope);
     }
 
-//    @Override
-//    public void updateView(GUIController view) {
-//        view.chooseTargets(targets, compliantTargets, map, hasTargetingScope);
-//    }
+    @Override
+    public void updateView(GUIController view) {
+        view.chooseTargets(targets, compliantTargets, map, hasTargetingScope);
+    }
+
+
 
 }

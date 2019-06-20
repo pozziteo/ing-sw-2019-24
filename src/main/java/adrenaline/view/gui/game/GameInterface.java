@@ -14,8 +14,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class GameInterface {
 
@@ -32,6 +32,9 @@ public class GameInterface {
     private FiguresLoader figuresLoader;
     private CardLoader cardLoader;
     private Scene gameScene;
+
+    private List<AtomicTarget> chosenTargets;
+    private final Object locker = new Object();
 
     public GameInterface(Stage stage) {
 
@@ -78,7 +81,10 @@ public class GameInterface {
             button.setId("inactive-square");
             mapPane.add(button, i%4, i/4);
             GridPane.setHalignment(button, HPos.CENTER);
-            GridPane.setValignment(button, VPos.TOP);
+            if (boards.size() > 3)
+                GridPane.setValignment(button, VPos.BOTTOM);
+            else
+                GridPane.setValignment(button, VPos.TOP);
             mapButtons.add(button);
         }
 
@@ -321,12 +327,122 @@ public class GameInterface {
             userController.showMessage("Skipping action...");
             root.getChildren().remove(contextBox);
         });
-        buttonsPane.getChildren().add(none);
+        buttonsPane.add(none, columnIndex, 0);
         weaponOptions.getChildren().addAll(cachedImage, buttonsPane);
         contextBox.getChildren().addAll(chooseEffect, weaponOptions);
 
         Platform.runLater(() -> root.getChildren().add(contextBox));
 
+    }
+
+    public void chooseTargets(List<TargetDetails> targets, List<String> compliantTargets, List<SquareDetails> map, boolean targetingSCope) {
+        this.chosenTargets = new ArrayList<>();
+        boolean invalid = false;
+        synchronized (locker) {
+            for (TargetDetails target : targets) {
+                int actualSize = chosenTargets.size();
+                if (target.getValue() != -1) {
+                    Platform.runLater(() -> chooseTargets(target.getValue(), target.getMovements(), target.isArea(), compliantTargets, map, chosenTargets));
+                }
+                //TODO
+                try {
+                    while (actualSize == chosenTargets.size()) {
+                        locker.wait();
+                    }
+                } catch (InterruptedException exc) {
+                    exc.printStackTrace();
+                    Thread.currentThread().interrupt();
+                }
+                System.out.println("Got effect\nOld size: " +actualSize + "\nNew size: " +chosenTargets.size());
+                if (chosenTargets.get(chosenTargets.size()-1) == null) {
+                    invalid = true;
+                    userController.sendAction ("end action");
+                    userController.showMessage("Error: you built an illegal action. Automatically skipping this action...");
+                    break;
+                }
+            }
+        }
+    }
+
+    public void chooseTargets(int maxAmount, int movements, boolean isArea, List<String> compliantTargets,
+                              List<SquareDetails> map, List<AtomicTarget> chosenTargets) {
+        this.contextBox = new VBox();
+        contextBox.setId("small-box");
+        Text choose = new Text("Choose up to " + maxAmount + " targets and give them some pain!");
+        choose.setId("medium-text");
+        GridPane grid = new GridPane();
+        grid.setId("grid-box");
+
+        List<String> addedTargets = new ArrayList<>();
+
+        Button finish = new Button("FINISH");
+        finish.setId("action-button");
+        finish.setOnMouseClicked(mouseEvent -> {
+            synchronized (locker) {
+                contextBox.getChildren().clear();
+                if (!addedTargets.isEmpty()) {
+                    if (movements != -1) {
+                        Text select = new Text("Select a square to move your targets!\n(Max distance of " + movements);
+                        select.setId("medium-text");
+                        for (SquareDetails details : map) {
+                            mapButtons.get(details.getId()).setId("active-square");
+                            mapButtons.get(details.getId()).setDisable(false);
+                            mapButtons.get(details.getId()).setOnMouseClicked(mouseEvent1 -> {
+                                synchronized (locker) {
+                                    chosenTargets.add(new AtomicTarget(addedTargets, details.getId()));
+                                    disableButtons();
+                                    root.getChildren().remove(contextBox);
+                                    locker.notifyAll();
+                                }
+                            });
+                        }
+                        contextBox.getChildren().add(select);
+                        mapPane.toFront();
+                    } else if (isArea) {
+                        int n = getTargetPos(addedTargets.get(0), map);
+                        chosenTargets.add(new AtomicTarget(addedTargets, n));
+                        locker.notifyAll();
+                    } else {
+                        chosenTargets.add(new AtomicTarget(addedTargets, -1));
+                        locker.notifyAll();
+                    }
+                } else {
+                    chosenTargets.add(null);
+                    locker.notifyAll();
+                }
+            }
+        });
+
+        int columnIndex = 0;
+        List<ImageView> targets = new ArrayList<>();
+        for (String validTarget : compliantTargets) {
+            ImageView target = figuresLoader.loadFigure(userController.getPlayerColors().get(validTarget));
+            target.setOnMouseClicked(mouseEvent -> {
+                addedTargets.add(validTarget);
+                if (addedTargets.size() == maxAmount) {
+                    for (ImageView image : targets)
+                        image.setOpacity(0.4);
+                } else {
+                    target.setOpacity(0.4);
+                }
+            });
+            targets.add(target);
+            grid.add(target, columnIndex, 0);
+            columnIndex++;
+        }
+        grid.add(finish, columnIndex, 0);
+        contextBox.getChildren().addAll(choose, grid);
+
+        Platform.runLater(() -> root.getChildren().add(contextBox));
+    }
+
+    private int getTargetPos(String target, List<SquareDetails> map) {
+        for (SquareDetails square : map) {
+            if (square.getPlayersOnSquare().contains(target)) {
+                return square.getId();
+            }
+        }
+        return -1;
     }
 
     public void choosePowerUp(List<PowerUpDetails> powerups) {
@@ -382,17 +498,17 @@ public class GameInterface {
         Platform.runLater(() -> root.getChildren().add(contextBox));
     }
 
-    public void chooseSquare() {
+    public void chooseSquare(List<Integer> validSquares) {
         this.contextBox = new VBox();
         contextBox.setId("small-box");
         Text select = new Text("Select the square to apply the effect");
         select.setId("medium-text");
 
-        for (Button square : mapButtons) {
-            square.setId("active-square");
-            square.setDisable(false);
-            square.setOnMouseClicked(mouseEvent -> {
-                ChosenPowerUpEffect effect = new ChosenPowerUpEffect(userController.getNickname(), mapButtons.indexOf(square));
+        for (int square : validSquares) {
+            mapButtons.get(square).setId("active-square");
+            mapButtons.get(square).setDisable(false);
+            mapButtons.get(square).setOnMouseClicked(mouseEvent -> {
+                ChosenPowerUpEffect effect = new ChosenPowerUpEffect(userController.getNickname(), square);
                 userController.sendToServer(effect);
                 disableButtons();
                 root.getChildren().remove(contextBox);
@@ -406,7 +522,7 @@ public class GameInterface {
         });
     }
 
-    public void chooseSquareForTarget(List<String> targets, List<SquareDetails> map) {
+    public void chooseSquareForTarget(List<String> targets, Map<String, List<Integer>> possiblePaths) {
         this.contextBox = new VBox();
         contextBox.setId("small-box");
         Text targetSelect = new Text("Select a target to move");
@@ -419,14 +535,15 @@ public class GameInterface {
             ImageView target = figuresLoader.loadFigure(userController.getPlayerColors().get(validTarget));
             target.setOnMouseClicked(mouseEvent -> {
                 contextBox.getChildren().clear();
-                Text move = new Text("Move your target to a new position. Choose wisely!\n(Maximum 2 squares in a direction)");
+                Text move = new Text("Move your target to a new position. Choose wisely!");
                 move.setId("medium-text");
-                for (SquareDetails details : map) {
-                    Button square = mapButtons.get(details.getId());
+                List<Integer> validPaths = possiblePaths.get(validTarget);
+                for (int validSquare : validPaths) {
+                    Button square = mapButtons.get(validSquare);
                     square.setId("active-square");
                     square.setDisable(false);
                     square.setOnMouseClicked(mouseEvent1 -> {
-                        ChosenPowerUpEffect effect = new ChosenPowerUpEffect(userController.getNickname(), validTarget, details.getId());
+                        ChosenPowerUpEffect effect = new ChosenPowerUpEffect(userController.getNickname(), validTarget, validSquare);
                         userController.sendToServer(effect);
                         disableButtons();
                         root.getChildren().remove(contextBox);
