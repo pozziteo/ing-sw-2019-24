@@ -16,7 +16,6 @@ public class SkullsLoader {
 
      GridPane getSkullsPane(){
         GridPane pane = new GridPane();
-        pane.setId("skulls_style");
         pane.getRowConstraints().add(new RowConstraints(10));
         pane.getRowConstraints().add(new RowConstraints(10));
         this.skullsList = new ArrayList<>();
@@ -41,7 +40,7 @@ public class SkullsLoader {
         return pane;
     }
 
-    public List<Button> getSkullsList(){return this.skullsList;}
+     List<Button> getSkullsList(){return this.skullsList;}
 
-    public List<Button> getOverkill(){return this.overkill;}
+     List<Button> getOverkill(){return this.overkill;}
 }

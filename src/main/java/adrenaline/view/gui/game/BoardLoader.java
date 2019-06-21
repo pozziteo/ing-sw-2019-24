@@ -18,6 +18,9 @@ class BoardLoader{
     private String owner;
     private StackPane board;
     private List<Button> boardLifeBar;
+    private List<Button> maxPoints;
+    private List<Button> marks;
+    private List<Button> ammos;
     private GUIController userController = GUIController.getController();
 
     BoardLoader(String owner){
@@ -25,6 +28,10 @@ class BoardLoader{
         loadBoard(userController.getPlayerColors().get(owner));
     }
 
+    /**
+     * Method to create a Player's board
+     * @param color is the color of the board to be loaded
+     */
     private void loadBoard(String color) {
         try {
             StackPane pane = new StackPane();
@@ -36,9 +43,9 @@ class BoardLoader{
             boardView.setFitWidth(700);
 
             GridPane boardPane = new GridPane();
-            GridPane markPane = new MarkLoader().getMarks();
-            GridPane ammosPane = new AmmoLoader().getAmmoPane();
-            GridPane maxPointsPane = new MaxPointPlayer().getPointsPane();
+            GridPane markPane = getBoardMarks();
+            GridPane ammosPane = getAmmoPane();
+            GridPane maxPointsPane = getPointsPane();
             if (owner.equals(userController.getNickname())) {
                 boardPane.setId("board_style_bottom");
                 markPane.setId("mark_style_bottom");
@@ -95,7 +102,100 @@ class BoardLoader{
         return this.board;
     }
 
+    /**
+     * Getter method
+     * @return the name of the board's owner
+     */
     public String getOwner() {
         return this.owner;
     }
+
+
+    /**
+     * Method to create ammo grid
+     * @return a grid
+     */
+    private GridPane getAmmoPane(){
+        List<Button>ammos = new ArrayList<>();
+        GridPane pane = new GridPane();
+        pane.getRowConstraints().add(new RowConstraints(4));
+        pane.getRowConstraints().add(new RowConstraints(4));
+        pane.getRowConstraints().add(new RowConstraints(4));
+        for(int i=0; i<9; i++){
+            Button button = new Button();
+            button.setDisable(true);
+            button.setStyle("-fx-background-color: yellow; -fx-opacity: 1");
+            button.setMaxSize(16,16);
+            button.setMinSize(16,16);
+            pane.add(button, i%3, i/3);
+            ammos.add(button);
+        }
+        pane.setVgap(15);
+        pane.setHgap(5);
+        this.ammos = ammos;
+        return pane;
+    }
+
+    /**
+     * Method to create marks grid
+     * @return a grid
+     */
+    public GridPane getBoardMarks(){
+        GridPane pane = new GridPane();
+        pane.getRowConstraints().add(new RowConstraints(5));
+        List<Button> playerMarks = new ArrayList<>();
+        for(int i=0; i<8; i++){
+            Button button = new Button();
+            button.setId("board");
+            button.setDisable(true);
+            button.setStyle("-fx-background-color: white");
+            button.setMaxSize(5,5);
+            pane.add(button, i, 0);
+            playerMarks.add(button);
+        }
+        pane.setHgap(5);
+        this.marks = playerMarks;
+        return pane;
+    }
+
+    /**
+     * Method to create the grid to place the skulls on the players' boards
+     * @return a grid
+     */
+    private GridPane getPointsPane(){
+
+        List<Button> maxPoints = new ArrayList<>();
+        GridPane pane = new GridPane();
+        pane.getRowConstraints().add(new RowConstraints(5));
+
+        for(int i=0; i<6; i++){
+            Button button = new Button();
+            button.setDisable(true);
+            button.setId("board");
+            button.setStyle("-fx-background-color: white");
+            pane.add(button, i, 0);
+            maxPoints.add(button);
+        }
+        pane.setHgap(8);
+        this.maxPoints = maxPoints;
+        return pane;
+    }
+
+    /**
+     * Getter method
+     * @return the list of max points on a board
+     */
+    public List<Button> getMaxPoints(){return this.maxPoints;}
+
+    /**
+     * Getter method
+     * @return the list of ammo on a board
+     */
+    public List<Button> getAmmos(){return this.ammos;}
+
+    /**
+     * Getter method
+     * @return the list of marks on a board
+     */
+    public List<Button> getMarks(){return this.marks;}
 }

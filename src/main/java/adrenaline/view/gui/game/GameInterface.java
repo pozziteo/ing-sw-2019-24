@@ -32,6 +32,8 @@ public class GameInterface {
     private List<Button> mapButtons;
     private ImageView cachedImage;
     private List<BoardLoader> boards;
+    private List<Button> skulls;
+    private List<Button> overkill;
 
     private FiguresLoader figuresLoader;
     private CardLoader cardLoader;
@@ -46,6 +48,8 @@ public class GameInterface {
         this.figuresLoader = new FiguresLoader();
         this.cardLoader = new CardLoader();
         this.boards = new ArrayList<>();
+        this.skulls = new SkullsLoader().getSkullsList();
+        this.overkill = new SkullsLoader().getOverkill();
         this.root = new StackPane();
         root.setId("game_scene");
 
@@ -93,6 +97,11 @@ public class GameInterface {
         }
 
         GridPane skullsPane = new SkullsLoader().getSkullsPane();
+        if(boards.size()>3){
+            skullsPane.setId("more_skulls_style");
+        }else{
+            skullsPane.setId("skulls_style");
+        }
         root.getChildren().add(game);
         root.getChildren().add(mapPane);
         root.getChildren().add(skullsPane);
