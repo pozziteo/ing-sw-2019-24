@@ -89,9 +89,9 @@ public class GameInterface {
         }
 
         GridPane skullsPane = new SkullsLoader().getSkullsPane();
-        mapPane.getChildren().add(skullsPane);
         root.getChildren().add(game);
         root.getChildren().add(mapPane);
+        root.getChildren().add(skullsPane);
         this.gameScene = new Scene(root, stage.getScene().getWidth(), stage.getScene().getHeight());
         gameScene.getStylesheets().addAll(getClass().getResource("/assets/game_style.css").toExternalForm(),
                 getClass().getResource("/assets/login_stage.css").toExternalForm());

@@ -37,12 +37,18 @@ class BoardLoader{
 
             GridPane boardPane = new GridPane();
             GridPane markPane = new MarkLoader().getMarks();
+            GridPane ammosPane = new AmmoLoader().getAmmoPane();
+            GridPane maxPointsPane = new MaxPointPlayer().getPointsPane();
             if (owner.equals(userController.getNickname())) {
                 boardPane.setId("board_style_bottom");
                 markPane.setId("mark_style_bottom");
+                ammosPane.setId("ammo_style_bottom");
+                maxPointsPane.setId("maxPoints_style_bottom");
             } else {
                 boardPane.setId("board_style");
                 markPane.setId("mark_style");
+                ammosPane.setId("ammo_style");
+                maxPointsPane.setId("maxPoints_style");
             }
             boardPane.getRowConstraints().add(new RowConstraints(30));
             this.boardLifeBar = new ArrayList<>();
@@ -55,7 +61,7 @@ class BoardLoader{
                 boardLifeBar.add(button);
             }
             boardPane.setHgap(9);
-            pane.getChildren().addAll(boardView, boardPane, markPane);
+            pane.getChildren().addAll(boardView, boardPane, markPane, ammosPane, maxPointsPane);
             this.board = pane;
         } catch (FileNotFoundException exc) {
             exc.printStackTrace();

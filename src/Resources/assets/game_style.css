@@ -76,5 +76,32 @@
 #skulls_style{
     -fx-grid-lines-visible: false;
     -fx-alignment: top-left;
-    -fx-padding: 0 0 300 0;
+    -fx-padding: 107 0 0 382;
+}
+
+#ammo_style_bottom{
+    -fx-grid-lines-visible: false;
+    -fx-alignment: center;
+    -fx-padding: 20 0 0 330;
+    -fx-opacity: 1;
+}
+
+
+#ammo_style{
+    -fx-grid-lines-visible: false;
+    -fx-alignment: center-right;
+    -fx-padding: 20 20 0 90;
+    -fx-opacity: 1;
+}
+
+#maxPoints_style{
+    -fx-grid-lines-visible: false;
+    -fx-alignment: center;
+    -fx-padding: 70 105 0 0;
+}
+
+#maxPoints_style_bottom{
+    -fx-grid-lines-visible: false;
+    -fx-alignment: center;
+    -fx-padding: 70 113 0 0;
 }
