@@ -483,10 +483,13 @@ public class GameInterface {
                 target.setOnMouseClicked(mouseEvent -> {
                     addedTargets.add(validTarget);
                     if (addedTargets.size() == maxAmount) {
-                        for (ImageView image : targets)
+                        for (ImageView image : targets) {
                             image.setOpacity(0.4);
+                            image.setDisable(true);
+                        }
                     } else {
                         target.setOpacity(0.4);
+                        target.setDisable(true);
                     }
                 });
                 targets.add(target);
