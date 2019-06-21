@@ -228,6 +228,10 @@ public class GUIController implements UserInterface {
         gameInterface.chooseTargets(targets, compliantTargets, map, targetingScope);
     }
 
+    public void askReload(List<WeaponDetails> weapons) {
+        gameInterface.askReload(weapons);
+    }
+
     public void choosePowerUp(List<PowerUpDetails> powerups) {
         gameInterface.choosePowerUp(powerups);
     }

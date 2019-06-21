@@ -337,16 +337,24 @@ public class GameInterface {
 
     }
 
-    public void chooseTargets(List<TargetDetails> targets, List<String> compliantTargets, List<SquareDetails> map, boolean targetingSCope) {
+    public void chooseTargets(List<TargetDetails> targets, List<String> compliantTargets, List<SquareDetails> map, boolean hasTargetingScope) {
         this.chosenTargets = new ArrayList<>();
         boolean invalid = false;
+        boolean canTargetScope = false;
         synchronized (locker) {
             for (TargetDetails target : targets) {
                 int actualSize = chosenTargets.size();
                 if (target.getValue() != -1) {
+                    canTargetScope = true;
                     Platform.runLater(() -> chooseTargets(target.getValue(), target.getMovements(), target.isArea(), compliantTargets, map, chosenTargets));
+                } else if (target.getValue () == -1 && target.isArea ()) {
+                    canTargetScope = true;
+                    Platform.runLater(() -> chooseAreaToTarget(compliantTargets, map));
+                } else if (target.getValue () == -1 && !target.isArea () && target.getMovements () == -1) {
+                    chosenTargets.add(new AtomicTarget(null, -1));
+                } else if (target.getValue () == -1 && !target.isArea () && target.getMovements () > 0) {
+                    Platform.runLater(() -> chooseHowManyMovements(target.getMovements (), compliantTargets, map));
                 }
-                //TODO
                 try {
                     while (actualSize == chosenTargets.size()) {
                         locker.wait();
@@ -355,7 +363,6 @@ public class GameInterface {
                     exc.printStackTrace();
                     Thread.currentThread().interrupt();
                 }
-                System.out.println("Got effect\nOld size: " +actualSize + "\nNew size: " +chosenTargets.size());
                 if (chosenTargets.get(chosenTargets.size()-1) == null) {
                     invalid = true;
                     userController.sendAction ("end action");
@@ -364,9 +371,58 @@ public class GameInterface {
                 }
             }
         }
+        if (!invalid) {
+            if (hasTargetingScope && canTargetScope) {
+                this.contextBox = new VBox();
+                contextBox.setId("small-box");
+                Text choose = new Text("Use Targeting Scope to deal additional damage to a target?");
+                choose.setId("medium-text");
+                HBox buttonsBox = new HBox();
+                buttonsBox.setId("small-box");
+
+                Button yes = new Button("YES");
+                yes.setId("action-button");
+                yes.setOnMouseClicked(mouseEvent -> {
+                    contextBox.getChildren().clear();
+                    Text text = new Text("Choose one target and make him suffer more!");
+                    text.setId("medium-text");
+                    HBox imageBox = new HBox();
+                    imageBox.setId("small-box");
+
+                    List<String> targetNames = new ArrayList<>();
+                    for (AtomicTarget target : chosenTargets) {
+                        List<String> atomicNames = target.getTargetNames();
+                        for (String name : atomicNames)
+                            if (!targetNames.contains(name))
+                                targetNames.add(name);
+                    }
+                    for (String target : targetNames) {
+                        ImageView imageView = figuresLoader.loadFigure(userController.getPlayerColors().get(target));
+                        imageView.setOnMouseClicked(mouseEvent1 -> {
+                            userController.sendToServer(new ChosenTargets(userController.getNickname(), this.chosenTargets, target));
+                            root.getChildren().remove(contextBox);
+                        });
+                        imageBox.getChildren().add(imageView);
+                    }
+                    contextBox.getChildren().addAll(text, imageBox);
+                });
+
+                Button no = new Button("NO");
+                no.setId("action-button");
+                no.setOnMouseClicked(mouseEvent -> {
+                    userController.sendToServer (new ChosenTargets (userController.getNickname(), chosenTargets, null));
+                    root.getChildren().remove(contextBox);
+                });
+                buttonsBox.getChildren().addAll(yes, no);
+                contextBox.getChildren().addAll(choose, buttonsBox);
+                Platform.runLater(() -> root.getChildren().add(contextBox));
+            }
+            else
+                userController.sendToServer (new ChosenTargets (userController.getNickname(), chosenTargets, null));
+        }
     }
 
-    public void chooseTargets(int maxAmount, int movements, boolean isArea, List<String> compliantTargets,
+    private void chooseTargets(int maxAmount, int movements, boolean isArea, List<String> compliantTargets,
                               List<SquareDetails> map, List<AtomicTarget> chosenTargets) {
         this.contextBox = new VBox();
         contextBox.setId("small-box");
@@ -384,7 +440,7 @@ public class GameInterface {
                 contextBox.getChildren().clear();
                 if (!addedTargets.isEmpty()) {
                     if (movements != -1) {
-                        Text select = new Text("Select a square to move your targets!\n(Max distance of " + movements);
+                        Text select = new Text("Select a square to move your targets!\n(Max distance of " + movements + ")");
                         select.setId("medium-text");
                         for (SquareDetails details : map) {
                             mapButtons.get(details.getId()).setId("active-square");
@@ -445,6 +501,87 @@ public class GameInterface {
             }
         }
         return -1;
+    }
+
+    private void chooseAreaToTarget(List<String> compliantTargets, List<SquareDetails> map) {
+        if (compliantTargets.isEmpty()) {
+            synchronized (locker) {
+                userController.showMessage("You can't hit targets with this effect");
+                chosenTargets.add(null);
+                locker.notifyAll();
+                return;
+            }
+        }
+        this.contextBox = new VBox();
+        contextBox.setId("small-box");
+        Text select = new Text("Select the square/room you want to target!");
+        select.setId("medium-text");
+        /*for (SquareDetails details : map) {
+            mapButtons.get(details.getId()).setId("active-square");
+            mapButtons.get(details.getId()).setDisable(false);
+            mapButtons.get(details.getId()).setOnMouseClicked(mouseEvent -> {
+                synchronized (locker) {
+                    chosenTargets.add(new AtomicTarget(null, details.getId()));
+                    disableButtons();
+                    root.getChildren().remove(contextBox);
+                    locker.notifyAll();
+                }
+            });
+        } */
+        contextBox.getChildren().add(select);
+        Platform.runLater(() -> {
+            root.getChildren().add(contextBox);
+            mapPane.toFront();
+        });
+    }
+
+    private void chooseHowManyMovements(int movements, List<String> compliantTargets, List<SquareDetails> map) {
+        if (compliantTargets.isEmpty()) {
+            synchronized (locker) {
+                chosenTargets.add(null);
+                userController.showMessage("You can't hit targets with this effect");
+                locker.notifyAll();
+                return;
+            }
+        }
+        this.contextBox = new VBox();
+        contextBox.setId("small-box");
+        Text select = new Text("Choose the square you want to move to!\n(Max " + movements + " distance)");
+        select.setId("medium-text");
+
+        activateSquareEffect(map);
+        /*for (SquareDetails details : map) {
+            mapButtons.get(details.getId()).setId("active-square");
+            mapButtons.get(details.getId()).setDisable(false);
+            mapButtons.get(details.getId()).setOnMouseClicked(mouseEvent -> {
+                synchronized (locker) {
+                    chosenTargets.add(new AtomicTarget(null, details.getId()));
+                    disableButtons();
+                    root.getChildren().remove(contextBox);
+                    locker.notifyAll();
+                }
+            });
+        } */
+        contextBox.getChildren().add(select);
+        Platform.runLater(() -> {
+            root.getChildren().add(contextBox);
+            mapPane.toFront();
+        });
+    }
+
+    private void activateSquareEffect(List<SquareDetails> map) {
+        for (SquareDetails details : map) {
+            mapButtons.get(details.getId()).setId("active-square");
+            mapButtons.get(details.getId()).setDisable(false);
+            mapButtons.get(details.getId()).setOnMouseClicked(mouseEvent -> {
+                synchronized (locker) {
+                    chosenTargets.add(new AtomicTarget(null, details.getId()));
+                    disableButtons();
+                    root.getChildren().remove(contextBox);
+                    locker.notifyAll();
+                }
+            });
+        }
     }
 
     public void choosePowerUp(List<PowerUpDetails> powerups) {
@@ -559,6 +696,51 @@ public class GameInterface {
         }
 
         contextBox.getChildren().addAll(targetSelect, targetsBox);
+        Platform.runLater(() -> root.getChildren().add(contextBox));
+    }
+
+    public void askReload(List<WeaponDetails> weapons) {
+        this.contextBox = new VBox();
+        contextBox.setId("small-box");
+        Text choose = new Text("Reload your weapons before ending turn?");
+        choose.setId("medium-text");
+        HBox buttonsBox = new HBox();
+        buttonsBox.setId("small-box");
+
+        Button yes = new Button("YES");
+        yes.setId("action-button");
+
+        Button no = new Button("NO");
+        no.setId("action-button");
+
+        yes.setOnMouseClicked(mouseEvent -> {
+            contextBox.getChildren().clear();
+            Text ask = new Text("Choose the weapon to reload");
+            ask.setId("medium-text");
+            HBox weaponsBox = new HBox();
+            weaponsBox.setId("small-box");
+
+            for (WeaponDetails details : weapons) {
+                ImageView weapon = cardLoader.loadCard(details.getName());
+                weapon.setOnMouseClicked(mouseEvent1 -> {
+                    ReloadResponse response = new ReloadResponse(userController.getNickname(), true, details.getName());
+                    userController.sendToServer(response);
+                    root.getChildren().remove(contextBox);
+                });
+                weaponsBox.getChildren().add(weapon);
+            }
+
+            contextBox.getChildren().addAll(ask, weaponsBox);
+        });
+
+        no.setOnMouseClicked(mouseEvent -> {
+            ReloadResponse response = new ReloadResponse(userController.getNickname(), false, "");
+            userController.sendToServer(response);
+            root.getChildren().remove(contextBox);
+        });
+        buttonsBox.getChildren().addAll(yes, no);
+        contextBox.getChildren().addAll(choose, buttonsBox);
+
         Platform.runLater(() -> root.getChildren().add(contextBox));
     }
 
