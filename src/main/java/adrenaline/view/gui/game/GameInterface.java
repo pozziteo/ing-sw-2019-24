@@ -477,20 +477,22 @@ public class GameInterface {
 
         int columnIndex = 0;
         List<ImageView> targets = new ArrayList<>();
-        for (String validTarget : compliantTargets) {
-            ImageView target = figuresLoader.loadFigure(userController.getPlayerColors().get(validTarget));
-            target.setOnMouseClicked(mouseEvent -> {
-                addedTargets.add(validTarget);
-                if (addedTargets.size() == maxAmount) {
-                    for (ImageView image : targets)
-                        image.setOpacity(0.4);
-                } else {
-                    target.setOpacity(0.4);
-                }
-            });
-            targets.add(target);
-            grid.add(target, columnIndex, 0);
-            columnIndex++;
+        if (compliantTargets != null) {
+            for (String validTarget : compliantTargets) {
+                ImageView target = figuresLoader.loadFigure(userController.getPlayerColors().get(validTarget));
+                target.setOnMouseClicked(mouseEvent -> {
+                    addedTargets.add(validTarget);
+                    if (addedTargets.size() == maxAmount) {
+                        for (ImageView image : targets)
+                            image.setOpacity(0.4);
+                    } else {
+                        target.setOpacity(0.4);
+                    }
+                });
+                targets.add(target);
+                grid.add(target, columnIndex, 0);
+                columnIndex++;
+            }
         }
         grid.add(finish, columnIndex, 0);
         contextBox.getChildren().addAll(choose, grid);
@@ -508,7 +510,7 @@ public class GameInterface {
     }
 
     private void chooseAreaToTarget(List<String> compliantTargets, List<SquareDetails> map) {
-        if (compliantTargets.isEmpty()) {
+        if (compliantTargets != null && compliantTargets.isEmpty()) {
             synchronized (locker) {
                 userController.showMessage("You can't hit targets with this effect");
                 chosenTargets.add(null);
@@ -520,6 +522,8 @@ public class GameInterface {
         contextBox.setId("small-box");
         Text select = new Text("Select the square/room you want to target!");
         select.setId("medium-text");
+
+        activateSquareEffect(map);
         /*for (SquareDetails details : map) {
             mapButtons.get(details.getId()).setId("active-square");
             mapButtons.get(details.getId()).setDisable(false);
@@ -540,7 +544,7 @@ public class GameInterface {
     }
 
     private void chooseHowManyMovements(int movements, List<String> compliantTargets, List<SquareDetails> map) {
-        if (compliantTargets.isEmpty()) {
+        if (compliantTargets != null && compliantTargets.isEmpty()) {
             synchronized (locker) {
                 chosenTargets.add(null);
                 userController.showMessage("You can't hit targets with this effect");
@@ -721,9 +725,10 @@ public class GameInterface {
             contextBox.getChildren().clear();
             Text ask = new Text("Choose the weapon to reload");
             ask.setId("medium-text");
-            HBox weaponsBox = new HBox();
+            GridPane weaponsBox = new GridPane();
             weaponsBox.setId("small-box");
 
+            int columnIndex = 0;
             for (WeaponDetails details : weapons) {
                 ImageView weapon = cardLoader.loadCard(details.getName());
                 weapon.setOnMouseClicked(mouseEvent1 -> {
@@ -731,8 +736,17 @@ public class GameInterface {
                     userController.sendToServer(response);
                     root.getChildren().remove(contextBox);
                 });
-                weaponsBox.getChildren().add(weapon);
+                weaponsBox.add(weapon, columnIndex, 0);
+                columnIndex++;
             }
+            Button finish = new Button("NONE");
+            finish.setId("action-button");
+            finish.setOnMouseClicked(mouseEvent1 -> {
+                ReloadResponse response = new ReloadResponse(userController.getNickname(), false, "");
+                userController.sendToServer(response);
+                root.getChildren().remove(contextBox);
+            });
+            weaponsBox.add(finish, columnIndex, 0);
 
             contextBox.getChildren().addAll(ask, weaponsBox);
         });
