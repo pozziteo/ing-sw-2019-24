@@ -8,11 +8,15 @@ import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -742,6 +746,110 @@ public class GameInterface {
         contextBox.getChildren().addAll(choose, buttonsBox);
 
         Platform.runLater(() -> root.getChildren().add(contextBox));
+    }
+
+    public void askTagback(String attackerName) {
+        this.contextBox = new VBox();
+        contextBox.setId("small-box");
+        Text notify = new Text(attackerName + " just hit you!\nUse your Tagback Grenade to give him a mark and take revenge later?");
+        notify.setId("medium-text");
+        HBox buttonsBox = new HBox();
+        buttonsBox.setId("small-box");
+
+        Button yes = new Button("YES");
+        yes.setId("action-button");
+        yes.setOnMouseClicked(mouseEvent -> {
+            TagbackResponse response = new TagbackResponse(userController.getNickname(), attackerName, true);
+            userController.sendToServer(response);
+            root.getChildren().remove(contextBox);
+        });
+
+        Button no = new Button("NO");
+        no.setId("action-button");
+        no.setOnMouseClicked(mouseEvent -> {
+            TagbackResponse response = new TagbackResponse(userController.getNickname(), attackerName, false);
+            userController.sendToServer(response);
+            root.getChildren().remove(contextBox);
+        });
+
+        buttonsBox.getChildren().addAll(yes, no);
+        contextBox.getChildren().addAll(notify, buttonsBox);
+
+        Platform.runLater(() -> root.getChildren().add(contextBox));
+    }
+
+    public void discardWeapon(List<WeaponDetails> weapons) {
+        this.contextBox = new VBox();
+        contextBox.setId("small-box");
+        Text ask = new Text("You have too many weapons! To pick this you must discard one first.");
+        ask.setId("medium-text");
+        HBox weaponsBox = new HBox();
+        weaponsBox.setId("small-box");
+
+        for (WeaponDetails weapon : weapons) {
+            ImageView imageWeapon = cardLoader.loadCard(weapon.getName());
+            imageWeapon.setOnMouseClicked(mouseEvent -> {
+                DiscardedWeapon response = new DiscardedWeapon(userController.getNickname(), weapon.getName());
+                userController.sendToServer(response);
+                root.getChildren().remove(contextBox);
+            });
+            weaponsBox.getChildren().add(imageWeapon);
+        }
+
+        contextBox.getChildren().addAll(ask, weaponsBox);
+
+        Platform.runLater(() -> root.getChildren().add(contextBox));
+    }
+
+    public void showEndGameScreen(List<String> finalRanking) {
+        this.contextBox = new VBox();
+        contextBox.setId("ranking-style");
+        Text ranking = new Text("FINAL RANKING");
+        ranking.setId("medium-text");
+
+        GridPane rank = new GridPane();
+        rank.setId("small-box");
+        for (int position = 1;  position <= finalRanking.size(); position++) {
+            ImageView playerFigure = figuresLoader.loadFigure(userController.getPlayerColors().get(finalRanking.get(position-1)));
+            Text playerName = new Text(finalRanking.get(position-1));
+            playerName.setId("medium-text");
+
+            rank.add(playerFigure, 0, position-1);
+            rank.add(playerName, 1, position-1);
+        }
+
+        Button finish = new Button("EXIT");
+        finish.setId("action-button");
+        finish.setOnMouseClicked(mouseEvent -> {
+            if (!finalRanking.get(0).equals(userController.getNickname()))
+                Platform.exit();
+            else {
+                try {
+                    contextBox.getChildren().clear();
+                    Text winner = new Text("YOU WON!");
+                    winner.setId("text");
+                    ImageView parrot = new ImageView(new Image(new FileInputStream("src" + File.separatorChar + "Resources"
+                            + File.separatorChar + "images" + File.separatorChar + "partyparrot.gif")));
+                    parrot.setPreserveRatio(true);
+                    parrot.setFitWidth(400);
+                    Button exit = new Button("EXIT");
+                    exit.setId("action-button");
+                    exit.setOnMouseClicked(mouseEvent1 -> Platform.exit());
+
+                    contextBox.getChildren().addAll(winner, parrot, exit);
+                } catch (FileNotFoundException exc) {
+                    exc.printStackTrace();
+                }
+            }
+        });
+
+        contextBox.getChildren().addAll(ranking, rank, finish);
+
+        Platform.runLater(() -> {
+            root.getChildren().clear();
+            root.getChildren().add(contextBox);
+        });
+
     }
 
     private void disableButtons() {

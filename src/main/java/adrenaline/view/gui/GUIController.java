@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -242,6 +243,19 @@ public class GUIController implements UserInterface {
 
     public void chooseSquareForTarget(List<String> targets, Map<String, List<Integer>> targetPaths) {
         gameInterface.chooseSquareForTarget(targets, targetPaths);
+    }
+
+    public void askTagback(String attackerName) {
+        gameInterface.askTagback(attackerName);
+    }
+
+    public void discardWeapon(List<WeaponDetails> weapons) {
+        gameInterface.discardWeapon(weapons);
+    }
+
+    public void showEndGameScreen(List<String> finalRanking) {
+        Collections.reverse(finalRanking);
+        gameInterface.showEndGameScreen(finalRanking);
     }
 
     public void notifyTimeOut() {

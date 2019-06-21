@@ -105,3 +105,9 @@
     -fx-alignment: center;
     -fx-padding: 70 113 0 0;
 }
+
+#ranking-style {
+    -fx-alignment: center;
+    -fx-spacing: 20;
+    -fx-padding: 20;
+}
