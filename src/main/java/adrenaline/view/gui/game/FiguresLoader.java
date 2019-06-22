@@ -29,4 +29,18 @@ public class FiguresLoader {
 
         return figureView;
     }
+
+    public ImageView loadSmallFigure(String color) {
+        ImageView figureView = null;
+        try {
+            Image figureImage = new Image(new FileInputStream(basePath + File.separatorChar + color + ".png"));
+            figureView = new ImageView(figureImage);
+            figureView.setPreserveRatio(true);
+            figureView.setFitHeight(65);
+        } catch (FileNotFoundException exc) {
+            exc.printStackTrace();
+        }
+
+        return figureView;
+    }
 }

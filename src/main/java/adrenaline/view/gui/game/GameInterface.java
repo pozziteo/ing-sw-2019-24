@@ -17,9 +17,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GameInterface {
 
@@ -31,6 +29,7 @@ public class GameInterface {
     private VBox contextBox;
     private List<Button> mapButtons;
     private ImageView cachedImage;
+    private Map<String, ImageView> playerFigures;
     private List<BoardLoader> boards;
     private List<Button> skulls;
     private List<Button> overkill;
@@ -41,6 +40,7 @@ public class GameInterface {
 
     private List<AtomicTarget> chosenTargets;
     private final Object locker = new Object();
+    private final Random randomChooser = new Random();
 
     public GameInterface(Stage stage) {
 
@@ -48,12 +48,19 @@ public class GameInterface {
         this.figuresLoader = new FiguresLoader();
         this.cardLoader = new CardLoader();
         this.boards = new ArrayList<>();
+        this.playerFigures = new HashMap<>();
         this.skulls = new SkullsLoader().getSkullsList();
         this.overkill = new SkullsLoader().getOverkill();
         this.root = new StackPane();
         root.setId("game_scene");
 
         List<String> nicknames = new ArrayList<>(userController.getPlayerColors().keySet());
+        for (String nickname : nicknames) {
+            ImageView figure = figuresLoader.loadSmallFigure(userController.getPlayerColors().get(nickname));
+            GridPane.setHalignment(figure, HPos.CENTER);
+            GridPane.setValignment(figure, VPos.CENTER);
+            playerFigures.put(nickname, figure);
+        }
         HBox topBoards = new HBox();
         topBoards.setId("box");
         for (int i=0; i < userController.getPlayerColors().keySet().size(); i++) {
@@ -140,6 +147,7 @@ public class GameInterface {
     }
 
     public void startTurn() {
+        VBox oldBox = this.contextBox;
         this.contextBox = new VBox();
         contextBox.setId("actions-box");
         Text actionsSelect = new Text(userController.getNickname() + ", choose your next action!");
@@ -190,7 +198,10 @@ public class GameInterface {
         actionButtons.getChildren().addAll(move, moveAndGrab, shoot, powerUp, pass);
         contextBox.getChildren().addAll(actionsSelect, actionButtons);
 
-        Platform.runLater( () -> root.getChildren().add(contextBox));
+        Platform.runLater( () -> {
+            root.getChildren().remove(oldBox);
+            root.getChildren().add(contextBox);
+        });
     }
 
     public void showPaths(List<Integer> paths) {
@@ -891,6 +902,30 @@ public class GameInterface {
             if (contextBox != null && root.getChildren().contains(contextBox))
                 root.getChildren().remove(contextBox);
             disableButtons();
+        });
+    }
+
+    public void updateMap(List<SquareDetails> map) {
+        Platform.runLater(() -> {
+            for (SquareDetails details : map) {
+                List<String> players = details.getPlayersOnSquare();
+                for (String nickname : players) {
+                    ImageView figure = playerFigures.get(nickname);
+                    Integer columnIndex = GridPane.getColumnIndex(figure);
+                    Integer rowIndex = GridPane.getRowIndex(figure);
+                    if (columnIndex == null || rowIndex == null || !(columnIndex.equals(details.getId() %4 ) && rowIndex.equals(details.getId() / 4))) {
+                        mapPane.getChildren().remove(figure);
+                        List<VPos> valids = new ArrayList<>();
+                        valids.add(VPos.CENTER);
+                        valids.add(VPos.BASELINE);
+                        GridPane.setValignment(figure, valids.get(randomChooser.nextInt(valids.size()-1)));
+                        GridPane.setHalignment(figure, HPos.values()[randomChooser.nextInt(HPos.values().length)]);
+                        mapPane.add(figure, details.getId() % 4, details.getId() / 4);
+                        figure.toBack();
+                    }
+                }
+            }
+            userController.setUpdated();
         });
     }
 }

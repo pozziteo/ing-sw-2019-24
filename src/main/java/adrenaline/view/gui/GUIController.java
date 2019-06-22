@@ -6,6 +6,7 @@ import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.ActionBuilder;
 import adrenaline.data.data_for_server.data_for_game.ChosenMapSetUp;
 import adrenaline.data.data_for_server.data_for_game.ChosenSpawnPointSetUp;
+import adrenaline.data.data_for_server.requests_for_model.SquareDetailsRequest;
 import adrenaline.network.ClientInterface;
 import adrenaline.view.UserInterface;
 import adrenaline.view.gui.game.GameInterface;
@@ -36,12 +37,12 @@ public class GUIController implements UserInterface {
     private GameInterface gameInterface;
 
     private Thread updatingThread;
+    private boolean updated;
 
     private String map;
     private ClientInterface client;
     private String nickname;
     private Map<String, String> playerColors;
-    private List<String> nicks = new ArrayList<>();
 
     private final Object obj = new Object();
 
@@ -81,6 +82,13 @@ public class GUIController implements UserInterface {
 
     public Map<String, String> getPlayerColors() {
         return this.playerColors;
+    }
+
+    public synchronized void setUpdated() {
+        synchronized (obj) {
+            this.updated = true;
+            obj.notifyAll();
+        }
     }
 
     public void setCurrentScene(Scene scene) {
@@ -196,12 +204,28 @@ public class GUIController implements UserInterface {
     }
 
     public void showTurn(String nickname) {
+        updated = false;
+        sendToServer(new SquareDetailsRequest(this.nickname));
+        synchronized (obj) {
+            try {
+                while (!updated) {
+                    obj.wait();
+                }
+            } catch (InterruptedException exc) {
+                exc.printStackTrace();
+                Thread.currentThread().interrupt();
+            }
+        }
         if (nickname.equals(this.nickname)) {
             showMessage("It's your turn!");
             gameInterface.startTurn();
         } else {
             showMessage(nickname + " is playing. Please wait your turn...");
         }
+    }
+
+    public void updateMap(List<SquareDetails> map) {
+        gameInterface.updateMap(map);
     }
 
     public void sendAction(String actionType) {
