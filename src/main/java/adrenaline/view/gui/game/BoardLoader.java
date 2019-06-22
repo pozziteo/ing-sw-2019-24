@@ -20,7 +20,7 @@ class BoardLoader{
     private List<Button> boardLifeBar;
     private List<Button> maxPoints;
     private List<Button> marks;
-    private List<Button> ammos;
+    private List<Button> ammo;
     private GUIController userController = GUIController.getController();
 
     BoardLoader(String owner){
@@ -63,7 +63,7 @@ class BoardLoader{
                 Button button = new Button();
                 button.setId("board");
                 button.setDisable(true);
-                button.setStyle("-fx-background-color: " +color);
+                button.setStyle("-fx-background-color: transparent");
                 boardPane.add(button, i, 0);
                 boardLifeBar.add(button);
             }
@@ -132,7 +132,7 @@ class BoardLoader{
         }
         pane.setVgap(15);
         pane.setHgap(5);
-        this.ammos = ammos;
+        this.ammo = ammos;
         return pane;
     }
 
@@ -148,7 +148,7 @@ class BoardLoader{
             Button button = new Button();
             button.setId("board");
             button.setDisable(true);
-            button.setStyle("-fx-background-color: white");
+            button.setStyle("-fx-background-color: transparent");
             button.setMaxSize(5,5);
             pane.add(button, i, 0);
             playerMarks.add(button);
@@ -172,7 +172,7 @@ class BoardLoader{
             Button button = new Button();
             button.setDisable(true);
             button.setId("board");
-            button.setStyle("-fx-background-color: white");
+            button.setStyle("-fx-background-color: transparent");
             pane.add(button, i, 0);
             maxPoints.add(button);
         }
@@ -191,11 +191,17 @@ class BoardLoader{
      * Getter method
      * @return the list of ammo on a board
      */
-    public List<Button> getAmmos(){return this.ammos;}
+    public List<Button> getAmmo(){return this.ammo;}
 
     /**
      * Getter method
      * @return the list of marks on a board
      */
     public List<Button> getMarks(){return this.marks;}
+
+    /**
+     * Getter method
+     * @return the list of damages
+     */
+    public List<Button> getBoardLifeBar(){return this.boardLifeBar;}
 }

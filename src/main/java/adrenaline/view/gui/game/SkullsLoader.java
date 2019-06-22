@@ -31,7 +31,7 @@ public class SkullsLoader {
             Button button = new Button();
             button.setId("board");
             button.setDisable(true);
-            button.setStyle("-fx-background-color: white");
+            button.setStyle("-fx-background-color: transparent");
             overkill.add(button);
             pane.add(button, i, 1);
         }
