@@ -30,12 +30,15 @@ public class GameInterface {
     private List<Button> mapButtons;
     private ImageView cachedImage;
     private Map<String, ImageView> playerFigures;
+    private Map<String, ImageView> tiles;
+    private Map<Integer, ImageView> tilesOnMap;
     private List<BoardLoader> boards;
     private List<Button> skulls;
     private List<Button> overkill;
 
     private FiguresLoader figuresLoader;
     private CardLoader cardLoader;
+    private TileLoader tileLoader;
     private Scene gameScene;
 
     private List<AtomicTarget> chosenTargets;
@@ -47,8 +50,11 @@ public class GameInterface {
         this.userController = GUIController.getController();
         this.figuresLoader = new FiguresLoader();
         this.cardLoader = new CardLoader();
+        this.tileLoader = new TileLoader();
         this.boards = new ArrayList<>();
         this.playerFigures = new HashMap<>();
+        this.tiles = new HashMap<>();
+        this.tilesOnMap = new HashMap<>();
         this.skulls = new SkullsLoader().getSkullsList();
         this.overkill = new SkullsLoader().getOverkill();
         this.root = new StackPane();
@@ -57,10 +63,11 @@ public class GameInterface {
         List<String> nicknames = new ArrayList<>(userController.getPlayerColors().keySet());
         for (String nickname : nicknames) {
             ImageView figure = figuresLoader.loadSmallFigure(userController.getPlayerColors().get(nickname));
-            GridPane.setHalignment(figure, HPos.CENTER);
-            GridPane.setValignment(figure, VPos.CENTER);
             playerFigures.put(nickname, figure);
         }
+        for (int i=0; i<12; i++)
+            tilesOnMap.put(i, null);
+
         HBox topBoards = new HBox();
         topBoards.setId("box");
         for (int i=0; i < userController.getPlayerColors().keySet().size(); i++) {
@@ -908,6 +915,27 @@ public class GameInterface {
     public void updateMap(List<SquareDetails> map) {
         Platform.runLater(() -> {
             for (SquareDetails details : map) {
+                if (!details.isSpawnPoint()) {
+                    String tile = ((NormalSquareDetails) details).getTileFormat();
+                    ImageView tileImage;
+                    if (tiles.containsKey(tile))
+                        tileImage = tiles.get(tile);
+                    else {
+                        tileImage = tileLoader.loadTile(tile);
+                        if (boards.size() > 3)
+                            GridPane.setValignment(tileImage, VPos.BOTTOM);
+                        else
+                            GridPane.setValignment(tileImage, VPos.BASELINE);
+                        GridPane.setHalignment(tileImage, HPos.RIGHT);
+                        tiles.put(tile, tileImage);
+                    }
+                    ImageView actualTile = tilesOnMap.get(details.getId());
+                    if (actualTile == null || !(actualTile.equals(tileImage))) {
+                        tilesOnMap.replace(details.getId(), tileImage);
+                        mapPane.getChildren().remove(tilesOnMap.get(details.getId()));
+                        mapPane.add(tileImage, details.getId() % 4, details.getId() / 4);
+                    }
+                }
                 List<String> players = details.getPlayersOnSquare();
                 for (String nickname : players) {
                     ImageView figure = playerFigures.get(nickname);
