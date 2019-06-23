@@ -35,6 +35,7 @@ public class GameInterface {
     private List<BoardLoader> boards;
     private List<Button> skulls;
     private List<Button> overkill;
+    private int totalDeaths;
 
     private FiguresLoader figuresLoader;
     private CardLoader cardLoader;
@@ -57,6 +58,7 @@ public class GameInterface {
         this.tilesOnMap = new HashMap<>();
         this.skulls = new SkullsLoader().getSkullsList();
         this.overkill = new SkullsLoader().getOverkill();
+        this.totalDeaths=0;
         this.root = new StackPane();
         root.setId("game_scene");
 
@@ -127,6 +129,17 @@ public class GameInterface {
 
     public Scene initGame() {
         return this.gameScene;
+    }
+
+    /**
+     * Method to remove a skull. add the color of the killer on the death track
+     * @param killerColor is the color of the killer
+     * @param overkiller tells if the killer perpetrated an overkill
+     */
+    public void removeSkull(String killerColor, boolean overkiller){
+        skulls.get(totalDeaths).setStyle("-fx-opacity: 1; -fx-background-color: "+ killerColor);
+        if(overkiller)
+            overkill.get(totalDeaths).setStyle("-fx-opacity: 1; -fx-background-color: "+ killerColor);
     }
 
     public void selectSpawnPoint(List<PowerUpDetails> powerups){

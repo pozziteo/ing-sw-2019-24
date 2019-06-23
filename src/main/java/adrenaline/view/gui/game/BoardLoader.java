@@ -25,7 +25,7 @@ class BoardLoader{
     private List<String> life = new ArrayList<>();
     private List<String> marks = new ArrayList<>();
     private List<String> ammo = new ArrayList<>();
-
+    private int death = 0;
     private List<Button> boardLifeBar;
     private List<Button> maxPoints;
     private List<Button> marksButton;
@@ -109,6 +109,7 @@ class BoardLoader{
         board.setRotate(180);
         return this.board;
     }
+
     StackPane getTopBoardL(){
         board.setAlignment(Pos.CENTER_LEFT);
         board.setRotate(180);
@@ -153,7 +154,7 @@ class BoardLoader{
      * Method to create marks grid
      * @return a grid
      */
-    public GridPane getBoardMarks(){
+    private GridPane getBoardMarks(){
         GridPane pane = new GridPane();
         pane.getRowConstraints().add(new RowConstraints(5));
         List<Button> playerMarks = new ArrayList<>();
@@ -260,64 +261,58 @@ class BoardLoader{
 
     /**
      * Method to add ammo
-     * @param r is the number of red ammo
-     * @param y is the number of yellow ammo
-     * @param b is the number of blue ammo
+     * @param ammoToAdd is the list of ammo to add
      */
-    public void addAmmo(int r, int y, int b){
+    public void addAmmo(List<String> ammoToAdd){
         List<String> toAddNow = new ArrayList<>();
         int oldSize = ammo.size();
-        for(int i=0; i<r; i++){
-            if (ammo.size()<9 && Collections.frequency(ammo, red)<3){
-                ammo.add(red);
-                toAddNow.add(red);
-            }
-        }
-        for(int i=0; i<y; i++){
-            if (ammo.size()<9 && Collections.frequency(ammo, yellow)<3){
-                toAddNow.add(yellow);
-                ammo.add(yellow);
-            }
-        }
-        for(int i=0; i<b; i++){
-            if (ammo.size()<9 && Collections.frequency(ammo, blue)<3){
-                ammo.add(blue);
-                toAddNow.add(blue);
+        for(String ammoColor: ammoToAdd){
+            if(ammoColor.equalsIgnoreCase(red)){
+                if(Collections.frequency(ammo, red)<3) {
+                    ammo.add(red);
+                    toAddNow.add(red);
+                }
+            } else if(ammoColor.equalsIgnoreCase(yellow)){
+                if(Collections.frequency(ammo, yellow)<3) {
+                    ammo.add(yellow);
+                    toAddNow.add(yellow);
+                }
+            } else{
+                if(Collections.frequency(ammo, blue)<3) {
+                    ammo.add(blue);
+                    toAddNow.add(blue);
+                }
             }
         }
         int newSize = ammo.size();
-        int j=0;
-        for(int i=oldSize; i<newSize; i++){
+        for(int i=oldSize, j=0; i<newSize; i++, j++){
             ammoButton.get(i).setStyle("-fx-background-color: " + toAddNow.get(j));
-            j++;
         }
         toAddNow.clear();
     }
 
     /**
      * Method to remove ammo from a board
-     * @param r is the number of red ammo
-     * @param y is the number of yellow ammo
-     * @param b is the number of blue ammo
+     * @param ammoToRemove is the list of ammo to remove
      */
-    public void removeAmmo(int r, int y, int b){
+    public void removeAmmo(List<String> ammoToRemove){
         List<Integer> indexOfAmmoToRemove = new ArrayList<>();
-        for(int i=0; i<r; i++){
-            if(!ammo.isEmpty() && Collections.frequency(ammo, red)>0){
-                indexOfAmmoToRemove.add(ammo.lastIndexOf(red));
-                ammo.remove(red);
-            }
-        }
-        for(int i=0; i<y; i++){
-            if(!ammo.isEmpty() && Collections.frequency(ammo, yellow)>0){
-                indexOfAmmoToRemove.add(ammo.lastIndexOf(yellow));
-                ammo.remove(yellow);
-            }
-        }
-        for(int i=0; i<b; i++){
-            if(!ammo.isEmpty() && Collections.frequency(ammo, blue)>0){
-                indexOfAmmoToRemove.add(ammo.lastIndexOf(blue));
-                ammo.remove(blue);
+        for(String ammoColor: ammoToRemove){
+            if(ammoColor.equalsIgnoreCase(red)){
+                if (!ammo.isEmpty() && Collections.frequency(ammo, red) > 0) {
+                    indexOfAmmoToRemove.add(ammo.lastIndexOf(red));
+                    ammo.remove(red);
+                }
+            } else if(ammoColor.equalsIgnoreCase(yellow)){
+                if (!ammo.isEmpty() && Collections.frequency(ammo, yellow) > 0) {
+                    indexOfAmmoToRemove.add(ammo.lastIndexOf(yellow));
+                    ammo.remove(yellow);
+                }
+            } else{
+                if (!ammo.isEmpty() && Collections.frequency(ammo, blue) > 0) {
+                    indexOfAmmoToRemove.add(ammo.lastIndexOf(blue));
+                    ammo.remove(blue);
+                }
             }
         }
         for (Integer integer : indexOfAmmoToRemove) {
@@ -344,5 +339,23 @@ class BoardLoader{
                 amount--;
             }
         }
+    }
+
+    /**
+     * Method to clear the life bar after a death
+     */
+    public void clearLifeBar(){
+        //TO BE CALLED BEFORE METHOD "decreaseMaxPoints"
+        for(Button b: getBoardLifeBar()){
+            b.setStyle("-fx-background-color: transparent");
+        }
+        this.death++;
+    }
+
+    /**
+     * Method to add a skull on a player's board
+     */
+    public void decreaseMaxPoints(){
+        maxPoints.get(this.death - 1).setStyle("-fx-background-color: red; -fx-opacity: 1");
     }
 }
