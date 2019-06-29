@@ -207,23 +207,13 @@ class BoardLoader{
     private HBox getWeaponsPane(){
         HBox box = new HBox();
         try{
-            Image boardImage1 = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"cards"+ File.separator+weapons.get(0)+".png"));
-            ImageView boardView1 = new ImageView(boardImage1);
-            boardView1.setPreserveRatio(true);
-            boardView1.setFitHeight(100);
-
-            Image boardImage2 = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"cards"+ File.separator+weapons.get(1)+".png"));
-            ImageView boardView2 = new ImageView(boardImage2);
-            boardView2.setPreserveRatio(true);
-            boardView2.setFitHeight(100);
-
-            Image boardImage3 = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"cards"+ File.separator+weapons.get(2)+".png"));
-            ImageView boardView3 = new ImageView(boardImage3);
-            boardView3.setPreserveRatio(true);
-            boardView3.setFitHeight(100);
-
-
-            box.getChildren().addAll(boardView1, boardView2, boardView3);
+            for(String weaponName: weapons){
+                Image weaponImage = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"cards"+ File.separator+weaponName+".png"));
+                ImageView weaponView = new ImageView(weaponImage);
+                weaponView.setPreserveRatio(true);
+                weaponView.setFitHeight(100);
+                box.getChildren().add(weaponView);
+            }
             box.setSpacing(10);
         } catch (FileNotFoundException exc) {
             exc.printStackTrace();
@@ -234,23 +224,13 @@ class BoardLoader{
     private HBox getPupsPane(){
         HBox box = new HBox();
         try{
-            Image boardImage1 = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"cards"+ File.separator+ powerups.get(0)+".png"));
-            ImageView boardView1 = new ImageView(boardImage1);
-            boardView1.setPreserveRatio(true);
-            boardView1.setFitHeight(50);
-
-            Image boardImage2 = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"cards"+ File.separator+ powerups.get(1)+".png"));
-            ImageView boardView2 = new ImageView(boardImage2);
-            boardView2.setPreserveRatio(true);
-            boardView2.setFitHeight(50);
-
-            Image boardImage3 = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"cards"+ File.separator+powerups.get(2)+".png"));
-            ImageView boardView3 = new ImageView(boardImage3);
-            boardView3.setPreserveRatio(true);
-            boardView3.setFitHeight(50);
-
-
-            box.getChildren().addAll(boardView1, boardView2, boardView3);
+            for(String pupName: powerups){
+                Image pupImage = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"cards"+ File.separator+ pupName+".png"));
+                ImageView pupView = new ImageView(pupImage);
+                pupView.setPreserveRatio(true);
+                pupView.setFitHeight(50);
+                box.getChildren().add(pupView);
+            }
             box.setSpacing(10);
         } catch (FileNotFoundException exc) {
             exc.printStackTrace();
@@ -315,11 +295,11 @@ class BoardLoader{
 
     /**
      * method to remove a powerup
-     * @param powerup is the name of the powerup
+     * @param powerUp is the name of the powerup
      */
-    public void removePowerUps(String powerup){
+    public void removePowerUps(String powerUp){
         for(String pup: powerups)
-            if(pup.equalsIgnoreCase(powerup)) {
+            if(pup.equalsIgnoreCase(powerUp)) {
                 powerups.remove(pup);
                 break;
             }
