@@ -119,3 +119,18 @@
     -fx-spacing: 20;
     -fx-padding: 20;
 }
+
+#weapons_style{
+    -fx-alignment: center-left;
+    -fx-padding: 0 300 20 -210;
+}
+
+#weapons_style_bottom{
+    -fx-alignment: center-left;
+    -fx-padding: 0 0 5 350;
+}
+
+#powerUps_style{
+    -fx-alignment: center-right;
+    -fx-padding: 0 400 5 0;
+}

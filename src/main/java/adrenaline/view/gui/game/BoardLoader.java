@@ -25,6 +25,8 @@ class BoardLoader{
     private List<String> life = new ArrayList<>();
     private List<String> marks = new ArrayList<>();
     private List<String> ammo = new ArrayList<>();
+    private List<String> weapons = new ArrayList<>();
+    private List<String> powerups = new ArrayList<>();
     private int death = 0;
     private List<Button> boardLifeBar;
     private List<Button> maxPoints;
@@ -55,16 +57,21 @@ class BoardLoader{
             GridPane markPane = getBoardMarks();
             GridPane ammosPane = getAmmoPane();
             GridPane maxPointsPane = getPointsPane();
+            HBox weaponsBox = getWeaponsPane();
+            HBox pupsBox = getPupsPane();
             if (owner.equals(userController.getNickname())) {
                 boardPane.setId("board_style_bottom");
                 markPane.setId("mark_style_bottom");
                 ammosPane.setId("ammo_style_bottom");
                 maxPointsPane.setId("maxPoints_style_bottom");
+                weaponsBox.setId("weapons_style_bottom");
+                pupsBox.setId("powerUps_style");
             } else {
                 boardPane.setId("board_style");
                 markPane.setId("mark_style");
                 ammosPane.setId("ammo_style");
                 maxPointsPane.setId("maxPoints_style");
+                weaponsBox.setId("weapons_style");
             }
             boardPane.getRowConstraints().add(new RowConstraints(30));
             this.boardLifeBar = new ArrayList<>();
@@ -77,7 +84,10 @@ class BoardLoader{
                 boardLifeBar.add(button);
             }
             boardPane.setHgap(9);
-            pane.getChildren().addAll(boardView, boardPane, markPane, ammosPane, maxPointsPane);
+            if (owner.equals(userController.getNickname())){
+                pane.getChildren().addAll(boardView, boardPane, markPane, ammosPane, maxPointsPane/*, weaponsBox, pupsBox*/);
+            }else
+                pane.getChildren().addAll(boardView, boardPane, markPane, ammosPane, maxPointsPane/*, weaponsBox*/);
             this.board = pane;
         } catch (FileNotFoundException exc) {
             exc.printStackTrace();
@@ -193,6 +203,61 @@ class BoardLoader{
         return pane;
     }
 
+
+    private HBox getWeaponsPane(){
+        HBox box = new HBox();
+        try{
+            Image boardImage1 = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"cards"+ File.separator+weapons.get(0)+".png"));
+            ImageView boardView1 = new ImageView(boardImage1);
+            boardView1.setPreserveRatio(true);
+            boardView1.setFitHeight(100);
+
+            Image boardImage2 = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"cards"+ File.separator+weapons.get(1)+".png"));
+            ImageView boardView2 = new ImageView(boardImage2);
+            boardView2.setPreserveRatio(true);
+            boardView2.setFitHeight(100);
+
+            Image boardImage3 = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"cards"+ File.separator+weapons.get(2)+".png"));
+            ImageView boardView3 = new ImageView(boardImage3);
+            boardView3.setPreserveRatio(true);
+            boardView3.setFitHeight(100);
+
+
+            box.getChildren().addAll(boardView1, boardView2, boardView3);
+            box.setSpacing(10);
+        } catch (FileNotFoundException exc) {
+            exc.printStackTrace();
+        }
+        return box;
+    }
+
+    private HBox getPupsPane(){
+        HBox box = new HBox();
+        try{
+            Image boardImage1 = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"cards"+ File.separator+ powerups.get(0)+".png"));
+            ImageView boardView1 = new ImageView(boardImage1);
+            boardView1.setPreserveRatio(true);
+            boardView1.setFitHeight(50);
+
+            Image boardImage2 = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"cards"+ File.separator+ powerups.get(1)+".png"));
+            ImageView boardView2 = new ImageView(boardImage2);
+            boardView2.setPreserveRatio(true);
+            boardView2.setFitHeight(50);
+
+            Image boardImage3 = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"cards"+ File.separator+powerups.get(2)+".png"));
+            ImageView boardView3 = new ImageView(boardImage3);
+            boardView3.setPreserveRatio(true);
+            boardView3.setFitHeight(50);
+
+
+            box.getChildren().addAll(boardView1, boardView2, boardView3);
+            box.setSpacing(10);
+        } catch (FileNotFoundException exc) {
+            exc.printStackTrace();
+        }
+        return box;
+    }
+
     /**
      * Getter method
      * @return the list of max points on a board
@@ -217,6 +282,48 @@ class BoardLoader{
      */
     public List<Button> getBoardLifeBar(){return this.boardLifeBar;}
 
+    //**********************************************************************
+    //                          SETTER METHODS
+    //**********************************************************************
+
+    /**
+     * Setter method to add a weapon
+     * @param weapon is the name of the weapon
+     */
+    public void addWeapons(String weapon){
+        this.weapons.add(weapon);
+    }
+
+    /**
+     * Setter method to add a powerup
+     * @param powerup is the name of the powerup
+     */
+    public void addPowerups(String powerup){
+        if(this.powerups.size()<3)
+            this.powerups.add(powerup);
+    }
+
+    /**
+     * Method to remove a weapon
+     * @param weapon is the name of the weapon
+     */
+    public void removeWeapons(String weapon){
+        for(String w: weapons)
+            if (w.equalsIgnoreCase(weapon))
+                weapons.remove(w);
+    }
+
+    /**
+     * method to remove a powerup
+     * @param powerup is the name of the powerup
+     */
+    public void removePowerUps(String powerup){
+        for(String pup: powerups)
+            if(pup.equalsIgnoreCase(powerup)) {
+                powerups.remove(pup);
+                break;
+            }
+    }
 
     //**********************************************************************
     //                   METHOD TO UPDATE THE BOARD
