@@ -1124,15 +1124,11 @@ public class GameInterface {
                 } else boardToUpdate.addWeapons(null);
 
                 List<String> actualMarks = details.getReceivedMarks();
-                List<String> oldMarks = boardToUpdate.getMarks();
-                //TODO manage marks
+                boardToUpdate.substituteMarks(actualMarks);
 
                 List<String> actualLife = details.getDamageTaken();
                 if (actualLife.size() >= 11) {
-                    skulls.get(totalDeaths).setStyle("-fx-background-color: " + actualLife.get(10));
-                    if (actualLife.size() == 12) {
-                        overkill.get(totalDeaths).setStyle("-fx-background-color: " + actualLife.get(11));
-                    }
+                    removeSkull(actualLife.get(10), actualLife.size() == 12);
                     totalDeaths++;
                     if (totalDeaths >= 8) {
                         this.finalFrenzy = true;

@@ -413,31 +413,18 @@ class BoardLoader{
     }
 
     /**
-     * Method to update the players' marks
-     * @param amount is the number of marks
-     * @param attackerColor is the color of the perpetrator
+     * Method to substitute all the marks with the actual ones, solution designed for efficiency purpose
+     * @param newMarks contains all the marks actually owned by the player
      */
-    public void addMarks(int amount, String attackerColor){
-        changeButtonList(amount, attackerColor, marks, getMarksButton());
-    }
-
-    /**
-     * Method to remove marks
-     * @param amount is the number of marks
-     * @param color is the color of the marks
-     */
-    public void removeMarks(int amount, String color){
-        List<Integer> markToRemove = new ArrayList<>();
-        for(int i=0; i<amount; i++){
-            if(Collections.frequency(marks, color)>0){
-                markToRemove.add(marks.lastIndexOf(color));
-                marks.remove(color);
-            }
+    public void substituteMarks(List<String> newMarks) {
+        for (Button markButton : marksButton)
+            markButton.setStyle("-fx-background-color: transparent");
+        int i = 0;
+        for (String mark : newMarks) {
+            marks.add(mark);
+            marksButton.get(i).setStyle("-fx-background-color: " + mark);
+            i++;
         }
-        for(Integer integer: markToRemove){
-            marksButton.get(integer).setStyle("-fx-background-color: transparent");
-        }
-        markToRemove.clear();
     }
 
     /**

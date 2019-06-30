@@ -47,7 +47,6 @@ public class GUIController implements UserInterface {
     private Map<String, String> playerColors;
 
     private final Object obj = new Object();
-    private int checkpoints = 0;
 
     private GUIController(Stage stage) {
         this.stage = stage;
@@ -124,12 +123,8 @@ public class GUIController implements UserInterface {
      * Method to //TODO
      */
     public void setUpdated() {
-        checkpoints++;
         synchronized (obj) {
-            if (checkpoints == 3) {
-                checkpoints = 0;
-                this.updated = true;
-            }
+            this.updated = true;
             obj.notifyAll();
         }
     }
@@ -296,26 +291,26 @@ public class GUIController implements UserInterface {
      * @param nickname is the player to show the message
      */
     public void showTurn(String nickname) {
-        updated = false;
-        try {
-            sendToServer(new SquareDetailsRequest(this.nickname));
-            Thread.sleep(150);
-            sendToServer(new MyBoardRequest(this.nickname));
-            Thread.sleep(150);
-            sendToServer(new BoardsRequest(this.nickname));
-        } catch (InterruptedException exc) {
-            Thread.currentThread().interrupt();
-        }
-        synchronized (obj) {
-            try {
-                while (!updated) {
-                    obj.wait();
+        for (int i = 0; i < 3; i++) {
+            updated = false;
+            if (i == 0)
+                sendToServer(new SquareDetailsRequest(this.nickname));
+            else if (i == 1)
+                sendToServer(new MyBoardRequest(this.nickname));
+            else
+                sendToServer(new BoardsRequest(this.nickname));
+            synchronized (obj) {
+                try {
+                    while (!updated) {
+                        obj.wait();
+                    }
+                } catch (InterruptedException exc) {
+                    exc.printStackTrace();
+                    Thread.currentThread().interrupt();
                 }
-            } catch (InterruptedException exc) {
-                exc.printStackTrace();
-                Thread.currentThread().interrupt();
             }
         }
+
         if (nickname.equals(this.nickname)) {
             showMessage("It's your turn!");
             gameInterface.startTurn();
