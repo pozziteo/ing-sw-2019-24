@@ -6,6 +6,11 @@ import adrenaline.view.gui.GUIController;
 
 import java.util.List;
 
+/**
+ * This class is sent to the client to ask them which square they want to move to
+ * with the MoveAndGrab Action and what they want to grab from there.
+ */
+
 public class MovementAndGrabOptions extends MovementOptions {
     private List<SquareDetails> map;
 

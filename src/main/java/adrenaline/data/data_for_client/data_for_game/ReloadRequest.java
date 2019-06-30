@@ -6,6 +6,10 @@ import adrenaline.view.cli.CliUserInterface;
 
 import java.util.List;
 
+/**
+ * This class is sent to the client to ask if they want to reload any of their unloaded weapons.
+ */
+
 public class ReloadRequest extends DataForClient {
     private List<String> ownedAmmo;
     private List<WeaponDetails> unloadedWeapons;

@@ -8,6 +8,10 @@ import adrenaline.view.gui.GUIController;
 
 import java.util.List;
 
+/**
+ * This class is sent to the client to ask which targets they want to hit with the shoot action.
+ */
+
 public class TargetOptions extends DataForClient {
     private List<TargetDetails> targets;
     private List<String> compliantTargets;

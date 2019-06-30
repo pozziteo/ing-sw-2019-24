@@ -6,6 +6,11 @@ import adrenaline.view.gui.GUIController;
 
 import java.util.List;
 
+/**
+ * This class is sent to the client to ask them which square they want to move to
+ * with the Move Action.
+ */
+
 public class MovementOptions extends DataForClient {
     private List<Integer> possiblePaths;
 

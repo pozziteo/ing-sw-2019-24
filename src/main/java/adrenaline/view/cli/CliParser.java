@@ -85,21 +85,6 @@ public class CliParser {
         }
     }
 
-    public String parseLine() {
-        Scanner in = new Scanner (System.in);
-        String string = in.nextLine ( );
-        return string;
-    }
-
-    public String consumeLine() {
-        Scanner in = new Scanner (System.in);
-        String string = "-1";
-        while (in.hasNext ()) {
-            string = in.next();
-        }
-        return string;
-    }
-
     /**
      * Method to parse a player's nickname
      */
@@ -123,13 +108,20 @@ public class CliParser {
 
     //ASYNC
 
-    public boolean isActive() {
-        return this.active.get();
-    }
+    /**
+     * Setter method to set the value of active.
+     * @param value
+     */
 
     public void setActive(boolean value) {
         this.active.set (value);
     }
+
+    /**
+     * Method to parse integer from command line without blocking it in case of time out.
+     * @param maxInt is the max valid value
+     * @return integer parsed
+     */
 
     public int asyncParseInt(int maxInt) {
         boolean valid = false;

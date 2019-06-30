@@ -4,6 +4,10 @@ import adrenaline.data.data_for_client.DataForClient;
 import adrenaline.view.cli.CliUserInterface;
 import adrenaline.view.gui.GUIController;
 
+/**
+ * This class is sent to the client to ask which action they want to perform in their turn.
+ */
+
 public class Turn extends DataForClient {
     private String currentPlayer;
 

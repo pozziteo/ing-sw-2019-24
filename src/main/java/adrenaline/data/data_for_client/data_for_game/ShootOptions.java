@@ -7,6 +7,11 @@ import adrenaline.view.gui.GUIController;
 
 import java.util.List;
 
+/**
+ * This class is sent to the client to ask which weapon they want to use for the shoot action
+ * and, if the action is 'adrenaline', the ids of squares they can move to.
+ */
+
 public class ShootOptions extends DataForClient {
     private List<WeaponDetails> playerWeapons;
     private boolean isAdrenaline;

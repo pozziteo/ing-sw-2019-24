@@ -7,6 +7,11 @@ import adrenaline.view.gui.GUIController;
 
 import java.util.List;
 
+/**
+ * This class is sent to the client to ask which square they want to spawn on
+ * by discarding the power up of the same color.
+ */
+
 public class SpawnPointSetUp extends DataForClient {
     private List<PowerUpDetails> powerUps;
 

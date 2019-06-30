@@ -6,6 +6,10 @@ import adrenaline.view.gui.GUIController;
 
 import java.io.File;
 
+/**
+ * This class is sent to the client to inform them of the map chosen for the game.
+ */
+
 public class MapInfo extends DataForClient {
     private String mapPath;
     private String simpleName;

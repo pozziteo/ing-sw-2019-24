@@ -7,6 +7,10 @@ import adrenaline.view.gui.GUIController;
 
 import java.util.List;
 
+/**
+ * This class is sent to the client to ask which of their owned power ups they want to use.
+ */
+
 public class PowerUpOptions extends DataForClient {
     private List<PowerUpDetails> powerUps;
 
