@@ -27,6 +27,7 @@ class BoardLoader{
     private List<String> ammo = new ArrayList<>();
     private List<String> weapons = new ArrayList<>();
     private List<String> powerups = new ArrayList<>();
+    private List<String> unloadedWeapons = new ArrayList<>();
     private int death = 0;
     private List<Button> boardLifeBar;
     private List<Button> maxPoints;
@@ -98,28 +99,49 @@ class BoardLoader{
     //                          GETTER METHODS
     //**********************************************************************
 
+    /**
+     * Method to get the bottom board
+     * @return the completed board
+     */
     StackPane getBottomBoard(){
         board.setAlignment(Pos.CENTER);
-        return this.board;}
+        return this.board;
+    }
 
+    /**
+     * Method to get the left board
+     * @return the completed board
+     */
     StackPane getLeftBoard(){
         board.setAlignment(Pos.CENTER);
         board.setRotate(90);
         return this.board;
     }
 
+    /**
+     * Method to get the right board
+     * @return the completed board
+     */
     StackPane getRightBoard(){
         board.setAlignment(Pos.CENTER);
         board.setRotate(270);
         return this.board;
     }
 
+    /**
+     * Method to get the top right board
+     * @return the completed board
+     */
     StackPane getTopBoardR(){
         board.setAlignment(Pos.CENTER_RIGHT);
         board.setRotate(180);
         return this.board;
     }
 
+    /**
+     * Method to get the top left board
+     * @return the completed board
+     */
     StackPane getTopBoardL(){
         board.setAlignment(Pos.CENTER_LEFT);
         board.setRotate(180);
@@ -204,15 +226,36 @@ class BoardLoader{
     }
 
 
+    /**
+     * Method to create the weapons slot on each player's board
+     * @return the slot (maximum 3 slots)
+     */
     private HBox getWeaponsPane(){
         HBox box = new HBox();
+        Image weaponImage;
+        ImageView weaponView;
         try{
             for(String weaponName: weapons){
-                Image weaponImage = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"cards"+ File.separator+weaponName+".png"));
-                ImageView weaponView = new ImageView(weaponImage);
-                weaponView.setPreserveRatio(true);
-                weaponView.setFitHeight(100);
-                box.getChildren().add(weaponView);
+                if(!unloadedWeapons.isEmpty()) {
+                    for (String unloaded : unloadedWeapons) {
+                        if (!unloaded.equalsIgnoreCase(weaponName)) {
+                            weaponImage = new Image(new FileInputStream("src" + File.separator + "Resources" + File.separator + "images" + File.separator + "cards" + File.separator + weaponName + ".png"));
+                            weaponView = new ImageView(weaponImage);
+                        } else {
+                            weaponImage = new Image(new FileInputStream("src" + File.separator + "Resources" + File.separator + "images" + File.separator + "cards" + File.separator + "AD_weapons_IT_0225.png"));
+                            weaponView = new ImageView(weaponImage);
+                        }
+                        weaponView.setPreserveRatio(true);
+                        weaponView.setFitHeight(100);
+                        box.getChildren().add(weaponView);
+                    }
+                } else{
+                    weaponImage = new Image(new FileInputStream("src" + File.separator + "Resources" + File.separator + "images" + File.separator + "cards" + File.separator + weaponName + ".png"));
+                    weaponView = new ImageView(weaponImage);
+                    weaponView.setPreserveRatio(true);
+                    weaponView.setFitHeight(100);
+                    box.getChildren().add(weaponView);
+                }
             }
             box.setSpacing(10);
         } catch (FileNotFoundException exc) {
@@ -221,6 +264,10 @@ class BoardLoader{
         return box;
     }
 
+    /**
+     * Method to create the power up slot, only for the bottom board
+     * @return the slot (maximum 3 slots)
+     */
     private HBox getPupsPane(){
         HBox box = new HBox();
         try{
@@ -303,6 +350,10 @@ class BoardLoader{
                 powerups.remove(pup);
                 break;
             }
+    }
+
+    public void setUnloadedWeapon(List<String> unloadedWeapon){
+        unloadedWeapons.addAll(unloadedWeapon);
     }
 
     //**********************************************************************
