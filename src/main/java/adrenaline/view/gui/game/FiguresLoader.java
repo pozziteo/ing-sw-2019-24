@@ -16,6 +16,11 @@ public class FiguresLoader {
         super();
     }
 
+    /**
+     * Method to load the player's figure
+     * @param color is the color of the player
+     * @return the figure
+     */
     public ImageView loadFigure(String color) {
         ImageView figureView = null;
         try {
@@ -30,6 +35,11 @@ public class FiguresLoader {
         return figureView;
     }
 
+    /**
+     * Method to load a small figure
+     * @param color is the color of the player
+     * @return a small figure
+     */
     public ImageView loadSmallFigure(String color) {
         ImageView figureView = null;
         try {

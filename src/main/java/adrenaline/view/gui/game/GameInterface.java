@@ -142,6 +142,10 @@ public class GameInterface {
             overkill.get(totalDeaths).setStyle("-fx-opacity: 1; -fx-background-color: "+ killerColor);
     }
 
+    /**
+     * Method to select the spawn point
+     * @param powerups is the list of power ups
+     */
     public void selectSpawnPoint(List<PowerUpDetails> powerups){
         this.contextBox = new VBox();
         contextBox.setId("spawn-box");
@@ -166,6 +170,9 @@ public class GameInterface {
         Platform.runLater( () -> root.getChildren().add(contextBox));
     }
 
+    /**
+     * Method that starts a new turn for a player
+     */
     public void startTurn() {
         VBox oldBox = this.contextBox;
         this.contextBox = new VBox();
@@ -224,6 +231,10 @@ public class GameInterface {
         });
     }
 
+    /**
+     * Method that shows the possible paths you can take
+     * @param paths is the list of squares the player can move to
+     */
     public void showPaths(List<Integer> paths) {
         this.contextBox = new VBox();
         contextBox.setId("actions-box");
@@ -248,6 +259,11 @@ public class GameInterface {
         });
     }
 
+    /**
+     * Method that shows the possible paths you can take
+     * @param paths is the list of accessible squares
+     * @param map is the list of square details
+     */
     public void showPathsAndGrabOptions(List<Integer> paths, List<SquareDetails> map) {
         this.contextBox = new VBox();
         contextBox.setId("actions-box");
@@ -277,6 +293,10 @@ public class GameInterface {
         });
     }
 
+    /**
+     * Method that lets the player choose the weapon from a spawn point
+     * @param square is the spawnpoint
+     */
     private void chooseWeapon(SpawnPointDetails square) {
         this.contextBox = new VBox();
         contextBox.setId("spawn-box");
@@ -303,6 +323,10 @@ public class GameInterface {
         Platform.runLater( () -> root.getChildren().add(contextBox));
     }
 
+    /**
+     * Method that lets the player choose the weapon to shoot
+     * @param weapons is the player's list of loaded weapons
+     */
     public void chooseWeapon(List<WeaponDetails> weapons) {
         if (!weapons.isEmpty()) {
             this.contextBox = new VBox();
@@ -334,6 +358,10 @@ public class GameInterface {
         }
     }
 
+    /**
+     * Method to choose the effect of a weapon
+     * @param effects is the list of effects of a weapon
+     */
     public void chooseWeaponEffect(List<EffectDetails> effects) {
         this.contextBox = new VBox();
         contextBox.setId("small-box");
@@ -381,6 +409,13 @@ public class GameInterface {
 
     }
 
+    /**
+     * Method to choose a target
+     * @param targets is the list of target details
+     * @param compliantTargets is the list of players you can hit
+     * @param map is the list of square details
+     * @param hasTargetingScope is a boolean to decide if the attacker wants to add a damage
+     */
     public void chooseTargets(List<TargetDetails> targets, List<String> compliantTargets, List<SquareDetails> map, boolean hasTargetingScope) {
         this.chosenTargets = new ArrayList<>();
         boolean invalid = false;
@@ -466,6 +501,15 @@ public class GameInterface {
         }
     }
 
+    /**
+     * Method to choose multiple targets to hit with a move in addition
+     * @param maxAmount is the number of players the attacker can hit
+     * @param movements is the number of movements the victim will do
+     * @param isArea tells if the attack for everyone in one area
+     * @param compliantTargets is the list of targets
+     * @param map is the list of square details
+     * @param chosenTargets is the list of targets the attacker chose
+     */
     private void chooseTargets(int maxAmount, int movements, boolean isArea, List<String> compliantTargets,
                               List<SquareDetails> map, List<AtomicTarget> chosenTargets) {
         this.contextBox = new VBox();
@@ -543,6 +587,12 @@ public class GameInterface {
         Platform.runLater(() -> root.getChildren().add(contextBox));
     }
 
+    /**
+     * Getter Method
+     * @param target is the target
+     * @param map is the list of square details
+     * @return the position of the target
+     */
     private int getTargetPos(String target, List<SquareDetails> map) {
         for (SquareDetails square : map) {
             if (square.getPlayersOnSquare().contains(target)) {
@@ -552,6 +602,11 @@ public class GameInterface {
         return -1;
     }
 
+    /**
+     * Method to choose an area to hit
+     * @param compliantTargets is the list of target in the area
+     * @param map is the list of square details
+     */
     private void chooseAreaToTarget(List<String> compliantTargets, List<SquareDetails> map) {
         if (compliantTargets != null && compliantTargets.isEmpty()) {
             synchronized (locker) {
@@ -586,6 +641,12 @@ public class GameInterface {
         });
     }
 
+    /**
+     * Method to choose how many movements a player will do
+     * @param movements is the number of movements
+     * @param compliantTargets is the list of targets
+     * @param map is the list of square details
+     */
     private void chooseHowManyMovements(int movements, List<String> compliantTargets, List<SquareDetails> map) {
         if (compliantTargets != null && compliantTargets.isEmpty()) {
             synchronized (locker) {
@@ -620,6 +681,10 @@ public class GameInterface {
         });
     }
 
+    /**
+     * Method to apply an effect on a square
+     * @param map is the list of squares
+     */
     private void activateSquareEffect(List<SquareDetails> map) {
         for (SquareDetails details : map) {
             mapButtons.get(details.getId()).setId("active-square");
@@ -635,6 +700,10 @@ public class GameInterface {
         }
     }
 
+    /**
+     * Method that lets the player choose a power up
+     * @param powerups is the list of player's power ups
+     */
     public void choosePowerUp(List<PowerUpDetails> powerups) {
         this.contextBox = new VBox();
         contextBox.setId("small-box");
@@ -688,6 +757,10 @@ public class GameInterface {
         Platform.runLater(() -> root.getChildren().add(contextBox));
     }
 
+    /**
+     * Method to apply an effect to a square
+     * @param validSquares is the list of valid square
+     */
     public void chooseSquare(List<Integer> validSquares) {
         this.contextBox = new VBox();
         contextBox.setId("small-box");
@@ -712,6 +785,11 @@ public class GameInterface {
         });
     }
 
+    /**
+     * Method to move a target
+     * @param targets is the list of players
+     * @param possiblePaths is the list of possible paths the target can take
+     */
     public void chooseSquareForTarget(List<String> targets, Map<String, List<Integer>> possiblePaths) {
         this.contextBox = new VBox();
         contextBox.setId("small-box");
@@ -750,6 +828,10 @@ public class GameInterface {
         Platform.runLater(() -> root.getChildren().add(contextBox));
     }
 
+    /**
+     * Method to ask the player if he wants to reload a weapons
+     * @param weapons is the list of unloaded weapons
+     */
     public void askReload(List<WeaponDetails> weapons) {
         this.contextBox = new VBox();
         contextBox.setId("small-box");
@@ -805,6 +887,10 @@ public class GameInterface {
         Platform.runLater(() -> root.getChildren().add(contextBox));
     }
 
+    /**
+     * Method that lets the victim use the tagback grenade
+     * @param attackerName is the attacker's name
+     */
     public void askTagback(String attackerName) {
         this.contextBox = new VBox();
         contextBox.setId("small-box");
@@ -835,6 +921,10 @@ public class GameInterface {
         Platform.runLater(() -> root.getChildren().add(contextBox));
     }
 
+    /**
+     * Method to discard a fourth weapon
+     * @param weapons is the list of owned weapons
+     */
     public void discardWeapon(List<WeaponDetails> weapons) {
         this.contextBox = new VBox();
         contextBox.setId("small-box");
@@ -858,6 +948,10 @@ public class GameInterface {
         Platform.runLater(() -> root.getChildren().add(contextBox));
     }
 
+    /**
+     * Method that shows the final ranking
+     * @param finalRanking is the final ranking
+     */
     public void showEndGameScreen(List<String> finalRanking) {
         this.contextBox = new VBox();
         contextBox.setId("ranking-style");
@@ -909,6 +1003,9 @@ public class GameInterface {
 
     }
 
+    /**
+     * Method to disable a list of buttons
+     */
     private void disableButtons() {
         for (Button button : mapButtons) {
             button.setId("inactive-square");
@@ -917,6 +1014,9 @@ public class GameInterface {
         }
     }
 
+    /**
+     * TODO
+     */
     public void timeOut() {
         Platform.runLater(() -> {
             if (contextBox != null && root.getChildren().contains(contextBox))
@@ -925,6 +1025,10 @@ public class GameInterface {
         });
     }
 
+    /**
+     * Method to update the data on the map
+     * @param map is the list of squares
+     */
     public void updateMap(List<SquareDetails> map) {
         Platform.runLater(() -> {
             for (SquareDetails details : map) {

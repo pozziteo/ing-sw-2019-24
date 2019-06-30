@@ -16,6 +16,11 @@ public class CardLoader {
         super();
     }
 
+    /**
+     * Method to load images from cards folder
+     * @param path is the name of the card to load
+     * @return the image
+     */
     public ImageView loadCard(String path) {
         ImageView cardView = null;
         try {
