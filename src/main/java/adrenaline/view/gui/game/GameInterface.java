@@ -36,6 +36,7 @@ public class GameInterface {
     private List<Button> skulls;
     private List<Button> overkill;
     private int totalDeaths;
+    private boolean finalFrenzy;
 
     private FiguresLoader figuresLoader;
     private CardLoader cardLoader;
@@ -59,6 +60,7 @@ public class GameInterface {
         this.skulls = new SkullsLoader().getSkullsList();
         this.overkill = new SkullsLoader().getOverkill();
         this.totalDeaths=0;
+        this.finalFrenzy = false;
         this.root = new StackPane();
         root.setId("game_scene");
 
@@ -289,12 +291,14 @@ public class GameInterface {
         for (WeaponDetails details : square.getWeaponsOnSquare()) {
             ImageView weapon = cardLoader.loadCard(details.getName());
             weapons.add(weapon);
-            weapon.setOnMouseClicked(mouseEvent -> {
-                NewPositionAndGrabbed newPositionAndGrabbed = new NewPositionAndGrabbed
-                        (userController.getNickname(), square.getId(), details.getName());
-                userController.sendToServer(newPositionAndGrabbed);
-                root.getChildren().remove(contextBox);
-            });
+            if (!details.getName().equals("empty")) {
+                weapon.setOnMouseClicked(mouseEvent -> {
+                    NewPositionAndGrabbed newPositionAndGrabbed = new NewPositionAndGrabbed
+                            (userController.getNickname(), square.getId(), details.getName());
+                    userController.sendToServer(newPositionAndGrabbed);
+                    root.getChildren().remove(contextBox);
+                });
+            }
         }
 
         imageBox.getChildren().addAll(weapons);
@@ -964,6 +968,76 @@ public class GameInterface {
                         mapPane.add(figure, details.getId() % 4, details.getId() / 4);
                         figure.toBack();
                     }
+                }
+            }
+            userController.setUpdated();
+        });
+    }
+
+    public void updateBoards(List<BoardDetails> boardDetails) {
+        Platform.runLater(() -> {
+            for (BoardDetails details : boardDetails) {
+                BoardLoader boardToUpdate = boards.get(0);
+                for (BoardLoader board : boards) {
+                    if (board.getOwner().equals(details.getNickname())) {
+                        boardToUpdate = board;
+                        break;
+                    }
+                }
+                List<String> actualAmmo = details.getOwnedAmmo();
+                List<String> oldAmmo = new ArrayList<>(boardToUpdate.getAmmo());
+                if (actualAmmo.size() > oldAmmo.size()) {
+                    boardToUpdate.addAmmo(actualAmmo.subList(oldAmmo.size(), actualAmmo.size()));
+                } else if (actualAmmo.size() < oldAmmo.size()) {
+                    List<String> toRemove = new ArrayList<>(oldAmmo);
+                    toRemove.removeAll(actualAmmo);
+                    boardToUpdate.removeAmmo(toRemove);
+                }
+
+                List<String> unloadedWeapons = new ArrayList<>();
+                for (WeaponDetails weapon : details.getUnloadedWeapons()) {
+                    unloadedWeapons.add(weapon.getName());
+                }
+                boardToUpdate.setUnloadedWeapon(unloadedWeapons);
+
+                List<WeaponDetails> ownedWeapons = details.getLoadedWeapons();
+                List<String> weaponsNames = new ArrayList<>();
+                for (WeaponDetails weapon : ownedWeapons)
+                    weaponsNames.add(weapon.getName());
+                if (weaponsNames.size() > boardToUpdate.getWeapons().size()) {
+                    boardToUpdate.addWeapons(weaponsNames.get(weaponsNames.size()-1));
+                } else if (!boardToUpdate.getWeapons().containsAll(weaponsNames)) {
+                    for (String name : boardToUpdate.getWeapons())
+                        if (!weaponsNames.contains(name)) {
+                            boardToUpdate.removeWeapons(name);
+                            break;
+                        }
+                    for (String name : weaponsNames)
+                        if (!boardToUpdate.getWeapons().contains(name)) {
+                            boardToUpdate.addWeapons(name);
+                            break;
+                        }
+                } else boardToUpdate.addWeapons(null);
+
+                List<String> actualMarks = details.getReceivedMarks();
+                List<String> oldMarks = boardToUpdate.getMarks();
+                //TODO manage marks
+
+                List<String> actualLife = details.getDamageTaken();
+                if (actualLife.size() >= 11) {
+                    skulls.get(totalDeaths).setStyle("-fx-background-color: " + actualLife.get(10));
+                    if (actualLife.size() == 12) {
+                        overkill.get(totalDeaths).setStyle("-fx-background-color: " + actualLife.get(11));
+                    }
+                    totalDeaths++;
+                    if (totalDeaths >= 8) {
+                        this.finalFrenzy = true;
+                        boardToUpdate.loadBackBoard(userController.getPlayerColors().get(boardToUpdate.getOwner()));
+                    }
+                    boardToUpdate.clearLifeBar();
+                    boardToUpdate.decreaseMaxPoints();
+                } else if (actualLife.size() > boardToUpdate.getLife().size()) {
+                    boardToUpdate.updateLifeBar(actualLife.size()-boardToUpdate.getLife().size(), actualLife.get(actualLife.size()-1));
                 }
             }
             userController.setUpdated();

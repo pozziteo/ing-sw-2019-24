@@ -18,6 +18,7 @@ class BoardLoader{
 
     private String owner;
     private StackPane board;
+    private ImageView boardView;
 //    private boolean emptySlot; usato per controllare se un bottone delle munizioni o dei marchi e' colorabile o meno. da implentare
     private String blue = "blue";
     private String red = "red";
@@ -29,6 +30,12 @@ class BoardLoader{
     private List<String> powerups = new ArrayList<>();
     private List<String> unloadedWeapons = new ArrayList<>();
     private int death = 0;
+    private GridPane boardPane = new GridPane();
+    private GridPane markPane = new GridPane();
+    private GridPane ammosPane = new GridPane();
+    private GridPane maxPointsPane = new GridPane();
+    private HBox weaponsBox = new HBox();
+    private HBox pupsBox = new HBox();
     private List<Button> boardLifeBar;
     private List<Button> maxPoints;
     private List<Button> marksButton;
@@ -49,17 +56,16 @@ class BoardLoader{
             StackPane pane = new StackPane();
 
             Image boardImage = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"boards"+ File.separator+color+"_player_front.png"));
-            ImageView boardView = new ImageView(boardImage);
+            this.boardView = new ImageView(boardImage);
             boardView.setPreserveRatio(true);
             boardView.setFitHeight(110);
             boardView.setFitWidth(700);
 
-            GridPane boardPane = new GridPane();
-            GridPane markPane = getBoardMarks();
-            GridPane ammosPane = getAmmoPane();
-            GridPane maxPointsPane = getPointsPane();
-            HBox weaponsBox = getWeaponsPane();
-            HBox pupsBox = getPupsPane();
+            this.markPane = getBoardMarks();
+            this.ammosPane = getAmmoPane();
+            this.maxPointsPane = getPointsPane();
+            this.weaponsBox = getWeaponsPane();
+            this.pupsBox = getPupsPane();
             if (owner.equals(userController.getNickname())) {
                 boardPane.setId("board_style_bottom");
                 markPane.setId("mark_style_bottom");
@@ -86,10 +92,23 @@ class BoardLoader{
             }
             boardPane.setHgap(9);
             if (owner.equals(userController.getNickname())){
-                pane.getChildren().addAll(boardView, boardPane, markPane, ammosPane, maxPointsPane/*, weaponsBox, pupsBox*/);
+                pane.getChildren().addAll(boardView, boardPane, markPane, ammosPane, maxPointsPane, weaponsBox/*,  pupsBox*/);
             }else
-                pane.getChildren().addAll(boardView, boardPane, markPane, ammosPane, maxPointsPane/*, weaponsBox*/);
+                pane.getChildren().addAll(boardView, boardPane, markPane, ammosPane, maxPointsPane, weaponsBox);
             this.board = pane;
+        } catch (FileNotFoundException exc) {
+            exc.printStackTrace();
+        }
+    }
+
+    public void loadBackBoard(String color) {
+        board.getChildren().remove(boardView);
+        try {
+            this.boardView = new ImageView(new Image(new FileInputStream("src" + File.separator + "Resources" + File.separator + "images" + File.separator + "boards" + File.separator + color + "_player_retro.png")));
+            boardView.setPreserveRatio(true);
+            boardView.setFitHeight(110);
+            boardView.setFitWidth(700);
+            board.getChildren().add(0, boardView);
         } catch (FileNotFoundException exc) {
             exc.printStackTrace();
         }
@@ -163,14 +182,14 @@ class BoardLoader{
      */
     private GridPane getAmmoPane(){
         List<Button>ammos = new ArrayList<>();
-        GridPane pane = new GridPane();
+        GridPane pane = this.ammosPane;
         pane.getRowConstraints().add(new RowConstraints(4));
         pane.getRowConstraints().add(new RowConstraints(4));
         pane.getRowConstraints().add(new RowConstraints(4));
         for(int i=0; i<9; i++){
             Button button = new Button();
             button.setDisable(true);
-            button.setStyle("-fx-background-color: yellow; -fx-opacity: 1");
+            button.setStyle("-fx-background-color: transparent; -fx-opacity: 1");
             button.setMaxSize(16,16);
             button.setMinSize(16,16);
             pane.add(button, i%3, i/3);
@@ -187,7 +206,7 @@ class BoardLoader{
      * @return a grid
      */
     private GridPane getBoardMarks(){
-        GridPane pane = new GridPane();
+        GridPane pane = this.markPane;
         pane.getRowConstraints().add(new RowConstraints(5));
         List<Button> playerMarks = new ArrayList<>();
         for(int i=0; i<8; i++){
@@ -210,7 +229,7 @@ class BoardLoader{
      */
     private GridPane getPointsPane(){
         List<Button> maxPoints = new ArrayList<>();
-        GridPane pane = new GridPane();
+        GridPane pane = this.maxPointsPane;
         pane.getRowConstraints().add(new RowConstraints(5));
         for(int i=0; i<6; i++){
             Button button = new Button();
@@ -231,25 +250,19 @@ class BoardLoader{
      * @return the slot (maximum 3 slots)
      */
     private HBox getWeaponsPane(){
-        HBox box = new HBox();
+        HBox box = this.weaponsBox;
+        box.getChildren().clear();
         Image weaponImage;
         ImageView weaponView;
         try{
             for(String weaponName: weapons){
-                if(!unloadedWeapons.isEmpty()) {
-                    for (String unloaded : unloadedWeapons) {
-                        if (!unloaded.equalsIgnoreCase(weaponName)) {
-                            weaponImage = new Image(new FileInputStream("src" + File.separator + "Resources" + File.separator + "images" + File.separator + "cards" + File.separator + weaponName + ".png"));
-                            weaponView = new ImageView(weaponImage);
-                        } else {
-                            weaponImage = new Image(new FileInputStream("src" + File.separator + "Resources" + File.separator + "images" + File.separator + "cards" + File.separator + "AD_weapons_IT_0225.png"));
-                            weaponView = new ImageView(weaponImage);
-                        }
-                        weaponView.setPreserveRatio(true);
-                        weaponView.setFitHeight(100);
-                        box.getChildren().add(weaponView);
-                    }
-                } else{
+                if (unloadedWeapons.contains(weaponName)) {
+                    weaponImage = new Image(new FileInputStream("src" + File.separator + "Resources" + File.separator + "images" + File.separator + "cards" + File.separator + "empty.png"));
+                    weaponView = new ImageView(weaponImage);
+                    weaponView.setPreserveRatio(true);
+                    weaponView.setFitHeight(100);
+                    box.getChildren().add(weaponView);
+                } else {
                     weaponImage = new Image(new FileInputStream("src" + File.separator + "Resources" + File.separator + "images" + File.separator + "cards" + File.separator + weaponName + ".png"));
                     weaponView = new ImageView(weaponImage);
                     weaponView.setPreserveRatio(true);
@@ -269,7 +282,8 @@ class BoardLoader{
      * @return the slot (maximum 3 slots)
      */
     private HBox getPupsPane(){
-        HBox box = new HBox();
+        HBox box = this.pupsBox;
+        box.getChildren().clear();
         try{
             for(String pupName: powerups){
                 Image pupImage = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"cards"+ File.separator+ pupName+".png"));
@@ -285,6 +299,26 @@ class BoardLoader{
         return box;
     }
 
+    public List<String> getAmmo() {
+        return this.ammo;
+    }
+
+    public List<String> getMarks() {
+        return this.marks;
+    }
+
+    public List<String> getWeapons() {
+        return this.weapons;
+    }
+
+    public List<String> getPowerups() {
+        return this.powerups;
+    }
+
+    public List<String> getLife() {
+        return this.life;
+    }
+
     /**
      * Getter method
      * @return the list of max points on a board
@@ -295,13 +329,13 @@ class BoardLoader{
      * Getter method
      * @return the list of ammo on a board
      */
-    public List<Button> getAmmo(){return this.ammoButton;}
+    public List<Button> getAmmoButton(){return this.ammoButton;}
 
     /**
      * Getter method
      * @return the list of marks on a board
      */
-    public List<Button> getMarks(){return this.marksButton;}
+    public List<Button> getMarksButton(){return this.marksButton;}
 
     /**
      * Getter method
@@ -318,7 +352,9 @@ class BoardLoader{
      * @param weapon is the name of the weapon
      */
     public void addWeapons(String weapon){
-        this.weapons.add(weapon);
+        if (weapon != null)
+            this.weapons.add(weapon);
+        this.weaponsBox = getWeaponsPane();
     }
 
     /**
@@ -335,9 +371,11 @@ class BoardLoader{
      * @param weapon is the name of the weapon
      */
     public void removeWeapons(String weapon){
-        for(String w: weapons)
+        for(String w: weapons) {
             if (w.equalsIgnoreCase(weapon))
                 weapons.remove(w);
+        }
+        this.weaponsBox = getWeaponsPane();
     }
 
     /**
@@ -353,6 +391,7 @@ class BoardLoader{
     }
 
     public void setUnloadedWeapon(List<String> unloadedWeapon){
+        unloadedWeapons.clear();
         unloadedWeapons.addAll(unloadedWeapon);
     }
 
@@ -375,7 +414,7 @@ class BoardLoader{
      * @param attackerColor is the color of the perpetrator
      */
     public void addMarks(int amount, String attackerColor){
-        changeButtonList(amount, attackerColor, marks, getMarks());
+        changeButtonList(amount, attackerColor, marks, getMarksButton());
     }
 
     /**

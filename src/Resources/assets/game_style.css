@@ -22,19 +22,19 @@
 #spawn-box {
     -fx-alignment: bottom-center;
     -fx-spacing: 30;
-    -fx-padding: 20;
+    -fx-padding: 90;
 }
 
 #actions-box {
     -fx-alignment: bottom-center;
     -fx-spacing: 25;
-    -fx-padding: 40;
+    -fx-padding: 110;
 }
 
 #small-box {
     -fx-alignment: bottom-center;
     -fx-spacing: 15;
-    -fx-padding: 20;
+    -fx-padding: 70;
 }
 
 #grid-box {

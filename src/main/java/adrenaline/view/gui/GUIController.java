@@ -6,6 +6,8 @@ import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.ActionBuilder;
 import adrenaline.data.data_for_server.data_for_game.ChosenMapSetUp;
 import adrenaline.data.data_for_server.data_for_game.ChosenSpawnPointSetUp;
+import adrenaline.data.data_for_server.requests_for_model.BoardsRequest;
+import adrenaline.data.data_for_server.requests_for_model.MyBoardRequest;
 import adrenaline.data.data_for_server.requests_for_model.SquareDetailsRequest;
 import adrenaline.network.ClientInterface;
 import adrenaline.view.UserInterface;
@@ -25,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 
 public class GUIController implements UserInterface {
 
@@ -45,6 +49,7 @@ public class GUIController implements UserInterface {
     private Map<String, String> playerColors;
 
     private final Object obj = new Object();
+    private int checkpoints = 0;
 
     private GUIController(Stage stage) {
         this.stage = stage;
@@ -84,9 +89,13 @@ public class GUIController implements UserInterface {
         return this.playerColors;
     }
 
-    public synchronized void setUpdated() {
+    public void setUpdated() {
+        checkpoints++;
         synchronized (obj) {
-            this.updated = true;
+            if (checkpoints == 3) {
+                checkpoints = 0;
+                this.updated = true;
+            }
             obj.notifyAll();
         }
     }
@@ -205,7 +214,15 @@ public class GUIController implements UserInterface {
 
     public void showTurn(String nickname) {
         updated = false;
-        sendToServer(new SquareDetailsRequest(this.nickname));
+        try {
+            sendToServer(new SquareDetailsRequest(this.nickname));
+            Thread.sleep(150);
+            sendToServer(new MyBoardRequest(this.nickname));
+            Thread.sleep(150);
+            sendToServer(new BoardsRequest(this.nickname));
+        } catch (InterruptedException exc) {
+            Thread.currentThread().interrupt();
+        }
         synchronized (obj) {
             try {
                 while (!updated) {
@@ -226,6 +243,10 @@ public class GUIController implements UserInterface {
 
     public void updateMap(List<SquareDetails> map) {
         gameInterface.updateMap(map);
+    }
+
+    public void updateBoards(List<BoardDetails> boards) {
+        gameInterface.updateBoards(boards);
     }
 
     public void sendAction(String actionType) {
