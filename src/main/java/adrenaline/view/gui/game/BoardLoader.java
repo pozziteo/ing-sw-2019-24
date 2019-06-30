@@ -390,6 +390,10 @@ class BoardLoader{
             }
     }
 
+    /**
+     * Method to set the unloaded weapons of a player
+     * @param unloadedWeapon is the list of unloaded weapons
+     */
     public void setUnloadedWeapon(List<String> unloadedWeapon){
         unloadedWeapons.clear();
         unloadedWeapons.addAll(unloadedWeapon);
