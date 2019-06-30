@@ -8,14 +8,16 @@ import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 public class GameInterface {
 
@@ -27,25 +29,49 @@ public class GameInterface {
     private VBox contextBox;
     private List<Button> mapButtons;
     private ImageView cachedImage;
+    private Map<String, ImageView> playerFigures;
+    private Map<String, ImageView> tiles;
+    private Map<Integer, ImageView> tilesOnMap;
     private List<BoardLoader> boards;
+    private List<Button> skulls;
+    private List<Button> overkill;
+    private int totalDeaths;
+    private boolean finalFrenzy;
 
     private FiguresLoader figuresLoader;
     private CardLoader cardLoader;
+    private TileLoader tileLoader;
     private Scene gameScene;
 
     private List<AtomicTarget> chosenTargets;
     private final Object locker = new Object();
+    private final Random randomChooser = new Random();
 
     public GameInterface(Stage stage) {
 
         this.userController = GUIController.getController();
         this.figuresLoader = new FiguresLoader();
         this.cardLoader = new CardLoader();
+        this.tileLoader = new TileLoader();
         this.boards = new ArrayList<>();
+        this.playerFigures = new HashMap<>();
+        this.tiles = new HashMap<>();
+        this.tilesOnMap = new HashMap<>();
+        this.skulls = new SkullsLoader().getSkullsList();
+        this.overkill = new SkullsLoader().getOverkill();
+        this.totalDeaths=0;
+        this.finalFrenzy = false;
         this.root = new StackPane();
         root.setId("game_scene");
 
         List<String> nicknames = new ArrayList<>(userController.getPlayerColors().keySet());
+        for (String nickname : nicknames) {
+            ImageView figure = figuresLoader.loadSmallFigure(userController.getPlayerColors().get(nickname));
+            playerFigures.put(nickname, figure);
+        }
+        for (int i=0; i<12; i++)
+            tilesOnMap.put(i, null);
+
         HBox topBoards = new HBox();
         topBoards.setId("box");
         for (int i=0; i < userController.getPlayerColors().keySet().size(); i++) {
@@ -89,9 +115,14 @@ public class GameInterface {
         }
 
         GridPane skullsPane = new SkullsLoader().getSkullsPane();
-        mapPane.getChildren().add(skullsPane);
+        if(boards.size()>3){
+            skullsPane.setId("more_skulls_style");
+        }else{
+            skullsPane.setId("skulls_style");
+        }
         root.getChildren().add(game);
         root.getChildren().add(mapPane);
+        root.getChildren().add(skullsPane);
         this.gameScene = new Scene(root, stage.getScene().getWidth(), stage.getScene().getHeight());
         gameScene.getStylesheets().addAll(getClass().getResource("/assets/game_style.css").toExternalForm(),
                 getClass().getResource("/assets/login_stage.css").toExternalForm());
@@ -102,6 +133,21 @@ public class GameInterface {
         return this.gameScene;
     }
 
+    /**
+     * Method to remove a skull. add the color of the killer on the death track
+     * @param killerColor is the color of the killer
+     * @param overkiller tells if the killer perpetrated an overkill
+     */
+    public void removeSkull(String killerColor, boolean overkiller){
+        skulls.get(totalDeaths).setStyle("-fx-opacity: 1; -fx-background-color: "+ killerColor);
+        if(overkiller)
+            overkill.get(totalDeaths).setStyle("-fx-opacity: 1; -fx-background-color: "+ killerColor);
+    }
+
+    /**
+     * Method to select the spawn point
+     * @param powerups is the list of power ups
+     */
     public void selectSpawnPoint(List<PowerUpDetails> powerups){
         this.contextBox = new VBox();
         contextBox.setId("spawn-box");
@@ -126,7 +172,11 @@ public class GameInterface {
         Platform.runLater( () -> root.getChildren().add(contextBox));
     }
 
+    /**
+     * Method that starts a new turn for a player
+     */
     public void startTurn() {
+        VBox oldBox = this.contextBox;
         this.contextBox = new VBox();
         contextBox.setId("actions-box");
         Text actionsSelect = new Text(userController.getNickname() + ", choose your next action!");
@@ -177,9 +227,16 @@ public class GameInterface {
         actionButtons.getChildren().addAll(move, moveAndGrab, shoot, powerUp, pass);
         contextBox.getChildren().addAll(actionsSelect, actionButtons);
 
-        Platform.runLater( () -> root.getChildren().add(contextBox));
+        Platform.runLater( () -> {
+            root.getChildren().remove(oldBox);
+            root.getChildren().add(contextBox);
+        });
     }
 
+    /**
+     * Method that shows the possible paths you can take
+     * @param paths is the list of squares the player can move to
+     */
     public void showPaths(List<Integer> paths) {
         this.contextBox = new VBox();
         contextBox.setId("actions-box");
@@ -204,6 +261,11 @@ public class GameInterface {
         });
     }
 
+    /**
+     * Method that shows the possible paths you can take
+     * @param paths is the list of accessible squares
+     * @param map is the list of square details
+     */
     public void showPathsAndGrabOptions(List<Integer> paths, List<SquareDetails> map) {
         this.contextBox = new VBox();
         contextBox.setId("actions-box");
@@ -233,6 +295,10 @@ public class GameInterface {
         });
     }
 
+    /**
+     * Method that lets the player choose the weapon from a spawn point
+     * @param square is the spawnpoint
+     */
     private void chooseWeapon(SpawnPointDetails square) {
         this.contextBox = new VBox();
         contextBox.setId("spawn-box");
@@ -245,12 +311,14 @@ public class GameInterface {
         for (WeaponDetails details : square.getWeaponsOnSquare()) {
             ImageView weapon = cardLoader.loadCard(details.getName());
             weapons.add(weapon);
-            weapon.setOnMouseClicked(mouseEvent -> {
-                NewPositionAndGrabbed newPositionAndGrabbed = new NewPositionAndGrabbed
-                        (userController.getNickname(), square.getId(), details.getName());
-                userController.sendToServer(newPositionAndGrabbed);
-                root.getChildren().remove(contextBox);
-            });
+            if (!details.getName().equals("empty")) {
+                weapon.setOnMouseClicked(mouseEvent -> {
+                    NewPositionAndGrabbed newPositionAndGrabbed = new NewPositionAndGrabbed
+                            (userController.getNickname(), square.getId(), details.getName());
+                    userController.sendToServer(newPositionAndGrabbed);
+                    root.getChildren().remove(contextBox);
+                });
+            }
         }
 
         imageBox.getChildren().addAll(weapons);
@@ -259,6 +327,10 @@ public class GameInterface {
         Platform.runLater( () -> root.getChildren().add(contextBox));
     }
 
+    /**
+     * Method that lets the player choose the weapon to shoot
+     * @param weapons is the player's list of loaded weapons
+     */
     public void chooseWeapon(List<WeaponDetails> weapons) {
         if (!weapons.isEmpty()) {
             this.contextBox = new VBox();
@@ -290,6 +362,10 @@ public class GameInterface {
         }
     }
 
+    /**
+     * Method to choose the effect of a weapon
+     * @param effects is the list of effects of a weapon
+     */
     public void chooseWeaponEffect(List<EffectDetails> effects) {
         this.contextBox = new VBox();
         contextBox.setId("small-box");
@@ -337,16 +413,31 @@ public class GameInterface {
 
     }
 
-    public void chooseTargets(List<TargetDetails> targets, List<String> compliantTargets, List<SquareDetails> map, boolean targetingSCope) {
+    /**
+     * Method to choose a target
+     * @param targets is the list of target details
+     * @param compliantTargets is the list of players you can hit
+     * @param map is the list of square details
+     * @param hasTargetingScope is a boolean to decide if the attacker wants to add a damage
+     */
+    public void chooseTargets(List<TargetDetails> targets, List<String> compliantTargets, List<SquareDetails> map, boolean hasTargetingScope) {
         this.chosenTargets = new ArrayList<>();
         boolean invalid = false;
+        boolean canTargetScope = false;
         synchronized (locker) {
             for (TargetDetails target : targets) {
                 int actualSize = chosenTargets.size();
                 if (target.getValue() != -1) {
+                    canTargetScope = true;
                     Platform.runLater(() -> chooseTargets(target.getValue(), target.getMovements(), target.isArea(), compliantTargets, map, chosenTargets));
+                } else if (target.getValue () == -1 && target.isArea ()) {
+                    canTargetScope = true;
+                    Platform.runLater(() -> chooseAreaToTarget(compliantTargets, map));
+                } else if (target.getValue () == -1 && !target.isArea () && target.getMovements () == -1) {
+                    chosenTargets.add(new AtomicTarget(null, -1));
+                } else if (target.getValue () == -1 && !target.isArea () && target.getMovements () > 0) {
+                    Platform.runLater(() -> chooseHowManyMovements(target.getMovements (), compliantTargets, map));
                 }
-                //TODO
                 try {
                     while (actualSize == chosenTargets.size()) {
                         locker.wait();
@@ -355,7 +446,6 @@ public class GameInterface {
                     exc.printStackTrace();
                     Thread.currentThread().interrupt();
                 }
-                System.out.println("Got effect\nOld size: " +actualSize + "\nNew size: " +chosenTargets.size());
                 if (chosenTargets.get(chosenTargets.size()-1) == null) {
                     invalid = true;
                     userController.sendAction ("end action");
@@ -364,9 +454,67 @@ public class GameInterface {
                 }
             }
         }
+        if (!invalid) {
+            if (hasTargetingScope && canTargetScope) {
+                this.contextBox = new VBox();
+                contextBox.setId("small-box");
+                Text choose = new Text("Use Targeting Scope to deal additional damage to a target?");
+                choose.setId("medium-text");
+                HBox buttonsBox = new HBox();
+                buttonsBox.setId("small-box");
+
+                Button yes = new Button("YES");
+                yes.setId("action-button");
+                yes.setOnMouseClicked(mouseEvent -> {
+                    contextBox.getChildren().clear();
+                    Text text = new Text("Choose one target and make him suffer more!");
+                    text.setId("medium-text");
+                    HBox imageBox = new HBox();
+                    imageBox.setId("small-box");
+
+                    List<String> targetNames = new ArrayList<>();
+                    for (AtomicTarget target : chosenTargets) {
+                        List<String> atomicNames = target.getTargetNames();
+                        for (String name : atomicNames)
+                            if (!targetNames.contains(name))
+                                targetNames.add(name);
+                    }
+                    for (String target : targetNames) {
+                        ImageView imageView = figuresLoader.loadFigure(userController.getPlayerColors().get(target));
+                        imageView.setOnMouseClicked(mouseEvent1 -> {
+                            userController.sendToServer(new ChosenTargets(userController.getNickname(), this.chosenTargets, target));
+                            root.getChildren().remove(contextBox);
+                        });
+                        imageBox.getChildren().add(imageView);
+                    }
+                    contextBox.getChildren().addAll(text, imageBox);
+                });
+
+                Button no = new Button("NO");
+                no.setId("action-button");
+                no.setOnMouseClicked(mouseEvent -> {
+                    userController.sendToServer (new ChosenTargets (userController.getNickname(), chosenTargets, null));
+                    root.getChildren().remove(contextBox);
+                });
+                buttonsBox.getChildren().addAll(yes, no);
+                contextBox.getChildren().addAll(choose, buttonsBox);
+                Platform.runLater(() -> root.getChildren().add(contextBox));
+            }
+            else
+                userController.sendToServer (new ChosenTargets (userController.getNickname(), chosenTargets, null));
+        }
     }
 
-    public void chooseTargets(int maxAmount, int movements, boolean isArea, List<String> compliantTargets,
+    /**
+     * Method to choose multiple targets to hit with a move in addition
+     * @param maxAmount is the number of players the attacker can hit
+     * @param movements is the number of movements the victim will do
+     * @param isArea tells if the attack for everyone in one area
+     * @param compliantTargets is the list of targets
+     * @param map is the list of square details
+     * @param chosenTargets is the list of targets the attacker chose
+     */
+    private void chooseTargets(int maxAmount, int movements, boolean isArea, List<String> compliantTargets,
                               List<SquareDetails> map, List<AtomicTarget> chosenTargets) {
         this.contextBox = new VBox();
         contextBox.setId("small-box");
@@ -384,7 +532,7 @@ public class GameInterface {
                 contextBox.getChildren().clear();
                 if (!addedTargets.isEmpty()) {
                     if (movements != -1) {
-                        Text select = new Text("Select a square to move your targets!\n(Max distance of " + movements);
+                        Text select = new Text("Select a square to move your targets!\n(Max distance of " + movements + ")");
                         select.setId("medium-text");
                         for (SquareDetails details : map) {
                             mapButtons.get(details.getId()).setId("active-square");
@@ -417,20 +565,25 @@ public class GameInterface {
 
         int columnIndex = 0;
         List<ImageView> targets = new ArrayList<>();
-        for (String validTarget : compliantTargets) {
-            ImageView target = figuresLoader.loadFigure(userController.getPlayerColors().get(validTarget));
-            target.setOnMouseClicked(mouseEvent -> {
-                addedTargets.add(validTarget);
-                if (addedTargets.size() == maxAmount) {
-                    for (ImageView image : targets)
-                        image.setOpacity(0.4);
-                } else {
-                    target.setOpacity(0.4);
-                }
-            });
-            targets.add(target);
-            grid.add(target, columnIndex, 0);
-            columnIndex++;
+        if (compliantTargets != null) {
+            for (String validTarget : compliantTargets) {
+                ImageView target = figuresLoader.loadFigure(userController.getPlayerColors().get(validTarget));
+                target.setOnMouseClicked(mouseEvent -> {
+                    addedTargets.add(validTarget);
+                    if (addedTargets.size() == maxAmount) {
+                        for (ImageView image : targets) {
+                            image.setOpacity(0.4);
+                            image.setDisable(true);
+                        }
+                    } else {
+                        target.setOpacity(0.4);
+                        target.setDisable(true);
+                    }
+                });
+                targets.add(target);
+                grid.add(target, columnIndex, 0);
+                columnIndex++;
+            }
         }
         grid.add(finish, columnIndex, 0);
         contextBox.getChildren().addAll(choose, grid);
@@ -438,6 +591,12 @@ public class GameInterface {
         Platform.runLater(() -> root.getChildren().add(contextBox));
     }
 
+    /**
+     * Getter Method
+     * @param target is the target
+     * @param map is the list of square details
+     * @return the position of the target
+     */
     private int getTargetPos(String target, List<SquareDetails> map) {
         for (SquareDetails square : map) {
             if (square.getPlayersOnSquare().contains(target)) {
@@ -447,6 +606,108 @@ public class GameInterface {
         return -1;
     }
 
+    /**
+     * Method to choose an area to hit
+     * @param compliantTargets is the list of target in the area
+     * @param map is the list of square details
+     */
+    private void chooseAreaToTarget(List<String> compliantTargets, List<SquareDetails> map) {
+        if (compliantTargets != null && compliantTargets.isEmpty()) {
+            synchronized (locker) {
+                userController.showMessage("You can't hit targets with this effect");
+                chosenTargets.add(null);
+                locker.notifyAll();
+                return;
+            }
+        }
+        this.contextBox = new VBox();
+        contextBox.setId("small-box");
+        Text select = new Text("Select the square/room you want to target!");
+        select.setId("medium-text");
+
+        activateSquareEffect(map);
+        /*for (SquareDetails details : map) {
+            mapButtons.get(details.getId()).setId("active-square");
+            mapButtons.get(details.getId()).setDisable(false);
+            mapButtons.get(details.getId()).setOnMouseClicked(mouseEvent -> {
+                synchronized (locker) {
+                    chosenTargets.add(new AtomicTarget(null, details.getId()));
+                    disableButtons();
+                    root.getChildren().remove(contextBox);
+                    locker.notifyAll();
+                }
+            });
+        } */
+        contextBox.getChildren().add(select);
+        Platform.runLater(() -> {
+            root.getChildren().add(contextBox);
+            mapPane.toFront();
+        });
+    }
+
+    /**
+     * Method to choose how many movements a player will do
+     * @param movements is the number of movements
+     * @param compliantTargets is the list of targets
+     * @param map is the list of square details
+     */
+    private void chooseHowManyMovements(int movements, List<String> compliantTargets, List<SquareDetails> map) {
+        if (compliantTargets != null && compliantTargets.isEmpty()) {
+            synchronized (locker) {
+                chosenTargets.add(null);
+                userController.showMessage("You can't hit targets with this effect");
+                locker.notifyAll();
+                return;
+            }
+        }
+        this.contextBox = new VBox();
+        contextBox.setId("small-box");
+        Text select = new Text("Choose the square you want to move to!\n(Max " + movements + " distance)");
+        select.setId("medium-text");
+
+        activateSquareEffect(map);
+        /*for (SquareDetails details : map) {
+            mapButtons.get(details.getId()).setId("active-square");
+            mapButtons.get(details.getId()).setDisable(false);
+            mapButtons.get(details.getId()).setOnMouseClicked(mouseEvent -> {
+                synchronized (locker) {
+                    chosenTargets.add(new AtomicTarget(null, details.getId()));
+                    disableButtons();
+                    root.getChildren().remove(contextBox);
+                    locker.notifyAll();
+                }
+            });
+        } */
+        contextBox.getChildren().add(select);
+        Platform.runLater(() -> {
+            root.getChildren().add(contextBox);
+            mapPane.toFront();
+        });
+    }
+
+    /**
+     * Method to apply an effect on a square
+     * @param map is the list of squares
+     */
+    private void activateSquareEffect(List<SquareDetails> map) {
+        for (SquareDetails details : map) {
+            mapButtons.get(details.getId()).setId("active-square");
+            mapButtons.get(details.getId()).setDisable(false);
+            mapButtons.get(details.getId()).setOnMouseClicked(mouseEvent -> {
+                synchronized (locker) {
+                    chosenTargets.add(new AtomicTarget(null, details.getId()));
+                    disableButtons();
+                    root.getChildren().remove(contextBox);
+                    locker.notifyAll();
+                }
+            });
+        }
+    }
+
+    /**
+     * Method that lets the player choose a power up
+     * @param powerups is the list of player's power ups
+     */
     public void choosePowerUp(List<PowerUpDetails> powerups) {
         this.contextBox = new VBox();
         contextBox.setId("small-box");
@@ -500,6 +761,10 @@ public class GameInterface {
         Platform.runLater(() -> root.getChildren().add(contextBox));
     }
 
+    /**
+     * Method to apply an effect to a square
+     * @param validSquares is the list of valid square
+     */
     public void chooseSquare(List<Integer> validSquares) {
         this.contextBox = new VBox();
         contextBox.setId("small-box");
@@ -524,6 +789,11 @@ public class GameInterface {
         });
     }
 
+    /**
+     * Method to move a target
+     * @param targets is the list of players
+     * @param possiblePaths is the list of possible paths the target can take
+     */
     public void chooseSquareForTarget(List<String> targets, Map<String, List<Integer>> possiblePaths) {
         this.contextBox = new VBox();
         contextBox.setId("small-box");
@@ -562,6 +832,184 @@ public class GameInterface {
         Platform.runLater(() -> root.getChildren().add(contextBox));
     }
 
+    /**
+     * Method to ask the player if he wants to reload a weapons
+     * @param weapons is the list of unloaded weapons
+     */
+    public void askReload(List<WeaponDetails> weapons) {
+        this.contextBox = new VBox();
+        contextBox.setId("small-box");
+        Text choose = new Text("Reload your weapons before ending turn?");
+        choose.setId("medium-text");
+        HBox buttonsBox = new HBox();
+        buttonsBox.setId("small-box");
+
+        Button yes = new Button("YES");
+        yes.setId("action-button");
+
+        Button no = new Button("NO");
+        no.setId("action-button");
+
+        yes.setOnMouseClicked(mouseEvent -> {
+            contextBox.getChildren().clear();
+            Text ask = new Text("Choose the weapon to reload");
+            ask.setId("medium-text");
+            GridPane weaponsBox = new GridPane();
+            weaponsBox.setId("small-box");
+
+            int columnIndex = 0;
+            for (WeaponDetails details : weapons) {
+                ImageView weapon = cardLoader.loadCard(details.getName());
+                weapon.setOnMouseClicked(mouseEvent1 -> {
+                    ReloadResponse response = new ReloadResponse(userController.getNickname(), true, details.getName());
+                    userController.sendToServer(response);
+                    root.getChildren().remove(contextBox);
+                });
+                weaponsBox.add(weapon, columnIndex, 0);
+                columnIndex++;
+            }
+            Button finish = new Button("NONE");
+            finish.setId("action-button");
+            finish.setOnMouseClicked(mouseEvent1 -> {
+                ReloadResponse response = new ReloadResponse(userController.getNickname(), false, "");
+                userController.sendToServer(response);
+                root.getChildren().remove(contextBox);
+            });
+            weaponsBox.add(finish, columnIndex, 0);
+
+            contextBox.getChildren().addAll(ask, weaponsBox);
+        });
+
+        no.setOnMouseClicked(mouseEvent -> {
+            ReloadResponse response = new ReloadResponse(userController.getNickname(), false, "");
+            userController.sendToServer(response);
+            root.getChildren().remove(contextBox);
+        });
+        buttonsBox.getChildren().addAll(yes, no);
+        contextBox.getChildren().addAll(choose, buttonsBox);
+
+        Platform.runLater(() -> root.getChildren().add(contextBox));
+    }
+
+    /**
+     * Method that lets the victim use the tagback grenade
+     * @param attackerName is the attacker's name
+     */
+    public void askTagback(String attackerName) {
+        this.contextBox = new VBox();
+        contextBox.setId("small-box");
+        Text notify = new Text(attackerName + " just hit you!\nUse your Tagback Grenade to give him a mark and take revenge later?");
+        notify.setId("medium-text");
+        HBox buttonsBox = new HBox();
+        buttonsBox.setId("small-box");
+
+        Button yes = new Button("YES");
+        yes.setId("action-button");
+        yes.setOnMouseClicked(mouseEvent -> {
+            TagbackResponse response = new TagbackResponse(userController.getNickname(), attackerName, true);
+            userController.sendToServer(response);
+            root.getChildren().remove(contextBox);
+        });
+
+        Button no = new Button("NO");
+        no.setId("action-button");
+        no.setOnMouseClicked(mouseEvent -> {
+            TagbackResponse response = new TagbackResponse(userController.getNickname(), attackerName, false);
+            userController.sendToServer(response);
+            root.getChildren().remove(contextBox);
+        });
+
+        buttonsBox.getChildren().addAll(yes, no);
+        contextBox.getChildren().addAll(notify, buttonsBox);
+
+        Platform.runLater(() -> root.getChildren().add(contextBox));
+    }
+
+    /**
+     * Method to discard a fourth weapon
+     * @param weapons is the list of owned weapons
+     */
+    public void discardWeapon(List<WeaponDetails> weapons) {
+        this.contextBox = new VBox();
+        contextBox.setId("small-box");
+        Text ask = new Text("You have too many weapons! To pick this you must discard one first.");
+        ask.setId("medium-text");
+        HBox weaponsBox = new HBox();
+        weaponsBox.setId("small-box");
+
+        for (WeaponDetails weapon : weapons) {
+            ImageView imageWeapon = cardLoader.loadCard(weapon.getName());
+            imageWeapon.setOnMouseClicked(mouseEvent -> {
+                DiscardedWeapon response = new DiscardedWeapon(userController.getNickname(), weapon.getName());
+                userController.sendToServer(response);
+                root.getChildren().remove(contextBox);
+            });
+            weaponsBox.getChildren().add(imageWeapon);
+        }
+
+        contextBox.getChildren().addAll(ask, weaponsBox);
+
+        Platform.runLater(() -> root.getChildren().add(contextBox));
+    }
+
+    /**
+     * Method that shows the final ranking
+     * @param finalRanking is the final ranking
+     */
+    public void showEndGameScreen(List<String> finalRanking) {
+        this.contextBox = new VBox();
+        contextBox.setId("ranking-style");
+        Text ranking = new Text("FINAL RANKING");
+        ranking.setId("medium-text");
+
+        GridPane rank = new GridPane();
+        rank.setId("small-box");
+        for (int position = 1;  position <= finalRanking.size(); position++) {
+            ImageView playerFigure = figuresLoader.loadFigure(userController.getPlayerColors().get(finalRanking.get(position-1)));
+            Text playerName = new Text(finalRanking.get(position-1));
+            playerName.setId("medium-text");
+
+            rank.add(playerFigure, 0, position-1);
+            rank.add(playerName, 1, position-1);
+        }
+
+        Button finish = new Button("EXIT");
+        finish.setId("action-button");
+        finish.setOnMouseClicked(mouseEvent -> {
+            if (!finalRanking.get(0).equals(userController.getNickname()))
+                Platform.exit();
+            else {
+                try {
+                    contextBox.getChildren().clear();
+                    Text winner = new Text("YOU WON!");
+                    winner.setId("text");
+                    ImageView parrot = new ImageView(new Image(new FileInputStream("src" + File.separatorChar + "Resources"
+                            + File.separatorChar + "images" + File.separatorChar + "partyparrot.gif")));
+                    parrot.setPreserveRatio(true);
+                    parrot.setFitWidth(400);
+                    Button exit = new Button("EXIT");
+                    exit.setId("action-button");
+                    exit.setOnMouseClicked(mouseEvent1 -> Platform.exit());
+
+                    contextBox.getChildren().addAll(winner, parrot, exit);
+                } catch (FileNotFoundException exc) {
+                    exc.printStackTrace();
+                }
+            }
+        });
+
+        contextBox.getChildren().addAll(ranking, rank, finish);
+
+        Platform.runLater(() -> {
+            root.getChildren().clear();
+            root.getChildren().add(contextBox);
+        });
+
+    }
+
+    /**
+     * Method to disable a list of buttons
+     */
     private void disableButtons() {
         for (Button button : mapButtons) {
             button.setId("inactive-square");
@@ -570,11 +1018,129 @@ public class GameInterface {
         }
     }
 
+    /**
+     * TODO
+     */
     public void timeOut() {
         Platform.runLater(() -> {
             if (contextBox != null && root.getChildren().contains(contextBox))
                 root.getChildren().remove(contextBox);
             disableButtons();
+        });
+    }
+
+    /**
+     * Method to update the data on the map
+     * @param map is the list of squares
+     */
+    public void updateMap(List<SquareDetails> map) {
+        Platform.runLater(() -> {
+            for (SquareDetails details : map) {
+                if (!details.isSpawnPoint()) {
+                    String tile = ((NormalSquareDetails) details).getTileFormat();
+                    ImageView tileImage;
+                    if (tiles.containsKey(tile))
+                        tileImage = tiles.get(tile);
+                    else {
+                        tileImage = tileLoader.loadTile(tile);
+                        if (boards.size() > 3)
+                            GridPane.setValignment(tileImage, VPos.BOTTOM);
+                        else
+                            GridPane.setValignment(tileImage, VPos.BASELINE);
+                        GridPane.setHalignment(tileImage, HPos.RIGHT);
+                        tiles.put(tile, tileImage);
+                    }
+                    ImageView actualTile = tilesOnMap.get(details.getId());
+                    if (actualTile == null || !(actualTile.equals(tileImage))) {
+                        tilesOnMap.replace(details.getId(), tileImage);
+                        mapPane.getChildren().remove(tilesOnMap.get(details.getId()));
+                        mapPane.add(tileImage, details.getId() % 4, details.getId() / 4);
+                    }
+                }
+                List<String> players = details.getPlayersOnSquare();
+                for (String nickname : players) {
+                    ImageView figure = playerFigures.get(nickname);
+                    Integer columnIndex = GridPane.getColumnIndex(figure);
+                    Integer rowIndex = GridPane.getRowIndex(figure);
+                    if (columnIndex == null || rowIndex == null || !(columnIndex.equals(details.getId() %4 ) && rowIndex.equals(details.getId() / 4))) {
+                        mapPane.getChildren().remove(figure);
+                        List<VPos> valids = new ArrayList<>();
+                        valids.add(VPos.CENTER);
+                        valids.add(VPos.BASELINE);
+                        GridPane.setValignment(figure, valids.get(randomChooser.nextInt(valids.size()-1)));
+                        GridPane.setHalignment(figure, HPos.values()[randomChooser.nextInt(HPos.values().length)]);
+                        mapPane.add(figure, details.getId() % 4, details.getId() / 4);
+                        figure.toBack();
+                    }
+                }
+            }
+            userController.setUpdated();
+        });
+    }
+
+    public void updateBoards(List<BoardDetails> boardDetails) {
+        Platform.runLater(() -> {
+            for (BoardDetails details : boardDetails) {
+                BoardLoader boardToUpdate = boards.get(0);
+                for (BoardLoader board : boards) {
+                    if (board.getOwner().equals(details.getNickname())) {
+                        boardToUpdate = board;
+                        break;
+                    }
+                }
+                List<String> actualAmmo = details.getOwnedAmmo();
+                List<String> oldAmmo = new ArrayList<>(boardToUpdate.getAmmo());
+                if (actualAmmo.size() > oldAmmo.size()) {
+                    boardToUpdate.addAmmo(actualAmmo.subList(oldAmmo.size(), actualAmmo.size()));
+                } else if (actualAmmo.size() < oldAmmo.size()) {
+                    List<String> toRemove = new ArrayList<>(oldAmmo);
+                    toRemove.removeAll(actualAmmo);
+                    boardToUpdate.removeAmmo(toRemove);
+                }
+
+                List<String> unloadedWeapons = new ArrayList<>();
+                for (WeaponDetails weapon : details.getUnloadedWeapons()) {
+                    unloadedWeapons.add(weapon.getName());
+                }
+                boardToUpdate.setUnloadedWeapon(unloadedWeapons);
+
+                List<WeaponDetails> ownedWeapons = details.getLoadedWeapons();
+                List<String> weaponsNames = new ArrayList<>();
+                for (WeaponDetails weapon : ownedWeapons)
+                    weaponsNames.add(weapon.getName());
+                if (weaponsNames.size() > boardToUpdate.getWeapons().size()) {
+                    boardToUpdate.addWeapons(weaponsNames.get(weaponsNames.size()-1));
+                } else if (!boardToUpdate.getWeapons().containsAll(weaponsNames)) {
+                    for (String name : boardToUpdate.getWeapons())
+                        if (!weaponsNames.contains(name)) {
+                            boardToUpdate.removeWeapons(name);
+                            break;
+                        }
+                    for (String name : weaponsNames)
+                        if (!boardToUpdate.getWeapons().contains(name)) {
+                            boardToUpdate.addWeapons(name);
+                            break;
+                        }
+                } else boardToUpdate.addWeapons(null);
+
+                List<String> actualMarks = details.getReceivedMarks();
+                boardToUpdate.substituteMarks(actualMarks);
+
+                List<String> actualLife = details.getDamageTaken();
+                if (actualLife.size() >= 11) {
+                    removeSkull(actualLife.get(10), actualLife.size() == 12);
+                    totalDeaths++;
+                    if (totalDeaths >= 8) {
+                        this.finalFrenzy = true;
+                        boardToUpdate.loadBackBoard(userController.getPlayerColors().get(boardToUpdate.getOwner()));
+                    }
+                    boardToUpdate.clearLifeBar();
+                    boardToUpdate.decreaseMaxPoints();
+                } else if (actualLife.size() > boardToUpdate.getLife().size()) {
+                    boardToUpdate.updateLifeBar(actualLife.size()-boardToUpdate.getLife().size(), actualLife.get(actualLife.size()-1));
+                }
+            }
+            userController.setUpdated();
         });
     }
 }

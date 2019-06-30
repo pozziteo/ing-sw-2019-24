@@ -22,19 +22,19 @@
 #spawn-box {
     -fx-alignment: bottom-center;
     -fx-spacing: 30;
-    -fx-padding: 20;
+    -fx-padding: 90;
 }
 
 #actions-box {
     -fx-alignment: bottom-center;
     -fx-spacing: 25;
-    -fx-padding: 40;
+    -fx-padding: 110;
 }
 
 #small-box {
     -fx-alignment: bottom-center;
     -fx-spacing: 15;
-    -fx-padding: 20;
+    -fx-padding: 70;
 }
 
 #grid-box {
@@ -48,6 +48,20 @@
     -fx-font-size: 20;
     -fx-text-alignment: center;
 }
+
+/*skulls grid*/
+#skulls_style{
+    -fx-grid-lines-visible: false;
+    -fx-alignment: top-left;
+    -fx-padding: 107 0 0 382;
+}
+
+#more_skulls_style{
+    -fx-grid-lines-visible: false;
+    -fx-alignment: top-left;
+    -fx-padding: 200 0 0 386;
+}
+/*end skulls grid*/
 
 #board_style {
     -fx-grid-lines-visible: false;
@@ -73,8 +87,50 @@
     -fx-padding: 0 0 85 200;
 }
 
-#skulls_style{
+#ammo_style_bottom{
     -fx-grid-lines-visible: false;
-    -fx-alignment: top-left;
-    -fx-padding: 0 0 300 0;
+    -fx-alignment: center;
+    -fx-padding: 20 0 0 330;
+    -fx-opacity: 1;
+}
+
+
+#ammo_style{
+    -fx-grid-lines-visible: false;
+    -fx-alignment: center-right;
+    -fx-padding: 20 20 0 90;
+    -fx-opacity: 1;
+}
+
+#maxPoints_style{
+    -fx-grid-lines-visible: false;
+    -fx-alignment: center;
+    -fx-padding: 70 105 0 0;
+}
+
+#maxPoints_style_bottom{
+    -fx-grid-lines-visible: false;
+    -fx-alignment: center;
+    -fx-padding: 70 113 0 0;
+}
+
+#ranking-style {
+    -fx-alignment: center;
+    -fx-spacing: 20;
+    -fx-padding: 20;
+}
+
+#weapons_style{
+    -fx-alignment: center-left;
+    -fx-padding: 0 300 20 -210;
+}
+
+#weapons_style_bottom{
+    -fx-alignment: center-left;
+    -fx-padding: 0 0 5 350;
+}
+
+#powerUps_style{
+    -fx-alignment: center-right;
+    -fx-padding: 0 400 5 0;
 }

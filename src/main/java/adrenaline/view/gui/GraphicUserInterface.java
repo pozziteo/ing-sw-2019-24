@@ -3,6 +3,7 @@ package adrenaline.view.gui;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
@@ -26,7 +27,7 @@ public class GraphicUserInterface extends Application {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Adrenaline");
         primaryStage.setResizable(false);
-        primaryStage.setAlwaysOnTop(true);
+//        primaryStage.setAlwaysOnTop(true);
         primaryStage.centerOnScreen();
 //        primaryStage.setX(Screen.getPrimary().getVisualBounds().getMinX());
 //        primaryStage.setY(Screen.getPrimary().getVisualBounds().getMinY());
@@ -63,8 +64,7 @@ public class GraphicUserInterface extends Application {
 
         primaryStage.setOnCloseRequest(windowEvent -> {
             windowEvent.consume();
-            primaryStage.close();
-            //TODO improve
+            Platform.exit();
         });
 
         Scene firstScene = new Scene(pane, 1440, 900);

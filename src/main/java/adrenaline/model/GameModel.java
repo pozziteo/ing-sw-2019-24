@@ -46,12 +46,15 @@ public class GameModel {
 
                 } else {
                     String tile;
+                    String tileName;
                     try {
+                        tileName = ((NormalSquare) game.getMap ( ).getSquare (i)).getPlacedTile().getFormat().name();
                         tile = ((NormalSquare) game.getMap ( ).getSquare (i)).getPlacedTile ( ).getTileDescription ( );
                     } catch (NullPointerException e) {
+                        tileName = null;
                         tile = "empty";
                     }
-                    square = new NormalSquareDetails (i, playersNames, tile);
+                    square = new NormalSquareDetails (i, playersNames, tile, tileName);
                 }
                 map.add (square);
             }
