@@ -92,7 +92,7 @@ class BoardLoader{
             }
             boardPane.setHgap(9);
             if (owner.equals(userController.getNickname())){
-                pane.getChildren().addAll(boardView, boardPane, markPane, ammosPane, maxPointsPane, weaponsBox/*,  pupsBox*/);
+                pane.getChildren().addAll(boardView, boardPane, markPane, ammosPane, maxPointsPane, weaponsBox,  pupsBox);
             }else
                 pane.getChildren().addAll(boardView, boardPane, markPane, ammosPane, maxPointsPane, weaponsBox);
             this.board = pane;
@@ -289,7 +289,7 @@ class BoardLoader{
                 Image pupImage = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"cards"+ File.separator+ pupName+".png"));
                 ImageView pupView = new ImageView(pupImage);
                 pupView.setPreserveRatio(true);
-                pupView.setFitHeight(50);
+                pupView.setFitHeight(100);
                 box.getChildren().add(pupView);
             }
             box.setSpacing(10);
@@ -364,6 +364,7 @@ class BoardLoader{
     public void addPowerups(String powerup){
         if(this.powerups.size()<3)
             this.powerups.add(powerup);
+        this.pupsBox = getPupsPane();
     }
 
     /**
@@ -388,6 +389,7 @@ class BoardLoader{
                 powerups.remove(pup);
                 break;
             }
+        this.pupsBox = getPupsPane();
     }
 
     /**

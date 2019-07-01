@@ -129,7 +129,7 @@ public class GameModel {
     public void updateBoards(Account account) {
         List<BoardDetails> boards = new ArrayList<> ();
         for (Player p : game.getPlayers ()) {
-            boards.add(createBoardDetails (p, false));
+            boards.add(createBoardDetails (p, account.getNickName().equals(p.getPlayerName())));
         }
         BoardsResponse response = new BoardsResponse (boards);
         response.setAccount (account);

@@ -1092,7 +1092,8 @@ public class GameInterface {
                 if (weaponsNames.size() > boardToUpdate.getWeapons().size()) {
                     boardToUpdate.addWeapons(weaponsNames.get(weaponsNames.size()-1));
                 } else if (!boardToUpdate.getWeapons().containsAll(weaponsNames)) {
-                    for (String name : boardToUpdate.getWeapons())
+                    List<String> weaponsOnBoard = boardToUpdate.getWeapons();
+                    for (String name : weaponsOnBoard)
                         if (!weaponsNames.contains(name)) {
                             boardToUpdate.removeWeapons(name);
                             break;
@@ -1103,6 +1104,25 @@ public class GameInterface {
                             break;
                         }
                 } else boardToUpdate.addWeapons(null);
+
+                if (boardToUpdate.getOwner().equals(userController.getNickname())) {
+                    List<PowerUpDetails> ownedPowerups = details.getPowerUps();
+                    List<String> names = new ArrayList<>();
+                    for (PowerUpDetails powerUpDetails : ownedPowerups)
+                        names.add(powerUpDetails.getType() + "_" + powerUpDetails.getColor());
+                    if (names.size() > boardToUpdate.getPowerups().size()) {
+                        for (String powerup : names) {
+                            if (!(boardToUpdate.getPowerups().contains(powerup)))
+                                boardToUpdate.addPowerups(powerup);
+                        }
+                    } else if (names.size() < boardToUpdate.getPowerups().size()) {
+                        List<String> onBoard = new ArrayList<>(boardToUpdate.getPowerups());
+                        for (String powerup : onBoard) {
+                            if (!(names.contains(powerup)))
+                                boardToUpdate.removePowerUps(powerup);
+                        }
+                    }
+                }
 
                 List<String> actualMarks = details.getReceivedMarks();
                 boardToUpdate.substituteMarks(actualMarks);
