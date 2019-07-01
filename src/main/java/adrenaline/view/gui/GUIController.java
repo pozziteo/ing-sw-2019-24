@@ -120,7 +120,9 @@ public class GUIController implements UserInterface {
     }
 
     /**
-     * Method to //TODO
+     * Method invoked by a thread who just updated a portion of the game scene. It sets
+     * to true the updated flag and notify waiting threads to update other portions of game scene
+     * or start a new turn
      */
     public void setUpdated() {
         synchronized (obj) {
@@ -277,7 +279,8 @@ public class GUIController implements UserInterface {
     }
 
     /**
-     * TODO
+     * Method to instantiate a new game scene and set the current scene to that. It notifies another
+     * thread which is waiting for asking the first spawn point selection
      */
     public synchronized void initGame() {
         this.gameInterface = new GameInterface(stage);

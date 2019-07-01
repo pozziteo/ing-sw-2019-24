@@ -9,7 +9,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -23,17 +22,12 @@ public class GraphicUserInterface extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Adrenaline");
         primaryStage.setResizable(false);
-//        primaryStage.setAlwaysOnTop(true);
+        primaryStage.setAlwaysOnTop(true);
         primaryStage.centerOnScreen();
-//        primaryStage.setX(Screen.getPrimary().getVisualBounds().getMinX());
-//        primaryStage.setY(Screen.getPrimary().getVisualBounds().getMinY());
-//        primaryStage.setWidth(Screen.getPrimary().getVisualBounds().getWidth());
-//        primaryStage.setHeight(Screen.getPrimary().getVisualBounds().getHeight());
-
 
         controller = GUIController.createController(primaryStage);
 
