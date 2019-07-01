@@ -474,7 +474,11 @@ public class GameInterface {
 
                     List<String> targetNames = new ArrayList<>();
                     for (AtomicTarget target : chosenTargets) {
-                        List<String> atomicNames = target.getTargetNames();
+                        List<String> atomicNames;
+                        if (target.getTargetNames() != null)
+                            atomicNames = target.getTargetNames();
+                        else
+                            atomicNames = compliantTargets;
                         for (String name : atomicNames)
                             if (!targetNames.contains(name))
                                 targetNames.add(name);
@@ -1092,7 +1096,7 @@ public class GameInterface {
                 if (weaponsNames.size() > boardToUpdate.getWeapons().size()) {
                     boardToUpdate.addWeapons(weaponsNames.get(weaponsNames.size()-1));
                 } else if (!boardToUpdate.getWeapons().containsAll(weaponsNames)) {
-                    List<String> weaponsOnBoard = boardToUpdate.getWeapons();
+                    List<String> weaponsOnBoard = new ArrayList<>(boardToUpdate.getWeapons());
                     for (String name : weaponsOnBoard)
                         if (!weaponsNames.contains(name)) {
                             boardToUpdate.removeWeapons(name);
