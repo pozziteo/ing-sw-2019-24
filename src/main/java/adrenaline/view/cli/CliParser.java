@@ -1,7 +1,5 @@
 package adrenaline.view.cli;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -13,7 +11,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class CliParser {
     private CliPrinter printer = new CliPrinter ();
     private AtomicBoolean active = new AtomicBoolean ();
-    private AtomicBoolean menuActive = new AtomicBoolean ();
 
     /**
      * Default constructor.

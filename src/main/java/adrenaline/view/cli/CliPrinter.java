@@ -300,6 +300,11 @@ public class CliPrinter {
         }
     }
 
+    /**
+     * Method to print possible movements for Move and MoveAndGrab actions
+     * @param paths that can be taken
+     */
+
     synchronized  void printPaths(List<Integer> paths) {
         print("Choose the square you want to move to:\n");
         System.out.print("[  ");
@@ -308,6 +313,11 @@ public class CliPrinter {
         }
         System.out.print("]\n");
     }
+
+    /**
+     * Method to print the list of possible weapons that the player can grab
+     * @param weapons to choose from
+     */
 
     synchronized void printWeaponListToChoose(WeaponDetails[] weapons){
         print("These are the weapons you can grab from this square: ");
@@ -330,11 +340,20 @@ public class CliPrinter {
         }
     }
 
+    /**
+     * Method to ask the player if they want to use their power up as bonus ammo
+     */
+
     synchronized void printUseAsAmmo() {
         print("Do you want to use the chosen power up as bonus ammo?");
         print(NO);
         print(YES);
     }
+
+    /**
+     * Method to print the available weapon effects
+     * @param effects to choose from
+     */
 
     synchronized void printWeaponEffects(List<EffectDetails> effects) {
         int i = 0;
@@ -354,41 +373,64 @@ public class CliPrinter {
      * Method to print the player's PowerUp List
      * @param powerUpDetails is the ArrayList of PowerUp
      */
-    synchronized void printPowerUpList(List<PowerUpDetails> powerUpDetails){
-        print("These are your power ups (press " + powerUpDetails.size() + " if you don't want to use any):");
-        for (int i=0; i < powerUpDetails.size(); i++){
-            print(i + " - " + powerUpDetails.get(i).getType () + " - Bonus ammo color: " + powerUpDetails.get(i).getColor ());
+    synchronized void printPowerUpList(List<PowerUpDetails> powerUpDetails, boolean forView){
+        if (!forView) {
+            print ("These are your power ups (press " + powerUpDetails.size ( ) + " if you don't want to use any):");
+            for (int i = 0; i < powerUpDetails.size ( ); i++) {
+                print (i + " - " + powerUpDetails.get (i).getType ( ) + " - Bonus ammo color: " + powerUpDetails.get (i).getColor ( ));
+            }
+        } else {
+            if (powerUpDetails.isEmpty ())
+                print("empty");
+            else {
+                for (int i = 0; i < powerUpDetails.size ( ); i++) {
+                    print (i + " - " + powerUpDetails.get (i).getType ( ) + " - Bonus ammo color: " + powerUpDetails.get (i).getColor ( ));
+                }
+            }
         }
     }
 
     /**
-     * Method to print the player's Ammo List
-     * @param ammos is the ArrayList of ammos
-     */
-    synchronized void printAmmoList(List<String> ammos){
-        print("These are your ammos: " + ammos);
-    }
-
-    /**
+     * Method to inform the player that they need to wait their turn
      * @param nickname is the player who is performing his actions now
      */
     synchronized void printWaitTurn(String nickname) {
         print(nickname + " is playing. Please wait your turn...\n");
     }
 
+    /**
+     * Method to ask the player to choose their targets
+     * @param n is the number of max targets allowed
+     */
     synchronized void printChooseTargets(int n) {
         print("You can choose up to " + n + " targets:");
     }
 
+    /**
+     * Method to print the position of a player
+     * @param n is the index of this player
+     * @param nickname is the nickname of this player
+     * @param squareId is the position of this player
+     */
+
     synchronized void printPlayerPositions(int n, String nickname, int squareId) {
         print(n + " - " + nickname + " is on square " + squareId);
     }
+
+    /**
+     * Method to ask the player if they want to use Targeting Scope
+     */
 
     synchronized void printTargetingScope() {
         print("Do you want to use Targeting Scope to give one additional damage to one of you targets?");
         print(NO);
         print(YES);
     }
+
+    /**
+     * Method to print board information
+     * @param board to print
+     */
 
     synchronized void printBoard(BoardDetails board) {
         String color = "";
@@ -421,9 +463,15 @@ public class CliPrinter {
         print("- points: " + board.getPointsToken());
         print("- unloaded weapons: " );
         printWeaponList (board.getUnloadedWeapons ());
+        print("- owned power ups: " );
+        printPowerUpList (board.getPowerUps (), true);
         print("- owned ammo: " + board.getOwnedAmmo ());
         print("\n");
     }
+
+    /**
+     * Method to ask the player if they want to reload any weapons
+     */
 
     synchronized void printReload() {
         print("Do you want to reload any of your weapons?\n");
@@ -431,12 +479,20 @@ public class CliPrinter {
         print(YES);
     }
 
+    /**
+     * Method to ask the player if they want to use Tagback Grenade
+     * @param name of the player that targeted this player
+     */
+
     synchronized void printTagback(String name) {
         print("You just received damage from " + name + ". Do you want to use your Tagback Grenade and give one mark in return?");
         print(NO);
         print(YES);
     }
 
+    /**
+     * Method to print end game message
+     */
     synchronized void printEndGame() {
         print(ANSI_PURPLE + "Thanks for playing!" + ANSI_RESET);
     }

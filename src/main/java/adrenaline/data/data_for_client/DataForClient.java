@@ -22,9 +22,19 @@ public abstract class DataForClient implements Serializable {
         this.account = account;
     }
 
+    /**
+     * Getter method to obtain the receiver account of this data package
+     * @return account
+     */
+
     public Account getAccount() {
         return this.account;
     }
+
+    /**
+     * Setter method to set the receiver account of this data package
+     * @param account to set
+     */
 
     public void setAccount(Account account) {
         this.account = account;

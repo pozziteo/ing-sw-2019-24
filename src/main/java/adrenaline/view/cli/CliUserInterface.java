@@ -114,17 +114,36 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
+    /**
+     * Getter method to obtain the Cli's printer
+     * @return printer
+     */
+
     public CliPrinter getPrinter() {
         return this.printer;
     }
+
+    /**
+     * Getter method to obtain the client's nickname
+     * @return nickname
+     */
 
     public String getNickname() {
         return this.nickname;
     }
 
+    /**
+     * Setter method to set the client's nickname
+     * @param nickname of the client using this cli
+     */
+
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
+    /**
+     * Method to choose the nickname
+     */
 
     public void setUpAccount() {
         printer.printNickname ( );
@@ -132,6 +151,11 @@ public class CliUserInterface implements UserInterface {
         AccountSetUp accountData = new AccountSetUp (nickname, newNickname);
         sendToServer (accountData);
     }
+
+    /**
+     * Method to notify the client that the timer run out
+     * @param nickname of the player that made the timer run out
+     */
 
     public void notifyTimeOut(String nickname) {
         parser.setActive (false);
@@ -175,6 +199,11 @@ public class CliUserInterface implements UserInterface {
             printer.print ("The first player in your lobby is choosing the arena. Please wait...\n");
         }
     }
+
+    /**
+     * Method to ask the player which room they want to spawn in
+     * @param powerUps is the list of power ups where they can choose one to discard
+     */
 
     public void chooseSpawnPoint(List<PowerUpDetails> powerUps) {
         printer.printSpawnPointOptions (powerUps);
@@ -250,6 +279,10 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
+    /**
+     * Method to make current thread sleep for 3 seconds
+     */
+
     private void putThreadToSleep() {
         try {
             Thread.sleep ((long) ConfigFileReader.readConfigFile("cliThread"));
@@ -258,14 +291,29 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
+    /**
+     * Method to send an action to the server
+     * @param actionType is the type of action chosen
+     */
+
     private void sendAction(String actionType) {
         ActionBuilder action = new ActionBuilder(nickname, actionType);
         sendToServer(action);
     }
 
+    /**
+     * Method to ask the player to wait their turn
+     * @param nickname of this player
+     */
+
     private void waitTurn(String nickname) {
         printer.printWaitTurn(nickname);
     }
+
+    /**
+     * Method to show the player that it's their turn and they can make an action
+     * @param nickname
+     */
 
     public void showTurn(String nickname) {
         parser.setActive(true);
@@ -275,6 +323,11 @@ public class CliUserInterface implements UserInterface {
             waitTurn(nickname);
         }
     }
+
+    /**
+     * Method to print the map
+     * @param mapName is the name of the map chosen for the game
+     */
 
     public void printMap(String mapName) {
         switch (mapName) {
@@ -295,27 +348,57 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
+    /**
+     * Method to inform the player of which map is being used for the game
+     * @param name of the map
+     */
+
     public void printMapInit(String name) {
         printer.print ("Map has been initialized to " + name);
     }
+
+    /**
+     * Method to print the square details of the map
+     * @param map is the list of square details
+     */
 
     public void printSquareDetails(List<SquareDetails> map) {
         for (int i = 0; i < map.size(); i++)
             printer.printSquareDetails(map.get(i));
     }
 
+    /**
+     * Method to print the ranking
+     * @param ranking is the list of players in order by points
+     */
+
     public void printRanking(List<String> ranking) {
         printer.printRanking (ranking);
     }
+
+    /**
+     * Method to print all the boards' details
+     * @param boards to print
+     */
 
     public void printAllBoards(List<BoardDetails> boards) {
         for (BoardDetails board : boards)
             printBoard (board);
     }
 
+    /**
+     * Method to print only this player's oard
+     * @param board to print
+     */
+
     public void printBoard(BoardDetails board) {
         printer.printBoard(board);
     }
+
+    /**
+     * Method to ask which square the player wants to move to
+     * @param paths that can be taken
+     */
 
     public void showPaths(List<Integer> paths) {
         printer.printPaths (paths);
@@ -337,6 +420,12 @@ public class CliUserInterface implements UserInterface {
             }
         }
     }
+
+    /**
+     * Method to ask which square the player wants to move to and what they want to grab from there
+     * @param paths that can be taken
+     * @param map is the list of square details
+     */
 
     public void showPathsAndGrabOptions(List<Integer> paths, List<SquareDetails> map) {
         printer.printPaths (paths);
@@ -369,6 +458,11 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
+    /**
+     * Method to ask which weapon the player wants to grab from the spawn point
+     * @param square is the spawn point
+     */
+
     private void chooseWeapon(SpawnPointDetails square) {
         NewPositionAndGrabbed newPositionAndGrabbed;
         this.printer.printWeaponListToChoose (square.getWeaponsOnSquare ());
@@ -379,9 +473,14 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
+    /**
+     * Method to ask the player which power up they want to use
+     * @param powerUps is the list of power ups to choose from
+     */
+
     public void choosePowerUp(List<PowerUpDetails> powerUps) {
         DataForServer powerUp;
-        printer.printPowerUpList(powerUps);
+        printer.printPowerUpList(powerUps, false);
         int parsed = this.parser.asyncParseInt (powerUps.size());
         if (parsed != -1) {
             if (parsed != powerUps.size()) {
@@ -397,6 +496,11 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
+    /**
+     * Method to ask the player which weapon they want to choose to shoot another player
+     * @param weapons to choose from
+     */
+
     public void chooseWeapon(List<WeaponDetails> weapons) {
         DataForServer weapon;
         printer.print("These are your loaded weapons: ");
@@ -411,6 +515,11 @@ public class CliUserInterface implements UserInterface {
             sendAction ("end action");
     }
 
+    /**
+     * Method to choose which effect to perform with the chosen weapon
+     * @param effects to choose from
+     */
+
     public void chooseWeaponEffect(List<EffectDetails> effects) {
         printer.print("Choose the effect you want to perform | press " + effects.size() + " to finish):");
         printer.printWeaponEffects(effects);
@@ -423,6 +532,13 @@ public class CliUserInterface implements UserInterface {
                 sendAction ("end action");
         }
     }
+
+    /**
+     * Method to print all the targets' positions for the shoot action
+     * @param targets to choose from
+     * @param map is the list of square details
+     * @return true if there are any targets, false otherwise
+     */
 
     private boolean printPlayersPositions(List<String> targets, List<SquareDetails> map) {
         try {
@@ -447,6 +563,14 @@ public class CliUserInterface implements UserInterface {
             return true;
         }
     }
+
+    /**
+     * Method to build all the atomic targets for the Shoot action
+     * @param targets is the list of all atomic target types for the effect chosen
+     * @param compliantTargets is the list of players that meet the requirements of the effect
+     * @param map is the list of square details
+     * @param hasTargetingScope is true if shooter has Targeting Scope, false otherwise
+     */
 
     public void chooseTargets(List<TargetDetails> targets, List<String> compliantTargets, List<SquareDetails> map, boolean hasTargetingScope) {
         boolean invalid = false;
@@ -486,6 +610,13 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
+    /**
+     * Method to ask the player who they want to hit with the Targeting Scope
+     * @param targets is the list of targets to choose from
+     * @param map is the list of square details
+     * @return the name of the target chosen
+     */
+
     private String chooseTargetingScopeTarget(List<String> targets, List<SquareDetails> map) {
         printer.printTargetingScope();
         int parsed = parser.asyncParseInt (1);
@@ -499,6 +630,16 @@ public class CliUserInterface implements UserInterface {
         }
         return null;
     }
+
+    /**
+     * Method to ask the player which players they want to hit with their weapon's effect
+     * @param maxAmount of targets to choose
+     * @param movements that can be performed with the action
+     * @param isArea is true if the attack targets a whole area, false otherwise
+     * @param compliantTargets is the list of targets that meet the effect's requirements
+     * @param map is the list of square details
+     * @return the built atomic target
+     */
 
     private AtomicTarget chooseTargets(int maxAmount, int movements, boolean isArea, List<String> compliantTargets, List<SquareDetails> map) {
         if (printPlayersPositions (compliantTargets, map)) {
@@ -535,6 +676,13 @@ public class CliUserInterface implements UserInterface {
             return null;
     }
 
+    /**
+     * Method to find the target's position from the list of square details
+     * @param name is the target's name
+     * @param map is the list of square details
+     * @return the target's square id
+     */
+
     private int findTargetPos(String name, List<SquareDetails> map) {
         for (SquareDetails square : map) {
             if (square.getPlayersOnSquare ( ).contains (name)) {
@@ -543,6 +691,13 @@ public class CliUserInterface implements UserInterface {
         }
         return -1;
     }
+
+    /**
+     * Method to choose the square or room to target with the weapon's effect
+     * @param compliantTargets is the list of targets that meet the requirements
+     * @param map is the list of square details
+     * @return the built atomic target
+     */
 
     private AtomicTarget chooseAreaToTarget(List<String> compliantTargets, List<SquareDetails> map) {
         if (printPlayersPositions (compliantTargets, map)) {
@@ -556,6 +711,14 @@ public class CliUserInterface implements UserInterface {
             return null;
     }
 
+    /**
+     * Method to choose which square to move to with shoot action
+     * @param max amount of movements
+     * @param compliantTargets is the list of compliant targets
+     * @param map is the list of square details
+     * @return the built atomic target
+     */
+
     private AtomicTarget chooseHowManyMovements(int max, List<String> compliantTargets, List<SquareDetails> map) {
         if (printPlayersPositions (compliantTargets, map)) {
             printer.print ("Choose the square you want to move to (max distance of " + max + "):");
@@ -567,6 +730,13 @@ public class CliUserInterface implements UserInterface {
         } else
             return null;
     }
+
+    /**
+     * Method to choose a target and ask which square the player wants to move their target to
+     * @param targets is the list of possible targets
+     * @param map is the list of square details
+     * @param possiblePaths is the list of possible paths
+     */
 
     public void chooseSquareForTarget(List<String> targets, List<SquareDetails> map, Map<String, List<Integer>> possiblePaths) {
         printPlayersPositions (targets, map);
@@ -591,6 +761,12 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
+    /**
+     * Method to ask the player which square they want to move to
+     * @param validSquareIds is the list of valid squares
+     * @param weaponDetails is the list of weapons to choose from
+     */
+
     public void chooseSquare(List<Integer> validSquareIds, List<WeaponDetails> weaponDetails) {
         boolean valid = false;
         int parsed = -1;
@@ -614,6 +790,12 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
+    /**
+     * Method to ask the player which weapon they want to reload
+     * @param ammo is the list of owned ammo
+     * @param weapons to choose from
+     */
+
     public void askReload(List<String> ammo, List<WeaponDetails> weapons) {
         printer.printReload();
         int parsed = this.parser.asyncParseInt (1);
@@ -635,6 +817,11 @@ public class CliUserInterface implements UserInterface {
 
     }
 
+    /**
+     * Method to ask the player which weapon they want to discard
+     * @param weapons to choose from
+     */
+
     public void discardWeapon(List<WeaponDetails> weapons) {
         printer.printWeaponList (weapons);
         int parsed = this.parser.asyncParseInt (weapons.size ( )-1);
@@ -643,6 +830,11 @@ public class CliUserInterface implements UserInterface {
             sendToServer (response);
         }
     }
+
+    /**
+     * Method to ask the player if they want to use Tagback Grenade
+     * @param attacker is the name of the player that hit this player
+     */
 
     public void askTagback(String attacker) {
         parser.setActive (true);
@@ -657,6 +849,11 @@ public class CliUserInterface implements UserInterface {
             sendToServer (response);
         }
     }
+
+    /**
+     * Method to show the end game screen
+     * @param ranking is the ranking of the game
+     */
 
     public void showEndGameScreen(List<String> ranking) {
         printer.printRanking (ranking);

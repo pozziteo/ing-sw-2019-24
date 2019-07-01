@@ -8,6 +8,7 @@ public class BoardDetails implements Serializable {
     private String color;
     private int position;
     private List<WeaponDetails> loadedWeapons;
+    private List<PowerUpDetails> powerUps;
     private List<String> damageTaken;
     private List<String> receivedMarks;
     private List<WeaponDetails> unloadedWeapons;
@@ -15,16 +16,47 @@ public class BoardDetails implements Serializable {
     private int[] pointsForKill;
     private int pointsToken;
 
-    public BoardDetails(String nickname, String color, int pos, List<WeaponDetails> loadedWeapons, List<String> damage, List<String> marks, List<WeaponDetails> unloadedWeapons, List<String> ammo, int[] points, int pointsToken) {
+    public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public void setColor(String color) {
         this.color = color;
-        this.position = pos;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public void setLoadedWeapons(List<WeaponDetails> loadedWeapons) {
         this.loadedWeapons = loadedWeapons;
-        this.damageTaken = damage;
-        this.receivedMarks = marks;
+    }
+
+    public void setPowerUps(List<PowerUpDetails> powerUps) {
+        this.powerUps = powerUps;
+    }
+
+    public void setDamageTaken(List<String> damageTaken) {
+        this.damageTaken = damageTaken;
+    }
+
+    public void setReceivedMarks(List<String> receivedMarks) {
+        this.receivedMarks = receivedMarks;
+    }
+
+    public void setUnloadedWeapons(List<WeaponDetails> unloadedWeapons) {
         this.unloadedWeapons = unloadedWeapons;
-        this.ownedAmmo = ammo;
-        this.pointsForKill = points;
+    }
+
+    public void setOwnedAmmo(List<String> ownedAmmo) {
+        this.ownedAmmo = ownedAmmo;
+    }
+
+    public void setPointsForKill(int[] pointsForKill) {
+        this.pointsForKill = pointsForKill;
+    }
+
+    public void setPointsToken(int pointsToken) {
         this.pointsToken = pointsToken;
     }
 
@@ -65,4 +97,8 @@ public class BoardDetails implements Serializable {
     }
 
     public int getPointsToken() {return this.pointsToken;}
+
+    public List<PowerUpDetails> getPowerUps() {
+        return powerUps;
+    }
 }

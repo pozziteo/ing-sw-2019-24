@@ -129,7 +129,7 @@ public class GameModel {
     public void updateBoards(Account account) {
         List<BoardDetails> boards = new ArrayList<> ();
         for (Player p : game.getPlayers ()) {
-            boards.add(createBoardDetails (p));
+            boards.add(createBoardDetails (p, false));
         }
         BoardsResponse response = new BoardsResponse (boards);
         response.setAccount (account);
@@ -138,13 +138,15 @@ public class GameModel {
 
     public void updatePlayerBoard(Account account) {
         List<BoardDetails> boards = new ArrayList<> ();
-        boards.add (createBoardDetails (game.findByNickname (account.getNickName ())));
+        boards.add (createBoardDetails (game.findByNickname (account.getNickName ()), true));
         BoardsResponse response = new BoardsResponse (boards);
         response.setAccount (account);
         response.sendToView ();
     }
 
-    private BoardDetails createBoardDetails(Player p) {
+    private BoardDetails createBoardDetails(Player p, boolean showPowerUps) {
+        BoardDetails details = new BoardDetails ();
+
         String nickname = p.getPlayerName ();
         String color = p.getPlayerColor ();
         int n = p.getPosition ().getSquareId ();
@@ -158,12 +160,28 @@ public class GameModel {
         for (Weapon w : p.getBoard ().getUnloadedWeapons ()) {
             unloadedWeapons.add(createWeaponDetail (w));
         }
+        List<PowerUpDetails> powerUps = new ArrayList<> ();
+        if (showPowerUps) {
+            powerUps = createPowerUpDetails (p);
+        }
         List<String> ownedAmmo = new ArrayList<> ();
         for (Ammo a : p.getBoard ().getOwnedAmmo ())
             ownedAmmo.add(a.getColor ());
         int[] pointsForKill = p.getBoard ().getPointsForKill ();
         int pointsToken = p.getBoard().getPointTokens();
-        return new BoardDetails (nickname, color, n, loadedWeapons, damageTaken, receivedMarks, unloadedWeapons, ownedAmmo, pointsForKill, pointsToken);
+
+        details.setNickname (nickname);
+        details.setColor (color);
+        details.setPosition (n);
+        details.setDamageTaken (damageTaken);
+        details.setReceivedMarks (receivedMarks);
+        details.setLoadedWeapons (loadedWeapons);
+        details.setUnloadedWeapons (unloadedWeapons);
+        details.setPowerUps (powerUps);
+        details.setOwnedAmmo (ownedAmmo);
+        details.setPointsForKill (pointsForKill);
+        details.setPointsToken (pointsToken);
+        return details;
     }
 
     public List<EffectDetails> createWeaponEffects(Weapon weapon) {
