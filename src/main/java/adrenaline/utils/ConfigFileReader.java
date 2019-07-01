@@ -5,6 +5,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * Class to read config files.
+ */
+
 public class ConfigFileReader {
     private static final String PATH1 = "src" + File.separatorChar + "Resources" + File.separatorChar + "config.properties";
 

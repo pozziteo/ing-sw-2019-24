@@ -6,6 +6,10 @@ import adrenaline.view.gui.GUIController;
 
 import java.util.List;
 
+/**
+ * This class is sent to the client when a game ends. It contains the final ranking information.
+ */
+
 public class EndGameStatus extends DataForClient {
     private List<String> finalRanking;
 

@@ -6,6 +6,10 @@ import adrenaline.view.gui.GUIController;
 
 import java.util.Map;
 
+/**
+ * This class is sent to the client to ask them which map they want to choose for the game.
+ */
+
 public class MapSetUp extends DataForClient {
     private String chooserPlayer;
     private Map<String, String> playerColors;

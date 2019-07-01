@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class is sent to ask the client in which way they want to use the chosen power up.
+ */
+
 public class PowerUpEffectOptions extends DataForClient {
     private String powerUpName;
     private List<SquareDetails> map;
@@ -20,6 +24,11 @@ public class PowerUpEffectOptions extends DataForClient {
         this.targetPaths = targetPaths;
     }
 
+    /**
+     * Method to select valid targets from the information in map.
+     * @return list of valid targets
+     */
+
     private List<String> getValidNames() {
         List<String> names = new ArrayList<> ();
         for (SquareDetails s : map) {
@@ -30,6 +39,11 @@ public class PowerUpEffectOptions extends DataForClient {
         }
         return names;
     }
+
+    /**
+     * Method to select valid square ids from the information in map.
+     * @return list of valid ids
+     */
 
     private List<Integer> getValidSquares() {
         List<Integer> ids = new ArrayList<> ();

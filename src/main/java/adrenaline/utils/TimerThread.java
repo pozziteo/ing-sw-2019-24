@@ -2,10 +2,14 @@ package adrenaline.utils;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * This class is used as timer for player time out.
+ */
+
 public class TimerThread implements Runnable {
     private long timeout;
     private Thread thread;
-    private TimerCallBack timerCallBack;
+    private TimerCallBack timerCallBack; //is the callback class for this timer
     private final AtomicBoolean running;
     private boolean forSpecificPlayer;
     private String nickname;
@@ -17,12 +21,20 @@ public class TimerThread implements Runnable {
         this.forSpecificPlayer = false;
     }
 
+    /**
+     * Method to start running the timer thread for everyone.
+     */
+
     public void startThread() {
         this.forSpecificPlayer = false;
         this.thread = new Thread(this);
         this.running.set (true);
         thread.start();
     }
+
+    /**
+     * Method to start running the timer thread for a specific player.
+     */
 
     public void startThread(String nickname) {
         this.forSpecificPlayer = true;
@@ -32,9 +44,18 @@ public class TimerThread implements Runnable {
         this.thread.start();
     }
 
+    /**
+     * Getter method to know if the thread is running or not.
+     * @return true if running, false otherwise
+     */
+
     public boolean isRunning() {
         return this.running.get ();
     }
+
+    /**
+     * Method to run the thread until the timer runs out.
+     */
 
     @Override
     public void run() {
@@ -54,6 +75,10 @@ public class TimerThread implements Runnable {
             }
         }
     }
+
+    /**
+     * Method to stop the thread.
+     */
 
     public void shutDownThread() {
         this.running.set(false);

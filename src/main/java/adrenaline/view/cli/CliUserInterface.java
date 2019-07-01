@@ -346,10 +346,12 @@ public class CliUserInterface implements UserInterface {
             if (parsed != -1) {
                 for (Integer i : paths) {
                     if (parsed == i) {
-                        SquareDetails s = null;
+                        SquareDetails s = map.get (0);
                         for (SquareDetails square : map)
-                            if (square.getId () == i)
+                            if (square.getId () == i) {
                                 s = square;
+                                break;
+                            }
                         if (s.isSpawnPoint ()) {
                             chooseWeapon ((SpawnPointDetails) s);
                         } else {

@@ -7,6 +7,11 @@ import adrenaline.view.gui.GUIController;
 
 import java.util.List;
 
+/**
+ * This class is sent to the client to ask which effect they want to perform with the chosen weapon
+ * in the shoot action.
+ */
+
 public class WeaponModeOptions extends DataForClient {
     private List<EffectDetails> effects;
 

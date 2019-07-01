@@ -77,7 +77,6 @@ public class Map {
             if (player.getPosition().getSquareColor().equals(color))
                 playersInRoom.add(player);
         }
-
         return playersInRoom;
     }
 }

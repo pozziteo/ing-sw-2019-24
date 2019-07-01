@@ -26,11 +26,17 @@ import adrenaline.utils.TimerThread;
 import java.io.File;
 import java.util.*;
 
+/**
+ * This class implements the controller part of the MVC design pattern.
+ * An instance is created when a new game begins, and then data is received and sent using
+ * command pattern. When the player timer runs out, this class is used as callback.
+ */
+
 public class Controller implements TimerCallBack {
     private Lobby lobby;
     private GameModel gameModel;
     private TimerThread timer;
-    private ArrayList<Player> dummyPlayers;
+    private ArrayList<Player> dummyPlayers; //list of players that disconnected during a game
     private Action currentAction;
     private PowerUpEffect powerUpEffect;
 
@@ -44,13 +50,28 @@ public class Controller implements TimerCallBack {
         this.dummyPlayers = new ArrayList<> ();
     }
 
+    /**
+     * Getter method to obtain the game model instance
+     * @return model
+     */
+
     public GameModel getGameModel() {
         return this.gameModel;
     }
 
+    /**
+     * Getter method to obtain lobby of this controller's game
+     * @return
+     */
+
     public Lobby getLobby() {
         return this.lobby;
     }
+
+    /**
+     * Method to create a thread each time a new event is received
+     * @param data received from Client
+     */
 
     public void receiveData(DataForController data) {
         Runnable thread = () -> {
@@ -62,10 +83,19 @@ public class Controller implements TimerCallBack {
         receiverThread.start();
     }
 
+    /**
+     * Method to set the model for the game
+     * @param model of game
+     */
+
     public void startController(GameModel model) {
         this.gameModel = model;
         mapSetUp ();
     }
+
+    /**
+     * Method to request which map the match will be played on to first player
+     */
 
     private void mapSetUp() {
         timer.startThread ();
@@ -83,11 +113,20 @@ public class Controller implements TimerCallBack {
         }
     }
 
+    /**
+     * Method to set the chosen map and notify the choice to all players
+     * @param filepath of json file of the chosen map
+     */
+
     public void initializeMap(String filepath) {
         gameModel.getGame ().setArena (filepath);
         lobby.sendToAll (new MapInfo(filepath, gameModel.getGame ().getMap ().getMapName ()));
         spawnPointSetUp ();
     }
+
+    /**
+     * Method to request the spawn point to all clients
+     */
 
     private void spawnPointSetUp() {
         timer.shutDownThread ();
@@ -96,6 +135,13 @@ public class Controller implements TimerCallBack {
             lobby.sendToSpecific (p.getPlayerName (), data);
         }
     }
+
+    /**
+     * Method to set the spawn point for each client.
+     * When all clients have spawned, the game starts
+     * @param nickname of the client that chose their spawn point
+     * @param color of the chosen spawn point's room
+     */
 
     public synchronized void setSpawnPoint(String nickname, String color){
         System.out.print ("Setting spawn point for " + nickname + "...\n");
@@ -115,6 +161,11 @@ public class Controller implements TimerCallBack {
         }
     }
 
+    /**
+     * Method to check if all players in the game have spawned
+     * @return true if all players have spawned, false otherwise
+     */
+
     private boolean checkPlayersReady() {
         boolean ready = true;
         for (Player p : gameModel.getGame ().getPlayers ()) {
@@ -125,6 +176,13 @@ public class Controller implements TimerCallBack {
         }
         return ready;
     }
+
+    /**
+     * Method to start a new turn. Used each time a player finishes their turn,
+     * passes their turn or the timer runs out. If the player that should play
+     * the new turn went offline, the turn passes automatically.
+     * Starts a new timer.
+     */
 
     private void playNewTurn() {
         timer.shutDownThread ();
@@ -146,6 +204,14 @@ public class Controller implements TimerCallBack {
         timer.startThread (currentPlayer.getPlayerName ());
         gameModel.getGame ().incrementTurn ( );
     }
+
+    /**
+     * Method to handle player disconnection during game.
+     * If the disconnection occurs before all players have spawned, the client is removed from
+     * the players' list in the game model.
+     * Otherwise, the player is added to the list of dummy players.
+     * @param nickname of disconnected client
+     */
 
     public void informOfDisconnection(String nickname) {
         if (!gameModel.getGame ().isEndGame ()) {
@@ -183,6 +249,12 @@ public class Controller implements TimerCallBack {
         }
     }
 
+    /**
+     * Method to add a player that reconnected back into the game by removing them
+     * from the list of dummy players.
+     * @param nickname of reconnected client
+     */
+
     public void informOfReconnection(String nickname) {
         for (Player p : dummyPlayers) {
             if (p.getPlayerName ().equals (nickname)) {
@@ -192,6 +264,10 @@ public class Controller implements TimerCallBack {
         }
         lobby.sendMessageToAll (nickname + " has been added back to the game...\n");
     }
+
+    /**
+     * Method to end the game if the amount of players left is less than three
+     */
 
     public void endGameBecauseOfDisconnection() {
         gameModel.getGame ().setEndGame (true);
@@ -208,6 +284,12 @@ public class Controller implements TimerCallBack {
             }
         }
     }
+
+    /**
+     * Method to build a new action during player turn.
+     * @param type of action to build
+     * @param nickname of the player building the action
+     */
 
     public void buildAction(String type, String nickname) {
         Player p = gameModel.getGame ().findByNickname (nickname);
@@ -251,6 +333,14 @@ public class Controller implements TimerCallBack {
         }
     }
 
+    /**
+     * Method to execute a Move or MoveAndGrabAction (if the square chosen is not a
+     * spawn point) after the client chose the
+     * square to move to.
+     * @param nickname of player performing action
+     * @param squareId of square to move to
+     */
+
     public void executeAction(String nickname, int squareId) {
         Player p = gameModel.getGame ().findByNickname (nickname);
         if (currentAction instanceof MoveAction)
@@ -265,6 +355,13 @@ public class Controller implements TimerCallBack {
         gameModel.getGame ().updateCurrentAction (currentAction);
         checkNewTurn (nickname);
     }
+
+    /**
+     * Method to execute a MoveAndGrabAction if the square chosen is a spawn point.
+     * @param nickname of player performing the action
+     * @param squareId of square to move to
+     * @param weaponName of the weapon grabbed from spawn point
+     */
 
     public void executeAction(String nickname, int squareId, String weaponName) {
         Player p = gameModel.getGame ().findByNickname (nickname);
@@ -298,6 +395,14 @@ public class Controller implements TimerCallBack {
         }
     }
 
+    /**
+     * Method to check if the current turn is at the last action.
+     * If it is, then a request to reload any unloaded weapons will be sent to the client.
+     * If the client doesn't have any unloaded weapons or refuses to reload,
+     * the turn passes to the next one.
+     * @param nickname of current player
+     */
+
     private void checkNewTurn(String nickname) {
         if (! isLastAction ()) {
             lobby.sendToSpecific (nickname, new Turn(nickname));
@@ -308,6 +413,11 @@ public class Controller implements TimerCallBack {
             playNewTurn ();
         }
     }
+
+    /**
+     * Method to ask a player if they want to reload any weapons.
+     * @param nickname of current player
+     */
 
     private void askReload(String nickname) {
         List<String> ammo = new ArrayList<> ();
@@ -324,6 +434,13 @@ public class Controller implements TimerCallBack {
         lobby.sendToSpecific (nickname, new ReloadRequest(ammo, weapons));
     }
 
+    /**
+     * Method to reload selected weapon.
+     * @param nickname of player reloading the weapon
+     * @param positive true if the player wants to reload, false otherwise
+     * @param weaponName of weapon to reload
+     */
+
     public void reloadWeapon(String nickname, boolean positive, String weaponName) {
         if (positive) {
             try {
@@ -336,6 +453,12 @@ public class Controller implements TimerCallBack {
             playNewTurn ();
     }
 
+    /**
+     * Method to discard a weapon if the limit of 3 is exceeded.
+     * @param nickname of player discarding the weapon
+     * @param weaponName of weapon to discard
+     */
+
     public void discardWeapon(String nickname, String weaponName) {
         Weapon weapon = gameModel.getGame ().findByNickname (nickname).findLoadedWeapon (weaponName);
         if (weapon == null) {
@@ -347,9 +470,20 @@ public class Controller implements TimerCallBack {
         checkNewTurn (nickname);
     }
 
+    /**
+     * Method to check if the current turn is at the last action.
+     * @return true if is last action, false otherwise
+     */
+
     private boolean isLastAction() {
         return (gameModel.getGame ().getCurrentTurnActionNumber () == 2);
     }
+
+    /**
+     * Method to send the available weapon effects to the client.
+     * @param nickname of current player
+     * @param weaponName of weapon chosen to shoot
+     */
 
     public void sendModeOptions(String nickname, String weaponName) {
         Weapon weapon = gameModel.getGame ().findByNickname (nickname).findLoadedWeapon (weaponName);
@@ -359,6 +493,12 @@ public class Controller implements TimerCallBack {
             lobby.sendToSpecific (nickname, new WeaponModeOptions (gameModel.createWeaponEffects (weapon)));
         }
     }
+
+    /**
+     * Method to build the targets of the shoot action
+     * @param nickname of current player
+     * @param effectId of effect chosen
+     */
 
     public void askTargets(String nickname, int effectId) {
         Player p = gameModel.getGame ().findByNickname (nickname);
@@ -400,11 +540,26 @@ public class Controller implements TimerCallBack {
         gameModel.getGame ().updateCurrentAction (currentAction);
     }
 
+    /**
+     * Method to select the weapon's base effect for the shoot action.
+     * @param nickname of current player
+     * @param map is the list of SquareDetails with the map info for the client
+     * @return TargetOptions is the type of target the client can choose with base effect
+     */
+
     private TargetOptions setBaseEffect(String nickname, List<SquareDetails> map) {
         Player p = gameModel.getGame ().findByNickname (nickname);
         ((ShootAction) currentAction).addBaseEffect (((ShootAction) currentAction).getChosenWeapon ( ).getBaseEffect ( ));
         return new TargetOptions (gameModel.createTargetDetails (((ShootAction) currentAction).getChosenWeapon ( ).getBaseEffect ( )), gameModel.findCompliantTargets (((ShootAction) currentAction).getChosenWeapon ( ).getBaseEffect ( ), nickname), map, p.hasTargetingScope ());
     }
+
+    /**
+     * Method to set the chosen targets for the shoot action.
+     * @param nickname of current player
+     * @param targets are the chosen targets to hit
+     * @param targetingScopeNickname is the nickname of the player that is hit by
+     *                               Targeting Scope power up
+     */
 
     public void setTargets(String nickname, List<AtomicTarget> targets, String targetingScopeNickname) {
         try {
@@ -430,11 +585,23 @@ public class Controller implements TimerCallBack {
         }
     }
 
+    /**
+     * Method to use power up cards as bonus ammo.
+     * @param nickname of current player
+     * @param powerUpName of the power up chosen as bonus ammo
+     */
+
     public void usePowerUpAsAmmo(String nickname, String powerUpName) {
         this.powerUpEffect = new PowerUpEffect(gameModel.getGame().findByNickname(nickname), gameModel.getGame().findByNickname(nickname).findPowerUp(powerUpName));
         this.powerUpEffect.usePupAmmo ();
         checkNewTurn (nickname);
     }
+
+    /**
+     * Method to ask the player in which way they want to use their power up.
+     * @param nickname of current player
+     * @param powerUpName of the power up chosen
+     */
 
     public void choosePowerUpOption(String nickname, String powerUpName) {
         if (powerUpName.equals("Newton") || powerUpName.equals("Teleporter")) {
@@ -445,6 +612,13 @@ public class Controller implements TimerCallBack {
             checkNewTurn (nickname);
         }
     }
+
+    /**
+     * Method to apply the power up's effect.
+     * @param nickname of current player
+     * @param targetName is the nickname of the player hit by the power up
+     * @param squareId is the id of the square chosen for movement effect
+     */
 
     public void usePowerUpEffect(String nickname, String targetName, int squareId) {
         if (targetName != null) {
@@ -458,6 +632,14 @@ public class Controller implements TimerCallBack {
         }
         checkNewTurn (nickname);
     }
+
+    /**
+     * Method to apply Tagback Grenade effect if the player that has been hit wants to use
+     * the power up.
+     * @param toBeUsed true if the target wants to use it, false otherwise
+     * @param user is the nickname of the target using the power up
+     * @param target is the nickname of the player hit by the power up
+     */
 
     public void useTagback(boolean toBeUsed, String user, String target) {
         if (toBeUsed) {
@@ -481,7 +663,6 @@ public class Controller implements TimerCallBack {
     public void timerCallBack() {
         gameModel.getGame ( ).setArena (SMALL);
         lobby.sendToAll (new MapInfo(SMALL, gameModel.getGame ().getMap ().getMapName ()));
-//        lobby.sendMessageToAll ("The arena has been set to the default one (small arena)\n");
         TimeOutNotice notice = new TimeOutNotice (lobby.getPlayers ().get (0));
         notice.sendToView ();
         spawnPointSetUp ();

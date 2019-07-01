@@ -7,6 +7,11 @@ import adrenaline.view.gui.GUIController;
 
 import java.util.List;
 
+/**
+ * This class is sent to the client to ask which weapon they want to discard after
+ * exceeding the maximum number of three.
+ */
+
 public class WeaponsToDiscard extends DataForClient {
     private List<WeaponDetails> weapons;
 
