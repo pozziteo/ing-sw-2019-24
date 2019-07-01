@@ -18,28 +18,54 @@ public abstract class WeaponEffect {
         this.targets = new ArrayList<> ();
     }
 
+    /**
+     * Method to use the effect of a weapon
+     * @param attacker is the players attacking
+     * @param target is the victim
+     * @param id is the id of the square
+     */
     public void useEffect(Player attacker, Player target, Integer... id) {
         for (AtomicWeaponEffect effect : effects) {
             effect.applyEffect(attacker, target, id);
         }
     }
 
+    /**
+     * Getter method
+     * @return the weapon's requiremnt
+     */
     public WeaponEffectRequirement getRequirement() {
         return this.requirement;
     }
 
+    /**
+     * Getter method
+     * @return the list of target types
+     */
     public List<TargetType> getTargetTypes() {
         return this.targetTypes;
     }
 
+    /**
+     * Getter method
+     * @return the list of a weapon's effects
+     */
     public List<AtomicWeaponEffect> getEffects() {
         return this.effects;
     }
 
+    /**
+     * Setter method to set a list of player as targets
+     * @param targets is the list of player to be set
+     */
     public void setTargets(List<Player> targets) {
         this.targets = targets;
     }
 
+    /**
+     * Getter method
+     * @return the list of targets
+     */
     public List<Player> getTargets() {
         return this.targets;
     }

@@ -106,10 +106,19 @@ public class Board {
         this.getOwnedAmmo ().add(a);
     }
 
+    /**
+     * Getter method
+     * @return the amount of points for a kill
+     */
     public int[] getPointsForKill() {
         return this.pointsForKill;
     }
 
+    /**
+     * Getter method
+     * @param a is the ammo type
+     * @return the number of ammo ("a")
+     */
     public int getAmountOfAmmo(Ammo a) {
         int amount = 0;
         for (int i = 0; i < this.getOwnedAmmo ().size(); i++) {

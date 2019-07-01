@@ -59,7 +59,7 @@ public class Game implements Serializable {
         this.gameID = new Random().nextInt() * 1000000;
         this.currentTurn = 0;
         this.finalFrenzy = false;
-        this.skullsRemaining = 8;
+        this.skullsRemaining = 2;//TODO rimettere l'8
         this.players = new ArrayList<>();
         this.ranking = new ArrayList<>();
         this.startGame = false;
@@ -88,6 +88,9 @@ public class Game implements Serializable {
         this.firstPlayer = this.players.get(0);
     }
 
+    /**
+     * Method to start the game, it lets the players pick a weapon or a tile
+     */
     public void startGame() {
         this.startGame = true;
         for (Square square : map.getArena()) {
@@ -129,6 +132,9 @@ public class Game implements Serializable {
         return currentTurn;
     }
 
+    /**
+     * Method to increment the turn counter
+     */
     public void incrementTurn() {
         this.currentTurnActions = new LinkedList<>();
         replaceEmptySlots();
@@ -225,10 +231,18 @@ public class Game implements Serializable {
         return this.finalFrenzy;
     }
 
+    /**
+     * Getter method to establish if the game is started
+     * @return true if it started
+     */
     public boolean isStartGame() {
         return this.startGame;
     }
 
+    /**
+     * Getter method to establish if the game is ending
+     * @return true if the game is ending
+     */
     public boolean isEndGame() {
         return this.endGame;
     }
@@ -243,21 +257,37 @@ public class Game implements Serializable {
         return this.ranking.get(0);
     }
 
+    /**
+     * Method to set how many actions a player made
+     * @param a is the type of action
+     */
     public void setCurrentAction(Action a) {
         if (currentTurnActions.size() < 2) {
             currentTurnActions.add(a);
         }
     }
 
+    /**
+     * Method to update the list of current action
+     * @param a is the type of action
+     */
     public void updateCurrentAction(Action a) {
         this.currentTurnActions.remove(getCurrentAction ());
         this.currentTurnActions.add(a);
     }
 
+    /**
+     * Getter method
+     * @return the last action performed by a player
+     */
     public Action getCurrentAction() {
         return this.currentTurnActions.getLast();
     }
 
+    /**
+     * Getter method
+     * @return the number of action made
+     */
     public int getCurrentTurnActionNumber() {
         return this.currentTurnActions.size();
     }
@@ -309,16 +339,26 @@ public class Game implements Serializable {
         );
     }
 
+    /**
+     * Getter method
+     * @param p is the player
+     * @return how many player's points are on the death track
+     */
     public int getDeathTrackPlayerPoint(Player p){
         int a=0;
-        for(int i=0; i<deathTrack.size(); i++){
-            if(deathTrack.get(i).equalsIgnoreCase(p.getPlayerColor())){
+        for (String s : deathTrack) {
+            if (s.equalsIgnoreCase(p.getPlayerColor())) {
                 a++;
             }
         }
         return a;
     }
 
+    /**
+     * Method to find a player by his nickname
+     * @param nickname is the nickname of the player to search
+     * @return the player if he was in the game
+     */
     public Player findByNickname(String nickname) {
         for (Player p : players) {
             if (p.getPlayerName().equals(nickname))
@@ -327,6 +367,9 @@ public class Game implements Serializable {
         return null;
     }
 
+    /**
+     * Method to fill an empty slots after a player draws a card
+     */
     private void replaceEmptySlots() {
         for (Square s : map.getArena()) {
             if (s.isSpawnPoint()) {
@@ -360,7 +403,7 @@ public class Game implements Serializable {
 
     /**
      * Method for the OverKill
-
+     *
      * @param deadPlayer is the player who died
      */
     public void overKill(Player deadPlayer) {
@@ -436,6 +479,11 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Method to replace a weapon
+     * @param player is the player
+     * @param weapon is the new weapon
+     */
     public void replaceWeapon(Player player, Weapon weapon) {
         SpawnPoint playerPosition = (SpawnPoint) player.getPosition ();
         playerPosition.setWeapons (weapon);

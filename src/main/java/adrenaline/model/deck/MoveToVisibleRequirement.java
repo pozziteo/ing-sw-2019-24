@@ -14,6 +14,11 @@ public class MoveToVisibleRequirement implements WeaponEffectRequirement {
         this.movements = movements;
     }
 
+    /**
+     * Method to find the list of available targets under the 'movements' condition (maximum number of movements)
+     * @param attacker is the attacker
+     * @return the list of available targets
+     */
     @Override
     public List<Player> findTargets(Player attacker) {
         List<Player> targets = new ArrayList<>();

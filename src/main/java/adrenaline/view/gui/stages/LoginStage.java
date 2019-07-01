@@ -69,6 +69,10 @@ public class LoginStage {
         pane.requestFocus();
     }
 
+    /**
+     * Getter method
+     * @return the login scene
+     */
     public Scene getLoginScene() {
         return loginScene;
     }

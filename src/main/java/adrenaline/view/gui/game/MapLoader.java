@@ -11,6 +11,10 @@ public class MapLoader {
 
     private ImageView map;
 
+    /**
+     * Method to load the game's map
+     * @param path is the directory of the map file
+     */
     public MapLoader(String path) {
         try {
             Image mapImage = new Image(new FileInputStream(path));
@@ -24,6 +28,10 @@ public class MapLoader {
         }
     }
 
+    /**
+     * Getter Method
+     * @return the map image
+     */
     public ImageView loadMap() {
         return this.map;
     }

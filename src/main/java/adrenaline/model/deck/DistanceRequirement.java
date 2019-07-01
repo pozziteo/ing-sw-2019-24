@@ -78,6 +78,12 @@ public class DistanceRequirement implements WeaponEffectRequirement {
         return validSquares;
     }
 
+    /**
+     * Method to establish if a target is in a valid square
+     * @param target is the name of the target
+     * @param validSquares is the list of valid squares
+     * @return true (if the target is in those), else false
+     */
     private boolean checkPosition(Player target, List<Integer> validSquares) {
 
         for (Integer squareId : validSquares)

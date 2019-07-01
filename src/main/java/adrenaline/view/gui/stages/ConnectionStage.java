@@ -70,6 +70,10 @@ public class ConnectionStage {
         pane.requestFocus();
     }
 
+    /**
+     * Getter method
+     * @return the connection stage
+     */
     public Scene getConnectionScene() {
         return this.connectionScene;
     }

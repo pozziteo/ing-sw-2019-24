@@ -12,6 +12,12 @@ public class AtomicEffectsFactory {
         super();
     }
 
+    /**
+     * Method to create the base effect of a weapon
+     * @param pureDamage is amount of damage
+     * @param marks is the number of marks
+     * @return the base effect
+     */
     public AtomicWeaponEffect createBaseDamageEffect(int pureDamage, int marks) {
          return (attacker, target, id) ->  {
             target.getBoard().gotHit(pureDamage, attacker);
@@ -23,10 +29,21 @@ public class AtomicEffectsFactory {
         };
     }
 
+    /**
+     * Method to create an additional damage effect
+     * @param pureDamage is the amount of damage
+     * @return the additional effect
+     */
     public AtomicWeaponEffect createAdditionalDamageEffect(int pureDamage) {
         return (attacker, target, id) -> target.getBoard().gotHit(pureDamage, attacker);
     }
 
+    /**
+     * Method to create a base effect to apply to a single square
+     * @param pureDamage is the amount of damage
+     * @param marks is the number of marks
+     * @return the square effect
+     */
     public AtomicWeaponEffect createSquareBasedDamage(int pureDamage, int marks) {
         return (attacker, target, id) -> {
             List<Player> players = new ArrayList<>(attacker.getGame().getPlayers());
@@ -43,6 +60,12 @@ public class AtomicEffectsFactory {
         };
     }
 
+    /**
+     * Method to create a base effect to apply to a whole room
+     * @param pureDamage is the amount of damage
+     * @param marks is the number of marks
+     * @return the base effect
+     */
     public AtomicWeaponEffect createRoomBasedDamage(int pureDamage, int marks) {
         return (attacker, target, id) -> {
             List<Player> players = new ArrayList<>(attacker.getGame().getPlayers());
@@ -57,6 +80,12 @@ public class AtomicEffectsFactory {
         };
     }
 
+    /**
+     * Method to create a movement after a hit
+     * @param executor is the name of the attacker
+     * @param movements is the number of movements
+     * @return the generic movement
+     */
     public AtomicWeaponEffect createGenericMovementEffect(String executor, int movements) {
         return (attacker, target, id) -> {
             Player performer;
@@ -77,6 +106,10 @@ public class AtomicEffectsFactory {
         };
     }
 
+    /**
+     * Method to create a movement that moves a victim to the attacker's square
+     * @return the movement
+     */
     public AtomicWeaponEffect createMoveToAttackerPosition() {
         return (attacker, target, id) -> {
             target.getPosition ().removePlayerFromSquare (target);
@@ -84,6 +117,10 @@ public class AtomicEffectsFactory {
         };
     }
 
+    /**
+     * Method to create a movement that moves the attacker to the target's square
+     * @return
+     */
     public AtomicWeaponEffect createMoveToTargetPosition() {
         return (attacker, target, id) -> {
             attacker.getPosition ().removePlayerFromSquare (attacker);
@@ -91,6 +128,11 @@ public class AtomicEffectsFactory {
         };
     }
 
+    /**
+     * Method to create a movement that move the targets to a visible square
+     * @param maxMovements is the maximum number of movements
+     * @return the movement
+     */
     public AtomicWeaponEffect createMoveTargetToVisibleSquare(int maxMovements) {
         return (attacker, target, id) -> {
             List<Integer> targetPaths = Action.findPaths(target, maxMovements);
@@ -101,6 +143,11 @@ public class AtomicEffectsFactory {
         };
     }
 
+    /**
+     * Method to create a movement that move the executor to a new square
+     * @param executor is the name of the executor
+     * @return the movement
+     */
     public AtomicWeaponEffect createMoveToSquare(String executor) {
         return (attacker, target, id) -> {
             Player performer;
