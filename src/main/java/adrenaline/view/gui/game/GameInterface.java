@@ -626,18 +626,6 @@ public class GameInterface {
         select.setId("medium-text");
 
         activateSquareEffect(map);
-        /*for (SquareDetails details : map) {
-            mapButtons.get(details.getId()).setId("active-square");
-            mapButtons.get(details.getId()).setDisable(false);
-            mapButtons.get(details.getId()).setOnMouseClicked(mouseEvent -> {
-                synchronized (locker) {
-                    chosenTargets.add(new AtomicTarget(null, details.getId()));
-                    disableButtons();
-                    root.getChildren().remove(contextBox);
-                    locker.notifyAll();
-                }
-            });
-        } */
         contextBox.getChildren().add(select);
         Platform.runLater(() -> {
             root.getChildren().add(contextBox);
@@ -666,18 +654,6 @@ public class GameInterface {
         select.setId("medium-text");
 
         activateSquareEffect(map);
-        /*for (SquareDetails details : map) {
-            mapButtons.get(details.getId()).setId("active-square");
-            mapButtons.get(details.getId()).setDisable(false);
-            mapButtons.get(details.getId()).setOnMouseClicked(mouseEvent -> {
-                synchronized (locker) {
-                    chosenTargets.add(new AtomicTarget(null, details.getId()));
-                    disableButtons();
-                    root.getChildren().remove(contextBox);
-                    locker.notifyAll();
-                }
-            });
-        } */
         contextBox.getChildren().add(select);
         Platform.runLater(() -> {
             root.getChildren().add(contextBox);
@@ -1019,11 +995,12 @@ public class GameInterface {
     }
 
     /**
-     * TODO
+     * Method invoked when a in-game timeout occurs. It disables all map buttons and remove
+     * the current context box on the stage
      */
     public void timeOut() {
         Platform.runLater(() -> {
-            if (contextBox != null && root.getChildren().contains(contextBox))
+            if (contextBox != null)
                 root.getChildren().remove(contextBox);
             disableButtons();
         });
@@ -1078,6 +1055,10 @@ public class GameInterface {
         });
     }
 
+    /**
+     * Method to update the players' boards on the game scene
+     * @param boardDetails contains the details of the boards to update
+     */
     public void updateBoards(List<BoardDetails> boardDetails) {
         Platform.runLater(() -> {
             for (BoardDetails details : boardDetails) {
