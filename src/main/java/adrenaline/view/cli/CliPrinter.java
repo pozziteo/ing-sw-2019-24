@@ -381,7 +381,7 @@ public class CliPrinter {
             }
         } else {
             if (powerUpDetails.isEmpty ())
-                print("empty");
+                print("none");
             else {
                 for (int i = 0; i < powerUpDetails.size ( ); i++) {
                     print (i + " - " + powerUpDetails.get (i).getType ( ) + " - Bonus ammo color: " + powerUpDetails.get (i).getColor ( ));

@@ -5,6 +5,10 @@ import adrenaline.network.Account;
 import adrenaline.view.cli.CliUserInterface;
 import adrenaline.view.gui.GUIController;
 
+/**
+ * This class is used to send a generic message to the client.
+ */
+
 public class MessageForClient extends DataForClient {
     private String message;
 

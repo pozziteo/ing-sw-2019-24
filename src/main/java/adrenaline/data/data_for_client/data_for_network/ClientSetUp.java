@@ -5,6 +5,10 @@ import adrenaline.network.Account;
 import adrenaline.view.cli.CliUserInterface;
 import adrenaline.view.gui.GUIController;
 
+/**
+ * This class is used to update the nickname saved in the view from default to chosen one
+ */
+
 public class ClientSetUp extends DataForClient {
     public ClientSetUp(Account account) {
         super(account);

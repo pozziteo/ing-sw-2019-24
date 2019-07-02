@@ -5,6 +5,10 @@ import adrenaline.network.Account;
 import adrenaline.view.cli.CliUserInterface;
 import adrenaline.view.gui.GUIController;
 
+/**
+ * This class is used to inform the client of whether or not their registration/login was successful.
+ */
+
 public class AccountResponse extends DataForClient {
     private boolean successful;
     private String message;
