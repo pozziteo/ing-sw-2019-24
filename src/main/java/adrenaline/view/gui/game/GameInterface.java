@@ -1093,8 +1093,13 @@ public class GameInterface {
                 List<String> weaponsNames = new ArrayList<>();
                 for (WeaponDetails weapon : ownedWeapons)
                     weaponsNames.add(weapon.getName());
+                weaponsNames.addAll(unloadedWeapons);
                 if (weaponsNames.size() > boardToUpdate.getWeapons().size()) {
-                    boardToUpdate.addWeapons(weaponsNames.get(weaponsNames.size()-1));
+                    for (String name : weaponsNames)
+                        if (!boardToUpdate.getWeapons().contains(name)) {
+                            boardToUpdate.addWeapons(name);
+                            break;
+                        }
                 } else if (!boardToUpdate.getWeapons().containsAll(weaponsNames)) {
                     List<String> weaponsOnBoard = new ArrayList<>(boardToUpdate.getWeapons());
                     for (String name : weaponsOnBoard)
