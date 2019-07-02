@@ -372,10 +372,7 @@ class BoardLoader{
      * @param weapon is the name of the weapon
      */
     public void removeWeapons(String weapon){
-        for(String w: weapons) {
-            if (w.equalsIgnoreCase(weapon))
-                weapons.remove(w);
-        }
+        weapons.remove(weapon);
         this.weaponsBox = getWeaponsPane();
     }
 
@@ -384,11 +381,7 @@ class BoardLoader{
      * @param powerUp is the name of the powerup
      */
     public void removePowerUps(String powerUp){
-        for(String pup: powerups)
-            if(pup.equalsIgnoreCase(powerUp)) {
-                powerups.remove(pup);
-                break;
-            }
+        powerups.remove(powerUp);
         this.pupsBox = getPupsPane();
     }
 
