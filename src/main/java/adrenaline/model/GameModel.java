@@ -23,10 +23,18 @@ public class GameModel {
         this.game = new Game(playerNames);
     }
 
+    /**
+     * Getter method for game
+     * @return this game
+     */
     public Game getGame() {
         return this.game;
     }
 
+    /**
+     * Method to create every square
+     * @return a the map (list of squares)
+     */
     public List<SquareDetails> createSquareDetails() {
         List<SquareDetails> map = new LinkedList<> ();
 
@@ -62,6 +70,11 @@ public class GameModel {
         return map;
     }
 
+    /**
+     * Method to create the powerup details
+     * @param p is the player
+     * @return the list of powerup details
+     */
     public List<PowerUpDetails> createPowerUpDetails(Player p) {
         List<PowerUpDetails> powerUps = new ArrayList<> ();
         for (PowerUp pup : p.getOwnedPowerUps ()) {
@@ -71,6 +84,11 @@ public class GameModel {
         return powerUps;
     }
 
+    /**
+     * Method to create a weapon's details
+     * @param w is the weapon
+     * @return the details of a weapon
+     */
     public WeaponDetails createWeaponDetail(Weapon w) {
         List<String> ammoList = new ArrayList<> ();
         List<String> grabList = new ArrayList<> ();
@@ -105,18 +123,30 @@ public class GameModel {
         return new WeaponDetails (w.getWeaponsName (), w.getWeaponsDescription (), ammoList, grabList, additionalList1, additionalList2);
     }
 
+    /**
+     * Method to update the map
+     * @param account is the account of the player
+     */
     public void updateMap(Account account) {
         MapResponse response = new MapResponse (game.getMap ().getMapName ());
         response.setAccount (account);
         response.sendToView ();
     }
 
+    /**
+     * Method to update the map
+     * @param account is the account of the player
+     */
     public void updateSquareDetails(Account account) {
         SquareDetailsResponse response = new SquareDetailsResponse (createSquareDetails ());
         response.setAccount (account);
         response.sendToView ();
     }
 
+    /**
+     * Method to update the temporary ranking
+     * @param account is the account of the player
+     */
     public void updateRanking(Account account) {
         List<String> ranking = new ArrayList<> ();
         for (Player p : game.getRanking ())
@@ -126,6 +156,10 @@ public class GameModel {
         response.sendToView ();
     }
 
+    /**
+     * Method to update the players' boards
+     * @param account is the account of the player
+     */
     public void updateBoards(Account account) {
         List<BoardDetails> boards = new ArrayList<> ();
         for (Player p : game.getPlayers ()) {
@@ -136,6 +170,10 @@ public class GameModel {
         response.sendToView ();
     }
 
+    /**
+     * Method to update a player's board
+     * @param account is the account of the player
+     */
     public void updatePlayerBoard(Account account) {
         List<BoardDetails> boards = new ArrayList<> ();
         boards.add (createBoardDetails (game.findByNickname (account.getNickName ()), true));
@@ -144,6 +182,12 @@ public class GameModel {
         response.sendToView ();
     }
 
+    /**
+     * Method to create the details of a player's board
+     * @param p is the player
+     * @param showPowerUps is true if the information is for the player's board
+     * @return the details of the board
+     */
     private BoardDetails createBoardDetails(Player p, boolean showPowerUps) {
         BoardDetails details = new BoardDetails ();
 
@@ -184,6 +228,11 @@ public class GameModel {
         return details;
     }
 
+    /**
+     * Method to create a weapon's effect
+     * @param weapon is the weapon
+     * @return the list of effects
+     */
     public List<EffectDetails> createWeaponEffects(Weapon weapon) {
         List<EffectDetails> effects = new ArrayList<> ();
         EffectDetails effect = new EffectDetails ("base effect", false, false);
@@ -197,6 +246,11 @@ public class GameModel {
         return effects;
     }
 
+    /**
+     * Method to create the target's details
+     * @param effect is the weapon effect that require a specific target type
+     * @return the list of available targets
+     */
     public List<TargetDetails> createTargetDetails(WeaponEffect effect) {
         List<TargetDetails> targets = new ArrayList<> ();
         for (TargetType type : effect.getTargetTypes ())
@@ -204,6 +258,12 @@ public class GameModel {
         return targets;
     }
 
+    /**
+     * Method to find the compliant targets for a specific weapon effect
+     * @param effect is the effect of the weapon
+     * @param attacker is the name of the attacker
+     * @return the list of available targets
+     */
     public List<String> findCompliantTargets(WeaponEffect effect, String attacker) {
         if (effect.getTargetTypes ().get (0).getTargetValue () != -1) {
             List<String> targets = new ArrayList<> ( );
@@ -221,6 +281,10 @@ public class GameModel {
         return null;
     }
 
+    /**
+     * Method to check which players have a tagback grenade
+     * @return
+     */
     public List<Player> findPlayersEnabledToTagback() {
         List<Player> players = new ArrayList<>();
         for (Player p : game.getPlayers ()) {
@@ -230,11 +294,19 @@ public class GameModel {
         return players;
     }
 
+    /**
+     * Method to remove from a player the possibility of using the tagback in the same action
+     */
     public void resetCanTagback() {
         for (Player p : game.getPlayers ())
             p.setCanTagbackGrenade (false);
     }
 
+    /**
+     * Method to create the list of possible paths for a player
+     * @param user is the name of the player
+     * @return the list of path
+     */
     public Map<String, List<Integer>> createPossiblePaths(String user) {
         Map<String, List<Integer>> paths = new HashMap<> ();
         Player userPlayer = game.findByNickname (user);
