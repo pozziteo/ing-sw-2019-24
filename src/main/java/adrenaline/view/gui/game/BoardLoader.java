@@ -449,7 +449,7 @@ class BoardLoader{
         }
         int newSize = ammo.size();
         for(int i=oldSize, j=0; i<newSize; i++, j++){
-            ammoButton.get(i).setStyle("-fx-background-color: " + toAddNow.get(j));
+            ammoButton.get(i).setStyle("-fx-background-color: " + toAddNow.get(j)+"; -fx-opacity: 0.9");
         }
         toAddNow.clear();
     }
@@ -498,7 +498,7 @@ class BoardLoader{
         int newSize = toChange.size();
         for(int i = oldSize; i< newSize; i++){
             if(amount>0){
-                toUpdate.get(i).setStyle("-fx-background-color: " + attackerColor);
+                toUpdate.get(i).setStyle("-fx-background-color: " + attackerColor + "; -fx-opacity: 0.9");
                 amount--;
             }
         }
