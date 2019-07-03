@@ -12,6 +12,9 @@ import adrenaline.model.map.Square;
 
 import java.util.*;
 
+/**
+ * Implementation of Action interface, it contains the Move&Grab Action methods
+ */
 public class MoveAndGrabAction implements Action {
 
     private List<Integer> paths;
@@ -37,10 +40,22 @@ public class MoveAndGrabAction implements Action {
         }
     }
 
+    /**
+     * Getter method
+     * @return the available paths
+     */
     public List<Integer> getPaths() {
         return this.paths;
     }
 
+    /**
+     * Method to grab an object from the square
+     * @param player is the player
+     * @param weapon is the weapon
+     * @return the new position of the player
+     * @throws NotEnoughAmmoException if the player doesn't have enough ammo
+     * @throws MustDiscardWeaponException is the player must discard a weapon before picking a new one
+     */
     public Square grabObject(Player player, Weapon weapon) throws NotEnoughAmmoException, MustDiscardWeaponException {
         if (weapon != null) {
             if (player.hasEnoughAmmo (weapon.getType ().getGrabbingCost ())) {
@@ -61,6 +76,15 @@ public class MoveAndGrabAction implements Action {
         return player.getPosition();
     }
 
+    /**
+     * Method to grab an object from a square id
+     * @param player is the player
+     * @param squareId is the id of the square
+     * @param weapon is the weapon
+     * @return the new player's position
+     * @throws NotEnoughAmmoException if the player doesn't have enough ammo
+     * @throws MustDiscardWeaponException is the player must discard a weapon before picking a new one
+     */
     public Square grabObject(Player player, int squareId, Weapon weapon) throws NotEnoughAmmoException, MustDiscardWeaponException {
         if (paths.contains(squareId)) {
             player.getPosition ().removePlayerFromSquare(player);
@@ -72,6 +96,11 @@ public class MoveAndGrabAction implements Action {
         return player.getPosition();
     }
 
+    /**
+     * Method to grab the tile content of a square
+     * @param player is the player
+     * @param position is the position of the tile
+     */
     private void grabTileContent(Player player, NormalSquare position) {
         Ammo ammo;
         Tile tile = position.getPlacedTile();
@@ -92,6 +121,10 @@ public class MoveAndGrabAction implements Action {
         }
     }
 
+    /**
+     * Getter method
+     * @return the action information
+     */
     @Override
     public String getActionInfo() {
         return Action.super.getActionInfo() + "With this action you can (optionally) move through a single square " +

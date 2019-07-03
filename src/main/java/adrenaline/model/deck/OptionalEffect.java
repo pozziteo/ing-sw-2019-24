@@ -5,6 +5,9 @@ import adrenaline.model.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Extension of WeaponEffect, it creates the optional effects of a weapon
+ */
 public class OptionalEffect extends WeaponEffect {
 
     private List<Ammo> additionalCost;

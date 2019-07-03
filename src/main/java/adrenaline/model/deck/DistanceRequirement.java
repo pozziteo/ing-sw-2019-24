@@ -6,6 +6,9 @@ import adrenaline.model.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DistanceRequirement is the implementation of WeaponEffectRequirement
+ */
 public class DistanceRequirement implements WeaponEffectRequirement {
 
     private int minDistance;

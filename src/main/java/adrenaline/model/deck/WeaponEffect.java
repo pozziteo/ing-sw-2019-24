@@ -4,6 +4,9 @@ import adrenaline.model.player.Player;
 
 import java.util.*;
 
+/**
+ * Abstract class for the effects of a weapon, implemented by subclasses
+ */
 public abstract class WeaponEffect {
 
     private WeaponEffectRequirement requirement;

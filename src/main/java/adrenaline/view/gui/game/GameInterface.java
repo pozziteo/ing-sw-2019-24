@@ -19,6 +19,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+/**
+ * Class that creates the graphic interface of the game
+ */
 public class GameInterface {
 
     private GUIController userController;

@@ -7,6 +7,9 @@ import javafx.scene.layout.RowConstraints;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class the shows the skulls on the board
+ */
 public class SkullsLoader {
 
     private List<Button> skullsList;

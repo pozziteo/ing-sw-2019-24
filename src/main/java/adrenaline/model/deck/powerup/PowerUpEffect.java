@@ -8,6 +8,9 @@ import adrenaline.model.map.Square;
 import adrenaline.model.player.Action;
 import adrenaline.model.player.Player;
 
+/**
+ * This class creates the concrete effect of every powerUp
+ */
 public class PowerUpEffect {
     private AtomicEffectsFactory factory = new AtomicEffectsFactory();
     private Player user;

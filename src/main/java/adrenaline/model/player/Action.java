@@ -7,6 +7,10 @@ import adrenaline.model.map.Square;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Action is implemented by other classes
+ * It contains the methods to find the possible paths, the action information and the weapons needed for the actions
+ */
 public interface Action {
 
     default void executedAction(Player player) {
