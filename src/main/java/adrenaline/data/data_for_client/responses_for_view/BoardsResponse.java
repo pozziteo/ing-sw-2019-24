@@ -7,6 +7,10 @@ import adrenaline.view.gui.GUIController;
 
 import java.util.List;
 
+/**
+ * This class is used to send board information to the clients
+ */
+
 public class BoardsResponse extends DataForClient {
     private List<BoardDetails> boards;
 

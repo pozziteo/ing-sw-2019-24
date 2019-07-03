@@ -5,6 +5,10 @@ import adrenaline.data.data_for_server.DataForServer;
 
 import java.util.List;
 
+/**
+ * This class is used to inform the model about which atomic targets have been chosen for Shoot action
+ */
+
 public class ChosenTargets extends DataForServer implements DataForController {
     private List<AtomicTarget> targets;
     private String targetingScopeTarget;

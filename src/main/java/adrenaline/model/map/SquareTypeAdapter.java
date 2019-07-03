@@ -14,6 +14,13 @@ public class SquareTypeAdapter extends TypeAdapter<Square> {
     }
 
     //TODO add JavaDoc
+
+    /**
+     * Method to read and create the details of a square
+     * @param reader is the json reader
+     * @return the square
+     * @throws IOException is the file cannot be opened/found
+     */
     @Override
     public Square read(JsonReader reader) throws IOException {
 

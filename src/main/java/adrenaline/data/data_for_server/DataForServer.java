@@ -19,15 +19,6 @@ public abstract class DataForServer implements Serializable {
         this.nickname = nickname;
     }
 
-    public Account findAccount(List<Account> accounts) {
-        for (Account a : accounts) {
-            if (a.getNickName ().equals(nickname)) {
-                return a;
-            }
-        }
-        return null;
-    }
-
     public String getNickname() {
         return this.nickname;
     }

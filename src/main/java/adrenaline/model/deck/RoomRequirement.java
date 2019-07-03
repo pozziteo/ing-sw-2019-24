@@ -32,6 +32,11 @@ public class RoomRequirement implements WeaponEffectRequirement {
             this.roomIdentifier = RoomIdentifier.DIFFERENT;
     }
 
+    /**
+     * Method to find the available targets
+     * @param attacker is the attacker
+     * @return a list of available targets
+     */
     @Override
     public List<Player> findTargets(Player attacker) {
 

@@ -75,6 +75,10 @@ public class LobbyStage {
         rootPane.requestFocus();
     }
 
+    /**
+     * Method to select the map, available only for the first player
+     * @param selector tells if the selector is the first player (true) or another player (false)
+     */
     public void mapSelection(boolean selector) {
         Platform.runLater(() -> {
             if (selector) {
@@ -119,6 +123,10 @@ public class LobbyStage {
         });
     }
 
+    /**
+     * Getter method
+     * @return the lobby scene
+     */
     public Scene getLobbyScene() {
         return this.lobbyScene;
     }

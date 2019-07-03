@@ -185,6 +185,9 @@ public class Controller implements TimerCallBack {
      */
 
     private void playNewTurn() {
+        if (gameModel.getGame ().isFinalFrenzy () && gameModel.getGame ().getCurrentTurn () == lobby.getPlayers ().size()) {
+            gameModel.getGame ( ).setEndGame (true);
+        }
         timer.shutDownThread ();
         gameModel.resetCanTagback();
         int indexOfLast = gameModel.getGame ().getPlayers ().size ()-1;
@@ -203,6 +206,8 @@ public class Controller implements TimerCallBack {
         }
         timer.startThread (currentPlayer.getPlayerName ());
         gameModel.getGame ().incrementTurn ( );
+        if (gameModel.getGame ().isEndGame ())
+            endGame();
     }
 
     /**
@@ -263,6 +268,20 @@ public class Controller implements TimerCallBack {
             }
         }
         lobby.sendMessageToAll (nickname + " has been added back to the game...\n");
+    }
+
+    public void endGame() {
+        timer.shutDownThread ();
+
+        List<String> ranking = new ArrayList<> ();
+        for (Player p : gameModel.getGame ().getRanking ())
+            ranking.add(p.getPlayerName ());
+
+        for (Player p : gameModel.getGame ().getPlayers ()) {
+            if (! dummyPlayers.contains(p)) {
+                lobby.sendToSpecific (p.getPlayerName (), new EndGameStatus (ranking));
+            }
+        }
     }
 
     /**

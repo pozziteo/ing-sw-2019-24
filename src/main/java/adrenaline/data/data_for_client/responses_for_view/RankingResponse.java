@@ -5,6 +5,10 @@ import adrenaline.view.cli.CliUserInterface;
 
 import java.util.List;
 
+/**
+ * This map is used to send ranking information to the clients
+ */
+
 public class RankingResponse extends DataForClient {
     private List<String> ranking;
 

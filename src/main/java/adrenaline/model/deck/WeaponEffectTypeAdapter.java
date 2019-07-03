@@ -16,6 +16,12 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
 //      useless
     }
 
+    /**
+     * Method to read a weapon's file. The file contains all the information of the weapon
+     * @param reader is the json reader
+     * @return the effect of a weapon
+     * @throws IOException if the file cannot be opened/found
+     */
     @Override
     public WeaponEffect read(JsonReader reader) throws IOException {
         WeaponEffect effect = null;
@@ -43,6 +49,12 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
         return effect;
     }
 
+    /**
+     * Method to read the base effect of a weapon
+     * @param reader is the json reader
+     * @return the base effect
+     * @throws IOException if the file cannot be opened/found
+     */
     private BaseEffect readBaseEffect(JsonReader reader) throws IOException {
         reader.nextName();
         reader.beginObject();
@@ -68,6 +80,13 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
         return new BaseEffect(requirement, targets, effects);
     }
 
+    /**
+     * Method to read the optional effect of a weapon
+     * @param reader is the json reader
+     * @param alternativeMode is true if the additional effect is alternative, false otherwise
+     * @return the optional effect
+     * @throws IOException if the file cannot be opened/found
+     */
     private OptionalEffect readOptionalEffect(JsonReader reader, boolean alternativeMode) throws IOException {
         boolean usableBeforeBase = false;
         boolean chainEffect = false;
@@ -122,6 +141,12 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
     }
 
 
+    /**
+     * Method to create the requirements for a weapon
+     * @param reader is the json reader
+     * @return the weapon's requirements
+     * @throws IOException if the file cannot be opened/found
+     */
     private WeaponEffectRequirement createRequirement(JsonReader reader) throws IOException {
         WeaponEffectRequirement requirement = null;
         reader.beginObject();
@@ -172,6 +197,12 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
         return requirement;
     }
 
+    /**
+     * Method to generate a list of available targets for teh weapon
+     * @param reader is the json reader
+     * @return a list of targets
+     * @throws IOException if the file cannot be opened/found
+     */
     private List<TargetType> generateTargetTypes(JsonReader reader) throws IOException {
         List<TargetType> targetTypes = new ArrayList<> ();
         int value;
@@ -202,6 +233,12 @@ public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
         return targetTypes;
     }
 
+    /**
+     * Method that creates a list of effects of a weapon
+     * @param reader is the json reader
+     * @return the list of atomic effect of a weapon
+     * @throws IOException if the file cannot be opened/found
+     */
     private List<AtomicWeaponEffect> generateEffects(JsonReader reader) throws IOException {
         List<AtomicWeaponEffect> effects = new ArrayList<>();
         AtomicEffectsFactory factory = new AtomicEffectsFactory();

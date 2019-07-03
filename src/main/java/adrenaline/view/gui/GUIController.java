@@ -294,12 +294,10 @@ public class GUIController implements UserInterface {
      * @param nickname is the player to show the message
      */
     public void showTurn(String nickname) {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             updated = false;
             if (i == 0)
                 sendToServer(new SquareDetailsRequest(this.nickname));
-            else if (i == 1)
-                sendToServer(new MyBoardRequest(this.nickname));
             else
                 sendToServer(new BoardsRequest(this.nickname));
             synchronized (obj) {

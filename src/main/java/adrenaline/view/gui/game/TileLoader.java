@@ -16,6 +16,11 @@ public class TileLoader {
         super();
     }
 
+    /**
+     * Method to load a tile image
+     * @param tile is the name of the image
+     * @return an ImageView of the tile
+     */
     public ImageView loadTile(String tile) {
         ImageView tileView = null;
         try {

@@ -17,10 +17,17 @@ public class GraphicUserInterface extends Application {
     private Stage primaryStage;
     private GUIController controller;
 
+    /**
+     * Static method to launch the GUI
+     */
     public static void launchGUI() {
         launch();
     }
 
+    /**
+     * Method to start the GUI
+     * @param primaryStage is the first stage
+     */
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;

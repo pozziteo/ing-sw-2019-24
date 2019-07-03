@@ -13,6 +13,12 @@ public class VisibilityRequirement implements WeaponEffectRequirement {
         this.visible = visible;
     }
 
+    /**
+     * Method to find the available target under the condition of 'visible' (boolean that tells
+     * if the attacker can see a target)
+     * @param attacker is the player attacking
+     * @return the list of visible targets
+     */
     @Override
     public List<Player> findTargets(Player attacker){
 

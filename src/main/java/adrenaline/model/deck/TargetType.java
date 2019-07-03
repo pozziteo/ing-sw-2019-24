@@ -47,6 +47,14 @@ public class TargetType {
         return true;
     }
 
+    /**
+     * Method to establish what kind target the 'targets' are
+     * @param constraint is the constraint of an effect
+     * @param attacker is the player who is attacking
+     * @param targets is the list of targets
+     * @param squareId is the identifier of a square
+     * @return
+     */
     private boolean applyConstraints(String constraint, Player attacker, List<Player> targets, int squareId) {
         boolean legal = true;
         Action currentAction = attacker.getGame ().getCurrentAction ();

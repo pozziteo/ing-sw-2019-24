@@ -303,10 +303,18 @@ public enum WeaponType {
         reloadingAmmo.addAll(Arrays.asList(ammo));
     }
 
+    /**
+     * Getter method
+     * @return the weapon's directory
+     */
     public String getPath() {
         return WEAPONS_PATH;
     }
 
+    /**
+     * Getter method
+     * @return the weapon's name
+     */
     public String getName() {
         return name;
     }

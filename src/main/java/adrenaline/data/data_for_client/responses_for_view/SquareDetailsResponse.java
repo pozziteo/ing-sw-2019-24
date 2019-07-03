@@ -7,6 +7,10 @@ import adrenaline.view.gui.GUIController;
 
 import java.util.List;
 
+/**
+ * This class is used to send square information to the clients
+ */
+
 public class SquareDetailsResponse extends DataForClient {
     private List<SquareDetails> map;
 

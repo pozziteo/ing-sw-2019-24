@@ -11,6 +11,11 @@ public class DirectionRequirement implements WeaponEffectRequirement {
 
     }
 
+    /**
+     * Method that creates the direction requirement for the victim's move (inflicted by the attacker)
+     * @param attacker is the name of the attacker
+     * @return the list of available targets
+     */
     @Override
     public List<Player> findTargets(Player attacker) {
         List<Player> targets = new ArrayList<>();

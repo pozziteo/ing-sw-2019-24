@@ -55,18 +55,35 @@ public class Weapon extends Card {
         return this.type.getName ();
     }
 
+    /**
+     * Getter method
+     * @return the description of a weapon
+     */
     public String getWeaponsDescription() {
         return this.type.getDescription ();
     }
 
+    /**
+     * Getter method
+     * @return the base effect of a weapon
+     */
     public BaseEffect getBaseEffect() {
         return this.baseEffect;
     }
 
+    /**
+     * Getter method
+     * @return the list of optional effects of a weapon
+     */
     public List<OptionalEffect> getOptionalEffects() {
         return this.optionalEffects;
     }
 
+    /**
+     * Method that creates the effects for a weapon
+     * @param type is the weapon
+     * @throws FileNotFoundException if the json file of the weapon wasn't found
+     */
     private void buildEffects(WeaponType type) throws FileNotFoundException {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(WeaponEffect.class, new WeaponEffectTypeAdapter());

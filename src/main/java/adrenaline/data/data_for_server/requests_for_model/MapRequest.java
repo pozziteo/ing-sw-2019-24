@@ -4,6 +4,10 @@ import adrenaline.controller.Controller;
 import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.data.data_for_server.data_for_game.DataForController;
 
+/**
+ * This class is used to request map information from the server
+ */
+
 public class MapRequest extends DataForServer implements DataForController {
 
     public MapRequest(String nickname) {

@@ -3,9 +3,13 @@ package adrenaline.data.data_for_server.data_for_game;
 import adrenaline.controller.Controller;
 import adrenaline.data.data_for_server.DataForServer;
 
+/**
+ * This class is used to inform the model about which power up has been chosen to perform an action
+ */
+
 public class ChosenPowerUp extends DataForServer implements DataForController {
     private String powerUpName;
-    private boolean asAmmo;
+    private boolean asAmmo; //true if the power up is to be used as bonus ammo
 
     public ChosenPowerUp(String nickname, String powerUpName, boolean asAmmo) {
         super(nickname);

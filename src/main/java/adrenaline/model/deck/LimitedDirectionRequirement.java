@@ -14,6 +14,11 @@ public class LimitedDirectionRequirement extends DirectionRequirement {
         this.maxDistance = maxDistance;
     }
 
+    /**
+     * Method to find the available targets under the condition of maxDistance (number of maximum movements)
+     * @param attacker is the name of the attacker
+     * @return the list of available targets
+     */
     @Override
     public List<Player> findTargets(Player attacker) {
         List<Player> limitedTargets = new ArrayList<>();
@@ -26,6 +31,12 @@ public class LimitedDirectionRequirement extends DirectionRequirement {
         return limitedTargets;
     }
 
+    /**
+     * Method to establish if a target is in a valid square
+     * @param target is the target
+     * @param validSquares is the list  of valid squares
+     * @return true (if the target is in those), else false
+     */
     private boolean checkPosition(Player target, List<Integer> validSquares) {
         for (int squareId : validSquares) {
             if (target.getPosition().getSquareId() == squareId)

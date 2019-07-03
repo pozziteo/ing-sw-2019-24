@@ -92,7 +92,7 @@ class BoardLoader{
             }
             boardPane.setHgap(9);
             if (owner.equals(userController.getNickname())){
-                pane.getChildren().addAll(boardView, boardPane, markPane, ammosPane, maxPointsPane, weaponsBox/*,  pupsBox*/);
+                pane.getChildren().addAll(boardView, boardPane, markPane, ammosPane, maxPointsPane, weaponsBox,  pupsBox);
             }else
                 pane.getChildren().addAll(boardView, boardPane, markPane, ammosPane, maxPointsPane, weaponsBox);
             this.board = pane;
@@ -289,7 +289,7 @@ class BoardLoader{
                 Image pupImage = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"cards"+ File.separator+ pupName+".png"));
                 ImageView pupView = new ImageView(pupImage);
                 pupView.setPreserveRatio(true);
-                pupView.setFitHeight(50);
+                pupView.setFitHeight(100);
                 box.getChildren().add(pupView);
             }
             box.setSpacing(10);
@@ -364,6 +364,7 @@ class BoardLoader{
     public void addPowerups(String powerup){
         if(this.powerups.size()<3)
             this.powerups.add(powerup);
+        this.pupsBox = getPupsPane();
     }
 
     /**
@@ -371,10 +372,7 @@ class BoardLoader{
      * @param weapon is the name of the weapon
      */
     public void removeWeapons(String weapon){
-        for(String w: weapons) {
-            if (w.equalsIgnoreCase(weapon))
-                weapons.remove(w);
-        }
+        weapons.remove(weapon);
         this.weaponsBox = getWeaponsPane();
     }
 
@@ -383,11 +381,8 @@ class BoardLoader{
      * @param powerUp is the name of the powerup
      */
     public void removePowerUps(String powerUp){
-        for(String pup: powerups)
-            if(pup.equalsIgnoreCase(powerUp)) {
-                powerups.remove(pup);
-                break;
-            }
+        powerups.remove(powerUp);
+        this.pupsBox = getPupsPane();
     }
 
     /**

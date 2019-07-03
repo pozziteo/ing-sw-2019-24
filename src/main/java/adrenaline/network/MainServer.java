@@ -34,7 +34,6 @@ public class MainServer {
     private int rmiPort;
     private int socketPort;
     private LinkedList<Lobby> gameLobbies;
-    private static final String PATH1 = "src" + File.separatorChar + "Resources" + File.separatorChar + "config.properties";
 
 
     //attributes that represent the path of the file with all the accounts

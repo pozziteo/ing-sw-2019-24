@@ -3,6 +3,10 @@ package adrenaline.data.data_for_server.data_for_network;
 import adrenaline.data.data_for_server.DataForServer;
 import adrenaline.network.MainServer;
 
+/**
+ * This class is used to send the chosen nickname to the server
+ */
+
 public class AccountSetUp extends DataForServer {
     private String customNickname;
 
