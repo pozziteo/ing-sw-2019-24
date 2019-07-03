@@ -1074,14 +1074,7 @@ public class GameInterface {
                     }
                 }
                 List<String> actualAmmo = details.getOwnedAmmo();
-                List<String> oldAmmo = new ArrayList<>(boardToUpdate.getAmmo());
-                if (actualAmmo.size() > oldAmmo.size()) {
-                    boardToUpdate.addAmmo(actualAmmo.subList(oldAmmo.size(), actualAmmo.size()));
-                } else if (actualAmmo.size() < oldAmmo.size()) {
-                    List<String> toRemove = new ArrayList<>(oldAmmo);
-                    toRemove.removeAll(actualAmmo);
-                    boardToUpdate.removeAmmo(toRemove);
-                }
+                boardToUpdate.replaceAmmoSlot(actualAmmo);
 
                 List<String> unloadedWeapons = new ArrayList<>();
                 for (WeaponDetails weapon : details.getUnloadedWeapons()) {

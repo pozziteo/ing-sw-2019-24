@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class creates the player's board with every data useful to the game
+ * (life, marks, skulls, weapons, powerups, ammo)
+ */
 class BoardLoader{
 
     private String owner;
@@ -405,6 +409,11 @@ class BoardLoader{
      */
     public void updateLifeBar(int damage, String attackerColor){
         changeButtonList(damage, attackerColor, life, getBoardLifeBar());
+        if(life.size()>10){
+            clearLifeBar();
+            decreaseMaxPoints();
+        }
+
     }
 
     /**
@@ -412,6 +421,7 @@ class BoardLoader{
      * @param newMarks contains all the marks actually owned by the player
      */
     public void substituteMarks(List<String> newMarks) {
+        marks.clear();
         for (Button markButton : marksButton)
             markButton.setStyle("-fx-background-color: transparent");
         int i = 0;
@@ -426,64 +436,17 @@ class BoardLoader{
      * Method to add ammo
      * @param ammoToAdd is the list of ammo to add
      */
-    public void addAmmo(List<String> ammoToAdd){
-        List<String> toAddNow = new ArrayList<>();
-        int oldSize = ammo.size();
-        for(String ammoColor: ammoToAdd){
-            if(ammoColor.equalsIgnoreCase(red)){
-                if(Collections.frequency(ammo, red)<3) {
-                    ammo.add(red);
-                    toAddNow.add(red);
-                }
-            } else if(ammoColor.equalsIgnoreCase(yellow)){
-                if(Collections.frequency(ammo, yellow)<3) {
-                    ammo.add(yellow);
-                    toAddNow.add(yellow);
-                }
-            } else{
-                if(Collections.frequency(ammo, blue)<3) {
-                    ammo.add(blue);
-                    toAddNow.add(blue);
-                }
-            }
+    public void replaceAmmoSlot(List<String> ammoToAdd){
+        ammo.clear();
+        for (Button button : ammoButton)
+            button.setStyle("-fx-background-color: transparent");
+        int i=0;
+        for(String a: ammoToAdd){
+            ammo.add(a);
+            ammoButton.get(i).setStyle("-fx-background-color: " + a+"; -fx-opacity: 0.9");
+            i++;
         }
-        int newSize = ammo.size();
-        for(int i=oldSize, j=0; i<newSize; i++, j++){
-            ammoButton.get(i).setStyle("-fx-background-color: " + toAddNow.get(j)+"; -fx-opacity: 0.9");
-        }
-        toAddNow.clear();
     }
-
-    /**
-     * Method to remove ammo from a board
-     * @param ammoToRemove is the list of ammo to remove
-     */
-    public void removeAmmo(List<String> ammoToRemove){
-        List<Integer> indexOfAmmoToRemove = new ArrayList<>();
-        for(String ammoColor: ammoToRemove){
-            if(ammoColor.equalsIgnoreCase(red)){
-                if (!ammo.isEmpty() && Collections.frequency(ammo, red) > 0) {
-                    indexOfAmmoToRemove.add(ammo.lastIndexOf(red));
-                    ammo.remove(red);
-                }
-            } else if(ammoColor.equalsIgnoreCase(yellow)){
-                if (!ammo.isEmpty() && Collections.frequency(ammo, yellow) > 0) {
-                    indexOfAmmoToRemove.add(ammo.lastIndexOf(yellow));
-                    ammo.remove(yellow);
-                }
-            } else{
-                if (!ammo.isEmpty() && Collections.frequency(ammo, blue) > 0) {
-                    indexOfAmmoToRemove.add(ammo.lastIndexOf(blue));
-                    ammo.remove(blue);
-                }
-            }
-        }
-        for (Integer integer : indexOfAmmoToRemove) {
-            ammoButton.get(integer).setStyle("-fx-background-color: transparent");
-        }
-        indexOfAmmoToRemove.clear();
-    }
-
 
     /**
      * Method to update the graphic board of a player
