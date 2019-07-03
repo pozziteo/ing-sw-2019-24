@@ -28,6 +28,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class that update and send data to the server and client
+ */
 public class GUIController implements UserInterface {
 
     private static GUIController controller;

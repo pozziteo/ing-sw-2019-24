@@ -5,6 +5,9 @@ import adrenaline.model.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DirectionRequirement is the implementation of WeaponEffectRequirement class
+ */
 public class DirectionRequirement implements WeaponEffectRequirement {
 
     protected DirectionRequirement() {

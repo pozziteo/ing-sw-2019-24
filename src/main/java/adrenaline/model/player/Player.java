@@ -179,22 +179,42 @@ public class Player {
         this.ownedPowerUps = powerUpsList;
     }
 
+    /**
+     * Method to check if a player is respawning
+     * @return true if he is respawning
+     */
     public boolean isWaitingForRespawn() {
         return this.waitingForRespawn;
     }
 
+    /**
+     * Setter method to set or reset the state of respawing
+     * @param value is true or false
+     */
     public void setWaitingForRespawn(boolean value) {
         this.waitingForRespawn = value;
     }
 
+    /**
+     * Method to establish if a player can use the tagback grenade
+     * @return true if the player has it
+     */
     public boolean canTagbackGrenade() {
         return this.canTagbackGrenade;
     }
 
+    /**
+     * Method to set if a player can use the tagback grenade
+     * @param value
+     */
     public void setCanTagbackGrenade(boolean value) {
         this.canTagbackGrenade = value;
     }
 
+    /**
+     * Getter method
+     * @return true if the player has the tagback grenade
+     */
     public boolean hasTagbackGrenade() {
         for (PowerUp p : ownedPowerUps) {
             if (p.getPowerUpsName ().equals("Tagback Grenade"))
@@ -203,6 +223,10 @@ public class Player {
         return false;
     }
 
+    /**
+     * Getter method
+     * @return true if the player has the targeting scope
+     */
     public boolean hasTargetingScope() {
         for (PowerUp p : ownedPowerUps) {
             if (p.getPowerUpsName ().equals("Targeting Scope"))
@@ -278,6 +302,11 @@ public class Player {
 
     }
 
+    /**
+     * Method to check if a square is seen by this player
+     * @param square is the square
+     * @return true if this player can see the square
+     */
     public boolean canSee(Square square) {
         if (this.getPosition().isInTheSameRoom(square)) {
             return true;
@@ -292,6 +321,11 @@ public class Player {
         return false;
     }
 
+    /**
+     * Method that lets the player reload a weapon
+     * @param toReload is the unloaded weapon
+     * @throws NotEnoughAmmoException if the player does not have enough ammo
+     */
     public void reloadWeapon(Weapon toReload) throws NotEnoughAmmoException {
         if (hasEnoughAmmo (toReload.getType ().getReloadingAmmo ())) {
             ownedWeapons.add(toReload);
@@ -301,6 +335,11 @@ public class Player {
             throw new NotEnoughAmmoException ("You don't have enough ammo to reload this weapon.");
     }
 
+    /**
+     * Method to find the loaded weapon
+     * @param name is the name of the weapon
+     * @return the weapon (if found)
+     */
     public Weapon findLoadedWeapon(String name) {
         Weapon weapon = null;
         for (Weapon w : ownedWeapons) {
@@ -312,6 +351,11 @@ public class Player {
         return weapon;
     }
 
+    /**
+     * Method to find the unloaded weapon
+     * @param name is the name of the weapon
+     * @return the weapon (if found)
+     */
     public Weapon findUnloadedWeapon(String name) {
         Weapon weapon = null;
         for (Weapon w : playerBoard.getUnloadedWeapons ()) {
@@ -323,6 +367,9 @@ public class Player {
         return weapon;
     }
 
+    /**
+     * Method that starts the "death" routine after a player has more than 11 damages
+     */
     protected void hasDied(){
         if(this.getBoard().getDamageTaken().size()==12){
             this.getGame().overKill(this);
@@ -330,6 +377,11 @@ public class Player {
         this.getGame().givePoints(this);
     }
 
+    /**
+     * Method to establish if a player has enoungh ammo
+     * @param neededAmmo is the list of required ammo
+     * @return true if he has them, false otherwise
+     */
     public boolean hasEnoughAmmo(List<Ammo> neededAmmo) {
         List<Ammo> ammo = new ArrayList<> (playerBoard.getOwnedAmmo ());
 
@@ -341,6 +393,10 @@ public class Player {
         return true;
     }
 
+    /**
+     * Method to pay the needed ammo. It removes the ammo from the owned ammo
+     * @param neededAmmo is the list of required ammo
+     */
     public void payAmmo(List<Ammo> neededAmmo) {
         for (Ammo a : neededAmmo) {
             playerBoard.getOwnedAmmo ().remove (a);

@@ -6,6 +6,9 @@ import adrenaline.model.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * MoveToVisibleRequirement is the implementation of WeaponEffectRequirement
+ */
 public class MoveToVisibleRequirement implements WeaponEffectRequirement {
 
     private int movements;

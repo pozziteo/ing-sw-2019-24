@@ -3,6 +3,9 @@ package adrenaline.model.deck;
 import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.deck.powerup.PowerUpType;
 
+/**
+ * PowerUpsDeckCreator is the subclass of DeckCreator and contains the deck of powerups
+ */
 public class PowerUpsDeckCreator extends DeckCreator {
 
     /**

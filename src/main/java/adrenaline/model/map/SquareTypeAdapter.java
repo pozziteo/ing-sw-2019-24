@@ -6,14 +6,16 @@ import com.google.gson.stream.*;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * SquareTypeAdapter is the class that reads the map data from the json files
+ * it extends TypeAdapter
+ */
 public class SquareTypeAdapter extends TypeAdapter<Square> {
 
     @Override
     public void write(JsonWriter writer, Square square) throws IOException {
         //overrides superclass method
     }
-
-    //TODO add JavaDoc
 
     /**
      * Method to read and create the details of a square

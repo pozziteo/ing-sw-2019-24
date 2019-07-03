@@ -13,6 +13,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * Class that handles the login stage
+ */
 public class LoginStage {
 
     private Scene loginScene;

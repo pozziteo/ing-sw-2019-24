@@ -5,6 +5,10 @@ import adrenaline.model.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * RoomRequirement is the implementation of WeaponEffectRequirement,
+ * it contains all the requirements for a room effect
+ */
 public class RoomRequirement implements WeaponEffectRequirement {
 
     private enum RoomIdentifier {

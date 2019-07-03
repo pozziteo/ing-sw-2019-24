@@ -6,7 +6,9 @@ import javafx.scene.image.ImageView;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-
+/**
+ * Class that loads the selected map
+ */
 public class MapLoader {
 
     private ImageView map;

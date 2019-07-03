@@ -5,6 +5,10 @@ import adrenaline.model.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * VisibilityRequirement is a implementation of WeaponEffectRequirement
+ * It creates visibility requirements for a weapon
+ */
 public class VisibilityRequirement implements WeaponEffectRequirement {
 
     private boolean visible;

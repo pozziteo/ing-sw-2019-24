@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * WeaponEffectTypeAdapter is the class that read all the data of the weapons from the json files,
+ * extends TypeAdapter class
+ */
 public class WeaponEffectTypeAdapter extends TypeAdapter<WeaponEffect> {
 
     @Override

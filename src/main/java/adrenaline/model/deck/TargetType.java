@@ -9,6 +9,9 @@ import java.util.List;
 
 import static java.lang.Math.abs;
 
+/**
+ * Class that specifies all the different type of targets
+ */
 public class TargetType {
 
     private int targetValue;
@@ -23,22 +26,45 @@ public class TargetType {
         this.constraints = new ArrayList<> (constraints);
     }
 
+    /**
+     * Getter method
+     * @return the integer value of a target
+     */
     public int getTargetValue() {
         return this.targetValue;
     }
 
+    /**
+     * Method to establish if a targetType is an area type
+     * @return true if the target is an areaType target
+     */
     public boolean isAreaType() {
         return this.areaType;
     }
 
+    /**
+     * Getter method
+     * @return how many movements are possible for a target
+     */
     public int getMovements() {
         return this.movements;
     }
 
+    /**
+     * Getter method
+     * @return the list of constraints
+     */
     public List<String> getConstraints() {
         return this.constraints;
     }
 
+    /**
+     * Method to establish if a player is a compliant target
+     * @param attacker is the players attacking
+     * @param players is the list of players in the game
+     * @param squareId is the id of the square
+     * @return true if a player is a compliant target, false if no players inside 'players' is a compliant target
+     */
     public boolean isCompliantTargets(Player attacker, List<Player> players, int squareId) {
         for (String s : constraints) {
             if (!applyConstraints (s, attacker, players, squareId))

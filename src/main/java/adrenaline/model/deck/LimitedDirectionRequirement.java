@@ -6,6 +6,9 @@ import adrenaline.model.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Extension of DirectionRequirement
+ */
 public class LimitedDirectionRequirement extends DirectionRequirement {
 
     private int maxDistance;

@@ -1,5 +1,8 @@
 package adrenaline.model.deck;
 
+/**
+ * Abstract class for the deck creation, implemented by subclass
+ */
 public abstract class DeckCreator {
 
         /**
