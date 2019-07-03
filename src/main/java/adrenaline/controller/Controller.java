@@ -157,7 +157,7 @@ public class Controller implements TimerCallBack {
             gameModel.getGame ().startGame();
             playNewTurn ();
         } else if (gameModel.getGame ().isStartGame ()) {
-            lobby.sendToSpecific (nickname, new Turn (nickname));
+            lobby.sendToSpecific (nickname, new Turn (nickname, gameModel.getGame ().isFinalFrenzy (), gameModel.getGame ().isBeforeFirstPlayer (gameModel.getGame ().findByNickname (nickname))));
         }
     }
 
@@ -185,28 +185,26 @@ public class Controller implements TimerCallBack {
      */
 
     private void playNewTurn() {
-        if (gameModel.getGame ().isFinalFrenzy () && gameModel.getGame ().getCurrentTurn () == lobby.getPlayers ().size()) {
-            gameModel.getGame ( ).setEndGame (true);
-        }
-        timer.shutDownThread ();
-        gameModel.resetCanTagback();
-        int indexOfLast = gameModel.getGame ().getPlayers ().size ()-1;
-        int currentTurn = gameModel.getGame ( ).getCurrentTurn ( );
-        Player currentPlayer;
-        if (dummyPlayers.contains(gameModel.getGame ().getPlayers ().get (indexOfLast - currentTurn))) {
-            gameModel.getGame ().incrementTurn ();
-            currentTurn = gameModel.getGame ().getCurrentTurn ( );
-        }
-        currentPlayer = gameModel.getGame ().getPlayers ().get (indexOfLast - currentTurn);
-        lobby.sendToAllNonCurrent (currentPlayer.getPlayerName (), new Turn(currentPlayer.getPlayerName ()));
-        if (!currentPlayer.isWaitingForRespawn()) {
-            lobby.sendToSpecific (currentPlayer.getPlayerName (), new Turn(currentPlayer.getPlayerName ()));
-        } else {
-            lobby.sendToSpecific (currentPlayer.getPlayerName (), new SpawnPointSetUp (gameModel.createPowerUpDetails (currentPlayer)));
-        }
-        timer.startThread (currentPlayer.getPlayerName ());
-        gameModel.getGame ().incrementTurn ( );
-        if (gameModel.getGame ().isEndGame ())
+        if (!gameModel.getGame ().isEndGame ()) {
+            timer.shutDownThread ();
+            gameModel.resetCanTagback();
+            int indexOfLast = gameModel.getGame ().getPlayers ().size ()-1;
+            int currentTurn = gameModel.getGame ( ).getCurrentTurn ( );
+            Player currentPlayer;
+            if (dummyPlayers.contains(gameModel.getGame ().getPlayers ().get (indexOfLast - currentTurn))) {
+                gameModel.getGame ().incrementTurn ();
+                currentTurn = gameModel.getGame ().getCurrentTurn ( );
+            }
+            currentPlayer = gameModel.getGame ().getPlayers ().get (indexOfLast - currentTurn);
+            lobby.sendToAllNonCurrent (currentPlayer.getPlayerName ( ), new Turn (currentPlayer.getPlayerName ( ), gameModel.getGame ().isFinalFrenzy (), false));
+            if (!currentPlayer.isWaitingForRespawn ( )) {
+                lobby.sendToSpecific (currentPlayer.getPlayerName ( ), new Turn (currentPlayer.getPlayerName ( ), gameModel.getGame ().isFinalFrenzy (), gameModel.getGame ().isBeforeFirstPlayer (currentPlayer)));
+            } else {
+                lobby.sendToSpecific (currentPlayer.getPlayerName ( ), new SpawnPointSetUp (gameModel.createPowerUpDetails (currentPlayer)));
+            }
+            timer.startThread (currentPlayer.getPlayerName ());
+            gameModel.getGame ().incrementTurn ( );
+        } else
             endGame();
     }
 
@@ -270,7 +268,11 @@ public class Controller implements TimerCallBack {
         lobby.sendMessageToAll (nickname + " has been added back to the game...\n");
     }
 
-    public void endGame() {
+    /**
+     * Method to end the game
+     */
+
+    private void endGame() {
         timer.shutDownThread ();
 
         List<String> ranking = new ArrayList<> ();
@@ -282,6 +284,8 @@ public class Controller implements TimerCallBack {
                 lobby.sendToSpecific (p.getPlayerName (), new EndGameStatus (ranking));
             }
         }
+
+        lobby.destroy();
     }
 
     /**
@@ -290,18 +294,9 @@ public class Controller implements TimerCallBack {
 
     public void endGameBecauseOfDisconnection() {
         gameModel.getGame ().setEndGame (true);
-        timer.shutDownThread ();
         lobby.sendMessageToAll ("Ending the game because of lack of players...");
 
-        List<String> ranking = new ArrayList<> ();
-        for (Player p : gameModel.getGame ().getRanking ())
-            ranking.add(p.getPlayerName ());
-
-        for (Player p : gameModel.getGame ().getPlayers ()) {
-            if (! dummyPlayers.contains(p)) {
-                lobby.sendToSpecific (p.getPlayerName (), new EndGameStatus (ranking));
-            }
-        }
+        endGame ();
     }
 
     /**
@@ -332,7 +327,10 @@ public class Controller implements TimerCallBack {
                 List<WeaponDetails> weaponDetails = new ArrayList<> ();
                 for (Weapon w : gameModel.getGame ().findByNickname (nickname).getOwnedWeapons ())
                     weaponDetails.add(gameModel.createWeaponDetail (w));
-                options = new ShootOptions(((ShootAction)currentAction).isAdrenaline (), Action.findPaths (gameModel.getGame ().findByNickname (nickname), 1), weaponDetails);
+                if (gameModel.getGame ().isFinalFrenzy ())
+                    options = new ShootOptions(((ShootAction)currentAction).isAdrenaline (), true, Action.findPaths (gameModel.getGame ().findByNickname (nickname), 2), weaponDetails);
+                else
+                    options = new ShootOptions(((ShootAction)currentAction).isAdrenaline (), false, Action.findPaths (gameModel.getGame ().findByNickname (nickname), 1), weaponDetails);
                 lobby.sendToSpecific (nickname, options);
                 break;
             case "power up":
@@ -424,8 +422,8 @@ public class Controller implements TimerCallBack {
 
     private void checkNewTurn(String nickname) {
         if (! isLastAction ()) {
-            lobby.sendToSpecific (nickname, new Turn(nickname));
-            lobby.sendToAllNonCurrent (nickname, new Turn(nickname));
+            lobby.sendToSpecific (nickname, new Turn(nickname, gameModel.getGame ().isFinalFrenzy (), gameModel.getGame ().isBeforeFirstPlayer (gameModel.getGame ().findByNickname (nickname))));
+            lobby.sendToAllNonCurrent (nickname, new Turn(nickname, gameModel.getGame ().isFinalFrenzy (), false));
         } else if (! gameModel.getGame ().findByNickname (nickname).getBoard ().getUnloadedWeapons ().isEmpty ()){
             askReload (nickname);
         } else {
@@ -589,7 +587,7 @@ public class Controller implements TimerCallBack {
                 lobby.sendToSpecific (p.getPlayerName (), new TagbackRequest(nickname));
             if (! tagbackUsers.isEmpty ()) {
                 try {
-                    Thread.sleep (20000);
+                    Thread.sleep (5000);
                 } catch (InterruptedException e) {
                     Thread.currentThread ( ).interrupt ( );
                 }

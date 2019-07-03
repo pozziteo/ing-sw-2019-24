@@ -10,14 +10,21 @@ import adrenaline.view.gui.GUIController;
 
 public class Turn extends DataForClient {
     private String currentPlayer;
+    private boolean finalFrenzy;
+    private boolean beforeFirstPlayer;
 
-    public Turn(String currentPlayer) {
+    public Turn(String currentPlayer, boolean finalFrenzy, boolean beforeFirstPlayer) {
         this.currentPlayer = currentPlayer;
+        this.finalFrenzy = finalFrenzy;
+        this.beforeFirstPlayer = beforeFirstPlayer;
     }
 
     @Override
     public void updateView(CliUserInterface view) {
-        view.showTurn(currentPlayer);
+        if (!finalFrenzy)
+            view.showTurn(currentPlayer);
+        else
+            view.showFinalFrenzyTurn (currentPlayer, beforeFirstPlayer);
     }
 
     @Override

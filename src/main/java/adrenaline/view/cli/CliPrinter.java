@@ -146,6 +146,22 @@ public class CliPrinter {
     }
 
     /**
+     * Method that shows to the player the legal actions he can perform during final frenzy
+     */
+    synchronized void printFinalFrenzyActionOptions() {
+        print("What will you do next?");
+        print("0 - Move and grab");
+        print("1 - Shoot an opponent");
+        print("2 - Use PowerUp");
+        print("3 - Pass this turn");
+        print("4 - View the map");
+        print("5 - View all the squares' details");
+        print("6 - View your player board");
+        print("7 - View your and your opponents' player boards");
+        print("8 - View the current ranking");
+    }
+
+    /**
      * Method that prints the ranking
      * @param ranking is a sorted list
      */

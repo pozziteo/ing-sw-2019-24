@@ -286,6 +286,10 @@ public class MainServer {
         gameLobbies.add (l);
     }
 
+    public void removeLobby(Lobby l) {
+        gameLobbies.remove(l);
+    }
+
     public void notifyDisconnection(String disconnectedNickname) {
         Account disconnected = findClient (disconnectedNickname);
         Lobby toNotify = disconnected.getCurrentLobby ();

@@ -15,17 +15,19 @@ import java.util.List;
 public class ShootOptions extends DataForClient {
     private List<WeaponDetails> playerWeapons;
     private boolean isAdrenaline;
+    private boolean isFinalFrenzy;
     private List<Integer> validSquares;
 
-    public ShootOptions(boolean isAdrenaline, List<Integer> validSquares, List<WeaponDetails> weapons) {
+    public ShootOptions(boolean isAdrenaline, boolean isFinalFrenzy, List<Integer> validSquares, List<WeaponDetails> weapons) {
         this.isAdrenaline = isAdrenaline;
+        this.isFinalFrenzy = isFinalFrenzy;
         this.validSquares = validSquares;
         this.playerWeapons = weapons;
     }
 
     @Override
     public void updateView(CliUserInterface view) {
-        if (isAdrenaline)
+        if (isAdrenaline || isFinalFrenzy)
             view.chooseSquare(validSquares, playerWeapons);
         else
             view.chooseWeapon (playerWeapons);

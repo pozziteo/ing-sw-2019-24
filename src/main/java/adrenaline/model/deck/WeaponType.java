@@ -44,10 +44,10 @@ public enum WeaponType {
             return super.getPath() + "machinegun.json";
         }
     },
-    TRACTOR_BEAM("Tractor Beam", "basic mode: MoveAction a target 0, 1, or 2 squares to a square\n" +
+    TRACTOR_BEAM("Tractor Beam", "basic mode: Move a target 0, 1, or 2 squares to a square\n" +
             "you can see, and give it 1 damage.\n" +
             "in punisher mode: Choose a target 0, 1, or 2 moves away\n" +
-            "from you. MoveAction the target to your square\n" +
+            "from you. Move the target to your square\n" +
             "and deal 3 damage to it.\n" +
             "Notes: You can move a target even if you can't see it.\n" +
             "The target ends up in a place where you can see and\n" +
@@ -72,10 +72,10 @@ public enum WeaponType {
     },
     VORTEX_CANNON("Vortex Cannon", "basic effect: Choose a square you can see, but not your\n" +
             "square. Call it \"the vortex\". Choose a target on the vortex\n" +
-            "or 1 move away from it. MoveAction it onto the vortex and give it\n" +
+            "or 1 move away from it. Move it onto the vortex and give it\n" +
             "2 damage.\n" +
             "with black hole: Choose up to 2 other targets on the\n" +
-            "vortex or 1 move away from it. MoveAction them onto the vortex\n" +
+            "vortex or 1 move away from it. Move them onto the vortex\n" +
             "and give them each 1 damage.\n" +
             "Notes: The 3 targets must be different, but some might\n" +
             "start on the same square. It is legal to choose targets on\n" +
@@ -87,7 +87,7 @@ public enum WeaponType {
         }
     },
     PLASMA_GUN("Plasma Gun", "basic effect: Deal 2 damage to 1 target you can see.\n" +
-            "with phase glide: MoveAction 1 or 2 squares. This effect can be\n" +
+            "with phase glide: Move 1 or 2 squares. This effect can be\n" +
             "used either before or after the basic effect.\n" +
             "with charged shot: Deal 1 additional damage to your\n" +
             "target.\n" +
@@ -191,7 +191,7 @@ public enum WeaponType {
     },
     ROCKET_LAUNCHER("Rocket Launcher", "basic effect: Deal 2 damage to 1 target you can see that is not on your\n" +
             "square. Then you may move the target 1 square.\n" +
-            "with rocket jump: MoveAction 1 or 2 squares. This effect can be used either\n" +
+            "with rocket jump: Move 1 or 2 squares. This effect can be used either\n" +
             "before or after the basic effect.\n" +
             "with fragmenting warhead: During the basic effect, deal 1 damage to\n" +
             "every player on your target's original square – including the target,\n" +
@@ -207,10 +207,10 @@ public enum WeaponType {
         }
     },
     POWER_GLOVE("Power Glove", "basic mode: Choose 1 target on any square\n" +
-            "exactly 1 move away. MoveAction onto that square\n" +
+            "exactly 1 move away. Move onto that square\n" +
             "and give the target 1 damage and 2 marks.\n" +
             "in rocket fist mode: Choose a square\n" +
-            "exactly 1 move away. MoveAction onto that square.\n" +
+            "exactly 1 move away. Move onto that square.\n" +
             "You may deal 2 damage to 1 target there.\n" +
             "If you want, you may move 1 more square in\n" +
             "that same direction (but only if it is a legal\n" +
@@ -251,7 +251,7 @@ public enum WeaponType {
         }
     },
     CYBERBLADE("Cyberblade", "basic effect: Deal 2 damage to 1 target on your square.\n" +
-            "with shadowstep: MoveAction 1 square before or after the basic effect.\n" +
+            "with shadowstep: Move 1 square before or after the basic effect.\n" +
             "with slice and dice: Deal 2 damage to a different target on your square.\n" +
             "The shadowstep may be used before or after this effect.\n" +
             "Notes: Combining all effects allows you to move onto a square and\n" +

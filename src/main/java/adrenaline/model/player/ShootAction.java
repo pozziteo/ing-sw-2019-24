@@ -73,7 +73,7 @@ public class ShootAction implements Action {
         if (((OptionalEffect)effect).isUsable (attacker)) {
             this.optionalEffects.add (effect);
             this.effects.add (effect);
-            if (optionalEffects.containsAll (chosenWeapon.getOptionalEffects ( )))
+            if (optionalEffects.containsAll (chosenWeapon.getOptionalEffects ( )) && !mustUseBase)
                 this.endAction = true;
         } else
             throw new NotEnoughAmmoException ("You don't have enough ammo to use this additional effect.");
