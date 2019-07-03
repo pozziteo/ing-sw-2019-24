@@ -58,6 +58,11 @@ public class SocketServer implements Runnable {
         executor.shutdown();
     }
 
+    /**
+     * Getter method to know if the server is running
+     * @return true if running, false otherwise
+     */
+
     public boolean isRunning() {
         return this.running;
     }

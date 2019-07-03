@@ -12,7 +12,6 @@ import adrenaline.utils.ConfigFileReader;
 
 import java.io.*;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -62,10 +61,6 @@ public class MainServer {
         return instance;
     }
 
-    public List<Account> getStoredAccounts() {
-        return this.storedAccounts;
-    }
-
     /**
      * Main method to start and shut down the server
      * @param args passed to main
@@ -77,7 +72,7 @@ public class MainServer {
     }
 
     /**
-     * Method to run socketServer and rmiServer
+     * Method to start the server and run socketServer and rmiServer
      */
 
     private void startServer() throws IOException, ClassNotFoundException {
@@ -122,6 +117,12 @@ public class MainServer {
         System.exit (0);
     }
 
+    /**
+     * This method is used to receive data from clients
+     * @param sender is the client that sent the data
+     * @param data is the data sent
+     */
+
     public void receiveData(Account sender, DataForServer data) {
         if (findClient (sender.getNickName ()).getCurrentLobby () == null) {
             data.updateServer (this);
@@ -129,6 +130,11 @@ public class MainServer {
             findClient (sender.getNickName ()).getCurrentLobby ().getController ().receiveData ((DataForController) data);
         }
     }
+
+    /**
+     * Method to add a client to the list of online clients
+     * @param account that logged in
+     */
 
     public void logClient(Account account) {
         this.onlineClients.add (account);
@@ -160,6 +166,11 @@ public class MainServer {
         return list;
     }
 
+    /**
+     * Method used to create the accounts.ser file
+     * @return true if created, false otherwise
+     */
+
     private boolean createFile() {
         try {
             File f = new File (ACCOUNTS);
@@ -172,7 +183,7 @@ public class MainServer {
 
     /**
      * Method to write accounts stored in storedAccounts in ser file in memory.
-     * @throws IOException
+     * @throws IOException from writing on file
      */
 
     private void storeAccounts() throws IOException {
@@ -200,6 +211,13 @@ public class MainServer {
         }
     }
 
+    /**
+     * This method is used to check if a username chosen is already registered
+     * @param toRegister is the account with the username to check
+     * @param newNickname is the username to check
+     * @return true if already registered, false otherwise
+     */
+
     private boolean checkAlreadyRegistered(Account toRegister, String newNickname) {
         for (Account storedAccount : this.storedAccounts) {
             if (newNickname.equals (storedAccount.getNickName () )) {
@@ -219,6 +237,13 @@ public class MainServer {
         return false;
     }
 
+    /**
+     * This method is used to save a new account on the server
+     * @param account saved
+     * @param oldNickname is the default nickname
+     * @param newNickname is the chosen nickname
+     */
+
     private void saveNewAccount(Account account, String oldNickname, String newNickname) {
         try {
             System.out.println ("New account registered by " + oldNickname + " -> " + newNickname);
@@ -232,10 +257,22 @@ public class MainServer {
         }
     }
 
+    /**
+     * This method is used to tell the client whether or not the registration was successful
+     * @param a to send response to
+     * @param successful true if successful, false otherwise
+     * @param message is the message to send to the client
+     */
+
     private void sendLoginResponse(Account a, boolean successful, String message) {
         AccountResponse response = new AccountResponse (a, successful, message);
         response.sendToView ();
     }
+
+    /**
+     * This method is used to insert a client in a lobby
+     * @param toRegister is the account to insert
+     */
 
     private void tryInsertingIntoLobby(Account toRegister) {
         boolean disconnectedDuringGame = false;
@@ -258,6 +295,12 @@ public class MainServer {
         }
     }
 
+    /**
+     * This method is used to find a client in the list of online clients
+     * @param nickname is the nickname of the client
+     * @return the account
+     */
+
     public Account findClient(String nickname) {
         for (Account client : onlineClients) {
             if (nickname.equals(client.getNickName ())) {
@@ -266,6 +309,11 @@ public class MainServer {
         }
         return null;
     }
+
+    /**
+     * This method is used to obtain an open lobby for a client
+     * @return the open lobby
+     */
 
     public Lobby getOpenLobby() {
         if (gameLobbies.isEmpty()) {
@@ -282,13 +330,28 @@ public class MainServer {
         }
     }
 
+    /**
+     * This method is used to add a new lobby
+     * @param l to add
+     */
+
     private void createLobby(Lobby l) {
         gameLobbies.add (l);
     }
 
+    /**
+     * This method is used to remove a lobby
+     * @param l to remove
+     */
+
     public void removeLobby(Lobby l) {
         gameLobbies.remove(l);
     }
+
+    /**
+     * This method is used to tell the lobby that a client disconnected
+     * @param disconnectedNickname is the name of the disconnected client
+     */
 
     public void notifyDisconnection(String disconnectedNickname) {
         Account disconnected = findClient (disconnectedNickname);
@@ -300,7 +363,5 @@ public class MainServer {
         }
         this.onlineClients.remove(disconnected);
     }
-
-
 
 }

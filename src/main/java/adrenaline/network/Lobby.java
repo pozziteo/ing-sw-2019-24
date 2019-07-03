@@ -13,6 +13,10 @@ import adrenaline.utils.TimerThread;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is used to gather all the clients waiting for other players before starting a new game.
+ */
+
 public class Lobby implements TimerCallBack {
     private int id;
     private MainServer server;
@@ -51,6 +55,11 @@ public class Lobby implements TimerCallBack {
         this.controller.startController (new GameModel (playerNames));
     }
 
+    /**
+     * Getter method for id of the lobby
+     * @return id
+     */
+
     public int getId() {
         return this.id;
     }
@@ -62,6 +71,11 @@ public class Lobby implements TimerCallBack {
     public List<Account> getPlayers() {
         return this.players;
     }
+
+    /**
+     * Getter method for the list of disconnected client names
+     * @return list of names
+     */
 
     public List<String> getDisconnected() {
         return this.disconnected;
@@ -128,7 +142,7 @@ public class Lobby implements TimerCallBack {
 
     /**
      * Method that checks if the number of players is enough to begin the timer
-     * @throws GameStartedException
+     * @throws GameStartedException if the game has already started
      */
     private synchronized void checkReady() throws GameStartedException {
         if (!gameStarted) {
@@ -203,6 +217,11 @@ public class Lobby implements TimerCallBack {
         }
     }
 
+    /**
+     * Method to send some data to all the clients in this lobby
+     * @param data to send
+     */
+
     public void sendToAll(DataForClient data) {
         for (Account a : players) {
             data.setAccount(a);
@@ -240,6 +259,11 @@ public class Lobby implements TimerCallBack {
         checkReady();
     }
 
+    /**
+     * Method to add a player that disconnected back into the game
+     * @param a to add back
+     */
+
     public void addPlayerBack(Account a) {
         this.players.add(a);
         this.disconnected.remove (a.getNickName ());
@@ -253,6 +277,10 @@ public class Lobby implements TimerCallBack {
     public MainServer getServer(){
         return this.server;
     }
+
+    /**
+     * Method to destroy the lobby after the game ended
+     */
 
     public void destroy() {
         server.removeLobby(this);

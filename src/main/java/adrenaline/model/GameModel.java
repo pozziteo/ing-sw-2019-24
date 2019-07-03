@@ -34,7 +34,7 @@ public class GameModel {
 
     /**
      * Method to create every square
-     * @return a the map (list of squares)
+     * @return the map (list of squares)
      */
     public List<SquareDetails> createSquareDetails() {
         List<SquareDetails> map = new LinkedList<> ();
