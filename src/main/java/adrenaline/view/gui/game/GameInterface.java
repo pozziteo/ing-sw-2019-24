@@ -2,6 +2,7 @@ package adrenaline.view.gui.game;
 
 import adrenaline.data.data_for_client.responses_for_view.fake_model.*;
 import adrenaline.data.data_for_server.data_for_game.*;
+import adrenaline.utils.ConfigFileReader;
 import adrenaline.view.gui.GUIController;
 import javafx.application.Platform;
 import javafx.geometry.HPos;
@@ -36,8 +37,6 @@ public class GameInterface {
     private Map<String, ImageView> tiles;
     private Map<Integer, ImageView> tilesOnMap;
     private List<BoardLoader> boards;
-    private List<Button> skulls;
-    private List<Button> overkill;
     private int totalDeaths;
     private boolean finalFrenzy;
 
@@ -50,6 +49,10 @@ public class GameInterface {
     private final Object locker = new Object();
     private final Random randomChooser = new Random();
 
+    private List<Button> skullsList;
+    private List<Button> overkills;
+    private int skulls = ConfigFileReader.readConfigFile("skulls");
+
     public GameInterface(Stage stage) {
 
         this.userController = GUIController.getController();
@@ -60,8 +63,7 @@ public class GameInterface {
         this.playerFigures = new HashMap<>();
         this.tiles = new HashMap<>();
         this.tilesOnMap = new HashMap<>();
-        this.skulls = new SkullsLoader().getSkullsList();
-        this.overkill = new SkullsLoader().getOverkill();
+        this.overkills = getOverkill();
         this.totalDeaths=0;
         this.finalFrenzy = false;
         this.root = new StackPane();
@@ -117,7 +119,7 @@ public class GameInterface {
             mapButtons.add(button);
         }
 
-        GridPane skullsPane = new SkullsLoader().getSkullsPane();
+        GridPane skullsPane = getSkullsPane();
         if(boards.size()>3){
             skullsPane.setId("more_skulls_style");
         }else{
@@ -134,17 +136,6 @@ public class GameInterface {
 
     public Scene initGame() {
         return this.gameScene;
-    }
-
-    /**
-     * Method to remove a skull. add the color of the killer on the death track
-     * @param killerColor is the color of the killer
-     * @param overkiller tells if the killer perpetrated an overkill
-     */
-    public void removeSkull(String killerColor, boolean overkiller){
-        skulls.get(totalDeaths).setStyle("-fx-opacity: 1; -fx-background-color: "+ killerColor);
-        if(overkiller)
-            overkill.get(totalDeaths).setStyle("-fx-opacity: 1; -fx-background-color: "+ killerColor);
     }
 
     /**
@@ -1134,9 +1125,9 @@ public class GameInterface {
 
                 List<String> actualLife = details.getDamageTaken();
                 if (actualLife.size() >= 11) {
-                    removeSkull(actualLife.get(10), actualLife.size() == 12);
+                    //removeSkull(totalDeaths);
                     totalDeaths++;
-                    if (totalDeaths >= 8) {
+                    if (totalDeaths >= skulls) {
                         this.finalFrenzy = true;
                         boardToUpdate.loadBackBoard(userController.getPlayerColors().get(boardToUpdate.getOwner()));
                     }
@@ -1149,4 +1140,62 @@ public class GameInterface {
             userController.setUpdated();
         });
     }
+
+
+
+
+
+
+    /**
+     * Method to create a grid for the skulls slot on the board
+     * @return a grid of skulls
+     */
+    GridPane getSkullsPane(){
+        GridPane pane = new GridPane();
+        pane.getRowConstraints().add(new RowConstraints(10));
+        pane.getRowConstraints().add(new RowConstraints(10));
+        this.skullsList = new ArrayList<>();
+        this.overkills = new ArrayList<>();
+        for(int i=0; i<8; i++){
+            Button button = new Button();
+            button.setDisable(true);
+            if(i<(8-skulls))
+                button.setStyle("-fx-background-color: trasparent; -fx-opacity: 1");
+            else
+                button.setStyle("-fx-background-color: red; -fx-opacity: 1");
+            skullsList.add(button);
+            pane.add(button, i, 0);
+        }
+        for(int i=0; i<8; i++){
+            Button button = new Button();
+            button.setId("board");
+            button.setDisable(true);
+            button.setStyle("-fx-background-color: transparent");
+            overkills.add(button);
+            pane.add(button, i, 1);
+        }
+        pane.setHgap(18);
+        pane.setVgap(20);
+        return pane;
+    }
+
+    /**
+     * Method to remove a skull. add the color of the killer on the death track
+     */
+    private void removeSkull(int totalDeaths){
+        getSkullsList().get(totalDeaths+(8-skulls)).setStyle("-fx-background-color: transparent");
+    }
+
+
+    /**
+     * Getter method
+     * @return the list of players' color on the death track
+     */
+    List<Button> getSkullsList(){return this.skullsList;}
+
+    /**
+     * Getter method
+     * @return the list of player's color one the overkill track, under the death track
+     */
+    List<Button> getOverkill(){return this.overkills;}
 }
