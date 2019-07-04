@@ -131,8 +131,8 @@ public class Board {
 
     /**
      * Method to add the right amount of damage depending on the weapon's effect after a player hit this player
-     * @param amount
-     * @param attacker
+     * @param amount is the amount of damage
+     * @param attacker is the player who attacked
      */
 
     public void gotHit(int amount, Player attacker) {
@@ -145,7 +145,7 @@ public class Board {
             }
             if (this.getDamageTaken().size() > 10) {
                 this.player.hasDied ();
-                this.getDamageTaken().clear();
+//                this.getDamageTaken().clear();
                 this.player.setWaitingForRespawn(true);
                 if (player.getOwnedPowerUps().size() < 4) {
                     PowerUp powerUp = (PowerUp) player.getGame().getPowerUpsDeck().drawCard();

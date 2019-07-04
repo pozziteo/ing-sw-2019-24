@@ -409,11 +409,6 @@ class BoardLoader{
      */
     public void updateLifeBar(int damage, String attackerColor){
         changeButtonList(damage, attackerColor, life, getBoardLifeBar());
-        if(life.size()>10){
-            clearLifeBar();
-            decreaseMaxPoints();
-        }
-
     }
 
     /**

@@ -132,6 +132,8 @@ public class Controller implements TimerCallBack {
         timer.shutDownThread ();
         for (Player p : gameModel.getGame ().getPlayers ()) {
             SpawnPointSetUp data = new SpawnPointSetUp (gameModel.createPowerUpDetails (p));
+            p.getBoard().getDamageTaken().clear();
+            p.setWaitingForRespawn(false);
             lobby.sendToSpecific (p.getPlayerName (), data);
         }
     }
