@@ -15,9 +15,9 @@ class MoveActionTest {
     private String[] playerNames = {"luca", "matteo", "sara"};
     private Game g = new Game(playerNames);
 
-     @Test
+    @Test
     void correctMovesTest() {
-         this.g.setArena (SMALL);
+        this.g.setArena (SMALL);
         Map map = g.getMap ();
         Player player = g.getPlayers().get(0);
         player.setPosition(map.getSquare(2));
