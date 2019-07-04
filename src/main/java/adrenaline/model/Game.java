@@ -8,6 +8,7 @@ import adrenaline.model.map.*;
 import adrenaline.model.map.Map;
 import adrenaline.model.player.Action;
 import adrenaline.model.player.Player;
+import adrenaline.utils.ConfigFileReader;
 
 import java.io.FileNotFoundException;
 import java.io.Serializable;
@@ -60,7 +61,7 @@ public class Game implements Serializable {
         this.gameID = new Random().nextInt() * 1000000;
         this.currentTurn = 0;
         this.finalFrenzy = false;
-        this.skullsRemaining = 2;//TODO rimettere l'8
+        this.skullsRemaining = ConfigFileReader.readConfigFile("skulls");
         this.players = new ArrayList<>();
         this.ranking = new ArrayList<>();
         this.startGame = false;
