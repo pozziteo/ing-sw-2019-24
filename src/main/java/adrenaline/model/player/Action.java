@@ -1,6 +1,5 @@
 package adrenaline.model.player;
 
-import adrenaline.model.deck.Weapon;
 import adrenaline.model.map.Map;
 import adrenaline.model.map.Square;
 
@@ -13,6 +12,10 @@ import java.util.List;
  */
 public interface Action {
 
+    /**
+     * Method to add this action to the list of executed actions of a player
+     * @param player that executed this action
+     */
     default void executedAction(Player player) {
         Action[] actions = player.getPerformedActions();
         for (int i=0; i < actions.length; i++) {
@@ -23,6 +26,13 @@ public interface Action {
         }
     }
 
+    /**
+     * Method to find possible paths a player can take
+     * @param player moving
+     * @param movements possible
+     * @return list of paths
+     */
+
     static List<Integer> findPaths(Player player, int movements) {
 
         Map map = player.getGame().getMap();
@@ -30,6 +40,14 @@ public interface Action {
 
         return findPaths (map, position, movements);
     }
+
+    /**
+     * Method to build the paths
+     * @param map of the game
+     * @param position of the player
+     * @param movements possible
+     * @return paths
+     */
 
     static List<Integer> findPaths(Map map, Square position, int movements) {
         List<Integer> toVisit = new ArrayList<>();
@@ -50,14 +68,6 @@ public interface Action {
             }
         }
         return visited;
-    }
-
-    default void getWeapons(Player player) {
-        List<Weapon> weapons = player.getOwnedWeapons ();
-
-        for (int i = 0; i < weapons.size (); i++) {
-            System.out.println (weapons.get(i).getWeaponsName ());
-        }
     }
 
     default String getActionInfo() {

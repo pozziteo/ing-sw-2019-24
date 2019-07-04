@@ -21,12 +21,20 @@ public class RmiClient extends UnicastRemoteObject implements ClientInterface, R
     private transient UserInterface view;
     private transient RmiServerInterface stub;
 
+    /**
+     * Create a RMI generic client with a reference to the view he is using
+     * @param view is the view of the client (CLI or GUI)
+     * @throws RemoteException if an error about UnicastRemoteObject occurs
+     */
     public RmiClient(UserInterface view) throws RemoteException {
         super();
         this.view = view;
     }
 
-
+    /**
+     * Method to check if the client still has a reference to the server's stub
+     * @return true if the client has a reference to the server, false otherwise
+     */
     public boolean isConnected() {
         return this.stub != null;
     }
@@ -34,7 +42,6 @@ public class RmiClient extends UnicastRemoteObject implements ClientInterface, R
     /**
      * Method to connect the client to the server
      */
-
     public void connectToServer() {
         try {
             Registry registry = LocateRegistry.getRegistry(ConfigFileReader.readConfigFile("rmiPort"));
@@ -52,9 +59,8 @@ public class RmiClient extends UnicastRemoteObject implements ClientInterface, R
 
     /**
      * Implementation of sendData() from ClientInterface
-     * @param data to send
+     * @param data to send to server
      */
-
     public void sendData(DataForServer data) {
         try {
             stub.receiveData(this, data);
@@ -63,11 +69,21 @@ public class RmiClient extends UnicastRemoteObject implements ClientInterface, R
         }
     }
 
+    /**
+     * Notifies data coming from server to update the client's view
+     * @param data is the pack of data coming from the server
+     * @throws RemoteException if an error occurs in the communication on the net
+     */
     @Override
     public void notifyChanges(DataForClient data) throws RemoteException {
         view.updateView(data);
     }
 
+    /**
+     * Method called periodically by the server to check if the client is still online and listening
+     * @return an ack to notify the server the client is still listening
+     * @throws RemoteException if an error occurs in the communication on the net
+     */
     @Override
     public boolean ping() throws RemoteException {
         return isConnected();

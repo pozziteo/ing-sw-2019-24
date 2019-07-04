@@ -327,9 +327,16 @@ public class Controller implements TimerCallBack {
                 List<WeaponDetails> weaponDetails = new ArrayList<> ();
                 for (Weapon w : gameModel.getGame ().findByNickname (nickname).getOwnedWeapons ())
                     weaponDetails.add(gameModel.createWeaponDetail (w));
-                if (gameModel.getGame ().isFinalFrenzy ())
-                    options = new ShootOptions(((ShootAction)currentAction).isAdrenaline (), true, Action.findPaths (gameModel.getGame ().findByNickname (nickname), 2), weaponDetails);
-                else
+                if (gameModel.getGame ().isFinalFrenzy ()) {
+                    if (! gameModel.getGame ().findByNickname (nickname).getBoard ().getUnloadedWeapons ().isEmpty ())
+                        askReload (nickname);
+                    try {
+                        Thread.sleep (10000);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread ( ).interrupt ( );
+                    }
+                    options = new ShootOptions (((ShootAction) currentAction).isAdrenaline ( ), true, Action.findPaths (gameModel.getGame ( ).findByNickname (nickname), 2), weaponDetails);
+                } else
                     options = new ShootOptions(((ShootAction)currentAction).isAdrenaline (), false, Action.findPaths (gameModel.getGame ().findByNickname (nickname), 1), weaponDetails);
                 lobby.sendToSpecific (nickname, options);
                 break;
@@ -421,6 +428,7 @@ public class Controller implements TimerCallBack {
      */
 
     private void checkNewTurn(String nickname) {
+
         if (! isLastAction ()) {
             lobby.sendToSpecific (nickname, new Turn(nickname, gameModel.getGame ().isFinalFrenzy (), gameModel.getGame ().isBeforeFirstPlayer (gameModel.getGame ().findByNickname (nickname))));
             lobby.sendToAllNonCurrent (nickname, new Turn(nickname, gameModel.getGame ().isFinalFrenzy (), false));
@@ -468,6 +476,10 @@ public class Controller implements TimerCallBack {
             askReload(nickname);
         } else
             playNewTurn ();
+    }
+
+    public void reloadBeforeShoot() {
+        //TODO
     }
 
     /**
@@ -664,6 +676,7 @@ public class Controller implements TimerCallBack {
             Player targetPlayer = gameModel.getGame ().findByNickname (target);
             PowerUpEffect tagbackEffect = new PowerUpEffect (userPlayer, userPlayer.findPowerUp ("Tagback Grenade"));
             tagbackEffect.useTagbackGrenade (targetPlayer);
+            gameModel.resetCanTagback ();
         }
     }
 
