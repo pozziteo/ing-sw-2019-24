@@ -13,8 +13,9 @@ import adrenaline.network.Account;
 
 import java.util.*;
 
-//TODO javadoc
-
+/**
+ * This class creates and update all the data of the game, map, squares, players and player's boards
+ */
 public class GameModel {
 
     private Game game;
@@ -33,7 +34,7 @@ public class GameModel {
 
     /**
      * Method to create every square
-     * @return a the map (list of squares)
+     * @return the map (list of squares)
      */
     public List<SquareDetails> createSquareDetails() {
         List<SquareDetails> map = new LinkedList<> ();

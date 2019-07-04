@@ -47,9 +47,19 @@ public class Account implements Serializable {
         return this.nickname;
     }
 
+    /**
+     * Getter method for the server which this account is saved on
+     * @return server
+     */
+
     public MainServer getServer() {
         return this.server;
     }
+
+    /**
+     * Setter method for server
+     * @param server to set
+     */
 
     public void setServer(MainServer server) {
         this.server = server;
@@ -79,23 +89,48 @@ public class Account implements Serializable {
         return this.currentLobby;
     }
 
+    /**
+     * Setter method for current lobby
+     * @param lobby to set
+     * @throws GameStartedException if the game in the lobby has already started
+     */
+
     public void setCurrentLobby(Lobby lobby) throws GameStartedException {
         this.currentLobby = lobby;
         addToLobby (lobby);
     }
+
+    /**
+     * Method to insert this account back into a lobby
+     * @param lobby to add account to
+     */
 
     public void insertBackIntoLobby(Lobby lobby) {
         this.currentLobby = lobby;
         lobby.addPlayerBack(this);
     }
 
+    /**
+     * Getter method for this account's game history
+     * @return game history
+     */
+
     public List<GameModel> getGameHistory() {
         return this.gameHistory;
     }
 
+    /**
+     * Setter method to set this acoount's game history
+     * @param gameHistory to set
+     */
+
     public void setGameHistory(List<GameModel> gameHistory) {
         this.gameHistory = gameHistory;
     }
+
+    /**
+     * Method to log this account on the server
+     */
 
     public void logClient() {
         server.logClient (this);

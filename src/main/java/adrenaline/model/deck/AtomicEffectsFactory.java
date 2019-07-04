@@ -6,6 +6,9 @@ import adrenaline.model.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that implements every effect of the weapons in the game
+ */
 public class AtomicEffectsFactory {
 
     public AtomicEffectsFactory() {

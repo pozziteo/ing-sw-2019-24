@@ -1,5 +1,9 @@
 package adrenaline.model.deck;
 
+/**
+ * WeaponsDeckCreator is a subclass of DeckCreator,
+ * it creates the weapons' deck
+ */
 public class WeaponsDeckCreator extends DeckCreator {
     /**
      * Calls superclass constructor

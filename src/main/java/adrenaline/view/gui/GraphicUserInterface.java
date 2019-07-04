@@ -12,6 +12,9 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+/**
+ * Class that initializes the GUI
+ */
 public class GraphicUserInterface extends Application {
 
     private Stage primaryStage;

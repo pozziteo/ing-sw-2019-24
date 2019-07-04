@@ -16,6 +16,9 @@ import javafx.stage.StageStyle;
 
 import java.rmi.RemoteException;
 
+/**
+ * Class that handles the connection stage
+ */
 public class ConnectionStage {
 
     private Stage stage;

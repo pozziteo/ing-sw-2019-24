@@ -17,6 +17,9 @@ import javafx.util.Duration;
 
 import java.io.File;
 
+/**
+ * Class that handles the lobby stage
+ */
 public class LobbyStage {
 
     private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";

@@ -279,6 +279,63 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
+    private void selectFinalFrenzyAction(){
+        parser.setActive (true);
+        DataForServer request;
+        boolean valid = false;
+        while(!valid) {
+            this.printer.printFinalFrenzyActionOptions ( );
+            int parsed = this.parser.asyncParseInt (8);
+            if (parsed != -1) {
+                switch (parsed) {
+                    case 0:
+                        valid = true;
+                        sendAction ("move and grab");
+                        break;
+                    case 1:
+                        valid = true;
+                        sendAction ("shoot");
+                        break;
+                    case 2:
+                        valid = true;
+                        sendAction ("power up");
+                        break;
+                    case 3:
+                        valid = true;
+                        sendAction ("pass");
+                        break;
+                    case 4:
+                        request = new MapRequest (nickname);
+                        sendToServer (request);
+                        putThreadToSleep ();
+                        break;
+                    case 5:
+                        request = new SquareDetailsRequest (nickname);
+                        sendToServer (request);
+                        putThreadToSleep ();
+                        break;
+                    case 6:
+                        request = new MyBoardRequest (nickname);
+                        sendToServer (request);
+                        putThreadToSleep ();
+                        break;
+                    case 7:
+                        request = new BoardsRequest (nickname);
+                        sendToServer (request);
+                        putThreadToSleep ();
+                        break;
+                    case 8:
+                        request = new RankingRequest (nickname);
+                        sendToServer (request);
+                        putThreadToSleep ();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
     /**
      * Method to make current thread sleep for 3 seconds
      */
@@ -312,13 +369,31 @@ public class CliUserInterface implements UserInterface {
 
     /**
      * Method to show the player that it's their turn and they can make an action
-     * @param nickname
+     * @param nickname of player
      */
 
     public void showTurn(String nickname) {
         parser.setActive(true);
         if (nickname.equals(this.nickname)) {
             selectAction();
+        } else {
+            waitTurn(nickname);
+        }
+    }
+
+    /**
+     * Method to show the player that it's their turn and they can make a final frenzy action
+     * @param nickname of player
+     */
+
+    public void showFinalFrenzyTurn(String nickname, boolean beforeFirstPlayer) {
+        parser.setActive(true);
+        if (nickname.equals(this.nickname)) {
+            if (beforeFirstPlayer)
+                selectAction ();
+            else {
+                selectFinalFrenzyAction();
+            }
         } else {
             waitTurn(nickname);
         }

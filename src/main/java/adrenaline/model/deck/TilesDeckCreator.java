@@ -1,5 +1,9 @@
 package adrenaline.model.deck;
 
+/**
+ * TilesDeckCreator is a subclass of DeckCreator
+ * TilesDeckCreator creates a deck of the tiles on the map which contain ammo and (eventually) a powerup
+ */
 public class TilesDeckCreator extends DeckCreator {
 
     /**

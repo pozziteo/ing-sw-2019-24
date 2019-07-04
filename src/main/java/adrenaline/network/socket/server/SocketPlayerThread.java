@@ -82,14 +82,26 @@ public class SocketPlayerThread extends Account implements Runnable {
         }
     }
 
+    /**
+     * Method to set up the account associated to this thread
+     */
+
     private void setUpAccount() {
         super.setOnline (true);
         super.logClient ();
     }
 
+    /**
+     * Method to ask the client associated to this thread to set their nickname
+     */
+
     private void setUpClient() {
         this.sendData(new ClientSetUp (this));
     }
+
+    /**
+     * Method to disconnect the client associated to this thread
+     */
 
     private void disconnectClient() {
         System.out.println (super.getNickName () + " disconnected");

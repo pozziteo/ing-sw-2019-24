@@ -49,6 +49,7 @@ public class Game implements Serializable {
     private PowerUpsDeck powerUpsDeck;
     private TilesDeck tilesDeck;
     private List<Player> ranking;
+    private int finalFrenzyIndex;
     private boolean finalFrenzy;
     private boolean startGame;
     private boolean endGame;
@@ -59,11 +60,12 @@ public class Game implements Serializable {
         this.gameID = new Random().nextInt() * 1000000;
         this.currentTurn = 0;
         this.finalFrenzy = false;
-        this.skullsRemaining = 2;//TODO rimettere l'8
+        this.skullsRemaining = 1;//TODO rimettere l'8
         this.players = new ArrayList<>();
         this.ranking = new ArrayList<>();
         this.startGame = false;
         this.endGame = false;
+        this.finalFrenzyIndex = 0;
         this.currentTurnActions = new LinkedList<>();
         this.deathTrack = new ArrayList<>();
 
@@ -136,9 +138,11 @@ public class Game implements Serializable {
      * Method to increment the turn counter
      */
     public void incrementTurn() {
-        this.currentTurnActions = new LinkedList<>();
-        replaceEmptySlots();
         this.currentTurn++;
+        if (finalFrenzy && currentTurn == finalFrenzyIndex)
+            endGame = true;
+        this.currentTurnActions = new LinkedList<> ( );
+        replaceEmptySlots ( );
     }
 
     /**
@@ -354,6 +358,10 @@ public class Game implements Serializable {
         return a;
     }
 
+    public boolean isBeforeFirstPlayer(Player player) {
+        return (!player.equals(firstPlayer) && players.indexOf(player) < players.indexOf(firstPlayer));
+    }
+
     /**
      * Method to find a player by his nickname
      * @param nickname is the nickname of the player to search
@@ -476,6 +484,7 @@ public class Game implements Serializable {
         handlePlayerDeath (deadPlayer);
         if (getSkullsRemaining() == 0) {
             this.finalFrenzy = true;
+            this.finalFrenzyIndex = currentTurn;
         }
     }
 
