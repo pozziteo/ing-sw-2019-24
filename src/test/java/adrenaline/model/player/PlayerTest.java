@@ -32,16 +32,21 @@ class PlayerTest {
     }
 
     @Test
-    public void testPlayersInSameRoom() {
+    void testPlayersInSameRoom() {
         this.game.setArena (SMALL);
         p1.setPosition(game.getMap ().getSquare(0));
         p2.setPosition(game.getMap ().getSquare(1));
+        p3.setPosition (game.getMap ().getSquare(5));
+        p4.setPosition (game.getMap ().getSquare(5));
+        p5.setPosition (game.getMap ().getSquare(5));
 
         assertTrue(p1.isInTheSameRoom (p2));
+        assertTrue (game.getMap ().getPlayersInRoom ("Blue", game.getPlayers ()).contains (p1));
+        assertTrue (game.getMap ().getPlayersInRoom ("Blue", game.getPlayers ()).contains (p2));
     }
 
     @Test
-    public void testPlayerCanSee() {
+    void testPlayerCanSee() {
         this.game.setArena (SMALL);
         p1.setPosition(game.getMap ().getSquare(0));
         p2.setPosition(game.getMap ().getSquare(6));
@@ -50,16 +55,16 @@ class PlayerTest {
     }
 
     @Test
-    public void testPlayerChooseSpawn() {
+    void testPlayerChooseSpawn() {
         this.game.setArena (SMALL);
         PowerUp powerup = p1.getOwnedPowerUps ().get(0);
         p1.chooseSpawnPoint (powerup.getAmmo().getColor());
         assertTrue(p1.getPosition ().isSpawnPoint ());
-        assertTrue(p1.getPosition ().getSquareColor ().equals(powerup.getAmmo().getColor ()));
+        assertEquals(p1.getPosition ().getSquareColor (), powerup.getAmmo().getColor ());
     }
 
     @Test
-    void deathTest(){
+    void testPlayerDeath(){
         this.game.setArena (SMALL);
         p1.setPosition(game.getMap ().getSquare(2));
         p2.setPosition(game.getMap ().getSquare(1));
@@ -70,14 +75,5 @@ class PlayerTest {
         assertEquals(1, p2.getBoard().getReceivedMarks().size());
         assertEquals(9, p2.getBoard().getPointTokens());
         assertEquals(1, p1.getDeaths());
-
-        p1.getBoard().gotHit(2, p3);
-        p1.getBoard().gotHit(7, p4);
-        p1.getBoard().gotHit(3, p5);
-//        assertEquals(3, p3.getBoard().getPointTokens());
-//        assertEquals(6, p4.getBoard().getPointTokens());
-//        assertEquals(4, p5.getBoard().getPointTokens());
-//        assertEquals(1, p5.getBoard().getReceivedMarks().size());
-//        assertEquals(2, p1.getDeaths());
     }
 }

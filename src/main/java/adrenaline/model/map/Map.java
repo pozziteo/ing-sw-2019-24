@@ -2,7 +2,6 @@ package adrenaline.model.map;
 
 import adrenaline.model.player.Player;
 
-import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -67,7 +66,7 @@ public class Map {
 
     /**
      * Method to determine which players are in the same room and can therefore see each other
-     * @param color
+     * @param color is the color of the room
      * @return list of players in the same room
      */
 

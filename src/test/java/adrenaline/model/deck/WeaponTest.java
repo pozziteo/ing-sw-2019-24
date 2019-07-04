@@ -8,8 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class WeaponTest {
 
-    private Weapon w = new Weapon(WeaponType.LOCK_RIFLE);
-
     @Test
     void checkEffects() {
         WeaponsDeck deck = new WeaponsDeckCreator().createDeck();
@@ -25,12 +23,6 @@ class WeaponTest {
                 assertFalse(weapon.getOptionalEffects().isEmpty());
             }
         }
-    }
-
-    @Test
-    void descTest(){
-        System.out.println(w.getWeaponsDescription());
-        System.out.println(WeaponType.ROCKET_LAUNCHER.getDescription());
     }
 
 }

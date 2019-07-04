@@ -4,7 +4,7 @@ import adrenaline.model.Game;
 import adrenaline.model.deck.Weapon;
 import org.junit.jupiter.api.Test;
 
-public class ShootActionTest {
+class ShootActionTest {
     private String[] playerNames = {"luca", "matteo", "sara"};
     private Game g = new Game(playerNames);
     private Player p = g.getPlayers ().get(0);

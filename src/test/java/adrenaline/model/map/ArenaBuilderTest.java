@@ -1,7 +1,6 @@
 package adrenaline.model.map;
 
 import adrenaline.model.deck.Tile;
-import adrenaline.model.map.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

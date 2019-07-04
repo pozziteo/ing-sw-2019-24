@@ -189,7 +189,7 @@ public class GameModel {
      * @param showPowerUps is true if the information is for the player's board
      * @return the details of the board
      */
-    private BoardDetails createBoardDetails(Player p, boolean showPowerUps) {
+    public BoardDetails createBoardDetails(Player p, boolean showPowerUps) {
         BoardDetails details = new BoardDetails ();
 
         String nickname = p.getPlayerName ();
