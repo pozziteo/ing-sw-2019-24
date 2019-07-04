@@ -60,12 +60,12 @@ public class Game implements Serializable {
         this.gameID = new Random().nextInt() * 1000000;
         this.currentTurn = 0;
         this.finalFrenzy = false;
-        this.skullsRemaining = 2;//TODO rimettere l'8
+        this.skullsRemaining = 1;//TODO rimettere l'8
         this.players = new ArrayList<>();
         this.ranking = new ArrayList<>();
         this.startGame = false;
         this.endGame = false;
-        this.finalFrenzyIndex = currentTurn;
+        this.finalFrenzyIndex = 0;
         this.currentTurnActions = new LinkedList<>();
         this.deathTrack = new ArrayList<>();
 
@@ -138,13 +138,11 @@ public class Game implements Serializable {
      * Method to increment the turn counter
      */
     public void incrementTurn() {
+        this.currentTurn++;
         if (finalFrenzy && currentTurn == finalFrenzyIndex)
             endGame = true;
-        else {
-            this.currentTurnActions = new LinkedList<> ( );
-            replaceEmptySlots ( );
-            this.currentTurn++;
-        }
+        this.currentTurnActions = new LinkedList<> ( );
+        replaceEmptySlots ( );
     }
 
     /**

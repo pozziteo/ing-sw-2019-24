@@ -126,6 +126,11 @@ public class Square implements Serializable {
         return (this.getSquareColor().equals(s.getSquareColor()));
     }
 
+    /**
+     * Getter method for square links
+     * @return links
+     */
+
     public List<Integer> getLinks() {
         return this.links;
     }

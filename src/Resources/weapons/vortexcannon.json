@@ -9,7 +9,7 @@
       "target": [
         {
           "value": 1,
-          "areaType": false,
+          "areaType": true,
           "movement": -1,
           "constraints": [
             "square different from current position",

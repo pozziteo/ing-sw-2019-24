@@ -5,7 +5,6 @@ import adrenaline.model.Game;
 import adrenaline.model.deck.Ammo;
 import adrenaline.model.deck.powerup.PowerUp;
 import adrenaline.model.deck.Weapon;
-import adrenaline.model.deck.powerup.PowerUpType;
 import adrenaline.model.map.Square;
 
 import java.util.*;
