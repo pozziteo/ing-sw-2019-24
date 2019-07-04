@@ -35,6 +35,7 @@ public class ShootOptions extends DataForClient {
 
     @Override
     public void updateView(GUIController view) {
+        //TODO
         view.chooseWeapon(playerWeapons);
     }
 }

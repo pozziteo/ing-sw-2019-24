@@ -23,7 +23,6 @@ class MoveAndGrabActionTest {
     private String[] playerNames = {"luca", "matteo", "sara"};
     private Game g = new Game(playerNames);
 
-    //TODO add JavaDoc
     @Test
     void moveAndGrabTest() {
         this.g.setArena (SMALL);

@@ -819,7 +819,7 @@ public class GameInterface {
      * Method to ask the player if he wants to reload a weapons
      * @param weapons is the list of unloaded weapons
      */
-    public void askReload(List<WeaponDetails> weapons) {
+    public void askReload(List<WeaponDetails> weapons, boolean isBeforeShoot) {
         this.contextBox = new VBox();
         contextBox.setId("small-box");
         Text choose = new Text("Reload your weapons before ending turn?");
@@ -844,7 +844,7 @@ public class GameInterface {
             for (WeaponDetails details : weapons) {
                 ImageView weapon = cardLoader.loadCard(details.getName());
                 weapon.setOnMouseClicked(mouseEvent1 -> {
-                    ReloadResponse response = new ReloadResponse(userController.getNickname(), true, details.getName(), false);
+                    ReloadResponse response = new ReloadResponse(userController.getNickname(), true, details.getName(), isBeforeShoot);
                     userController.sendToServer(response);
                     root.getChildren().remove(contextBox);
                 });
@@ -854,7 +854,7 @@ public class GameInterface {
             Button finish = new Button("NONE");
             finish.setId("action-button");
             finish.setOnMouseClicked(mouseEvent1 -> {
-                ReloadResponse response = new ReloadResponse(userController.getNickname(), false, "", false);
+                ReloadResponse response = new ReloadResponse(userController.getNickname(), false, "", isBeforeShoot);
                 userController.sendToServer(response);
                 root.getChildren().remove(contextBox);
             });
@@ -864,7 +864,7 @@ public class GameInterface {
         });
 
         no.setOnMouseClicked(mouseEvent -> {
-            ReloadResponse response = new ReloadResponse(userController.getNickname(), false, "", false);
+            ReloadResponse response = new ReloadResponse(userController.getNickname(), false, "", isBeforeShoot);
             userController.sendToServer(response);
             root.getChildren().remove(contextBox);
         });

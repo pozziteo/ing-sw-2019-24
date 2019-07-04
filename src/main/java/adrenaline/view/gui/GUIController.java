@@ -391,9 +391,10 @@ public class GUIController implements UserInterface {
     /**
      * Method to ask the player if he wants to reload
      * @param weapons is the list of unloaded weapons
+     * @param isBeforeShoot true if asked during final frenzy in Shoot action
      */
-    public void askReload(List<WeaponDetails> weapons) {
-        gameInterface.askReload(weapons);
+    public void askReload(List<WeaponDetails> weapons, boolean isBeforeShoot) {
+        gameInterface.askReload(weapons, isBeforeShoot);
     }
 
     /**

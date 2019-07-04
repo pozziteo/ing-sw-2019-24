@@ -29,6 +29,6 @@ public class ReloadRequest extends DataForClient {
 
     @Override
     public void updateView(GUIController view) {
-        view.askReload(unloadedWeapons);
+        view.askReload(unloadedWeapons, isBeforeShoot);
     }
 }
