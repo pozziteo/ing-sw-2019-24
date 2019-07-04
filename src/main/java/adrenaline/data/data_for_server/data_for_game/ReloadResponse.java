@@ -11,15 +11,20 @@ import adrenaline.data.data_for_server.DataForServer;
 public class ReloadResponse extends DataForServer implements DataForController {
     private boolean positive; //true if client wants to reload
     private String weaponName;
+    private boolean isBeforeShoot;
 
-    public ReloadResponse(String nickname, boolean positive, String weaponName) {
+    public ReloadResponse(String nickname, boolean positive, String weaponName, boolean isBeforeShoot) {
         super(nickname);
         this.positive = positive;
         this.weaponName = weaponName;
+        this.isBeforeShoot = isBeforeShoot;
     }
 
     @Override
     public void updateGame(Controller controller) {
-        controller.reloadWeapon(super.getNickname (), positive, weaponName);
+        if (!isBeforeShoot)
+            controller.reloadWeapon(super.getNickname (), positive, weaponName);
+        else
+            controller.reloadWeaponBeforeShoot (super.getNickname (), positive, weaponName);
     }
 }

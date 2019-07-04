@@ -14,15 +14,17 @@ import java.util.List;
 public class ReloadRequest extends DataForClient {
     private List<String> ownedAmmo;
     private List<WeaponDetails> unloadedWeapons;
+    private boolean isBeforeShoot;
 
-    public ReloadRequest(List<String> ammo, List<WeaponDetails> weapons) {
+    public ReloadRequest(List<String> ammo, List<WeaponDetails> weapons, boolean isBeforeShoot) {
         this.ownedAmmo = ammo;
         this.unloadedWeapons = weapons;
+        this.isBeforeShoot = isBeforeShoot;
     }
 
     @Override
     public void updateView(CliUserInterface view) {
-        view.askReload(ownedAmmo, unloadedWeapons);
+        view.askReload(ownedAmmo, unloadedWeapons, isBeforeShoot);
     }
 
     @Override

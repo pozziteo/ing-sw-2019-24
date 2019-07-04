@@ -844,7 +844,7 @@ public class GameInterface {
             for (WeaponDetails details : weapons) {
                 ImageView weapon = cardLoader.loadCard(details.getName());
                 weapon.setOnMouseClicked(mouseEvent1 -> {
-                    ReloadResponse response = new ReloadResponse(userController.getNickname(), true, details.getName());
+                    ReloadResponse response = new ReloadResponse(userController.getNickname(), true, details.getName(), false);
                     userController.sendToServer(response);
                     root.getChildren().remove(contextBox);
                 });
@@ -854,7 +854,7 @@ public class GameInterface {
             Button finish = new Button("NONE");
             finish.setId("action-button");
             finish.setOnMouseClicked(mouseEvent1 -> {
-                ReloadResponse response = new ReloadResponse(userController.getNickname(), false, "");
+                ReloadResponse response = new ReloadResponse(userController.getNickname(), false, "", false);
                 userController.sendToServer(response);
                 root.getChildren().remove(contextBox);
             });
@@ -864,7 +864,7 @@ public class GameInterface {
         });
 
         no.setOnMouseClicked(mouseEvent -> {
-            ReloadResponse response = new ReloadResponse(userController.getNickname(), false, "");
+            ReloadResponse response = new ReloadResponse(userController.getNickname(), false, "", false);
             userController.sendToServer(response);
             root.getChildren().remove(contextBox);
         });

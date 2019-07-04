@@ -655,12 +655,14 @@ public class CliUserInterface implements UserInterface {
         for (TargetDetails target : targets) {
             if (target.getValue () != -1) {
                 //normal targets (single or multiple)
-                canTargetScope = true;
                 atomicTarget = chooseTargets (target.getValue ( ), target.getMovements ( ), target.isArea ( ), compliantTargets, map);
+                if (atomicTarget != null)
+                    canTargetScope = true;
             } else if (target.getValue () == -1 && target.isArea ()) {
                 //area based damage (square or room)
-                canTargetScope = true;
                 atomicTarget = chooseAreaToTarget (compliantTargets, map);
+                if (atomicTarget != null)
+                    canTargetScope = true;
             } else if (target.getValue () == -1 && !target.isArea () && target.getMovements () == -1)
                 //effect only needs to be applied, no player options
                 atomicTarget = new AtomicTarget (null, -1);
@@ -857,12 +859,14 @@ public class CliUserInterface implements UserInterface {
             } else
                 break;
         }
-        if (valid && weaponDetails.isEmpty ()) {
+        if (valid && weaponDetails == null) {
             DataForServer powerUpEffect = new ChosenPowerUpEffect (nickname, parsed);
             sendToServer (powerUpEffect);
-        } else if (valid) {
+        } else if (valid && weaponDetails.isEmpty ()) {
+            printer.print("You have no loaded weapons");
+            sendAction ("end action");
+        } else if (valid)
             chooseWeapon (weaponDetails);
-        }
     }
 
     /**
@@ -871,12 +875,12 @@ public class CliUserInterface implements UserInterface {
      * @param weapons to choose from
      */
 
-    public void askReload(List<String> ammo, List<WeaponDetails> weapons) {
+    public void askReload(List<String> ammo, List<WeaponDetails> weapons, boolean isBeforeShoot) {
         printer.printReload();
         int parsed = this.parser.asyncParseInt (1);
         if (parsed != -1) {
             if (parsed == 0) {
-                DataForServer response = new ReloadResponse(nickname, false, "");
+                DataForServer response = new ReloadResponse(nickname, false, "", isBeforeShoot);
                 sendToServer (response);
             } else if (parsed == 1) {
                 printer.print ("Owned ammo: " + ammo);
@@ -884,7 +888,7 @@ public class CliUserInterface implements UserInterface {
                 printer.printWeaponList (weapons);
                 int parsed1 = this.parser.asyncParseInt (weapons.size ());
                 if (parsed1 != -1) {
-                    DataForServer response = new ReloadResponse (nickname, true, weapons.get(parsed1).getName ());
+                    DataForServer response = new ReloadResponse (nickname, true, weapons.get(parsed1).getName (), isBeforeShoot);
                     sendToServer (response);
                 }
             }
@@ -921,6 +925,9 @@ public class CliUserInterface implements UserInterface {
                 response = new TagbackResponse (nickname, attacker, false);
             else
                 response = new TagbackResponse (nickname, attacker,  true);
+            sendToServer (response);
+        } else {
+            response = new TagbackResponse (nickname, attacker, false);
             sendToServer (response);
         }
     }

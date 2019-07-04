@@ -329,16 +329,11 @@ public class Controller implements TimerCallBack {
                     weaponDetails.add(gameModel.createWeaponDetail (w));
                 if (gameModel.getGame ().isFinalFrenzy ()) {
                     if (! gameModel.getGame ().findByNickname (nickname).getBoard ().getUnloadedWeapons ().isEmpty ())
-                        askReload (nickname);
-                    try {
-                        Thread.sleep (10000);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread ( ).interrupt ( );
-                    }
-                    options = new ShootOptions (((ShootAction) currentAction).isAdrenaline ( ), true, Action.findPaths (gameModel.getGame ( ).findByNickname (nickname), 2), weaponDetails);
-                } else
-                    options = new ShootOptions(((ShootAction)currentAction).isAdrenaline (), false, Action.findPaths (gameModel.getGame ().findByNickname (nickname), 1), weaponDetails);
-                lobby.sendToSpecific (nickname, options);
+                        askReload (nickname, true);
+                } else {
+                    options = new ShootOptions (((ShootAction) currentAction).isAdrenaline ( ), false, Action.findPaths (gameModel.getGame ( ).findByNickname (nickname), 1), weaponDetails);
+                    lobby.sendToSpecific (nickname, options);
+                }
                 break;
             case "power up":
                 options = new PowerUpOptions(gameModel.createPowerUpDetails (gameModel.getGame ().findByNickname (nickname)));
@@ -428,12 +423,11 @@ public class Controller implements TimerCallBack {
      */
 
     private void checkNewTurn(String nickname) {
-
         if (! isLastAction ()) {
             lobby.sendToSpecific (nickname, new Turn(nickname, gameModel.getGame ().isFinalFrenzy (), gameModel.getGame ().isBeforeFirstPlayer (gameModel.getGame ().findByNickname (nickname))));
             lobby.sendToAllNonCurrent (nickname, new Turn(nickname, gameModel.getGame ().isFinalFrenzy (), false));
         } else if (! gameModel.getGame ().findByNickname (nickname).getBoard ().getUnloadedWeapons ().isEmpty ()){
-            askReload (nickname);
+            askReload (nickname, false);
         } else {
             playNewTurn ();
         }
@@ -444,7 +438,7 @@ public class Controller implements TimerCallBack {
      * @param nickname of current player
      */
 
-    private void askReload(String nickname) {
+    private void askReload(String nickname, boolean isBeforeShoot) {
         List<String> ammo = new ArrayList<> ();
         List<WeaponDetails> weapons = new ArrayList<> ();
         Player p = gameModel.getGame ().findByNickname (nickname);
@@ -456,7 +450,7 @@ public class Controller implements TimerCallBack {
             weapons.add(gameModel.createWeaponDetail (w));
         }
 
-        lobby.sendToSpecific (nickname, new ReloadRequest(ammo, weapons));
+        lobby.sendToSpecific (nickname, new ReloadRequest(ammo, weapons, isBeforeShoot));
     }
 
     /**
@@ -473,13 +467,33 @@ public class Controller implements TimerCallBack {
             } catch (NotEnoughAmmoException e) {
                 lobby.sendToSpecific (nickname, new MessageForClient (e.getMessage ()));
             }
-            askReload(nickname);
+            askReload(nickname, false);
         } else
             playNewTurn ();
     }
 
-    public void reloadBeforeShoot() {
-        //TODO
+    /**
+     * Method to ask the client if they want to reload their weapon before shooting in final frenzy
+     * @param nickname of current player
+     * @param positive is they want to reload, false otherwise
+     * @param weaponName is the name of the weapon to reload
+     */
+
+    public void reloadWeaponBeforeShoot(String nickname, boolean positive, String weaponName) {
+        if (positive) {
+            try {
+                gameModel.getGame ().findByNickname (nickname).reloadWeapon (gameModel.getGame ().findByNickname (nickname).findUnloadedWeapon (weaponName));
+            } catch (NotEnoughAmmoException e) {
+                lobby.sendToSpecific (nickname, new MessageForClient (e.getMessage ()));
+            }
+            askReload(nickname, true);
+        } else {
+            List<WeaponDetails> weaponDetails = new ArrayList<> ( );
+            for (Weapon w : gameModel.getGame ( ).findByNickname (nickname).getOwnedWeapons ( ))
+                weaponDetails.add (gameModel.createWeaponDetail (w));
+            DataForClient options = new ShootOptions (((ShootAction) currentAction).isAdrenaline ( ), true, Action.findPaths (gameModel.getGame ( ).findByNickname (nickname), 2), weaponDetails);
+            lobby.sendToSpecific (nickname, options);
+        }
     }
 
     /**
