@@ -297,6 +297,28 @@ public class GUIController implements UserInterface {
      * @param nickname is the player to show the message
      */
     public void showTurn(String nickname) {
+        updateInterface();
+        if (nickname.equals(this.nickname)) {
+            showMessage("It's your turn!");
+            gameInterface.startTurn();
+        } else {
+            showMessage(nickname + " is playing. Please wait your turn...");
+        }
+    }
+
+    public void showFinalFrenzyTurn(String nickname, boolean beforeFirstPlayer) {
+        updateInterface();
+        if (nickname.equals(this.nickname)) {
+            showMessage("It's your FINAL FRENZY Turn!!");
+            if (beforeFirstPlayer)
+                gameInterface.startTurn();
+            else
+                gameInterface.startFrenzyTurn();
+        } else
+            showMessage(nickname + " is playing his Final Frenzy turn.");
+    }
+
+    public void updateInterface() {
         for (int i = 0; i < 2; i++) {
             updated = false;
             if (i == 0)
@@ -313,13 +335,6 @@ public class GUIController implements UserInterface {
                     Thread.currentThread().interrupt();
                 }
             }
-        }
-
-        if (nickname.equals(this.nickname)) {
-            showMessage("It's your turn!");
-            gameInterface.startTurn();
-        } else {
-            showMessage(nickname + " is playing. Please wait your turn...");
         }
     }
 

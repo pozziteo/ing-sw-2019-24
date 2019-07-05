@@ -228,6 +228,59 @@ public class GameInterface {
     }
 
     /**
+     * Method that starts a Final Frenzy turn for a player
+     */
+    public void startFrenzyTurn() {
+        VBox oldBox = this.contextBox;
+        this.contextBox = new VBox();
+        Text actionsSelect = new Text(userController.getNickname() + ", choose a Frenzy action!!");
+        contextBox.setId("actions-box");
+        actionsSelect.setId("medium-text");
+        HBox actionButtons = new HBox();
+        actionButtons.setId("box");
+
+        Button shoot = new Button("SHOOT");
+        shoot.setId("action-button");
+        shoot.setOnMouseClicked(mouseEvent -> {
+            userController.sendAction("shoot");
+            userController.showMessage("Shoot action selected");
+            root.getChildren().remove(contextBox);
+        });
+
+        Button moveAndGrab = new Button("MOVE AND GRAB");
+        moveAndGrab.setId("action-button");
+        moveAndGrab.setOnMouseClicked(mouseEvent -> {
+            userController.sendAction("move and grab");
+            userController.showMessage("Move and Grab action selected");
+            root.getChildren().remove(contextBox);
+        });
+
+        Button pass = new Button("PASS TURN");
+        pass.setId("action-button");
+        pass.setOnMouseClicked(mouseEvent -> {
+            userController.sendAction("pass");
+            userController.showMessage("You are passing this turn");
+            root.getChildren().remove(contextBox);
+        });
+
+        Button powerUp = new Button("POWER-UP");
+        powerUp.setId("action-button");
+        powerUp.setOnMouseClicked(mouseEvent -> {
+            userController.sendAction("power up");
+            userController.showMessage("Power-Up action selected");
+            root.getChildren().remove(contextBox);
+        });
+
+        actionButtons.getChildren().addAll(moveAndGrab, shoot, powerUp, pass);
+        contextBox.getChildren().addAll(actionsSelect, actionButtons);
+
+        Platform.runLater( () -> {
+            root.getChildren().remove(oldBox);
+            root.getChildren().add(contextBox);
+        });
+    }
+
+    /**
      * Method that shows the possible paths you can take
      * @param paths is the list of squares the player can move to
      */

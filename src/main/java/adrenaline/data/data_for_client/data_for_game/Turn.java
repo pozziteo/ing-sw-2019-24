@@ -29,6 +29,9 @@ public class Turn extends DataForClient {
 
     @Override
     public void updateView(GUIController view) {
-        view.showTurn(currentPlayer);
+        if (!finalFrenzy)
+            view.showTurn(currentPlayer);
+        else
+            view.showFinalFrenzyTurn(currentPlayer, beforeFirstPlayer);
     }
 }
