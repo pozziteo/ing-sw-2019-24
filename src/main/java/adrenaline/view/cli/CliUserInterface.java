@@ -278,6 +278,10 @@ public class CliUserInterface implements UserInterface {
         }
     }
 
+    /**
+     * This method asks the player the action he wants to perform during final frenzy
+     */
+
     private void selectFinalFrenzyAction(){
         parser.setActive (true);
         DataForServer request;
