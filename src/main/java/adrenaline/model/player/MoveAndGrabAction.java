@@ -21,9 +21,6 @@ public class MoveAndGrabAction implements Action {
 
     public MoveAndGrabAction(Player player, boolean frenzy) {
 
-        List<Player> players = player.getGame().getPlayers();
-        Player firstPlayer = player.getGame().getFirstPlayer();
-
         if (!frenzy) {
             if (player.getBoard().getDamageTaken().size() >= 3) {
                 paths = Action.findPaths(player, 2);
@@ -31,8 +28,7 @@ public class MoveAndGrabAction implements Action {
                 paths = Action.findPaths(player, 1);
         }
         else {
-            if (!player.equals(firstPlayer) &&
-                    players.indexOf(player) < players.indexOf(firstPlayer)) {
+            if (player.getGame ().isBeforeFirstPlayer (player)) {
                 paths = Action.findPaths(player, 2);
             }
             else
@@ -104,7 +100,7 @@ public class MoveAndGrabAction implements Action {
     private void grabTileContent(Player player, NormalSquare position) {
         Ammo ammo;
         Tile tile = position.getPlacedTile();
-        if (tile.getFormat ().isPowerUpIsPresent () && player.getOwnedPowerUps ().size() < 3) {
+        if (tile != null && tile.getFormat ().isPowerUpIsPresent () && player.getOwnedPowerUps ().size() < 3) {
             player.getOwnedPowerUps ().add((PowerUp) player.getGame().getPowerUpsDeck ().drawCard ());
         }
         for (int i = 0; i < tile.getTileContent ().size(); i++) {

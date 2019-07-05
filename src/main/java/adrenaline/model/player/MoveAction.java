@@ -17,13 +17,10 @@ public class MoveAction implements Action {
      * @param frenzy is the flag of finalfrenzy (true if the game is in the final frenzy, false otherwise)
      */
     public MoveAction(Player player, boolean frenzy) {
-        List<Player> players = player.getGame().getPlayers();
-        Player firstPlayer = player.getGame().getFirstPlayer();
 
         if (!frenzy)
             paths = Action.findPaths(player, 3);
-        else if (!player.equals(firstPlayer) &&
-                players.indexOf(player) < players.indexOf(firstPlayer)){
+        else if (player.getGame ().isBeforeFirstPlayer (player)){
             paths = Action.findPaths(player, 4);
         }
     }

@@ -359,6 +359,11 @@ public class Game implements Serializable {
         return a;
     }
 
+    /**
+     * Method to know if first player played final frenzy
+     * @return true if he played, false otherwise
+     */
+
     public boolean isBeforeFirstPlayer(Player player) {
         return (!player.equals(firstPlayer) && players.indexOf(player) < players.indexOf(firstPlayer));
     }

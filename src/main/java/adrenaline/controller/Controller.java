@@ -25,6 +25,7 @@ import adrenaline.utils.TimerThread;
 
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * This class implements the controller part of the MVC design pattern.
@@ -39,6 +40,7 @@ public class Controller implements TimerCallBack {
     private ArrayList<Player> dummyPlayers; //list of players that disconnected during a game
     private Action currentAction;
     private PowerUpEffect powerUpEffect;
+    private AtomicBoolean waitingForTagbackResponse = new AtomicBoolean (false);
 
     //path for default map
     private static final String PATH = "/maps/";
@@ -159,7 +161,7 @@ public class Controller implements TimerCallBack {
             gameModel.getGame ().startGame();
             playNewTurn ();
         } else if (gameModel.getGame ().isStartGame ()) {
-            lobby.sendToSpecific (nickname, new Turn (nickname, gameModel.getGame ().isFinalFrenzy (), gameModel.getGame ().isBeforeFirstPlayer (gameModel.getGame ().findByNickname (nickname))));
+            lobby.sendToSpecific (nickname, new Turn (nickname, gameModel.getGame ().isFinalFrenzy (), gameModel.getGame ().isBeforeFirstPlayer ((gameModel.getGame ().findByNickname (nickname)))));
         }
     }
 
@@ -614,10 +616,15 @@ public class Controller implements TimerCallBack {
             for (Player p : tagbackUsers)
                 lobby.sendToSpecific (p.getPlayerName (), new TagbackRequest(nickname));
             if (! tagbackUsers.isEmpty ()) {
+                waitingForTagbackResponse.set (true);
                 try {
                     Thread.sleep (5000);
                 } catch (InterruptedException e) {
                     Thread.currentThread ( ).interrupt ( );
+                }
+                if (waitingForTagbackResponse.get()) {
+                    for (Player p : tagbackUsers)
+                        lobby.sendToSpecific (p.getPlayerName (), new TimeOutNotice (lobby.findPlayer (p.getPlayerName ())));
                 }
             }
             if (((ShootAction) currentAction).isEndAction ())
