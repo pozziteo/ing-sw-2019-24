@@ -1,4 +1,9 @@
 # ing-sw-2019-24
 
-Link al materiale:
-- https://tinyurl.com/provafinale2019
+### Completed requirements:
+- Complete rules
+- CLI
+- GUI
+- Socket
+- RMI
+- Multiple games (FA)
