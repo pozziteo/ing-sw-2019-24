@@ -5,9 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +86,7 @@ public class Weapon extends Card {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(WeaponEffect.class, new WeaponEffectTypeAdapter());
         Gson parser = builder.create();
-        JsonReader reader = new JsonReader(new FileReader(type.getPath()));
+        JsonReader reader = new JsonReader(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(type.getPath()))));
         this.baseEffect = parser.fromJson(reader, WeaponEffect.class);
         this.optionalEffects = new ArrayList<>();
         try {

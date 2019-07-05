@@ -22,11 +22,11 @@ import java.io.File;
  */
 public class LobbyStage {
 
-    private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
-    private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
-    private static final String MEDIUM_1 = PATH + File.separatorChar + "mediummap_1.json";
-    private static final String MEDIUM_2 = PATH + File.separatorChar + "mediummap_2.json";
-    private static final String LARGE = PATH + File.separatorChar + "largemap.json";
+    private static final String PATH = "/maps/";
+    private static final String SMALL = PATH +"smallmap.json";
+    private static final String MEDIUM_1 = PATH + "mediummap_1.json";
+    private static final String MEDIUM_2 = PATH +"mediummap_2.json";
+    private static final String LARGE = PATH + "largemap.json";
 
     private Stage stage;
     private Scene lobbyScene;

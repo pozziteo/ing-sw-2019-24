@@ -41,7 +41,7 @@ public class Controller implements TimerCallBack {
     private PowerUpEffect powerUpEffect;
 
     //path for default map
-    private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
+    private static final String PATH = "/maps/";
     private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
 
     public Controller(Lobby lobby) {

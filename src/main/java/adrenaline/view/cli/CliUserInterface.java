@@ -13,7 +13,6 @@ import adrenaline.network.socket.client.SocketClient;
 import adrenaline.utils.ConfigFileReader;
 import adrenaline.view.UserInterface;
 
-import java.io.File;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -35,11 +34,11 @@ public class CliUserInterface implements UserInterface {
     private final Object obj = new Object();
 
     //attributes that represent the file names for each map
-    private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
-    private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
-    private static final String MEDIUM_1 = PATH + File.separatorChar + "mediummap_1.json";
-    private static final String MEDIUM_2 = PATH + File.separatorChar + "mediummap_2.json";
-    private static final String LARGE = PATH + File.separatorChar + "largemap.json";
+    private static final String PATH = "/maps/";
+    private static final String SMALL = PATH + "smallmap.json";
+    private static final String MEDIUM_1 = PATH + "mediummap_1.json";
+    private static final String MEDIUM_2 = PATH +"mediummap_2.json";
+    private static final String LARGE = PATH +"largemap.json";
 
     public CliUserInterface() {
         this.printer = new CliPrinter ();

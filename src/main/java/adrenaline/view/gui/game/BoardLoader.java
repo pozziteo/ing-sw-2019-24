@@ -6,10 +6,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.control.Button;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -56,66 +52,58 @@ class BoardLoader{
      * @param color is the color of the board to be loaded
      */
     private void loadBoard(String color) {
-        try {
-            StackPane pane = new StackPane();
+        StackPane pane = new StackPane();
 
-            Image boardImage = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"boards"+ File.separator+color+"_player_front.png"));
-            this.boardView = new ImageView(boardImage);
-            boardView.setPreserveRatio(true);
-            boardView.setFitHeight(110);
-            boardView.setFitWidth(700);
+        Image boardImage = new Image(getClass().getResourceAsStream("/images/boards/" + color + "_player_front.png"));
+        this.boardView = new ImageView(boardImage);
+        boardView.setPreserveRatio(true);
+        boardView.setFitHeight(110);
+        boardView.setFitWidth(700);
 
-            this.markPane = getBoardMarks();
-            this.ammosPane = getAmmoPane();
-            this.maxPointsPane = getPointsPane();
-            this.weaponsBox = getWeaponsPane();
-            this.pupsBox = getPupsPane();
-            if (owner.equals(userController.getNickname())) {
-                boardPane.setId("board_style_bottom");
-                markPane.setId("mark_style_bottom");
-                ammosPane.setId("ammo_style_bottom");
-                maxPointsPane.setId("maxPoints_style_bottom");
-                weaponsBox.setId("weapons_style_bottom");
-                pupsBox.setId("powerUps_style");
-            } else {
-                boardPane.setId("board_style");
-                markPane.setId("mark_style");
-                ammosPane.setId("ammo_style");
-                maxPointsPane.setId("maxPoints_style");
-                weaponsBox.setId("weapons_style");
-            }
-            boardPane.getRowConstraints().add(new RowConstraints(30));
-            this.boardLifeBar = new ArrayList<>();
-            for (int i = 0; i < 12; i++) {
-                Button button = new Button();
-                button.setId("board");
-                button.setDisable(true);
-                button.setStyle("-fx-background-color: transparent");
-                boardPane.add(button, i, 0);
-                boardLifeBar.add(button);
-            }
-            boardPane.setHgap(9);
-            if (owner.equals(userController.getNickname())){
-                pane.getChildren().addAll(boardView, boardPane, markPane, ammosPane, maxPointsPane, weaponsBox,  pupsBox);
-            }else
-                pane.getChildren().addAll(boardView, boardPane, markPane, ammosPane, maxPointsPane, weaponsBox);
-            this.board = pane;
-        } catch (FileNotFoundException exc) {
-            exc.printStackTrace();
+        this.markPane = getBoardMarks();
+        this.ammosPane = getAmmoPane();
+        this.maxPointsPane = getPointsPane();
+        this.weaponsBox = getWeaponsPane();
+        this.pupsBox = getPupsPane();
+        if (owner.equals(userController.getNickname())) {
+            boardPane.setId("board_style_bottom");
+            markPane.setId("mark_style_bottom");
+            ammosPane.setId("ammo_style_bottom");
+            maxPointsPane.setId("maxPoints_style_bottom");
+            weaponsBox.setId("weapons_style_bottom");
+            pupsBox.setId("powerUps_style");
+        } else {
+            boardPane.setId("board_style");
+            markPane.setId("mark_style");
+            ammosPane.setId("ammo_style");
+            maxPointsPane.setId("maxPoints_style");
+            weaponsBox.setId("weapons_style");
         }
+        boardPane.getRowConstraints().add(new RowConstraints(30));
+        this.boardLifeBar = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            Button button = new Button();
+            button.setId("board");
+            button.setDisable(true);
+            button.setStyle("-fx-background-color: transparent");
+            boardPane.add(button, i, 0);
+            boardLifeBar.add(button);
+        }
+        boardPane.setHgap(9);
+        if (owner.equals(userController.getNickname())){
+            pane.getChildren().addAll(boardView, boardPane, markPane, ammosPane, maxPointsPane, weaponsBox,  pupsBox);
+        }else
+            pane.getChildren().addAll(boardView, boardPane, markPane, ammosPane, maxPointsPane, weaponsBox);
+        this.board = pane;
     }
 
     public void loadBackBoard(String color) {
         board.getChildren().remove(boardView);
-        try {
-            this.boardView = new ImageView(new Image(new FileInputStream("src" + File.separator + "Resources" + File.separator + "images" + File.separator + "boards" + File.separator + color + "_player_retro.png")));
-            boardView.setPreserveRatio(true);
-            boardView.setFitHeight(110);
-            boardView.setFitWidth(700);
-            board.getChildren().add(0, boardView);
-        } catch (FileNotFoundException exc) {
-            exc.printStackTrace();
-        }
+        this.boardView = new ImageView(new Image(getClass().getResourceAsStream("/images/boards/"+ color + "_player_retro.png")));
+        boardView.setPreserveRatio(true);
+        boardView.setFitHeight(110);
+        boardView.setFitWidth(700);
+        board.getChildren().add(0, boardView);
     }
 
     //**********************************************************************
@@ -258,26 +246,22 @@ class BoardLoader{
         box.getChildren().clear();
         Image weaponImage;
         ImageView weaponView;
-        try{
-            for(String weaponName: weapons){
-                if (unloadedWeapons.contains(weaponName)) {
-                    weaponImage = new Image(new FileInputStream("src" + File.separator + "Resources" + File.separator + "images" + File.separator + "cards" + File.separator + "empty.png"));
-                    weaponView = new ImageView(weaponImage);
-                    weaponView.setPreserveRatio(true);
-                    weaponView.setFitHeight(100);
-                    box.getChildren().add(weaponView);
-                } else {
-                    weaponImage = new Image(new FileInputStream("src" + File.separator + "Resources" + File.separator + "images" + File.separator + "cards" + File.separator + weaponName + ".png"));
-                    weaponView = new ImageView(weaponImage);
-                    weaponView.setPreserveRatio(true);
-                    weaponView.setFitHeight(100);
-                    box.getChildren().add(weaponView);
-                }
+        for(String weaponName: weapons){
+            if (unloadedWeapons.contains(weaponName)) {
+                weaponImage = new Image(getClass().getResourceAsStream("/images/cards/empty.png"));
+                weaponView = new ImageView(weaponImage);
+                weaponView.setPreserveRatio(true);
+                weaponView.setFitHeight(100);
+                box.getChildren().add(weaponView);
+            } else {
+                weaponImage = new Image(getClass().getResourceAsStream("/images/cards/"+ weaponName + ".png"));
+                weaponView = new ImageView(weaponImage);
+                weaponView.setPreserveRatio(true);
+                weaponView.setFitHeight(100);
+                box.getChildren().add(weaponView);
             }
-            box.setSpacing(10);
-        } catch (FileNotFoundException exc) {
-            exc.printStackTrace();
         }
+        box.setSpacing(10);
         return box;
     }
 
@@ -288,18 +272,14 @@ class BoardLoader{
     private HBox getPupsPane(){
         HBox box = this.pupsBox;
         box.getChildren().clear();
-        try{
-            for(String pupName: powerups){
-                Image pupImage = new Image(new FileInputStream("src"+ File.separator+"Resources"+File.separator+"images"+ File.separator+"cards"+ File.separator+ pupName+".png"));
-                ImageView pupView = new ImageView(pupImage);
-                pupView.setPreserveRatio(true);
-                pupView.setFitHeight(100);
-                box.getChildren().add(pupView);
-            }
-            box.setSpacing(10);
-        } catch (FileNotFoundException exc) {
-            exc.printStackTrace();
+        for(String pupName: powerups){
+            Image pupImage = new Image(getClass().getResourceAsStream("/images/cards/"+ pupName + ".png"));
+            ImageView pupView = new ImageView(pupImage);
+            pupView.setPreserveRatio(true);
+            pupView.setFitHeight(100);
+            box.getChildren().add(pupView);
         }
+        box.setSpacing(10);
         return box;
     }
 
@@ -437,9 +417,11 @@ class BoardLoader{
             button.setStyle("-fx-background-color: transparent");
         int i=0;
         for(String a: ammoToAdd){
-            ammo.add(a);
-            ammoButton.get(i).setStyle("-fx-background-color: " + a+"; -fx-opacity: 0.9");
-            i++;
+            if(i<8) {
+                ammo.add(a);
+                ammoButton.get(i).setStyle("-fx-background-color: " + a + "; -fx-opacity: 0.9");
+                i++;
+            }
         }
     }
 
@@ -470,6 +452,7 @@ class BoardLoader{
         for(Button b: getBoardLifeBar()){
             b.setStyle("-fx-background-color: transparent");
         }
+        life.clear();
         this.death++;
     }
 

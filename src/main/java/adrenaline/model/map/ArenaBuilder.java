@@ -22,7 +22,7 @@ public class ArenaBuilder {
             GsonBuilder builder = new GsonBuilder();
             builder.registerTypeAdapter(Square.class, new SquareTypeAdapter());
             Gson gson = builder.create();
-            JsonReader reader = new JsonReader(new FileReader(fileName));
+            JsonReader reader = new JsonReader(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(fileName))));
             return gson.fromJson(reader, Map.class);
     }
 }

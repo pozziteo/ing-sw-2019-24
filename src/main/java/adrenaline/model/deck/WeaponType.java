@@ -275,7 +275,7 @@ public enum WeaponType {
         }
     };
 
-    private static final String WEAPONS_PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "weapons" + File.separatorChar;
+    private static final String WEAPONS_PATH = "/weapons/";
 
     private String name;
 

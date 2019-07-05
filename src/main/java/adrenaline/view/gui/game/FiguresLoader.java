@@ -4,8 +4,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 /**
  * Class to display the players' figures
@@ -25,14 +23,10 @@ public class FiguresLoader {
      */
     public ImageView loadFigure(String color) {
         ImageView figureView = null;
-        try {
-            Image figureImage = new Image(new FileInputStream(basePath + File.separatorChar + color + ".png"));
-            figureView = new ImageView(figureImage);
-            figureView.setPreserveRatio(true);
-            figureView.setFitHeight(150);
-        } catch (FileNotFoundException exc) {
-            exc.printStackTrace();
-        }
+        Image figureImage = new Image(getClass().getResourceAsStream("/images/players/" + color + ".png"));
+        figureView = new ImageView(figureImage);
+        figureView.setPreserveRatio(true);
+        figureView.setFitHeight(150);
 
         return figureView;
     }
@@ -44,14 +38,10 @@ public class FiguresLoader {
      */
     public ImageView loadSmallFigure(String color) {
         ImageView figureView = null;
-        try {
-            Image figureImage = new Image(new FileInputStream(basePath + File.separatorChar + color + ".png"));
-            figureView = new ImageView(figureImage);
-            figureView.setPreserveRatio(true);
-            figureView.setFitHeight(65);
-        } catch (FileNotFoundException exc) {
-            exc.printStackTrace();
-        }
+        Image figureImage = new Image(getClass().getResourceAsStream("/images/players/" + color + ".png"));
+        figureView = new ImageView(figureImage);
+        figureView.setPreserveRatio(true);
+        figureView.setFitHeight(65);
 
         return figureView;
     }

@@ -14,10 +14,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.*;
 
 /**
@@ -1018,22 +1014,17 @@ public class GameInterface {
             if (!finalRanking.get(0).equals(userController.getNickname()))
                 Platform.exit();
             else {
-                try {
-                    contextBox.getChildren().clear();
-                    Text winner = new Text("YOU WON!");
-                    winner.setId("text");
-                    ImageView parrot = new ImageView(new Image(new FileInputStream("src" + File.separatorChar + "Resources"
-                            + File.separatorChar + "images" + File.separatorChar + "partyparrot.gif")));
-                    parrot.setPreserveRatio(true);
-                    parrot.setFitWidth(400);
-                    Button exit = new Button("EXIT");
-                    exit.setId("action-button");
-                    exit.setOnMouseClicked(mouseEvent1 -> Platform.exit());
+                contextBox.getChildren().clear();
+                Text winner = new Text("YOU WON!");
+                winner.setId("text");
+                ImageView parrot = new ImageView(new Image(getClass().getResourceAsStream("/images/partyparrot.gif")));
+                parrot.setPreserveRatio(true);
+                parrot.setFitWidth(400);
+                Button exit = new Button("EXIT");
+                exit.setId("action-button");
+                exit.setOnMouseClicked(mouseEvent1 -> Platform.exit());
 
-                    contextBox.getChildren().addAll(winner, parrot, exit);
-                } catch (FileNotFoundException exc) {
-                    exc.printStackTrace();
-                }
+                contextBox.getChildren().addAll(winner, parrot, exit);
             }
         });
 
@@ -1190,7 +1181,7 @@ public class GameInterface {
 
                 List<String> actualLife = details.getDamageTaken();
                 if (actualLife.size() >= 11) {
-                    //removeSkull(totalDeaths);
+//                    removeSkull(totalDeaths);
                     totalDeaths++;
                     if (totalDeaths >= skulls) {
                         this.finalFrenzy = true;
@@ -1225,7 +1216,7 @@ public class GameInterface {
             Button button = new Button();
             button.setDisable(true);
             if(i<(8-skulls))
-                button.setStyle("-fx-background-color: trasparent; -fx-opacity: 1");
+                button.setStyle("-fx-background-color: transparent; -fx-opacity: 1");
             else
                 button.setStyle("-fx-background-color: red; -fx-opacity: 1");
             skullsList.add(button);
@@ -1248,7 +1239,7 @@ public class GameInterface {
      * Method to remove a skull. add the color of the killer on the death track
      */
     private void removeSkull(int totalDeaths){
-        getSkullsList().get(totalDeaths+(8-skulls)).setStyle("-fx-background-color: transparent");
+        getSkullsList().get(totalDeaths+(7-skulls)).setStyle("-fx-background-color: transparent");
     }
 
 
