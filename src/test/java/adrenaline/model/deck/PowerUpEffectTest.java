@@ -17,8 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PowerUpEffectTest {
 
-    private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
-    private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
+    private static final String PATH ="/maps/";
+    private static final String SMALL = PATH +"smallmap.json";
     private String[] playerNames = {"luca", "sara", "matteo"};
     private Game game = new Game(playerNames);
     private Player attacker = game.getPlayers ().get(0);

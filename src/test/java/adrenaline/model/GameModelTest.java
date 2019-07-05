@@ -8,8 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 
 class GameModelTest {
-    private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
-    private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
+    private static final String PATH = "/maps/";
+    private static final String SMALL = PATH +"smallmap.json";
     private String[] playerNames = {"luca", "matteo", "sara", "foo", "bar"};
     private GameModel model = new GameModel (playerNames);
 
