@@ -996,7 +996,7 @@ public class GameInterface {
         contextBox.setId("ranking-style");
         Text ranking = new Text("FINAL RANKING");
         ranking.setId("medium-text");
-
+        Collections.reverse(finalRanking);
         GridPane rank = new GridPane();
         rank.setId("small-box");
         for (int position = 1;  position <= finalRanking.size(); position++) {

@@ -166,7 +166,6 @@ public class CliPrinter {
      * @param ranking is a sorted list
      */
     synchronized void printRanking(List<String> ranking) {
-        Collections.reverse(ranking);
         print("Ranking:");
         for (int i = 0; i < ranking.size(); i++) {
             print ((i+1) + " - " + ranking.get(i));
