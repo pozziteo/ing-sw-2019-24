@@ -409,8 +409,8 @@ public class GUIController implements UserInterface {
      * Method to choose a valid sqaure
      * @param validSquares is the list of squares
      */
-    public void chooseSquare(List<Integer> validSquares) {
-        gameInterface.chooseSquare(validSquares);
+    public void chooseSquare(List<Integer> validSquares, List<WeaponDetails> weapons) {
+        gameInterface.chooseSquare(validSquares, weapons);
     }
 
     /**

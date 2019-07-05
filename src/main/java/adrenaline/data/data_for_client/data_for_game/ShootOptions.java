@@ -35,7 +35,9 @@ public class ShootOptions extends DataForClient {
 
     @Override
     public void updateView(GUIController view) {
-        //TODO
-        view.chooseWeapon(playerWeapons);
+        if (isAdrenaline || isFinalFrenzy)
+            view.chooseSquare(validSquares, playerWeapons);
+        else
+            view.chooseWeapon(playerWeapons);
     }
 }
