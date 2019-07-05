@@ -1181,12 +1181,12 @@ public class GameInterface {
 
                 List<String> actualLife = details.getDamageTaken();
                 if (actualLife.size() >= 11) {
-//                    removeSkull(totalDeaths);
                     totalDeaths++;
                     if (totalDeaths >= skulls) {
                         this.finalFrenzy = true;
                         boardToUpdate.loadBackBoard(userController.getPlayerColors().get(boardToUpdate.getOwner()));
                     }
+                    //removeSkull(totalDeaths);
                     boardToUpdate.clearLifeBar();
                     boardToUpdate.decreaseMaxPoints();
                 } else if (actualLife.size() > boardToUpdate.getLife().size()) {

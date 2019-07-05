@@ -31,4 +31,17 @@ public class ConfigFileReader {
         }
         return -1;
     }
+
+    public static String readConfigFileString(String key){
+        try {
+            Properties prop = new Properties();
+            FileInputStream in = new FileInputStream(PATH1);
+            prop.load(in);
+            String s = prop.getProperty(key);
+            return s;
+        }catch (IOException e){
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
 }

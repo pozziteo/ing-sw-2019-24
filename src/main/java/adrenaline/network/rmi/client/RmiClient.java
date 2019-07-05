@@ -44,7 +44,7 @@ public class RmiClient extends UnicastRemoteObject implements ClientInterface, R
      */
     public void connectToServer() {
         try {
-            Registry registry = LocateRegistry.getRegistry(ConfigFileReader.readConfigFile("rmiPort"));
+            Registry registry = LocateRegistry.getRegistry(ConfigFileReader.readConfigFileString("ipAddress"),ConfigFileReader.readConfigFile("rmiPort"));
             this.stub = (RmiServerInterface) registry.lookup("RmiServerClientHandler");
             stub.registerClient(this);
 
