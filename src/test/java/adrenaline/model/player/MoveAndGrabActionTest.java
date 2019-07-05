@@ -18,8 +18,8 @@ import java.io.File;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MoveAndGrabActionTest {
-    private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
-    private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
+    private static final String PATH = "/maps/";
+    private static final String SMALL = PATH + "smallmap.json";
     private String[] playerNames = {"luca", "matteo", "sara"};
     private Game g = new Game(playerNames);
 

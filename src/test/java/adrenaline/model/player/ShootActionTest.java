@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 class ShootActionTest {
-    private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
-    private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
+    private static final String PATH = "/maps/";
+    private static final String SMALL = PATH +"smallmap.json";
     private String[] playerNames = {"luca", "matteo", "sara", "foo", "bar"};
     private Game game = new Game (playerNames);
     private Player p1 = game.getPlayers ().get(0);

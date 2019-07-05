@@ -7,17 +7,14 @@ import com.google.gson.stream.JsonToken;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class WeaponEffectTypeAdapterTest {
 
     private static Gson parser;
-    private static final String WEAPONS_PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "weapons" + File.separatorChar;
+    private static final String WEAPONS_PATH = "/weapons/";
 
     private enum WeaponsFiles {
         CYBERBLADE(WEAPONS_PATH + "cyberblade.json"),
@@ -63,7 +60,7 @@ class WeaponEffectTypeAdapterTest {
     @Test
     void readWeapons() throws FileNotFoundException {
         for (WeaponsFiles file : WeaponsFiles.values()) {
-            JsonReader reader = new JsonReader(new FileReader(file.getPath()));
+            JsonReader reader = new JsonReader(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(file.getPath()))));
             System.out.println("processing " + file.getPath());
             try {
                 while (reader.peek() != JsonToken.END_DOCUMENT) {
@@ -78,9 +75,9 @@ class WeaponEffectTypeAdapterTest {
     }
 
     @Test
-    void readTargets() throws FileNotFoundException {
+    void readTargets() {
         for (WeaponsFiles file : WeaponsFiles.values ()) {
-            JsonReader reader = new JsonReader(new FileReader(file.getPath()));
+            JsonReader reader = new JsonReader(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(file.getPath()))));
             try {
                 while (reader.peek() != JsonToken.END_DOCUMENT) {
                     WeaponEffect effect = parser.fromJson(reader, WeaponEffect.class);

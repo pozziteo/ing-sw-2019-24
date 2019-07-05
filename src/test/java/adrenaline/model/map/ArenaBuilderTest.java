@@ -12,8 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class ArenaBuilderTest {
 
     private static Map map;
-    private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
-    private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
+    private static final String PATH ="/maps/";
+    private static final String SMALL = PATH +"smallmap.json";
 
     @BeforeAll
     static void createMap() {

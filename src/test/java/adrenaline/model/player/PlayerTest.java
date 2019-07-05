@@ -10,8 +10,8 @@ import java.io.File;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
-    private static final String PATH = "src" + File.separatorChar + "Resources" + File.separatorChar + "maps";
-    private static final String SMALL = PATH + File.separatorChar + "smallmap.json";
+    private static final String PATH =  "/maps/";
+    private static final String SMALL = PATH +"smallmap.json";
 
     private String[] playerNames = {"luca", "matteo", "sara", "cipro", "sally"};
     private Game game = new Game(playerNames);
