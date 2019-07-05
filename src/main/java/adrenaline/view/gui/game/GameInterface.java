@@ -739,20 +739,28 @@ public class GameInterface {
      * Method to apply an effect to a square
      * @param validSquares is the list of valid square
      */
-    public void chooseSquare(List<Integer> validSquares) {
+    public void chooseSquare(List<Integer> validSquares, List<WeaponDetails> weapons) {
         this.contextBox = new VBox();
         contextBox.setId("small-box");
-        Text select = new Text("Select the square to apply the effect");
+        Text select;
+        if (weapons == null)
+            select = new Text("Select the square to apply the effect");
+        else
+            select = new Text("Select the square where to move before shooting");
         select.setId("medium-text");
 
         for (int square : validSquares) {
             mapButtons.get(square).setId("active-square");
             mapButtons.get(square).setDisable(false);
             mapButtons.get(square).setOnMouseClicked(mouseEvent -> {
-                ChosenPowerUpEffect effect = new ChosenPowerUpEffect(userController.getNickname(), square);
-                userController.sendToServer(effect);
-                disableButtons();
-                root.getChildren().remove(contextBox);
+                if (weapons == null) {
+                    ChosenPowerUpEffect effect = new ChosenPowerUpEffect(userController.getNickname(), square);
+                    userController.sendToServer(effect);
+                    disableButtons();
+                    root.getChildren().remove(contextBox);
+                } else {
+                    chooseWeapon(weapons);
+                }
             });
         }
 
@@ -813,7 +821,11 @@ public class GameInterface {
     public void askReload(List<WeaponDetails> weapons, boolean isBeforeShoot) {
         this.contextBox = new VBox();
         contextBox.setId("small-box");
-        Text choose = new Text("Reload your weapons before ending turn?");
+        Text choose;
+        if (isBeforeShoot)
+            choose = new Text("Reload your weapons before shooting?");
+        else
+            choose = new Text("Reload your weapons before ending turn?");
         choose.setId("medium-text");
         HBox buttonsBox = new HBox();
         buttonsBox.setId("small-box");
