@@ -51,7 +51,7 @@ public class ConnectionStage {
         GridPane.setValignment(rmiButton, VPos.BASELINE);
 
         socketButton.setOnMouseClicked(mouseEvent -> {
-            client = new SocketClient("localhost", ConfigFileReader.readConfigFile("socketPort"), GUIController.getController());
+            client = new SocketClient(ConfigFileReader.readConfigFileString("ipAddress"), ConfigFileReader.readConfigFile("socketPort"), GUIController.getController());
             GUIController.getController().setClient(client);
             client.connectToServer();
         });

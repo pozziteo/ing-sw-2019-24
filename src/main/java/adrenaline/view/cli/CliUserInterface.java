@@ -74,7 +74,7 @@ public class CliUserInterface implements UserInterface {
                 exc.printStackTrace();
             }
         } else {
-            this.client = new SocketClient ("localhost", ConfigFileReader.readConfigFile("socketPort"), this);
+            this.client = new SocketClient (ConfigFileReader.readConfigFileString("ipAddress"), ConfigFileReader.readConfigFile("socketPort"), this);
         }
         client.connectToServer ();
     }

@@ -41,7 +41,7 @@ public class MainServer {
 
     public MainServer() {
         this.onlineClients = new LinkedList<>();
-        this.serverAddress = "localhost"; //change to get dynamically
+        this.serverAddress = ConfigFileReader.readConfigFileString("ipAddress");
         this.rmiPort = ConfigFileReader.readConfigFile("rmiPort");
         this.socketPort = ConfigFileReader.readConfigFile("socketPort");
         this.mainRunning = false;
